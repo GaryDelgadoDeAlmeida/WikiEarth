@@ -2,11 +2,25 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <meta name="Language" content="fr">
+        <meta name="Copyright" content="Symfony">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>WikiEarth</title>
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
         {% block body %}{% endblock %}
+        
+        <footer>
+            <div class="center">
+                <span>Copyright &copy; 2020/{{ "now"|date("Y") }} &minus; WikiEarth</span>
+                <span>Tous droits réservés</span>
+            </div>
+            <div class="right">
+                <span>Realised by <a href="#">Garry Almeida</a></span>
+            </div>
+        </footer>
+
         {% block javascripts %}{% endblock %}
     </body>
 </html>
