@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta name="Language" content="fr">
         <meta name="Copyright" content="Symfony">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="width=device-width, maximum-scale=1">
         <title>WikiEarth</title>
 
         <link href="{{ asset('lib/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
@@ -12,6 +12,8 @@
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
+        {% block header %}{% endblock %}
+
         {% block body %}{% endblock %}
 
         {% block footer %}{% endblock %}

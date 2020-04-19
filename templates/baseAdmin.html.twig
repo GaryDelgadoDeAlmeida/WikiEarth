@@ -6,6 +6,50 @@
 {% endblock %}
 
 
+{# Header #}
+{% block header %}
+<app>
+    <section class="sidebar">
+        <div class="top-row pl-4 navbar navbar-dark">
+            <a class="navbar-brand" href="">WikiEarth Panel</a>
+            <button class="navbar-toggler" id="btnToggler">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+
+        <div class="navToggler collapse animated wow fadeIn" id="navToggler">
+            <ul class="nav flex-column">
+                <li class="nav-item px-3">
+                    <a class="nav-link" href="{{ path('adminHome') }}">
+                        <span class="oi" aria-hidden="true"><i class="fas fa-home"></i></span> Home
+                    </a>
+                </li>
+                <li class="nav-item px-3">
+                    <a class="nav-link" href="{{ path('adminLogout') }}">
+                        <span class="oi" aria-hidden="true"><i class="fas fa-sign-out-alt"></i></span> Logout
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <div class="main">
+        <div class="top-row px-4">
+            <span>Hello</span>
+        </div>
+
+        <div class="content px-4">
+{% endblock %}
+
+
+{# Footer #}
+{% block footer %}
+        </div>
+    </div>
+</app>
+{% endblock %}
+
+
 {# JS #}
 {% block javascripts %}
     <script src="{{ asset('assets/js/admin/main.js') }}" type="text/javascript"></script>
