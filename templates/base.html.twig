@@ -6,21 +6,18 @@
         <meta name="Copyright" content="Symfony">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>WikiEarth</title>
+
+        <link href="{{ asset('lib/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('assets/css/common.css') }}" rel="stylesheet">
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
         {% block body %}{% endblock %}
-        
-        <footer>
-            <div class="center">
-                <span>Copyright &copy; 2020/{{ "now"|date("Y") }} &minus; WikiEarth</span>
-                <span>Tous droits réservés</span>
-            </div>
-            <div class="right">
-                <span>Realised by <a href="#">Garry Almeida</a></span>
-            </div>
-        </footer>
 
+        {% block footer %}{% endblock %}
+
+        <script src="{{ asset('assets/js/jquery.min.js') }}" type="text/javascript"></script>
+        <script src="{{ asset('lib/bootstrap/js/bootstrap.min.js') }}" type="text/javascript"></script>
         {% block javascripts %}{% endblock %}
     </body>
 </html>

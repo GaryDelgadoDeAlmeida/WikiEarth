@@ -12,7 +12,7 @@ class AnonymousController extends AbstractController
      */
     public function index()
     {
-        return $this->render('anonymous/index.html.twig', [
+        return $this->render('anonymous/home/index.html.twig', [
             'controller_name' => 'AnonymousController',
         ]);
     }

@@ -1,0 +1,50 @@
+html, body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background-color: #F7F8FA;
+}
+
+
+/* ---------------------------------------- *\
+                    Link
+\* ---------------------------------------- */
+a, a:hover {
+    color: #000000;
+    text-decoration: none;
+}
+
+
+/* ---------------------------------------- *\
+                    Width
+\* ---------------------------------------- */
+.w-100px {
+    width: 100px;
+    margin-bottom: 10px;
+}
+
+.w-250px {
+    width: 250px;
+    margin-bottom: 10px;
+}
+
+
+/* ---------------------------------------- *\
+                    Height
+\* ---------------------------------------- */
+.h-150px {
+    height: 150px !important;
+    margin-bottom: 10px;
+}
+
+
+/* ---------------------------------------- *\
+                    Button
+\* ---------------------------------------- */
+.btn-link {
+    color: #0366d6;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
