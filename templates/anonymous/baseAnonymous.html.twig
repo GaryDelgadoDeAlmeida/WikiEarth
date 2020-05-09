@@ -19,21 +19,33 @@
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
             <li class="nav-item"><a class="nav-link" href="{{ path('home') }}">Home</span></a></li>
-            <li class="nav-item nav-link dropdown dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Animals</li>
-            <div class="dropdown-menu">
-                <a class="dropdown-item" href="#">Land Animals</a>
-                <a class="dropdown-item" href="#">Marine Animals</a>
-                <a class="dropdown-item" href="#">Aerial Animals</a>
-            </div>
-            <li class="nav-item nav-link dropdown dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Plants</li>
-            <div class="dropdown-menu dropdown">
-                <a class="dropdown-item" href="#">Flowers</a>
-                <a class="dropdown-item" href="#">Trees</a>
-                <a class="dropdown-item" href="#">Algae</a>
-                <a class="dropdown-item" href="#">...</a>
-            </div>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Animals</a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="#">Land Animals</a>
+                    <a class="dropdown-item" href="#">Marine Animals</a>
+                    <a class="dropdown-item" href="#">Aerial Animals</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Plants</a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="#">Flowers</a>
+                    <a class="dropdown-item" href="#">Trees</a>
+                    <a class="dropdown-item" href="#">Algae</a>
+                    <a class="dropdown-item" href="#">...</a>
+                </div>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="#">Bacteria</span></a></li>
             <li class="nav-item"><a class="nav-link" href="#">Earth</span></a></li>
             <li class="nav-item"><a class="nav-link" href="{{ path('about') }}">About</span></a></li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Language</a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="#">EN</a>
+                    <a class="dropdown-item" href="#">FR</a>
+                </div>
+            </li>
         </div>
     </div>
 </nav>
@@ -44,12 +56,12 @@
 {% block footer %}
 <footer>
     <div class="container">
-        <div class="center">
+        <div class="left">
             <span>Copyright &copy; {{ "now"|date("Y") }} &minus; <a href="{{ path('home') }}"><span>Wiki<em class="c-cyanBlue">Earth</em></span></a></span>
             <span>Tous droits réservés</span>
         </div>
         <div class="right">
-            <span>Realised by <a href="http://gary-delgado-de-almeida.000webhostapp.com" target="__blank">Garry Almeida</a></span>
+            <span>Realised by <a class="c-cyanBlue" href="http://gary-delgado-de-almeida.000webhostapp.com" target="__blank">Garry Almeida</a></span>
         </div>
     </div>
 </footer>

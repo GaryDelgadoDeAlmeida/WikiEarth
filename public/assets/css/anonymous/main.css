@@ -1,0 +1,33 @@
+/* ---------------------------------------- *\
+                    Home
+\* ---------------------------------------- */
+.home {
+    background: url("../../../content/img/background/nature.jpg") center top no-repeat;
+    height: 500px !important;
+    width: 100% !important;
+}
+
+/* ---------------------------------------- *\
+                    About
+\* ---------------------------------------- */
+
+
+/* ---------------------------------------- *\
+                    Footer
+\* ---------------------------------------- */
+footer {
+    background-color: #343a40 !important;
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}
+
+.right .c-cyanBlue:hover {
+    font-weight: bold;
+    color: rgb(0, 183, 235);
+}
