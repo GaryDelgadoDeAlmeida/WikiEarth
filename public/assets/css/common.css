@@ -50,12 +50,7 @@ a, a:hover {
 /* ---------------------------------------- *\
                     Button
 \* ---------------------------------------- */
-.btn-link {
-    color: #0366d6;
-}
-
-.btn-primary {
-    color: #fff;
-    background-color: #1b6ec2;
-    border-color: #1861ac;
+.btn-blue {
+    color: #ffffff;
+    background-color: #0366d6;
 }
