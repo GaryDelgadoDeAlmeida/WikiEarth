@@ -1,5 +1,22 @@
 {% extends 'anonymous/baseAnonymous.html.twig' %}
 
 {% block body %}
-    {#  #}
+    <div class="container">
+        {{ form_start(userLoginForm, {"methods": "POST"}) }}
+            <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                {{ form_label(userLoginForm.login) }}
+                {{ form_widget(userLoginForm.login) }}
+            </div>
+            <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                {{ form_label(userLoginForm.password) }}
+                {{ form_widget(userLoginForm.password) }}
+            </div>
+            
+            <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                {{ form_widget(userLoginForm.submit) }}
+
+                <a href="{{ path('register') }}">Register</a>
+            </div>
+        {{ form_end(userLoginForm, {"methods": "POST"}) }}
+    </div>
 {% endblock %}

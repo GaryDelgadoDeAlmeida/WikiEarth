@@ -2,7 +2,7 @@
 
 {% block body %}
     <div class="container">
-        {{ form_start(userRegisterForm, {'method': 'POST', 'action': path('register')}) }}
+        {{ form_start(userRegisterForm, {'method': 'POST'}) }}
             <div class="row">
                 <div class="form-group col-md-6 col-lg-6 wow fadeInUp animated">
                     {{ form_label(userRegisterForm.firstname) }}
@@ -21,6 +21,6 @@
                     {{ form_widget(userRegisterForm.password) }}
                 </div>
             </div>
-        {{ form_end(userRegisterForm, {'method': 'POST', 'action': path('register')}) }}
+        {{ form_end(userRegisterForm, {'method': 'POST'}) }}
     </div>
 {% endblock %}

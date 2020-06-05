@@ -19,22 +19,26 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
     }
 
-    public function getUsers($offset, $limit)
+    public function getUsers($offset, $limit, $current_admin_id)
     {
         return $this->createQueryBuilder('u')
+            ->where('u.id != :current_admin_id')
             ->orderBy('u.lastname', 'ASC', 'u.firstname', 'ASC')
+            ->setParameter('current_admin_id', $current_admin_id)
             ->setFirstResult($offset * $limit)
             ->setMaxResults($limit)
             ->getQuery()
             ->getResult();
     }
 
-    public function countUsers()
+    public function countUsers($current_admin_id)
     {
         return $this->createQueryBuilder('u')
             ->select('COUNT(u.id) as nbrUsers')
+            ->where('u.id != :current_admin_id')
+            ->setParameter('current_admin_id', $current_admin_id)
             ->getQuery()
-            ->getResult();
+            ->getSingleResult();
     }
 
     // /**

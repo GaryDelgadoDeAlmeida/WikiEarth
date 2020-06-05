@@ -17,6 +17,8 @@
 \* ---------------------------------------- */
 footer {
     background-color: #343a40 !important;
+    height: 50px;
+    color: #ffffff;
 }
 
 .left {
@@ -28,6 +30,5 @@ footer {
 }
 
 .right .c-cyanBlue:hover {
-    font-weight: bold;
     color: rgb(0, 183, 235);
 }

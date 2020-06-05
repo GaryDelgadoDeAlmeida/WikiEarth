@@ -2,13 +2,14 @@
 
 namespace App\Entity;
 
-use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\UserRepository;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  */
-class User
+class User implements UserInterface
 {
     /**
      * @ORM\Id()
@@ -43,9 +44,9 @@ class User
     private $password;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="json")
      */
-    private $roles;
+    private $roles = [];
 
     /**
      * @ORM\Column(type="datetime")
@@ -117,12 +118,12 @@ class User
         return $this;
     }
 
-    public function getRoles(): ?string
+    public function getRoles(): ?array
     {
         return $this->roles;
     }
 
-    public function setRoles(string $roles): self
+    public function setRoles(array $roles): self
     {
         $this->roles = $roles;
 
@@ -139,5 +140,20 @@ class User
         $this->createdAt = $createdAt;
 
         return $this;
+    }
+
+    public function getSalt()
+    {
+        # code...
+    }
+
+    public function getUsername()
+    {
+        # code...
+    }
+
+    public function eraseCredentials()
+    {
+        # code...
     }
 }
