@@ -20,6 +20,13 @@ Ce projet étant personnel, je conserve donc tous mes droits d'auteurs sur l'ent
 
 WikiEarth est un projet de genre encyclopédie (style Wikipédia) dont le sujet de recherche est la Terre (et ses différents systèmes), les métaux et le vivant (animaux, insectes, plantes, bactéries, etc ...). Etant donné le périmètre d'action de ce projet, il paraît approprié de dire que le domain d'action est la "géoscience".
 
+## Documents
+
+Dans le répertoire public/content/file :
+- Cahier des charges : cdc-wikiearth.docx
+- Cachier fonctionnel : cf-wikiearth.docx
+- UX / UI : à définir
+
 ## Installation
 
 Cette commande installera toutes les dépendances que cette solution web à besoin pour fonctionner.
@@ -50,13 +57,6 @@ Sauvegarder les modifications dans la database :
 ```bash
     symfony console doctrine:migrations:migrate
 ```
-
-## Documents
-
-Dans le répertoire public/content/file :
-- Cahier des charges : cdc-wikiearth.docx
-- Cachier fonctionnel : cf-wikiearth.docx
-- UX / UI : à définir
 
 ## Compatibilité Apache 2
 
