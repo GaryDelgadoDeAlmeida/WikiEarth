@@ -24,7 +24,7 @@ WikiEarth est un projet de genre encyclopédie (style Wikipédia) dont le sujet 
 
 Dans le répertoire public/content/file :
 - Cahier des charges : cdc-wikiearth.docx
-- Cachier fonctionnel : cf-wikiearth.docx
+- Cachier des charges fonctionnels : cdcf-wikiearth.docx
 - UX / UI : à définir
 
 ## Installation
