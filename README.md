@@ -54,9 +54,9 @@ Sauvegarder les modifications dans la database :
 ## Documents
 
 Dans le répertoire public/content/file :
-    - Cahier des charges : cdc-wikiearth.docx
-    - Cachier fonctionnel : cf-wikiearth.docx
-    - UX / UI : à définir
+- Cahier des charges : cdc-wikiearth.docx
+- Cachier fonctionnel : cf-wikiearth.docx
+- UX / UI : à définir
 
 ## Compatibilité Apache 2
 
