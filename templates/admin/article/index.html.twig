@@ -1,0 +1,16 @@
+{% extends 'admin/baseAdmin.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <table class="table">
+            <thead></thead>
+            <tbody>
+                {% if articles != [] %}
+                    {% for article in articles %}
+                        <tr></tr>
+                    {% endfor %}
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

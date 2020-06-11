@@ -95,11 +95,18 @@ class AdminController extends AbstractController
         return $this->redirectToRoute('adminUsersListing');
     }
 
-    // /**
-    //  * @Route("/admin/logout", name="adminLogout")
-    //  */
-    // public function admin_logout()
-    // {
-    //     return $this->redirectToRoute('home');
-    // }
+    /**
+     * @Route("/admin/article", name="adminArticle")
+     */
+    public function admin_article(Request $request)
+    {
+        $limit = 10;
+        $offset = !empty($request->get('offset')) ? $request->get('offset') : 1;
+
+        return $this->render('admin/article/index.html.twig', [
+            "articles" => $this->getDoctrine()->getRepository(Article::class)->getArticles($offset, $limit),
+            "offset" => $offset,
+            "total_page" => ceil($this->getDoctrine()->getRepository(Article::class)->countArticles()[1] / $limit)
+        ]);
+    }
 }

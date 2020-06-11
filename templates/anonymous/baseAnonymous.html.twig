@@ -18,30 +18,20 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-            <li class="nav-item"><a class="nav-link" href="{{ path('home') }}">Home</span></a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ path('home') }}"><span>Home</span></a></li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Animals</a>
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Living Things</a>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#">Land Animals</a>
-                    <a class="dropdown-item" href="#">Marine Animals</a>
-                    <a class="dropdown-item" href="#">Aerial Animals</a>
+                    <a class="dropdown-item" href="#">Animals</a>
+                    <a class="dropdown-item" href="#">Insects</a>
+                    <a class="dropdown-item" href="#">Plants</a>
+                    <a class="dropdown-item" href="#">Bacteria</a>
                 </div>
             </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Plants</a>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#">Flowers</a>
-                    <a class="dropdown-item" href="#">Trees</a>
-                    <a class="dropdown-item" href="#">Algae</a>
-                    <a class="dropdown-item" href="#">...</a>
-                </div>
-            </li>
-            <li class="nav-item"><a class="nav-link" href="#">Insect</span></a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Bacteria</span></a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Earth</span></a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ path('about') }}">About</span></a></li>
+            <li class="nav-item"><a class="nav-link" href="#"><span>Metal</span></a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ path('about') }}"><span>About</span></a></li>
             {% if not is_granted('IS_AUTHENTICATED_FULLY') %}
-                <li class="nav-item"><a class="nav-link" href="{{ path('login') }}">Login</span></a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ path('login') }}"><span>Login</span></a></li>
             {% endif %}
             {# <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Language</a>
