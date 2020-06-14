@@ -19,6 +19,26 @@ class MediaGalleryRepository extends ServiceEntityRepository
         parent::__construct($registry, MediaGallery::class);
     }
 
+    public function getMediaGallery($offset, $limit)
+    {
+        return $this->createQueryBuilder('m')
+            ->setFirstResult(($offset - 1) * $limit)
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function getMediaGalleryByType($type, $offset, $limit)
+    {
+        return $this->createQueryBuilder('m')
+            ->where('m.mediaType = :mediaType')
+            ->setParameter('mediaType', $type)
+            ->setFirstResult(($offset - 1) * $limit)
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return MediaGallery[] Returns an array of MediaGallery objects
     //  */

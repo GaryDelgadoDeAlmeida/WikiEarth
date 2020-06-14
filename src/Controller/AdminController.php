@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Entity\Article;
+use App\Entity\MediaGallery;
 use App\Form\UserRegisterType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -101,12 +103,34 @@ class AdminController extends AbstractController
     public function admin_article(Request $request)
     {
         $limit = 10;
-        $offset = !empty($request->get('offset')) ? $request->get('offset') : 1;
+        $offset = !empty($request->get('offset')) && preg_match('/^[0-9]*$/', $request->get('offset')) ? $request->get('offset') : 1;
 
         return $this->render('admin/article/index.html.twig', [
             "articles" => $this->getDoctrine()->getRepository(Article::class)->getArticles($offset, $limit),
             "offset" => $offset,
             "total_page" => ceil($this->getDoctrine()->getRepository(Article::class)->countArticles()[1] / $limit)
+        ]);
+    }
+
+    /**
+     * @Route("/admin/media", name="adminMedia")
+     */
+    public function admin_media(Request $request)
+    {
+        return $this->render('admin/media/index.html.twig');
+    }
+
+    /**
+     * @Route("/admin/media/{type}", name="adminMediaType")
+     */
+    public function admin_media_by_type($type, Request $request)
+    {
+        $limit = 10;
+        $offset = !empty($request->get('offset')) && preg_match('/^[0-9]*$/', $request->get('offset')) ? $request->get('offset') : 1;
+
+        return $this->render('admin/media/list_media.html.twig', [
+            "mediaType" => $type,
+            "medias" => $this->getDoctrine()->getRepository(MediaGallery::class)->getMediaGalleryByType($type, $offset, $limit)
         ]);
     }
 }

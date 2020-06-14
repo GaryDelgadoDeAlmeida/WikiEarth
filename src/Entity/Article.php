@@ -29,9 +29,31 @@ class Article
      */
     private $idArchive;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $title;
+
+    /**
+     * @ORM\OneToMany(targetEntity=ArticleContent::class, mappedBy="article")
+     */
+    private $articleContent;
+
+    /**
+     * @ORM\OneToMany(targetEntity=SourceLink::class, mappedBy="idArticle")
+     */
+    private $sourceLinks;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $createdAt;
+
     public function __construct()
     {
         $this->idArchive = new ArrayCollection();
+        $this->sourceLinks = new ArrayCollection();
+        $this->articleContent = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -78,6 +100,92 @@ class Article
                 $idArchive->setArticle(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    public function setTitle(string $title): self
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ArticleContent[]
+     */
+    public function getArticleContent(): Collection
+    {
+        return $this->articleContent;
+    }
+
+    public function addArticleContent(ArticleContent $articleContent): self
+    {
+        if (!$this->articleContent->contains($articleContent)) {
+            $this->articleContent[] = $articleContent;
+            $articleContent->setArticle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeArticleContent(ArticleContent $articleContent): self
+    {
+        if ($this->articleContent->contains($articleContent)) {
+            $this->articleContent->removeElement($articleContent);
+            // set the owning side to null (unless already changed)
+            if ($articleContent->getArticle() === $this) {
+                $articleContent->setArticle(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|SourceLink[]
+     */
+    public function getSourceLinks(): Collection
+    {
+        return $this->sourceLinks;
+    }
+
+    public function addSourceLink(SourceLink $sourceLink): self
+    {
+        if (!$this->sourceLinks->contains($sourceLink)) {
+            $this->sourceLinks[] = $sourceLink;
+            $sourceLink->setIdArticle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSourceLink(SourceLink $sourceLink): self
+    {
+        if ($this->sourceLinks->contains($sourceLink)) {
+            $this->sourceLinks->removeElement($sourceLink);
+            // set the owning side to null (unless already changed)
+            if ($sourceLink->getIdArticle() === $this) {
+                $sourceLink->setIdArticle(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
 
         return $this;
     }
