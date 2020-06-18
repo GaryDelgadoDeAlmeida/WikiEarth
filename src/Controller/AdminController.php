@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Entity\Article;
+use App\Form\ArticleType;
 use App\Entity\MediaGallery;
 use App\Form\UserRegisterType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -115,8 +116,20 @@ class AdminController extends AbstractController
     /**
      * @Route("/admin/article/add", name="adminAddArticle")
      */
-    public function admin_add_article(Request $request)
+    public function admin_add_article(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder)
     {
+        $article = new Article();
+        $formArticle = $this->createForm(ArticleType::class, $article);
+        $formArticle->handleRequest($request);
+
+        if($formArticle->isSubmitted() && $formArticle->isValid()) {
+            dd($article);
+            // $manager->persist($article);
+            // $manager->flush();
+
+            // $this->redirectToRoute('adminUsersListing');
+        }
+
         return $this->render('admin/article/edit.html.twig');
     }
 
