@@ -4,11 +4,16 @@
     <div class="container">
         <table class="table">
             <thead></thead>
+            
             <tbody>
                 {% if articles != [] %}
                     {% for article in articles %}
                         <tr></tr>
                     {% endfor %}
+                {% else %}
+                    <tr>
+                        <td>Aucun article n'a été trouvé</td>
+                    </tr>
                 {% endif %}
             </tbody>
         </table>

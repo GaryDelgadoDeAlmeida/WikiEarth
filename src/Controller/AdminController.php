@@ -113,6 +113,14 @@ class AdminController extends AbstractController
     }
 
     /**
+     * @Route("/admin/article/add", name="adminAddArticle")
+     */
+    public function admin_add_article(Request $request)
+    {
+        return $this->render('admin/article/edit.html.twig');
+    }
+
+    /**
      * @Route("/admin/media", name="adminMedia")
      */
     public function admin_media(Request $request)
