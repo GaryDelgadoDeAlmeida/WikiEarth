@@ -14,39 +14,39 @@ class ArticleType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('postTitle', null, [
-                "label" => "Title",
-                "required" => true
+            ->add('title', null, [
+                'label' => "Title",
+                'required' => true
             ])
             ->add('postContent_1', ArticleContentType::class, [
                 "label" => "Content",
-                "required" => true,
-                'entry_options' => ['label' => true]
+                'required' => true,
+                'mapped' => false
             ])
             ->add('postContent_2', ArticleContentType::class, [
                 "label" => "Content",
-                "required" => true,
-                'entry_options' => ['label' => true]
+                'required' => true,
+                'mapped' => false
             ])
             ->add('postContent_3', ArticleContentType::class, [
                 "label" => "Content",
-                "required" => true,
-                'entry_options' => ['label' => true]
+                'required' => true,
+                'mapped' => false
             ])
             ->add('postSourceLink_1', SourceLinkType::class, [
                 'label' => "Source Link",
-                "required" => true,
-                'entry_options' => ['label' => true]
+                'required' => true,
+                'mapped' => false
             ])
             ->add('postSourceLink_2', SourceLinkType::class, [
                 'label' => "Source Link",
-                "required" => true,
-                'entry_options' => ['label' => true]
+                'required' => true,
+                'mapped' => false
             ])
             ->add('postSourceLink_3', SourceLinkType::class, [
                 'label' => "Source Link",
-                "required" => true,
-                'entry_options' => ['label' => true]
+                'required' => true,
+                'mapped' => false
             ])
             ->add('submit', SubmitType::class)
         ;

@@ -130,7 +130,9 @@ class AdminController extends AbstractController
             // $this->redirectToRoute('adminUsersListing');
         }
 
-        return $this->render('admin/article/edit.html.twig');
+        return $this->render('admin/article/edit.html.twig', [
+            "formArticle" => $formArticle->createView()
+        ]);
     }
 
     /**
