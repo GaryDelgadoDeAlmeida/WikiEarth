@@ -13,7 +13,6 @@ class MediaGalleryType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', null, ['label' => "Name"])
             ->add('path', FileType::class, ['label' => "File path"])
         ;
     }

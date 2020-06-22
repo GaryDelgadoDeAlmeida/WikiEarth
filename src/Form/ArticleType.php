@@ -2,7 +2,9 @@
 
 namespace App\Form;
 
+use App\Form\AnimalType;
 use App\Form\SourceLinkType;
+use App\Form\MediaGalleryType;
 use App\Form\ArticleContentType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -18,33 +20,36 @@ class ArticleType extends AbstractType
                 'label' => "Title",
                 'required' => true
             ])
-            ->add('postContent_1', ArticleContentType::class, [
-                "label" => "Content",
+            ->add('animalPhoto', MediaGalleryType::class, [
+                'mapped' => false
+            ])
+            ->add('animal', AnimalType::class, [
+                'mapped' => false
+            ])
+            ->add('caracteristique', ArticleContentType::class, [
+                "label" => "Caracteristique",
                 'required' => true,
                 'mapped' => false
             ])
-            ->add('postContent_2', ArticleContentType::class, [
-                "label" => "Content",
+            ->add('comportement', ArticleContentType::class, [
+                "label" => "Comportement",
                 'required' => true,
                 'mapped' => false
             ])
-            ->add('postContent_3', ArticleContentType::class, [
-                "label" => "Content",
+            ->add('ecologie', ArticleContentType::class, [
+                "label" => "Ecologie",
                 'required' => true,
                 'mapped' => false
             ])
             ->add('postSourceLink_1', SourceLinkType::class, [
-                'label' => "Source Link",
                 'required' => true,
                 'mapped' => false
             ])
             ->add('postSourceLink_2', SourceLinkType::class, [
-                'label' => "Source Link",
                 'required' => true,
                 'mapped' => false
             ])
             ->add('postSourceLink_3', SourceLinkType::class, [
-                'label' => "Source Link",
                 'required' => true,
                 'mapped' => false
             ])
