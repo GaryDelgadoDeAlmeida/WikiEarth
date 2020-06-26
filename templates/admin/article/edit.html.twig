@@ -2,6 +2,44 @@
 
 {% block body %}
     <div class="container">
-        {{ form(formArticle) }}
+        {{ form_start(formArticle, {"method":"POST"}) }}
+            <div class="row">
+                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                    {{ form_label(formArticle.title) }}
+                    {{ form_widget(formArticle.title) }}
+                </div>
+
+                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                    <h3 class="form-title">Animal</h3>
+                    {{ form_widget(formArticle.animal) }}
+                </div>
+
+                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                    {{ form_widget(formArticle.animalPhoto) }}
+                </div>
+
+                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                    <h3>Caracteristique</h3>
+                    {{ form_widget(formArticle.caracteristique) }}
+                </div>
+
+                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                    <h3>Comportement</h3>
+                    {{ form_widget(formArticle.comportement) }}
+                </div>
+
+                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                    <h3>Ecologie</h3>
+                    {{ form_widget(formArticle.ecologie) }}
+                </div>
+
+                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                    <h3>Source Link</h3>
+                    {{ form_widget(formArticle.postSourceLink_1) }}
+                    {{ form_widget(formArticle.postSourceLink_2) }}
+                    {{ form_widget(formArticle.postSourceLink_3) }}
+                </div>
+            </div>
+        {{ form_end(formArticle, {"method":"POST"}) }}
     </div>
 {% endblock %}

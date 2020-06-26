@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -22,26 +23,64 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotNull
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 255,
+     *      maxMessage = "Your firstname cannot be longer than {{ limit }} character",
+     *      minMessage = "Your firstname must be at least {{ limit }} characters long"
+     * )
      */
     private $firstname;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotNull
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 255,
+     *      maxMessage = "Your lastname cannot be longer than {{ limit }} character",
+     *      minMessage = "Your lastname must be at least {{ limit }} characters long"
+     * )
      */
     private $lastname;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotNull
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 255,
+     *      minMessage = "Your email must be at least {{ limit }} characters long",
+     *      maxMessage = "Your email cannot be higher than {{ limit }} characters"
+     * )
+     * @Assert\Email(
+     *     message = "The email '{{ value }}' is not a valid email."
+     * )
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotNull
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 255,
+     *      minMessage = "Your login must be at least {{ limit }} characters long",
+     *      maxMessage = "Your login cannot be higher than {{ limit }} characters"
+     * )
      */
     private $login;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotNull
+     * @Assert\Length(
+     *      min = 8,
+     *      max = 255,
+     *      minMessage = "Your password must be at least {{ limit }} characters long",
+     *      maxMessage = "Your password cannot be higher than {{ limit }} characters"
+     * )
      */
     private $password;
 

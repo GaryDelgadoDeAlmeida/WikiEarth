@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\AnimalRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=AnimalRepository::class)
@@ -19,126 +20,232 @@ class Animal
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Length(
+     *      max = 255,
+     *      maxMessage = "The commom name of the animal name cannot be longer than {{ limit }} character"
+     * )
      */
     private $commonName;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotNull
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 255,
+     *      minMessage = "The name of the animal must be at least {{ limit }} characters long",
+     *      maxMessage = "The name of the animal cannot be longer than {{ limit }} character"
+     * )
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotNull
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 255,
+     *      minMessage = "The kingdom of the animal must be at least {{ limit }} characters long",
+     *      maxMessage = "The kingdom of the animal cannot be longer than {{ limit }} character"
+     * )
      */
     private $kingdom;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Length(
+     *      max = 255,
+     *      maxMessage = "The sub kingdom of the animal cannot be longer than {{ limit }} character"
+     * )
      */
     private $subKingdom;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Length(
+     *      max = 255,
+     *      maxMessage = "The domain of the animal cannot be longer than {{ limit }} character"
+     * )
      */
     private $domain;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Length(
+     *      max = 255,
+     *      maxMessage = "The branch of the animal cannot be longer than {{ limit }} character"
+     * )
      */
     private $branch;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Length(
+     *      max = 255,
+     *      maxMessage = "The sub branch of the animal cannot be longer than {{ limit }} character"
+     * )
      */
     private $subBranch;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Length(
+     *      max = 255,
+     *      maxMessage = "The infra branch of the animal cannot be longer than {{ limit }} character"
+     * )
      */
     private $infraBranch;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Length(
+     *      max = 255,
+     *      maxMessage = "The division of the animal cannot be longer than {{ limit }} character"
+     * )
      */
     private $division;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Length(
+     *      max = 255,
+     *      maxMessage = "The super class of the animal cannot be longer than {{ limit }} character"
+     * )
      */
     private $superClass;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Length(
+     *      max = 255,
+     *      maxMessage = "The class of the animal cannot be longer than {{ limit }} character"
+     * )
      */
     private $class;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Length(
+     *      max = 255,
+     *      maxMessage = "The sub class of the animal cannot be longer than {{ limit }} character"
+     * )
      */
     private $subClass;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Length(
+     *      max = 255,
+     *      maxMessage = "The infra class of the animal cannot be longer than {{ limit }} character"
+     * )
      */
     private $infraClass;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Length(
+     *      max = 255,
+     *      maxMessage = "The super order of the animal cannot be longer than {{ limit }} character"
+     * )
      */
     private $superOrder;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Length(
+     *      max = 255,
+     *      maxMessage = "The order of the animal cannot be longer than {{ limit }} character"
+     * )
      */
     private $normalOrder;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Length(
+     *      max = 255,
+     *      maxMessage = "The sub order of the animal cannot be longer than {{ limit }} character"
+     * )
      */
     private $subOrder;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Length(
+     *      max = 255,
+     *      maxMessage = "The infra order of the animal cannot be longer than {{ limit }} character"
+     * )
      */
     private $infraOrder;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Length(
+     *      max = 255,
+     *      maxMessage = "The micro order of the animal cannot be longer than {{ limit }} character"
+     * )
      */
     private $microOrder;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Length(
+     *      max = 255,
+     *      maxMessage = "The super family of the animal cannot be longer than {{ limit }} character"
+     * )
      */
     private $superFamily;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Length(
+     *      max = 255,
+     *      maxMessage = "The family of the animal cannot be longer than {{ limit }} character"
+     * )
      */
     private $family;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Length(
+     *      max = 255,
+     *      maxMessage = "The sub family of the animal cannot be longer than {{ limit }} character"
+     * )
      */
     private $subFamily;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Length(
+     *      max = 255,
+     *      maxMessage = "The genus of the animal cannot be longer than {{ limit }} character"
+     * )
      */
     private $genus;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Length(
+     *      max = 255,
+     *      maxMessage = "The sub genus of the animal cannot be longer than {{ limit }} character"
+     * )
      */
     private $subGenus;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Length(
+     *      max = 255,
+     *      maxMessage = "The specie of the animal cannot be longer than {{ limit }} character"
+     * )
      */
     private $species;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Length(
+     *      max = 255,
+     *      maxMessage = "The sub specie of the animal cannot be longer than {{ limit }} character"
+     * )
      */
     private $subSpecies;
 

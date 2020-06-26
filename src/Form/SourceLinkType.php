@@ -13,7 +13,7 @@ class SourceLinkType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', null, ['label' => "Source Name"])
+            // ->add('name', null, ['label' => "Source Name"])
             ->add('link', UrlType::class, ['label' => "Link"])
         ;
     }
