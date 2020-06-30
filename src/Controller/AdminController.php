@@ -3,11 +3,15 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\Animal;
 use App\Form\UserType;
+use App\Entity\Archive;
 use App\Entity\Article;
-use App\Form\LivingThingArticleType;
+use App\Entity\SourceLink;
 use App\Entity\MediaGallery;
+use App\Entity\ArticleContent;
 use App\Form\UserRegisterType;
+use App\Form\LivingThingArticleType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -99,6 +103,39 @@ class AdminController extends AbstractController
     }
 
     /**
+     * @Route("/admin/animal", name="adminAnimal")
+     */
+    public function admin_animal(Request $request)
+    {
+        $limit = 10;
+        $offset = !empty($request->get('offset')) && preg_match('/^[0-9]*$/', $request->get('offset')) ? $request->get('offset') : 1;
+
+        return $this->render('admin/animal/index.html.twig', [
+            "animals" => $this->getDoctrine()->getRepository(Animal::class)->getAnimals($offset, $limit),
+            "offset" => $offset,
+            "total_page" => ceil($this->getDoctrine()->getRepository(Article::class)->countArticles()[1] / $limit)
+        ]);
+    }
+
+    /**
+     * @Route("/admin/animal/add", name="adminAddAnimal")
+     */
+    public function admin_add_animal(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder)
+    {
+        $animal = new Animal();
+        $formAnimal = $this->createForm(LivingThingType::class, $animal);
+        $formArticle->handleRequest($request);
+
+        if($formArticle->isSubmitted() && $formArticle->isValid()) {
+            // 
+        }
+
+        return $this->render('admin/animal/edit.html.twig', [
+            "formAnimal" => $formArticle->createView()
+        ]);
+    }
+
+    /**
      * @Route("/admin/article", name="adminArticle")
      */
     public function admin_article(Request $request)
@@ -123,7 +160,101 @@ class AdminController extends AbstractController
         $formArticle->handleRequest($request);
 
         if($formArticle->isSubmitted() && $formArticle->isValid()) {
-            dd($article);
+            
+            dd($formArticle->getData(), $request->get('living_thing_article'), $formArticle['livingThingPhoto']->getData());
+            
+            $formRequest = $request->get('living_thing_article');
+            
+            $article = new Article();
+            $article->setIdUser($this->get('security.token_storage')->getToken()->getId());
+            $article->setTitle($formRequest['title']);
+            $article->setCreatedAt(new \DateTime());
+            
+            $caractContent = new ArticleContent();
+            $caractContent->setSubTitle($formRequest["caracteristique"]['subTitle']);
+            $caractContent->setContent($formRequest["caracteristique"]['content']);
+            $caractContent->setArticle($article);
+            
+            $comportContent = new ArticleContent();
+            $comportContent->setSubTitle($formRequest['comportement']["subTitle"]);
+            $comportContent->setContent($formRequest["comportement"]['content']);
+            $comportContent->setArticle($article);
+
+            $ecologieContent = new ArticleContent();
+            $ecologieContent->setSubTitle($formRequest['ecologie']["subTitle"]);
+            $ecologieContent->setContent($formRequest["ecologie"]['content']);
+            $ecologieContent->setArticle($article);
+
+            $sourceLink_1 = new SourceLink();
+            $sourceLink_1->setName($formRequest["postSourceLink_1"]['link']);
+            $sourceLink_1->setLink($formRequest["postSourceLink_1"]['link']);
+            $sourceLink_1->setIdArticle($article);
+
+            $sourceLink_2 = new SourceLink();
+            $sourceLink_2->setName($formRequest["postSourceLink_2"]['link']);
+            $sourceLink_2->setLink($formRequest["postSourceLink_2"]['link']);
+            $sourceLink_2->setIdArticle($article);
+
+            $sourceLink_3 = new SourceLink();
+            $sourceLink_3->setName($formRequest["postSourceLink_3"]['link']);
+            $sourceLink_3->setLink($formRequest["postSourceLink_3"]['link']);
+            $sourceLink_3->setIdArticle($article);
+
+            $livingThing = new Animal();
+            $livingThing->setCommonName($formRequest["livingThing"]['commonName']);
+            $livingThing->setName($formRequest["livingThing"]['name']);
+            $livingThing->setKingdom($formRequest["livingThing"]['kingdom']);
+            $livingThing->setSubKingdom($formRequest["livingThing"]['subKingdom']);
+            $livingThing->setDomain($formRequest["livingThing"]['domain']);
+            $livingThing->setBranch($formRequest["livingThing"]['branch']);
+            $livingThing->setSubBranch($formRequest["livingThing"]['subBranch']);
+            $livingThing->setInfraBranch($formRequest["livingThing"]['infraBranch']);
+            $livingThing->setDivision($formRequest["livingThing"]['division']);
+            $livingThing->setSuperClass($formRequest["livingThing"]['superClass']);
+            $livingThing->setClass($formRequest["livingThing"]['class']);
+            $livingThing->setSubClass($formRequest["livingThing"]['subClass']);
+            $livingThing->setInfraClass($formRequest["livingThing"]['infraClass']);
+            $livingThing->setSuperOrder($formRequest["livingThing"]['superOrder']);
+            $livingThing->setNormalOrder($formRequest["livingThing"]['normalOrder']);
+            $livingThing->setSubOrder($formRequest["livingThing"]['subOrder']);
+            $livingThing->setInfraOrder($formRequest["livingThing"]['infraOrder']);
+            $livingThing->setMicroOrder($formRequest["livingThing"]['microOrder']);
+            $livingThing->setSuperFamily($formRequest["livingThing"]['superFamily']);
+            $livingThing->setFamily($formRequest["livingThing"]['family']);
+            $livingThing->setSubFamily($formRequest["livingThing"]['subFamily']);
+            $livingThing->setGenus($formRequest["livingThing"]['genus']);
+            $livingThing->setSubGenus($formRequest["livingThing"]['subGenus']);
+            $livingThing->setSpecies($formRequest["livingThing"]['species']);
+            $livingThing->setSubSpecies($formRequest["livingThing"]['subSpecies']);
+
+            $mediaFile = $formArticle['livingThingPhoto']->getData();
+            // if($mediaFile) {
+            //     $originalFilename = pathinfo($mediaFile->getClientOriginalName(), PATHINFO_FILENAME);
+            //     // this is needed to safely include the file name as part of the URL
+            //     $newFilename = 'photo_garry_almeida.'.$mediaFile->guessExtension();
+
+            //     // Move the file to the directory where brochures are stored
+            //     try {
+            //         if(array_search('./content/img/Photo/'.$newFilename, glob("./content/img/Photo/*.".$mediaFile->guessExtension()))) {
+            //             unlink('./content/img/Photo/'.$newFilename);
+            //         }
+                    
+            //         $mediaFile->move(
+            //             $this->getParameter('photo_img_dir'),
+            //             $newFilename
+            //         );
+            //     } catch (FileException $e) {
+            //         dd($e->getMessage());
+            //     }
+
+            //     $mediaFile->setPath($newFilename);
+            // }
+
+            $archive = new Archive();
+            $archive->setArticle($article);
+            $archive->setIdTemplate($livingThing->getId());
+            $archive->setConcernedTable("living_thing");
+            
             // $manager->persist($article);
             // $manager->flush();
 

@@ -7,7 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class AnimalType extends AbstractType
+class LivingThingType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -112,10 +112,6 @@ class AnimalType extends AbstractType
                 'label' => "Sub Species",
                 "required" => false
             ])
-            // ->add('animalType', null, [
-            //     'label' => "Animal Type",
-            //     "required" => true
-            // ])
         ;
     }
 

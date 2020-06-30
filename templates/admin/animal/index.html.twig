@@ -1,0 +1,34 @@
+{% extends 'admin/baseAdmin.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div>&nbsp;</div>
+
+        <table class="table text-center">
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Common Name</th>
+                    <th>Name</th>
+                    <th>Species</th>
+                    <th>Sub Species</th>
+                    <th colspan="2">Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% if animals != null %}
+                    {% for animal in animals %}
+                        <tr>
+                            <td><img class="img-fluid" src="{{ animal.imgPath }}"></td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="7">Aucun animal n'a été trouvé.</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

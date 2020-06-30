@@ -67,30 +67,30 @@ class AnonymousController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/registerAdmin", name="adminRegister")
-     */
-    public function admin_register(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder)
-    {
-        $userRegister = new User();
-        $formUserRegister = $this->createForm(UserRegisterType::class, $userRegister);
-        $formUserRegister->handleRequest($request);
+    // /**
+    //  * @Route("/registerAdmin", name="adminRegister")
+    //  */
+    // public function admin_register(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder)
+    // {
+    //     $userRegister = new User();
+    //     $formUserRegister = $this->createForm(UserRegisterType::class, $userRegister);
+    //     $formUserRegister->handleRequest($request);
 
-        if($formUserRegister->isSubmitted() && $formUserRegister->isValid()) {
-            $userRegister->setLogin($userRegister->getEmail());
-            $userRegister->setPassword($encoder->encodePassword($userRegister, $userRegister->getPassword()));
-            $userRegister->setRoles(['ROLE_ADMIN']);
-            $userRegister->setCreatedAt(new \DateTime());
-            $manager->persist($userRegister);
-            $manager->flush();
+    //     if($formUserRegister->isSubmitted() && $formUserRegister->isValid()) {
+    //         $userRegister->setLogin($userRegister->getEmail());
+    //         $userRegister->setPassword($encoder->encodePassword($userRegister, $userRegister->getPassword()));
+    //         $userRegister->setRoles(['ROLE_ADMIN']);
+    //         $userRegister->setCreatedAt(new \DateTime());
+    //         $manager->persist($userRegister);
+    //         $manager->flush();
 
-            $this->redirectToRoute('login');
-        }
+    //         $this->redirectToRoute('login');
+    //     }
 
-        return $this->render('anonymous/user/register.html.twig', [
-            "userRegisterForm" => $formUserRegister->createView()
-        ]);
-    }
+    //     return $this->render('anonymous/user/register.html.twig', [
+    //         "userRegisterForm" => $formUserRegister->createView()
+    //     ]);
+    // }
 
     /**
      * @Route("/logout", name="logout")

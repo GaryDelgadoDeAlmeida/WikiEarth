@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Form\AnimalType;
+use App\Form\LivingThingType;
 use App\Form\SourceLinkType;
 use App\Form\MediaGalleryType;
 use App\Form\ArticleContentType;
@@ -20,10 +20,10 @@ class LivingThingArticleType extends AbstractType
                 'label' => "Title",
                 'required' => true
             ])
-            ->add('animalPhoto', MediaGalleryType::class, [
+            ->add('livingThingPhoto', MediaGalleryType::class, [
                 'mapped' => false
             ])
-            ->add('animal', AnimalType::class, [
+            ->add('livingThing', LivingThingType::class, [
                 'mapped' => false
             ])
             ->add('caracteristique', ArticleContentType::class, [
