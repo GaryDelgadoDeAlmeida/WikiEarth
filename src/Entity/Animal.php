@@ -252,7 +252,7 @@ class Animal
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $animalType;
+    private $imgPath;
 
     public function getId(): ?int
     {
@@ -559,14 +559,14 @@ class Animal
         return $this;
     }
 
-    public function getAnimalType(): ?string
+    public function getImgPath(): ?string
     {
-        return $this->animalType;
+        return $this->imgPath;
     }
 
-    public function setAnimalType(string $animalType): self
+    public function setImgPath(string $imgPath): self
     {
-        $this->animalType = $animalType;
+        $this->imgPath = $imgPath;
 
         return $this;
     }

@@ -120,14 +120,40 @@ class AdminController extends AbstractController
     /**
      * @Route("/admin/animal/add", name="adminAddAnimal")
      */
-    public function admin_add_animal(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder)
+    public function admin_add_animal(Request $request, EntityManagerInterface $manager)
     {
         $animal = new Animal();
         $formAnimal = $this->createForm(LivingThingType::class, $animal);
         $formArticle->handleRequest($request);
 
         if($formArticle->isSubmitted() && $formArticle->isValid()) {
-            // 
+            dd($animal);
+            
+            $mediaFile = $formArticle['imgPath']->getData();
+            if($mediaFile) {
+                $originalFilename = pathinfo($mediaFile->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $newFilename = $animal->getName() .'.'.$mediaFile->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    if(array_search('./content/wikiearth/animal/img/'.$animal->getName().'/'.$newFilename, glob("./content/wikiearth/animal/img/".$animal->getName()."/*.".$mediaFile->guessExtension()))) {
+                        unlink('./content/wikiearth/animal/img/'.$animal->getName().'/'.$newFilename);
+                    }
+                    
+                    $mediaFile->move(
+                        $this->getParameter('photo_animal_img_dir') . '/' . $animal->getName(),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    dd($e->getMessage());
+                }
+
+                $mediaFile->setPath($newFilename);
+            }
+
+            $manager->persist($animal);
+            $manager->flush();
         }
 
         return $this->render('admin/animal/edit.html.twig', [
@@ -153,7 +179,7 @@ class AdminController extends AbstractController
     /**
      * @Route("/admin/article/add", name="adminAddArticle")
      */
-    public function admin_add_article(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder)
+    public function admin_add_article(Request $request, EntityManagerInterface $manager)
     {
         $article = new Article();
         $formArticle = $this->createForm(LivingThingArticleType::class, $article);

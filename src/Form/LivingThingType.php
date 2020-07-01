@@ -12,13 +12,17 @@ class LivingThingType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('imgPath', null, [
+                'label' => "Photo",
+                "required" => false
+            ])
             ->add('commonName', null, [
                 'label' => "Common Name",
-                "required" => false
+                "required" => true
             ])
             ->add('name', null, [
                 'label' => "Name",
-                "required" => false
+                "required" => true
             ])
             ->add('kingdom', null, [
                 'label' => "Kingdom",
