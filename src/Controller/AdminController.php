@@ -9,6 +9,7 @@ use App\Entity\Archive;
 use App\Entity\Article;
 use App\Entity\SourceLink;
 use App\Entity\MediaGallery;
+use App\Form\LivingThingType;
 use App\Entity\ArticleContent;
 use App\Form\UserRegisterType;
 use App\Form\LivingThingArticleType;
@@ -124,12 +125,12 @@ class AdminController extends AbstractController
     {
         $animal = new Animal();
         $formAnimal = $this->createForm(LivingThingType::class, $animal);
-        $formArticle->handleRequest($request);
+        $formAnimal->handleRequest($request);
 
-        if($formArticle->isSubmitted() && $formArticle->isValid()) {
+        if($formAnimal->isSubmitted() && $formAnimal->isValid()) {
             dd($animal);
             
-            $mediaFile = $formArticle['imgPath']->getData();
+            $mediaFile = $formAnimal['imgPath']->getData();
             if($mediaFile) {
                 $originalFilename = pathinfo($mediaFile->getClientOriginalName(), PATHINFO_FILENAME);
                 // this is needed to safely include the file name as part of the URL
@@ -157,7 +158,7 @@ class AdminController extends AbstractController
         }
 
         return $this->render('admin/animal/edit.html.twig', [
-            "formAnimal" => $formArticle->createView()
+            "formAnimal" => $formAnimal->createView()
         ]);
     }
 
