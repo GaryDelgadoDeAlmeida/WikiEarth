@@ -2,7 +2,142 @@
 
 {% block body %}
     <div class="container">
-       {{ form_start(formAnimal, {"method": "POST"}) }}
-       {{ form_end(formAnimal, {"method": "POST"}) }}
+        {{ form_start(formAnimal, {"method": "POST"}) }}
+            <div class="row">
+                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                    {{ form_label(formAnimal.imgPath) }}
+                    {{ form_widget(formAnimal.imgPath) }}
+                </div>
+
+                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                    {{ form_label(formAnimal.commonName) }}
+                    {{ form_widget(formAnimal.commonName) }}
+                </div>
+
+                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                    {{ form_label(formAnimal.name) }}
+                    {{ form_widget(formAnimal.name) }}
+                </div>
+
+                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                    {{ form_label(formAnimal.kingdom) }}
+                    {{ form_widget(formAnimal.kingdom) }}
+                </div>
+
+                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                    {{ form_label(formAnimal.subKingdom) }}
+                    {{ form_widget(formAnimal.subKingdom) }}
+                </div>
+
+                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                    {{ form_label(formAnimal.domain) }}
+                    {{ form_widget(formAnimal.domain) }}
+                </div>
+
+                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                    {{ form_label(formAnimal.branch) }}
+                    {{ form_widget(formAnimal.branch) }}
+                </div>
+
+                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                    {{ form_label(formAnimal.subBranch) }}
+                    {{ form_widget(formAnimal.subBranch) }}
+                </div>
+
+                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                    {{ form_label(formAnimal.infraBranch) }}
+                    {{ form_widget(formAnimal.infraBranch) }}
+                </div>
+
+                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                    {{ form_label(formAnimal.division) }}
+                    {{ form_widget(formAnimal.division) }}
+                </div>
+
+                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                    {{ form_label(formAnimal.superClass) }}
+                    {{ form_widget(formAnimal.superClass) }}
+                </div>
+
+                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                    {{ form_label(formAnimal.class) }}
+                    {{ form_widget(formAnimal.class) }}
+                </div>
+
+                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                    {{ form_label(formAnimal.subClass) }}
+                    {{ form_widget(formAnimal.subClass) }}
+                </div>
+
+                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                    {{ form_label(formAnimal.infraClass) }}
+                    {{ form_widget(formAnimal.infraClass) }}
+                </div>
+
+                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                    {{ form_label(formAnimal.superOrder) }}
+                    {{ form_widget(formAnimal.superOrder) }}
+                </div>
+
+                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                    {{ form_label(formAnimal.normalOrder) }}
+                    {{ form_widget(formAnimal.normalOrder) }}
+                </div>
+
+                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                    {{ form_label(formAnimal.subOrder) }}
+                    {{ form_widget(formAnimal.subOrder) }}
+                </div>
+
+                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                    {{ form_label(formAnimal.infraOrder) }}
+                    {{ form_widget(formAnimal.infraOrder) }}
+                </div>
+
+                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                    {{ form_label(formAnimal.microOrder) }}
+                    {{ form_widget(formAnimal.microOrder) }}
+                </div>
+
+                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                    {{ form_label(formAnimal.superFamily) }}
+                    {{ form_widget(formAnimal.superFamily) }}
+                </div>
+
+                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                    {{ form_label(formAnimal.family) }}
+                    {{ form_widget(formAnimal.family) }}
+                </div>
+
+                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                    {{ form_label(formAnimal.subFamily) }}
+                    {{ form_widget(formAnimal.subFamily) }}
+                </div>
+
+                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                    {{ form_label(formAnimal.genus) }}
+                    {{ form_widget(formAnimal.genus) }}
+                </div>
+
+                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                    {{ form_label(formAnimal.subGenus) }}
+                    {{ form_widget(formAnimal.subGenus) }}
+                </div>
+
+                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                    {{ form_label(formAnimal.species) }}
+                    {{ form_widget(formAnimal.species) }}
+                </div>
+
+                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                    {{ form_label(formAnimal.subSpecies) }}
+                    {{ form_widget(formAnimal.subSpecies) }}
+                </div>
+
+                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                    <button type="submit">Valider</button>
+                </div>
+            </div>
+        {{ form_end(formAnimal, {"method": "POST"}) }}
     </div>
 {% endblock %}

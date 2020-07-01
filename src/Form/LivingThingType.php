@@ -27,7 +27,8 @@ class LivingThingType extends AbstractType
                         'mimeTypesMessage' => 'Please upload a valid image document',
                     ])
                 ],
-                "required" => false
+                "required" => false,
+                'mapped' => false
             ])
             ->add('commonName', null, [
                 'label' => "Common Name",
@@ -114,7 +115,7 @@ class LivingThingType extends AbstractType
                 "required" => false
             ])
             ->add('genus', null, [
-                'label' => "Ganus",
+                'label' => "Genus",
                 "required" => false
             ])
             ->add('subGenus', null, [

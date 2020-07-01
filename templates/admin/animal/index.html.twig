@@ -8,8 +8,8 @@
             <thead>
                 <tr>
                     <th>Image</th>
-                    <th>Common Name</th>
                     <th>Name</th>
+                    <th>Genus</th>
                     <th>Species</th>
                     <th>Sub Species</th>
                     <th colspan="2">Action</th>
@@ -20,7 +20,13 @@
                 {% if animals != null %}
                     {% for animal in animals %}
                         <tr>
-                            <td><img class="img-fluid" src="{{ animal.imgPath }}"></td>
+                            <td><img style="max-width:120px;" class="img-fluid" src="{{ asset(animal.imgPath) }}"></td>
+                            <td>{{ animal.name }}</td>
+                            <td>{{ animal.genus }}</td>
+                            <td>{{ animal.species }}</td>
+                            <td>{{ animal.subSpecies }}</td>
+                            <td><a class="btn btn-success" href="{{ path('adminEditAnimal', {'id':animal.id}) }}">E</a></td>
+                            <td><a class="btn btn-danger" href="{{ path('adminDeleteAnimal', {'id':animal.id}) }}">D</a></td>
                         </tr>
                     {% endfor %}
                 {% else %}

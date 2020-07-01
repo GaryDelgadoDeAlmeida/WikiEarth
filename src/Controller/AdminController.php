@@ -128,8 +128,6 @@ class AdminController extends AbstractController
         $formAnimal->handleRequest($request);
 
         if($formAnimal->isSubmitted() && $formAnimal->isValid()) {
-            dd($animal);
-            
             $mediaFile = $formAnimal['imgPath']->getData();
             if($mediaFile) {
                 $originalFilename = pathinfo($mediaFile->getClientOriginalName(), PATHINFO_FILENAME);
@@ -150,7 +148,7 @@ class AdminController extends AbstractController
                     dd($e->getMessage());
                 }
 
-                $mediaFile->setPath($newFilename);
+                $animal->setImgPath('/content/wikiearth/animal/img/'.$animal->getName().'/'.$newFilename);
             }
 
             $manager->persist($animal);
@@ -160,6 +158,58 @@ class AdminController extends AbstractController
         return $this->render('admin/animal/edit.html.twig', [
             "formAnimal" => $formAnimal->createView()
         ]);
+    }
+
+    /**
+     * @Route("/admin/animal/{id}/edit", name="adminEditAnimal")
+     */
+    public function admin_edit_animal(Animal $animal, Request $request, EntityManagerInterface $manager)
+    {
+        $formAnimal = $this->createForm(LivingThingType::class, $animal);
+        $formAnimal->handleRequest($request);
+
+        if($formAnimal->isSubmitted() && $formAnimal->isValid()) {
+            $mediaFile = $formAnimal['imgPath']->getData();
+            if($mediaFile) {
+                $originalFilename = pathinfo($mediaFile->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $newFilename = $animal->getName() .'.'.$mediaFile->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    if(array_search('./content/wikiearth/animal/img/'.$animal->getName().'/'.$newFilename, glob("./content/wikiearth/animal/img/".$animal->getName()."/*.".$mediaFile->guessExtension()))) {
+                        unlink('./content/wikiearth/animal/img/'.$animal->getName().'/'.$newFilename);
+                    }
+                    
+                    $mediaFile->move(
+                        $this->getParameter('photo_animal_img_dir') . '/' . $animal->getName(),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    dd($e->getMessage());
+                }
+
+                $animal->setImgPath('/content/wikiearth/animal/img/'.$animal->getName().'/'.$newFilename);
+            }
+
+            $manager->persist($animal);
+            $manager->flush();
+        }
+
+        return $this->render('admin/animal/edit.html.twig', [
+            "formAnimal" => $formAnimal->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/admin/animal/{id}/delete", name="adminDeleteAnimal")
+     */
+    public function admin_delete_animal(Animal $animal, EntityManagerInterface $manager)
+    {
+        $manager->remove($animal);
+        $manager->flush();
+
+        return $this->redirectToRoute('adminAnimal');
     }
 
     /**
