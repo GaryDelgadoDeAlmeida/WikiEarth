@@ -26,6 +26,7 @@ Dans le répertoire public/content/file :
 - Cahier des charges : cdc-wikiearth.docx
 - Cachier des charges fonctionnels : cdcf-wikiearth.docx
 - UX / UI : à définir
+- Schema Base de données (BDD) : WikiEarth.vuerd.json
 
 ## Installation
 
