@@ -18,7 +18,7 @@ WikiEarth, projet qui sera présenter en tant que projet de fin d'année (Bac +4
 
 Ce projet étant personnel, je conserve donc tous mes droits d'auteurs sur l'entièreté du projet WikiEarth et de son code source.
 
-WikiEarth est un projet de genre encyclopédie (style Wikipédia) dont le sujet de recherche est la Terre (et ses différents systèmes), les métaux et le vivant (animaux, insectes, plantes, bactéries, etc ...). Etant donné le périmètre d'action de ce projet, il paraît approprié de dire que le domain d'action est la "géoscience".
+WikiEarth est un projet de genre encyclopédie (style Wikipédia) dont le sujet de recherche est la Terre (et ses différents systèmes), les métaux et le vivant (animaux, insectes, plantes, bactéries, etc ...). Etant donné le périmètre d'action de ce projet, il paraît approprié de catégorisé le domain d'action comme "géoscience".
 
 ## Documents
 
