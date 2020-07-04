@@ -54,3 +54,14 @@ a, a:hover {
     color: #ffffff;
     background-color: #0366d6;
 }
+
+
+/* ---------------------------------------- *\
+                    Icon
+\* ---------------------------------------- */
+.i-pencil {
+    content: "\f040";
+}
+.i-close {
+    content: "\f00d";
+}

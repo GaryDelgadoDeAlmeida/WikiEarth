@@ -4,37 +4,22 @@
     <div class="container">
         <div>&nbsp;</div>
 
-        <table class="table text-center">
-            <thead>
-                <tr>
-                    <th>Image</th>
-                    <th>Name</th>
-                    <th>Genus</th>
-                    <th>Species</th>
-                    <th>Sub Species</th>
-                    <th colspan="2">Action</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                {% if animals != null %}
-                    {% for animal in animals %}
-                        <tr>
-                            <td><img style="max-width:120px;" class="img-fluid" src="{{ asset(animal.imgPath) }}"></td>
-                            <td>{{ animal.name }}</td>
-                            <td>{{ animal.genus }}</td>
-                            <td>{{ animal.species }}</td>
-                            <td>{{ animal.subSpecies }}</td>
-                            <td><a class="btn btn-success" href="{{ path('adminEditAnimal', {'id':animal.id}) }}">E</a></td>
-                            <td><a class="btn btn-danger" href="{{ path('adminDeleteAnimal', {'id':animal.id}) }}">D</a></td>
-                        </tr>
-                    {% endfor %}
-                {% else %}
-                    <tr>
-                        <td colspan="7">Aucun animal n'a été trouvé.</td>
-                    </tr>
-                {% endif %}
-            </tbody>
-        </table>
+        {% if animals != [] %}
+            {% for animal in animals %}
+                <div>
+                    <div>
+                        <img style="max-width:120px;" class="img-fluid" src="{{ asset(animal.imgPath) }}" alt="{{ animal.name }}">
+                    </div>
+                    <div>
+                        <h2 class="title">{{ animal.name }}</h2>
+                        <span>Genus : {{ animal.genus }}</span>
+                    </div>
+                    <div>
+                        <a class="btn btn-success" href="{{ path('adminEditAnimal', {'id':animal.id}) }}"><i class="i-pencil"></i></a>
+                        <a class="btn btn-danger" href="{{ path('adminDeleteAnimal', {'id':animal.id}) }}"><i class="i-close"></i></a>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
     </div>
 {% endblock %}

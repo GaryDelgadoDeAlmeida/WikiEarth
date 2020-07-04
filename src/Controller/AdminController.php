@@ -132,23 +132,28 @@ class AdminController extends AbstractController
             if($mediaFile) {
                 $originalFilename = pathinfo($mediaFile->getClientOriginalName(), PATHINFO_FILENAME);
                 // this is needed to safely include the file name as part of the URL
-                $newFilename = $animal->getName() .'.'.$mediaFile->guessExtension();
+                $newFilename = $animal->getName().'.'.$mediaFile->guessExtension();
 
                 // Move the file to the directory where brochures are stored
                 try {
-                    if(array_search('./content/wikiearth/animal/img/'.$animal->getName().'/'.$newFilename, glob("./content/wikiearth/animal/img/".$animal->getName()."/*.".$mediaFile->guessExtension()))) {
-                        unlink('./content/wikiearth/animal/img/'.$animal->getName().'/'.$newFilename);
+                    if(
+                        array_search(
+                            $this->getParameter('project_wikiearth_dir').$animal->getKingdom()."/img/".$animal->getName()."/".$newFilename, 
+                            glob($this->getParameter('project_wikiearth_dir').$animal->getKingdom()."/img/".$animal->getName()."/*.".$mediaFile->guessExtension())
+                        )
+                    ) {
+                        unlink($this->getParameter('project_wikiearth_dir').$animal->getKingdom()."/img/".$animal->getName()."/".$newFilename);
                     }
                     
                     $mediaFile->move(
-                        $this->getParameter('photo_animal_img_dir') . '/' . $animal->getName(),
+                        $this->getParameter('project_wikiearth_dir').$animal->getKingdom()."/img/".$animal->getName(),
                         $newFilename
                     );
                 } catch (FileException $e) {
                     dd($e->getMessage());
                 }
 
-                $animal->setImgPath('/content/wikiearth/animal/img/'.$animal->getName().'/'.$newFilename);
+                $animal->setImgPath($this->getParameter('project_wikiearth_dir').$animal->getKingdom()."/img/".$animal->getName()."/".$newFilename);
             }
 
             $manager->persist($animal);
@@ -173,23 +178,28 @@ class AdminController extends AbstractController
             if($mediaFile) {
                 $originalFilename = pathinfo($mediaFile->getClientOriginalName(), PATHINFO_FILENAME);
                 // this is needed to safely include the file name as part of the URL
-                $newFilename = $animal->getName() .'.'.$mediaFile->guessExtension();
+                $newFilename = $animal->getName().'.'.$mediaFile->guessExtension();
 
                 // Move the file to the directory where brochures are stored
                 try {
-                    if(array_search('./content/wikiearth/animal/img/'.$animal->getName().'/'.$newFilename, glob("./content/wikiearth/animal/img/".$animal->getName()."/*.".$mediaFile->guessExtension()))) {
-                        unlink('./content/wikiearth/animal/img/'.$animal->getName().'/'.$newFilename);
+                    if(
+                        array_search(
+                            $this->getParameter('project_wikiearth_dir').$animal->getKingdom()."/img/".$animal->getName()."/".$newFilename, 
+                            glob($this->getParameter('project_wikiearth_dir').$animal->getKingdom()."/img/".$animal->getName()."/*.".$mediaFile->guessExtension())
+                        )
+                    ) {
+                        unlink($this->getParameter('project_wikiearth_dir').$animal->getKingdom()."/img/".$animal->getName()."/".$newFilename);
                     }
                     
                     $mediaFile->move(
-                        $this->getParameter('photo_animal_img_dir') . '/' . $animal->getName(),
+                        $this->getParameter('project_wikiearth_dir').$animal->getKingdom()."/img/".$animal->getName(),
                         $newFilename
                     );
                 } catch (FileException $e) {
                     dd($e->getMessage());
                 }
 
-                $animal->setImgPath('/content/wikiearth/animal/img/'.$animal->getName().'/'.$newFilename);
+                $animal->setImgPath($this->getParameter('project_wikiearth_dir').$animal->getKingdom()."/img/".$animal->getName()."/".$newFilename);
             }
 
             $manager->persist($animal);
