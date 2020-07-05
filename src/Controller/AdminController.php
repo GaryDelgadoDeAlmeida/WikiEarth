@@ -2,17 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
-use App\Entity\Animal;
-use App\Form\UserType;
-use App\Entity\Archive;
-use App\Entity\Article;
-use App\Entity\SourceLink;
-use App\Entity\MediaGallery;
-use App\Form\LivingThingType;
-use App\Entity\ArticleContent;
-use App\Form\UserRegisterType;
-use App\Form\LivingThingArticleType;
+use App\Entity\{User, LivingThing, Article, SourceLink, MediaGallery};
+use App\Form\{UserType, LivingThingType, UserRegisterType, LivingThingArticleType};
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -63,8 +54,6 @@ class AdminController extends AbstractController
         $limit = 15;
         $offset = !empty($request->get('offset')) && preg_match('/^[0-9]*$/', $request->get('offset')) ? $request->get('offset') : 1;
 
-        // dd($this->getDoctrine()->getRepository(User::class)->getUsers($offset - 1, $limit, $this->current_logged_user->getId()));
-
         return $this->render('admin/users/index.html.twig', [
             "users" => $this->getDoctrine()->getRepository(User::class)->getUsers($offset - 1, $limit, $this->current_logged_user->getId()),
             "offset" => $offset,
@@ -104,122 +93,122 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/admin/animal", name="adminAnimal")
+     * @Route("/admin/living-thing", name="adminLivingThing")
      */
-    public function admin_animal(Request $request)
+    public function admin_living_thing(Request $request)
     {
         $limit = 10;
         $offset = !empty($request->get('offset')) && preg_match('/^[0-9]*$/', $request->get('offset')) ? $request->get('offset') : 1;
 
         return $this->render('admin/animal/index.html.twig', [
-            "animals" => $this->getDoctrine()->getRepository(Animal::class)->getAnimals($offset, $limit),
+            "livingThings" => $this->getDoctrine()->getRepository(LivingThing::class)->getLivingThings($offset, $limit),
             "offset" => $offset,
             "total_page" => ceil($this->getDoctrine()->getRepository(Article::class)->countArticles()[1] / $limit)
         ]);
     }
 
     /**
-     * @Route("/admin/animal/add", name="adminAddAnimal")
+     * @Route("/admin/living-thing/add", name="adminAddLivingThing")
      */
-    public function admin_add_animal(Request $request, EntityManagerInterface $manager)
+    public function admin_add_living_thing(Request $request, EntityManagerInterface $manager)
     {
-        $animal = new Animal();
-        $formAnimal = $this->createForm(LivingThingType::class, $animal);
-        $formAnimal->handleRequest($request);
+        $livingThing = new LivingThing();
+        $formLivingThing = $this->createForm(LivingThingType::class, $livingThing);
+        $formLivingThing->handleRequest($request);
 
-        if($formAnimal->isSubmitted() && $formAnimal->isValid()) {
-            $mediaFile = $formAnimal['imgPath']->getData();
+        if($formLivingThing->isSubmitted() && $formLivingThing->isValid()) {
+            $mediaFile = $formLivingThing['imgPath']->getData();
             if($mediaFile) {
                 $originalFilename = pathinfo($mediaFile->getClientOriginalName(), PATHINFO_FILENAME);
                 // this is needed to safely include the file name as part of the URL
-                $newFilename = $animal->getName().'.'.$mediaFile->guessExtension();
+                $newFilename = $livingThing->getName().'.'.$mediaFile->guessExtension();
 
                 // Move the file to the directory where brochures are stored
                 try {
                     if(
                         array_search(
-                            $this->getParameter('project_wikiearth_dir').$animal->getKingdom()."/img/".$animal->getName()."/".$newFilename, 
-                            glob($this->getParameter('project_wikiearth_dir').$animal->getKingdom()."/img/".$animal->getName()."/*.".$mediaFile->guessExtension())
+                            $this->getParameter('project_wikiearth_dir').$livingThing->getKingdom()."/img/".$livingThing->getName()."/".$newFilename, 
+                            glob($this->getParameter('project_wikiearth_dir').$livingThing->getKingdom()."/img/".$livingThing->getName()."/*.".$mediaFile->guessExtension())
                         )
                     ) {
-                        unlink($this->getParameter('project_wikiearth_dir').$animal->getKingdom()."/img/".$animal->getName()."/".$newFilename);
+                        unlink($this->getParameter('project_wikiearth_dir').$livingThing->getKingdom()."/img/".$livingThing->getName()."/".$newFilename);
                     }
                     
                     $mediaFile->move(
-                        $this->getParameter('project_wikiearth_dir').$animal->getKingdom()."/img/".$animal->getName(),
+                        $this->getParameter('project_wikiearth_dir').$livingThing->getKingdom()."/img/".$livingThing->getName(),
                         $newFilename
                     );
                 } catch (FileException $e) {
                     dd($e->getMessage());
                 }
 
-                $animal->setImgPath($this->getParameter('project_wikiearth_dir').$animal->getKingdom()."/img/".$animal->getName()."/".$newFilename);
+                $livingThing->setImgPath($this->getParameter('project_wikiearth_dir').$livingThing->getKingdom()."/img/".$livingThing->getName()."/".$newFilename);
             }
 
-            $manager->persist($animal);
+            $manager->persist($livingThing);
             $manager->flush();
         }
 
         return $this->render('admin/animal/edit.html.twig', [
-            "formAnimal" => $formAnimal->createView()
+            "formAnimal" => $formLivingThing->createView()
         ]);
     }
 
     /**
-     * @Route("/admin/animal/{id}/edit", name="adminEditAnimal")
+     * @Route("/admin/living-thing/{id}/edit", name="adminEditLivingThing")
      */
-    public function admin_edit_animal(Animal $animal, Request $request, EntityManagerInterface $manager)
+    public function admin_edit_living_thing(LivingThing $livingThing, Request $request, EntityManagerInterface $manager)
     {
-        $formAnimal = $this->createForm(LivingThingType::class, $animal);
-        $formAnimal->handleRequest($request);
+        $formLivingThing = $this->createForm(LivingThingType::class, $livingThing);
+        $formLivingThing->handleRequest($request);
 
-        if($formAnimal->isSubmitted() && $formAnimal->isValid()) {
-            $mediaFile = $formAnimal['imgPath']->getData();
+        if($formLivingThing->isSubmitted() && $formLivingThing->isValid()) {
+            $mediaFile = $formLivingThing['imgPath']->getData();
             if($mediaFile) {
                 $originalFilename = pathinfo($mediaFile->getClientOriginalName(), PATHINFO_FILENAME);
                 // this is needed to safely include the file name as part of the URL
-                $newFilename = $animal->getName().'.'.$mediaFile->guessExtension();
+                $newFilename = $livingThing->getName().'.'.$mediaFile->guessExtension();
 
                 // Move the file to the directory where brochures are stored
                 try {
                     if(
                         array_search(
-                            $this->getParameter('project_wikiearth_dir').$animal->getKingdom()."/img/".$animal->getName()."/".$newFilename, 
-                            glob($this->getParameter('project_wikiearth_dir').$animal->getKingdom()."/img/".$animal->getName()."/*.".$mediaFile->guessExtension())
+                            $this->getParameter('project_wikiearth_dir').$livingThing->getKingdom()."/img/".$livingThing->getName()."/".$newFilename, 
+                            glob($this->getParameter('project_wikiearth_dir').$livingThing->getKingdom()."/img/".$livingThing->getName()."/*.".$mediaFile->guessExtension())
                         )
                     ) {
-                        unlink($this->getParameter('project_wikiearth_dir').$animal->getKingdom()."/img/".$animal->getName()."/".$newFilename);
+                        unlink($this->getParameter('project_wikiearth_dir').$livingThing->getKingdom()."/img/".$livingThing->getName()."/".$newFilename);
                     }
                     
                     $mediaFile->move(
-                        $this->getParameter('project_wikiearth_dir').$animal->getKingdom()."/img/".$animal->getName(),
+                        $this->getParameter('project_wikiearth_dir').$livingThing->getKingdom()."/img/".$livingThing->getName(),
                         $newFilename
                     );
                 } catch (FileException $e) {
                     dd($e->getMessage());
                 }
 
-                $animal->setImgPath($this->getParameter('project_wikiearth_dir').$animal->getKingdom()."/img/".$animal->getName()."/".$newFilename);
+                $livingThing->setImgPath($this->getParameter('project_wikiearth_dir').$livingThing->getKingdom()."/img/".$livingThing->getName()."/".$newFilename);
             }
 
-            $manager->persist($animal);
+            $manager->persist($livingThing);
             $manager->flush();
         }
 
         return $this->render('admin/animal/edit.html.twig', [
-            "formAnimal" => $formAnimal->createView()
+            "formAnimal" => $formLivingThing->createView()
         ]);
     }
 
     /**
-     * @Route("/admin/animal/{id}/delete", name="adminDeleteAnimal")
+     * @Route("/admin/living-thing/{id}/delete", name="adminDeleteLivingThing")
      */
-    public function admin_delete_animal(Animal $animal, EntityManagerInterface $manager)
+    public function admin_delete_living_thing(LivingThing $livingThing, EntityManagerInterface $manager)
     {
-        $manager->remove($animal);
+        $manager->remove($livingThing);
         $manager->flush();
 
-        return $this->redirectToRoute('adminAnimal');
+        return $this->redirectToRoute('adminLivingThing');
     }
 
     /**
@@ -256,21 +245,6 @@ class AdminController extends AbstractController
             $article->setIdUser($this->get('security.token_storage')->getToken()->getId());
             $article->setTitle($formRequest['title']);
             $article->setCreatedAt(new \DateTime());
-            
-            $caractContent = new ArticleContent();
-            $caractContent->setSubTitle($formRequest["caracteristique"]['subTitle']);
-            $caractContent->setContent($formRequest["caracteristique"]['content']);
-            $caractContent->setArticle($article);
-            
-            $comportContent = new ArticleContent();
-            $comportContent->setSubTitle($formRequest['comportement']["subTitle"]);
-            $comportContent->setContent($formRequest["comportement"]['content']);
-            $comportContent->setArticle($article);
-
-            $ecologieContent = new ArticleContent();
-            $ecologieContent->setSubTitle($formRequest['ecologie']["subTitle"]);
-            $ecologieContent->setContent($formRequest["ecologie"]['content']);
-            $ecologieContent->setArticle($article);
 
             $sourceLink_1 = new SourceLink();
             $sourceLink_1->setName($formRequest["postSourceLink_1"]['link']);
@@ -287,7 +261,7 @@ class AdminController extends AbstractController
             $sourceLink_3->setLink($formRequest["postSourceLink_3"]['link']);
             $sourceLink_3->setIdArticle($article);
 
-            $livingThing = new Animal();
+            $livingThing = new LivingThing();
             $livingThing->setCommonName($formRequest["livingThing"]['commonName']);
             $livingThing->setName($formRequest["livingThing"]['name']);
             $livingThing->setKingdom($formRequest["livingThing"]['kingdom']);
@@ -336,11 +310,6 @@ class AdminController extends AbstractController
 
             //     $mediaFile->setPath($newFilename);
             // }
-
-            $archive = new Archive();
-            $archive->setArticle($article);
-            $archive->setIdTemplate($livingThing->getId());
-            $archive->setConcernedTable("living_thing");
             
             // $manager->persist($article);
             // $manager->flush();

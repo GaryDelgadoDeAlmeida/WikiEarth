@@ -19,11 +19,6 @@ class SourceLink
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Article::class, inversedBy="sourceLinks")
-     */
-    private $idArticle;
-
-    /**
      * @ORM\Column(type="string", length=255)
      */
     private $name;
@@ -36,18 +31,6 @@ class SourceLink
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getIdArticle(): ?Article
-    {
-        return $this->idArticle;
-    }
-
-    public function setIdArticle(?Article $idArticle): self
-    {
-        $this->idArticle = $idArticle;
-
-        return $this;
     }
 
     public function getName(): ?string

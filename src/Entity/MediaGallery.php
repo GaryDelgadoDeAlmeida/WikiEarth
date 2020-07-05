@@ -38,11 +38,6 @@ class MediaGallery
      */
     private $createdAt;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Archive::class, inversedBy="mediaGallery")
-     */
-    private $archive;
-
     public function getId(): ?int
     {
         return $this->id;
@@ -92,18 +87,6 @@ class MediaGallery
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getArchive(): ?Archive
-    {
-        return $this->archive;
-    }
-
-    public function setArchive(?Archive $archive): self
-    {
-        $this->archive = $archive;
 
         return $this;
     }

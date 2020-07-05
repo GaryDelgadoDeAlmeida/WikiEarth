@@ -2,24 +2,24 @@
 
 namespace App\Repository;
 
-use App\Entity\Article;
+use App\Entity\ArticleLivingThing;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method Article|null find($id, $lockMode = null, $lockVersion = null)
- * @method Article|null findOneBy(array $criteria, array $orderBy = null)
- * @method Article[]    findAll()
- * @method Article[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method ArticleLivingThing|null find($id, $lockMode = null, $lockVersion = null)
+ * @method ArticleLivingThing|null findOneBy(array $criteria, array $orderBy = null)
+ * @method ArticleLivingThing[]    findAll()
+ * @method ArticleLivingThing[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ArticleRepository extends ServiceEntityRepository
+class ArticleLivingThingRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Article::class);
+        parent::__construct($registry, ArticleLivingThing::class);
     }
 
-    public function getArticles($offset, $limit)
+    public function getArticleLivingThings($offset, $limit)
     {
         return $this->createQueryBuilder('a')
             ->setFirstResult(($offset - 1) * $limit)
@@ -28,7 +28,7 @@ class ArticleRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function countArticles()
+    public function countArticleLivingThings()
     {
         return $this->createQueryBuilder('a')
             ->select('count(a.id)')
@@ -37,7 +37,7 @@ class ArticleRepository extends ServiceEntityRepository
     }
 
     // /**
-    //  * @return Article[] Returns an array of Article objects
+    //  * @return ArticleLivingThing[] Returns an array of ArticleLivingThing objects
     //  */
     /*
     public function findByExampleField($value)
@@ -54,7 +54,7 @@ class ArticleRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Article
+    public function findOneBySomeField($value): ?ArticleLivingThing
     {
         return $this->createQueryBuilder('a')
             ->andWhere('a.exampleField = :val')

@@ -85,6 +85,11 @@ class User implements UserInterface
     private $password;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $imgPath;
+
+    /**
      * @ORM\Column(type="json")
      */
     private $roles = [];
@@ -95,13 +100,13 @@ class User implements UserInterface
     private $createdAt;
 
     /**
-     * @ORM\OneToMany(targetEntity=Article::class, mappedBy="idUser")
+     * @ORM\OneToMany(targetEntity=ArticleLivingThing::class, mappedBy="user")
      */
-    private $articles;
+    private $articleLivingThings;
 
     public function __construct()
     {
-        $this->articles = new ArrayCollection();
+        $this->articleLivingThings = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -169,6 +174,18 @@ class User implements UserInterface
         return $this;
     }
 
+    public function getImgPath(): ?string
+    {
+        return $this->imgPath;
+    }
+
+    public function setImgPath(?string $imgPath): self
+    {
+        $this->imgPath = $imgPath;
+
+        return $this;
+    }
+
     public function getRoles(): ?array
     {
         return $this->roles;
@@ -209,30 +226,30 @@ class User implements UserInterface
     }
 
     /**
-     * @return Collection|Article[]
+     * @return Collection|ArticleLivingThing[]
      */
-    public function getArticles(): Collection
+    public function getArticleLivingThings(): Collection
     {
-        return $this->articles;
+        return $this->articleLivingThings;
     }
 
-    public function addArticle(Article $article): self
+    public function addArticleLivingThing(ArticleLivingThing $articleLivingThing): self
     {
-        if (!$this->articles->contains($article)) {
-            $this->articles[] = $article;
-            $article->setIdUser($this);
+        if (!$this->articleLivingThings->contains($articleLivingThing)) {
+            $this->articleLivingThings[] = $articleLivingThing;
+            $articleLivingThing->setUser($this);
         }
 
         return $this;
     }
 
-    public function removeArticle(Article $article): self
+    public function removeArticleLivingThing(ArticleLivingThing $articleLivingThing): self
     {
-        if ($this->articles->contains($article)) {
-            $this->articles->removeElement($article);
+        if ($this->articleLivingThings->contains($articleLivingThing)) {
+            $this->articleLivingThings->removeElement($articleLivingThing);
             // set the owning side to null (unless already changed)
-            if ($article->getIdUser() === $this) {
-                $article->setIdUser(null);
+            if ($articleLivingThing->getUser() === $this) {
+                $articleLivingThing->setUser(null);
             }
         }
 

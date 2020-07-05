@@ -1,0 +1,221 @@
+<?php
+
+namespace App\Entity;
+
+use App\Repository\ArticleLivingThingRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
+/**
+ * @ORM\Entity(repositoryClass=ArticleLivingThingRepository::class)
+ */
+class ArticleLivingThing
+{
+    /**
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
+     */
+    private $id;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="articleLivingThings")
+     */
+    private $user;
+
+    /**
+     * @ORM\OneToOne(targetEntity=LivingThing::class, cascade={"persist", "remove"})
+     */
+    private $idLivingThing;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotNull
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 255,
+     *      minMessage = "The title of this LivingThing must be at least {{ limit }} characters long",
+     *      maxMessage = "Your title of this LivingThing cannot be higher than {{ limit }} characters"
+     * )
+     */
+    private $title;
+
+    /**
+     * @ORM\Column(type="json", nullable=true)
+     */
+    private $geography = [];
+
+    /**
+     * @ORM\Column(type="json", nullable=true)
+     */
+    private $ecology = [];
+
+    /**
+     * @ORM\Column(type="json", nullable=true)
+     */
+    private $bahaviour = [];
+
+    /**
+     * @ORM\Column(type="json", nullable=true)
+     */
+    private $wayOfLife = [];
+
+    /**
+     * @ORM\Column(type="json", nullable=true)
+     */
+    private $description = [];
+
+    /**
+     * @ORM\Column(type="json", nullable=true)
+     */
+    private $otherData = [];
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $approved;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $createdAt;
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getIdLivingThing(): ?LivingThing
+    {
+        return $this->idLivingThing;
+    }
+
+    public function setIdLivingThing(?LivingThing $idLivingThing): self
+    {
+        $this->idLivingThing = $idLivingThing;
+
+        return $this;
+    }
+
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    public function setTitle(string $title): self
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    public function getGeography(): ?array
+    {
+        return $this->geography;
+    }
+
+    public function setGeography(?array $geography): self
+    {
+        $this->geography = $geography;
+
+        return $this;
+    }
+
+    public function getEcology(): ?array
+    {
+        return $this->ecology;
+    }
+
+    public function setEcology(?array $ecology): self
+    {
+        $this->ecology = $ecology;
+
+        return $this;
+    }
+
+    public function getBahaviour(): ?array
+    {
+        return $this->bahaviour;
+    }
+
+    public function setBahaviour(?array $bahaviour): self
+    {
+        $this->bahaviour = $bahaviour;
+
+        return $this;
+    }
+
+    public function getWayOfLife(): ?array
+    {
+        return $this->wayOfLife;
+    }
+
+    public function setWayOfLife(?array $wayOfLife): self
+    {
+        $this->wayOfLife = $wayOfLife;
+
+        return $this;
+    }
+
+    public function getDescription(): ?array
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?array $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getOtherData(): ?array
+    {
+        return $this->otherData;
+    }
+
+    public function setOtherData(?array $otherData): self
+    {
+        $this->otherData = $otherData;
+
+        return $this;
+    }
+
+    public function getApproved(): ?bool
+    {
+        return $this->approved;
+    }
+
+    public function setApproved(bool $approved): self
+    {
+        $this->approved = $approved;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+}

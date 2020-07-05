@@ -5,7 +5,6 @@ namespace App\Form;
 use App\Form\LivingThingType;
 use App\Form\SourceLinkType;
 use App\Form\MediaGalleryType;
-use App\Form\ArticleContentType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -24,21 +23,6 @@ class LivingThingArticleType extends AbstractType
                 'mapped' => false
             ])
             ->add('livingThing', LivingThingType::class, [
-                'mapped' => false
-            ])
-            ->add('caracteristique', ArticleContentType::class, [
-                "label" => "Caracteristique",
-                'required' => true,
-                'mapped' => false
-            ])
-            ->add('comportement', ArticleContentType::class, [
-                "label" => "Comportement",
-                'required' => true,
-                'mapped' => false
-            ])
-            ->add('ecologie', ArticleContentType::class, [
-                "label" => "Ecologie",
-                'required' => true,
                 'mapped' => false
             ])
             ->add('postSourceLink_1', SourceLinkType::class, [

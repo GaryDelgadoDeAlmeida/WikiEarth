@@ -2,14 +2,14 @@
 
 namespace App\Entity;
 
-use App\Repository\AnimalRepository;
+use App\Repository\LivingThingRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass=AnimalRepository::class)
+ * @ORM\Entity(repositoryClass=LivingThingRepository::class)
  */
-class Animal
+class LivingThing
 {
     /**
      * @ORM\Id()

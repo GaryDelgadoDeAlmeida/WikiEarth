@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\Animal;
+use App\Entity\LivingThing;
 use App\Form\LivingThingType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,7 +24,7 @@ class UserController extends AbstractController
      */
     public function user_add_animal(Request $request, EntityManagerInterface $manager)
     {
-        $animal = new Animal();
+        $animal = new LivingThing();
         $formAnimal = $this->createForm(LivingThingType::class, $animal);
         $formAnimal->handleRequest($request);
 
@@ -69,7 +69,7 @@ class UserController extends AbstractController
     /**
      * @Route("/user/animal/{id}/edit", name="userEditAnimal")
      */
-    public function user_edit_animal(Animal $animal, Request $request, EntityManagerInterface $manager)
+    public function user_edit_animal(LivingThing $animal, Request $request, EntityManagerInterface $manager)
     {
         $formAnimal = $this->createForm(LivingThingType::class, $animal);
         $formAnimal->handleRequest($request);
