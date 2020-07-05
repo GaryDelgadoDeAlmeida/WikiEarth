@@ -62,13 +62,6 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotNull
-     * @Assert\Length(
-     *      min = 2,
-     *      max = 255,
-     *      minMessage = "Your login must be at least {{ limit }} characters long",
-     *      maxMessage = "Your login cannot be higher than {{ limit }} characters"
-     * )
      */
     private $login;
 
