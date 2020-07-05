@@ -55,7 +55,7 @@ class ArticleLivingThing
     /**
      * @ORM\Column(type="json", nullable=true)
      */
-    private $bahaviour = [];
+    private $behaviour = [];
 
     /**
      * @ORM\Column(type="json", nullable=true)
@@ -147,14 +147,14 @@ class ArticleLivingThing
         return $this;
     }
 
-    public function getBahaviour(): ?array
+    public function getBehaviour(): ?array
     {
-        return $this->bahaviour;
+        return $this->behaviour;
     }
 
-    public function setBahaviour(?array $bahaviour): self
+    public function setBehaviour(?array $behaviour): self
     {
-        $this->bahaviour = $bahaviour;
+        $this->behaviour = $behaviour;
 
         return $this;
     }

@@ -236,42 +236,97 @@ class AdminController extends AbstractController
         $formArticle->handleRequest($request);
 
         if($formArticle->isSubmitted() && $formArticle->isValid()) {
+            $mediaLivingThingFile = isset($request->files->get('article_living_thing')['livingThing']['imgPath']) ? $request->files->get('article_living_thing')['livingThing']['imgPath'] : null;
+            $formRequest = $request->get('article_living_thing');
             
-            dd($formArticle->getData(), $request->get('living_thing_article'), $formArticle['livingThingPhoto']->getData());
+            $livingThing = new LivingThing();
+            $livingThing->setCommonName($formRequest["livingThing"]['commonName']);
+            $livingThing->setName($formRequest["livingThing"]['name']);
+            $livingThing->setKingdom($formRequest["livingThing"]['kingdom']);
+            $livingThing->setSubKingdom($formRequest["livingThing"]['subKingdom']);
+            $livingThing->setDomain($formRequest["livingThing"]['domain']);
+            $livingThing->setBranch($formRequest["livingThing"]['branch']);
+            $livingThing->setSubBranch($formRequest["livingThing"]['subBranch']);
+            $livingThing->setInfraBranch($formRequest["livingThing"]['infraBranch']);
+            $livingThing->setDivision($formRequest["livingThing"]['division']);
+            $livingThing->setSuperClass($formRequest["livingThing"]['superClass']);
+            $livingThing->setClass($formRequest["livingThing"]['class']);
+            $livingThing->setSubClass($formRequest["livingThing"]['subClass']);
+            $livingThing->setInfraClass($formRequest["livingThing"]['infraClass']);
+            $livingThing->setSuperOrder($formRequest["livingThing"]['superOrder']);
+            $livingThing->setNormalOrder($formRequest["livingThing"]['normalOrder']);
+            $livingThing->setSubOrder($formRequest["livingThing"]['subOrder']);
+            $livingThing->setInfraOrder($formRequest["livingThing"]['infraOrder']);
+            $livingThing->setMicroOrder($formRequest["livingThing"]['microOrder']);
+            $livingThing->setSuperFamily($formRequest["livingThing"]['superFamily']);
+            $livingThing->setFamily($formRequest["livingThing"]['family']);
+            $livingThing->setSubFamily($formRequest["livingThing"]['subFamily']);
+            $livingThing->setGenus($formRequest["livingThing"]['genus']);
+            $livingThing->setSubGenus($formRequest["livingThing"]['subGenus']);
+            $livingThing->setSpecies($formRequest["livingThing"]['species']);
+            $livingThing->setSubSpecies($formRequest["livingThing"]['subSpecies']);
             
-            $formRequest = $request->get('living_thing_article');
+            if($mediaLivingThingFile != null) {
+                $originalFilename = pathinfo($mediaLivingThingFile->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $newFilename = $livingThing->getName().'.'.$mediaLivingThingFile->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    if(
+                        array_search(
+                            $this->getParameter('project_wikiearth_dir').$livingThing->getKingdom()."/img/".$livingThing->getName()."/".$newFilename, 
+                            glob($this->getParameter('project_wikiearth_dir').$livingThing->getKingdom()."/img/".$livingThing->getName()."/*.".$mediaLivingThingFile->guessExtension())
+                        )
+                    ) {
+                        unlink($this->getParameter('project_wikiearth_dir').$livingThing->getKingdom()."/img/".$livingThing->getName()."/".$newFilename);
+                    }
+                    
+                    $mediaLivingThingFile->move(
+                        $this->getParameter('project_wikiearth_dir').$livingThing->getKingdom()."/img/".$livingThing->getName(),
+                        $newFilename
+                    );
+                    
+                    $livingThing->setImgPath($this->getParameter('project_wikiearth_dir').$livingThing->getKingdom()."/img/".$livingThing->getName()."/".$newFilename);
+                } catch (FileException $e) {
+                    die($e->getMessage());
+                }
+            }
             
             $article = new ArticleLivingThing();
-            $article->setIdUser($this->get('security.token_storage')->getToken()->getId());
+            $article->setUser($this->get('security.token_storage')->getToken()->getUser());
+            $article->setIdLivingThing($livingThing);
             $article->setTitle($formRequest['title']);
+            $article->setGeography([
+                "subTitle_1" => $formRequest['geography_sub_title'],
+                "subContent_1" => $formRequest['geography_sub_content']
+            ]);
+            $article->setEcology([
+                "subTitle_1" => $formRequest['ecology_sub_title'],
+                "subContent_1" => $formRequest['ecology_sub_content']
+            ]);
+            $article->setBehaviour([
+                "subTitle_1" => $formRequest['behaviour_sub_title'],
+                "subContent_1" => $formRequest['behaviour_sub_content']
+            ]);
+            $article->setWayOfLife([
+                "subTitle_1" => $formRequest['wayOfLife_sub_title'],
+                "subContent_1" => $formRequest['wayOfLife_sub_content']
+            ]);
+            $article->setDescription([
+                "subTitle_1" => $formRequest['description_sub_title'],
+                "subContent_1" => $formRequest['description_sub_content']
+            ]);
+            $article->setOtherData([
+                "subTitle_1" => $formRequest['otherData_sub_title'],
+                "subContent_1" => $formRequest['otherData_sub_content']
+            ]);
+            $article->setApproved(false);
             $article->setCreatedAt(new \DateTime());
 
-            // $livingThing = new LivingThing();
-            // $livingThing->setCommonName($formRequest["livingThing"]['commonName']);
-            // $livingThing->setName($formRequest["livingThing"]['name']);
-            // $livingThing->setKingdom($formRequest["livingThing"]['kingdom']);
-            // $livingThing->setSubKingdom($formRequest["livingThing"]['subKingdom']);
-            // $livingThing->setDomain($formRequest["livingThing"]['domain']);
-            // $livingThing->setBranch($formRequest["livingThing"]['branch']);
-            // $livingThing->setSubBranch($formRequest["livingThing"]['subBranch']);
-            // $livingThing->setInfraBranch($formRequest["livingThing"]['infraBranch']);
-            // $livingThing->setDivision($formRequest["livingThing"]['division']);
-            // $livingThing->setSuperClass($formRequest["livingThing"]['superClass']);
-            // $livingThing->setClass($formRequest["livingThing"]['class']);
-            // $livingThing->setSubClass($formRequest["livingThing"]['subClass']);
-            // $livingThing->setInfraClass($formRequest["livingThing"]['infraClass']);
-            // $livingThing->setSuperOrder($formRequest["livingThing"]['superOrder']);
-            // $livingThing->setNormalOrder($formRequest["livingThing"]['normalOrder']);
-            // $livingThing->setSubOrder($formRequest["livingThing"]['subOrder']);
-            // $livingThing->setInfraOrder($formRequest["livingThing"]['infraOrder']);
-            // $livingThing->setMicroOrder($formRequest["livingThing"]['microOrder']);
-            // $livingThing->setSuperFamily($formRequest["livingThing"]['superFamily']);
-            // $livingThing->setFamily($formRequest["livingThing"]['family']);
-            // $livingThing->setSubFamily($formRequest["livingThing"]['subFamily']);
-            // $livingThing->setGenus($formRequest["livingThing"]['genus']);
-            // $livingThing->setSubGenus($formRequest["livingThing"]['subGenus']);
-            // $livingThing->setSpecies($formRequest["livingThing"]['species']);
-            // $livingThing->setSubSpecies($formRequest["livingThing"]['subSpecies']);
+            $manager->persist($livingThing);
+            $manager->persist($article);
+            $manager->flush();
         }
 
         return $this->render('admin/article/edit.html.twig', [
