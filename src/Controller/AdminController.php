@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\{User, LivingThing, Article, SourceLink, MediaGallery};
+use App\Entity\{User, LivingThing, ArticleLivingThing, SourceLink, MediaGallery};
 use App\Form\{UserType, LivingThingType, UserRegisterType, LivingThingArticleType};
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -103,7 +103,7 @@ class AdminController extends AbstractController
         return $this->render('admin/animal/index.html.twig', [
             "livingThings" => $this->getDoctrine()->getRepository(LivingThing::class)->getLivingThings($offset, $limit),
             "offset" => $offset,
-            "total_page" => ceil($this->getDoctrine()->getRepository(Article::class)->countArticles()[1] / $limit)
+            "total_page" => ceil($this->getDoctrine()->getRepository(ArticleLivingThing::class)->countArticleLivingThings()[1] / $limit)
         ]);
     }
 
@@ -220,9 +220,9 @@ class AdminController extends AbstractController
         $offset = !empty($request->get('offset')) && preg_match('/^[0-9]*$/', $request->get('offset')) ? $request->get('offset') : 1;
 
         return $this->render('admin/article/index.html.twig', [
-            "articles" => $this->getDoctrine()->getRepository(Article::class)->getArticles($offset, $limit),
+            "articles" => $this->getDoctrine()->getRepository(ArticleLivingThing::class)->getArticleLivingThings($offset, $limit),
             "offset" => $offset,
-            "total_page" => ceil($this->getDoctrine()->getRepository(Article::class)->countArticles()[1] / $limit)
+            "total_page" => ceil($this->getDoctrine()->getRepository(ArticleLivingThing::class)->countArticleLivingThings()[1] / $limit)
         ]);
     }
 
@@ -231,7 +231,7 @@ class AdminController extends AbstractController
      */
     public function admin_add_article(Request $request, EntityManagerInterface $manager)
     {
-        $article = new Article();
+        $article = new ArticleLivingThing();
         $formArticle = $this->createForm(LivingThingArticleType::class, $article);
         $formArticle->handleRequest($request);
 
@@ -241,7 +241,7 @@ class AdminController extends AbstractController
             
             $formRequest = $request->get('living_thing_article');
             
-            $article = new Article();
+            $article = new ArticleLivingThing();
             $article->setIdUser($this->get('security.token_storage')->getToken()->getId());
             $article->setTitle($formRequest['title']);
             $article->setCreatedAt(new \DateTime());
