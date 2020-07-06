@@ -33,11 +33,13 @@ class AdminController extends AbstractController
      */
     public function admin_profile(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder)
     {
-        $formUser = $this->createForm(UserType::class, $this->current_logged_user);
+        $user = $this->current_logged_user;
+        $formUser = $this->createForm(UserType::class, $user);
         $formUser->handleRequest($request);
 
         if($formUser->isSubmitted() && $formUser->isValid()) {
-            $manager->persist($this->current_logged_user);
+            $user->setPassword($encoder->encodePassword($user, $user->getPassword()));
+            $manager->persist($user);
             $manager->flush();
         }
 
@@ -70,6 +72,7 @@ class AdminController extends AbstractController
         $formUser->handleRequest($request);
 
         if($formUser->isSubmitted() && $formUser->isValid()) {
+            $user->setPassword($encoder->encodePassword($user, $user->getPassword()));
             $manager->persist($user);
             $manager->flush();
 

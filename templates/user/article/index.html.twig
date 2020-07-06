@@ -1,0 +1,32 @@
+{% extends 'user/baseUser.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <a href="{{ path("userAddArticle") }}" class="btn btn-success">Add</a>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Type</th>
+                    <th></th>
+                </tr>
+            </thead>
+            
+            <tbody class="text-center">
+                {% if articles != [] %}
+                    {% for article in articles %}
+                        <tr>
+                            <td>{{ article.title }}</td>
+                            <td>{{ article.kingdom }}</td>
+                            <td><a href="">Voir</a></td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="5">Aucun article n'a été trouvé</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
