@@ -1,4 +1,6 @@
 ﻿# WikiEarth
+ 
+ <b>Ce projet est, pour le moment, en phase de développement.</b>
 
 ## Version
 
