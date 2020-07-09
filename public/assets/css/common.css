@@ -65,3 +65,12 @@ a, a:hover {
 .i-close {
     content: "\f00d";
 }
+
+
+
+/* ---------------------------------------- *\
+                    Fieldset
+\* ---------------------------------------- */
+fieldset.form-group {
+    display: none;
+}

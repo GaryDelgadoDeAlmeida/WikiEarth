@@ -24,13 +24,20 @@
                     
                     <div class="row">
                         <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
-                            {{ form_label(formArticle.geography_sub_title) }}
-                            {{ form_widget(formArticle.geography_sub_title) }}
-                        </div>
-
-                        <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
-                            {{ form_label(formArticle.geography_sub_content) }}
-                            {{ form_widget(formArticle.geography_sub_content) }}
+                            <ul class="geography-tags" data-prototype="{{ form_widget(formArticle.geography.vars.prototype)|e }}">
+                                {% for geography in formArticle.geography %}
+                                    <li class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                                        <div class="row">
+                                            <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                                                {{ form_row(geography.sub_title) }}
+                                            </div>
+                                            <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                                                {{ form_row(geography.sub_content) }}
+                                            </div>
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -40,13 +47,20 @@
                     
                     <div class="row">
                         <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
-                            {{ form_label(formArticle.ecology_sub_title) }}
-                            {{ form_widget(formArticle.ecology_sub_title) }}
-                        </div>
-
-                        <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
-                            {{ form_label(formArticle.ecology_sub_content) }}
-                            {{ form_widget(formArticle.ecology_sub_content) }}
+                            <ul class="ecology-tags" data-prototype="{{ form_widget(formArticle.ecology.vars.prototype)|e }}">
+                                {% for ecology in formArticle.ecology %}
+                                    <li class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                                        <div class="row">
+                                            <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                                                {{ form_row(ecology.sub_title) }}
+                                            </div>
+                                            <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                                                {{ form_row(ecology.sub_content) }}
+                                            </div>
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -56,13 +70,20 @@
                     
                     <div class="row">
                         <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
-                            {{ form_label(formArticle.behaviour_sub_title) }}
-                            {{ form_widget(formArticle.behaviour_sub_title) }}
-                        </div>
-
-                        <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
-                            {{ form_label(formArticle.behaviour_sub_content) }}
-                            {{ form_widget(formArticle.behaviour_sub_content) }}
+                            <ul class="behaviour-tags" data-prototype="{{ form_widget(formArticle.behaviour.vars.prototype)|e }}">
+                                {% for behaviour in formArticle.behaviour %}
+                                    <li class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                                        <div class="row">
+                                            <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                                                {{ form_row(behaviour.sub_title) }}
+                                            </div>
+                                            <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                                                {{ form_row(behaviour.sub_content) }}
+                                            </div>
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -72,13 +93,20 @@
                     
                     <div class="row">
                         <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
-                            {{ form_label(formArticle.wayOfLife_sub_title) }}
-                            {{ form_widget(formArticle.wayOfLife_sub_title) }}
-                        </div>
-
-                        <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
-                            {{ form_label(formArticle.wayOfLife_sub_content) }}
-                            {{ form_widget(formArticle.wayOfLife_sub_content) }}
+                            <ul class="wayOfLife-tags" data-prototype="{{ form_widget(formArticle.wayOfLife.vars.prototype)|e }}">
+                                {% for wayOfLife in formArticle.wayOfLife %}
+                                    <li class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                                        <div class="row">
+                                            <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                                                {{ form_row(wayOfLife.sub_title) }}
+                                            </div>
+                                            <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                                                {{ form_row(wayOfLife.sub_content) }}
+                                            </div>
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -88,13 +116,20 @@
                     
                     <div class="row">
                         <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
-                            {{ form_label(formArticle.description_sub_title) }}
-                            {{ form_widget(formArticle.description_sub_title) }}
-                        </div>
-
-                        <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
-                            {{ form_label(formArticle.description_sub_content) }}
-                            {{ form_widget(formArticle.description_sub_content) }}
+                            <ul class="description-tags" data-prototype="{{ form_widget(formArticle.description.vars.prototype)|e }}">
+                                {% for description in formArticle.description %}
+                                    <li class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                                        <div class="row">
+                                            <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                                                {{ form_row(description.sub_title) }}
+                                            </div>
+                                            <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                                                {{ form_row(description.sub_content) }}
+                                            </div>
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -104,13 +139,20 @@
                     
                     <div class="row">
                         <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
-                            {{ form_label(formArticle.otherData_sub_title) }}
-                            {{ form_widget(formArticle.otherData_sub_title) }}
-                        </div>
-
-                        <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
-                            {{ form_label(formArticle.otherData_sub_content) }}
-                            {{ form_widget(formArticle.otherData_sub_content) }}
+                            <ul class="otherData-tags" data-prototype="{{ form_widget(formArticle.otherData.vars.prototype)|e }}">
+                                {% for otherData in formArticle.otherData %}
+                                    <li class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                                        <div class="row">
+                                            <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                                                {{ form_row(otherData.sub_title) }}
+                                            </div>
+                                            <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                                                {{ form_row(otherData.sub_content) }}
+                                            </div>
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            </ul>
                         </div>
                     </div>
                 </div>

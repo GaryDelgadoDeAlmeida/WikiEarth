@@ -239,6 +239,7 @@ class AdminController extends AbstractController
         $formArticle->handleRequest($request);
 
         if($formArticle->isSubmitted() && $formArticle->isValid()) {
+            dd($request->get('article_living_thing'), $article);
             $mediaLivingThingFile = isset($request->files->get('article_living_thing')['livingThing']['imgPath']) ? $request->files->get('article_living_thing')['livingThing']['imgPath'] : null;
             $formRequest = $request->get('article_living_thing');
             
@@ -299,31 +300,6 @@ class AdminController extends AbstractController
             $article = new ArticleLivingThing();
             $article->setUser($this->get('security.token_storage')->getToken()->getUser());
             $article->setIdLivingThing($livingThing);
-            $article->setTitle($formRequest['title']);
-            $article->setGeography([
-                "subTitle_1" => $formRequest['geography_sub_title'],
-                "subContent_1" => $formRequest['geography_sub_content']
-            ]);
-            $article->setEcology([
-                "subTitle_1" => $formRequest['ecology_sub_title'],
-                "subContent_1" => $formRequest['ecology_sub_content']
-            ]);
-            $article->setBehaviour([
-                "subTitle_1" => $formRequest['behaviour_sub_title'],
-                "subContent_1" => $formRequest['behaviour_sub_content']
-            ]);
-            $article->setWayOfLife([
-                "subTitle_1" => $formRequest['wayOfLife_sub_title'],
-                "subContent_1" => $formRequest['wayOfLife_sub_content']
-            ]);
-            $article->setDescription([
-                "subTitle_1" => $formRequest['description_sub_title'],
-                "subContent_1" => $formRequest['description_sub_content']
-            ]);
-            $article->setOtherData([
-                "subTitle_1" => $formRequest['otherData_sub_title'],
-                "subContent_1" => $formRequest['otherData_sub_content']
-            ]);
             $article->setApproved(false);
             $article->setCreatedAt(new \DateTime());
 
