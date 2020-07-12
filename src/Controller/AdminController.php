@@ -109,7 +109,7 @@ class AdminController extends AbstractController
         $limit = 10;
         $offset = !empty($request->get('offset')) && preg_match('/^[0-9]*$/', $request->get('offset')) ? $request->get('offset') : 1;
 
-        return $this->render('admin/animal/index.html.twig', [
+        return $this->render('admin/living_thing/index.html.twig', [
             "livingThings" => $this->getDoctrine()->getRepository(LivingThing::class)->getLivingThings($offset, $limit),
             "offset" => $offset,
             "total_page" => ceil($this->getDoctrine()->getRepository(ArticleLivingThing::class)->countArticleLivingThings()[1] / $limit)
@@ -134,7 +134,7 @@ class AdminController extends AbstractController
             );
         }
 
-        return $this->render('admin/animal/edit.html.twig', [
+        return $this->render('admin/living_thing/edit.html.twig', [
             "formLivingThing" => $formLivingThing->createView()
         ]);
     }
@@ -156,12 +156,14 @@ class AdminController extends AbstractController
             );
         }
 
-        return $this->render('admin/animal/edit.html.twig', [
+        return $this->render('admin/living_thing/edit.html.twig', [
             "formLivingThing" => $formLivingThing->createView()
         ]);
     }
 
     /**
+     * Possibilité d'en faire une response API
+     * 
      * @Route("/admin/living-thing/{id}/delete", name="adminDeleteLivingThing")
      */
     public function admin_delete_living_thing(LivingThing $livingThing, EntityManagerInterface $manager)

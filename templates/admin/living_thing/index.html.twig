@@ -1,0 +1,25 @@
+{% extends 'admin/baseAdmin.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div>&nbsp;</div>
+
+        {% if livingThings != [] %}
+            {% for livingThing in livingThings %}
+                <div>
+                    <div>
+                        <img style="max-width:120px;" class="img-fluid" src="{{ asset(livingThing.imgPath) }}" alt="{{ livingThing.name }}">
+                    </div>
+                    <div>
+                        <h2 class="title">{{ livingThing.name }}</h2>
+                        <span>Genus : {{ livingThing.genus }}</span>
+                    </div>
+                    <div>
+                        <a class="btn btn-success" href="{{ path('adminEditLivingThing', {'id':livingThing.id}) }}"><i class="far fa-edit"></i></a>
+                        <a class="btn btn-danger" href="{{ path('adminDeleteLivingThing', {'id':livingThing.id}) }}"><i class="far fa-trash-alt"></i></a>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+{% endblock %}
