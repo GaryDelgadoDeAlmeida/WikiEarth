@@ -28,6 +28,15 @@ class ArticleLivingThingRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function getArticleLivingThingByLivingThingId($idLivingThing)
+    {
+        return $this->createQueryBuilder('a')
+            ->where('a.idLivingThing = :idLivingThing')
+            ->setParameter('idLivingThing', $idLivingThing)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
     public function countArticleLivingThings()
     {
         return $this->createQueryBuilder('a')

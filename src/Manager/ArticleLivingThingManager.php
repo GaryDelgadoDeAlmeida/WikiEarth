@@ -3,9 +3,9 @@
 namespace Manager;
 
 use App\Entity\LivingThing;
-use Symfony\Component\Form\Form;
 use App\Entity\ArticleLivingThing;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 
 class ArticleLivingThingManager {
@@ -77,6 +77,18 @@ class ArticleLivingThingManager {
 
         $manager->persist($livingThing);
         $manager->persist($article);
+        $manager->flush();
+    }
+
+    public function setArticleLivingThing(ArticleLivingThing $articleLivingThing, LivingThing $livingThing, EntityManagerInterface $manager, $user)
+    {
+        $articleLivingThing->setUser($user);
+        $articleLivingThing->setIdLivingThing($livingThing);
+        $articleLivingThing->setApproved(false);
+        $articleLivingThing->setCreatedAt(new \DateTime());
+
+        $manager->persist($livingThing);
+        $manager->persist($articleLivingThing);
         $manager->flush();
     }
 }

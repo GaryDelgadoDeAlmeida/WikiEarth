@@ -2,6 +2,15 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
+use App\Entity\LivingThing;
+use App\Entity\ArticleLivingThing;
+use App\Entity\SourceLink;
+use App\Entity\MediaGallery;
+use App\Form\UserType;
+use App\Form\LivingThingType;
+use App\Form\UserRegisterType;
+use App\Form\ArticleLivingThingType;
 use Manager\LivingThingManager;
 use Manager\ArticleLivingThingManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -9,8 +18,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use App\Entity\{User, LivingThing, ArticleLivingThing, SourceLink, MediaGallery};
-use App\Form\{UserType, LivingThingType, UserRegisterType, ArticleLivingThingType};
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class AdminController extends AbstractController
@@ -136,6 +143,42 @@ class AdminController extends AbstractController
 
         return $this->render('admin/living_thing/edit.html.twig', [
             "formLivingThing" => $formLivingThing->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/admin/living-thing/{id}/article", name="adminLivingThingCreateArticle")
+     */
+    public function admin_living_thing_create_article($id, Request $request, EntityManagerInterface $manager)
+    {
+        $articleLivingThing = $this->getDoctrine()->getRepository(ArticleLivingThing::class)->getArticleLivingThingByLivingThingId($id);
+
+        if(empty($articleLivingThing)) {
+            $articleLivingThing = new ArticleLivingThing();
+            $livingThing = $this->getDoctrine()->getRepository(LivingThing::class)->getLivingThingById($id);
+
+            if(!empty($livingThing)) {
+                $formArticle = $this->createForm(ArticleLivingThingType::class, $articleLivingThing);
+                $formArticle->get('livingThing')->setData($livingThing);
+                $formArticle->handleRequest($request);
+
+                if($formArticle->isSubmitted() && $formArticle->isValid()) {
+                    $this->articleLivingThingManager->setArticleLivingThing(
+                        $articleLivingThing,
+                        $livingThing,
+                        $manager,
+                        $this->current_logged_user
+                    );
+                }
+            } else {
+                dd("L'identifiant de l'être vivant n'existe pas.");
+            }
+        } else {
+            dd("Il existe déjà un article à ce sujet. Voulez-vous le modifier ?");
+        }
+
+        return $this->render('admin/article/edit.html.twig', [
+            "formArticle" => $formArticle->createView()
         ]);
     }
 
