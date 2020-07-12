@@ -5,16 +5,30 @@ namespace App\Controller;
 use App\Form\UserType;
 use App\Entity\LivingThing;
 use App\Form\LivingThingType;
+use Manager\LivingThingManager;
 use App\Entity\ArticleLivingThing;
 use App\Form\ArticleLivingThingType;
+use Manager\ArticleLivingThingManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class UserController extends AbstractController
-{   
+{
+    private $current_logged_user;
+    private $livingThingManager;
+    private $articleLivingThingManager;
+
+    public function __construct(TokenStorageInterface $tokenStorage)
+    {
+        $this->current_logged_user = $tokenStorage->getToken()->getUser();
+        $this->livingThingManager = new LivingThingManager();
+        $this->articleLivingThingManager = new ArticleLivingThingManager();
+    }
+
     /**
      * @Route("/user", name="userHome")
      */
@@ -57,44 +71,20 @@ class UserController extends AbstractController
     public function user_add_living_thing(Request $request, EntityManagerInterface $manager)
     {
         $livingThing = new LivingThing();
-        $formAnimal = $this->createForm(LivingThingType::class, $livingThing);
-        $formAnimal->handleRequest($request);
+        $formLivingThing = $this->createForm(LivingThingType::class, $livingThing);
+        $formLivingThing->handleRequest($request);
 
-        if($formAnimal->isSubmitted() && $formAnimal->isValid()) {
-            $mediaFile = $formAnimal['imgPath']->getData();
-            if($mediaFile) {
-                $originalFilename = pathinfo($mediaFile->getClientOriginalName(), PATHINFO_FILENAME);
-                // this is needed to safely include the file name as part of the URL
-                $newFilename = $livingThing->getName().'.'.$mediaFile->guessExtension();
-
-                // Move the file to the directory where brochures are stored
-                try {
-                    if(
-                        array_search(
-                            $this->getParameter('project_wikiearth_dir').$livingThing->getKingdom()."/img/".$livingThing->getName()."/".$newFilename, 
-                            glob($this->getParameter('project_wikiearth_dir').$livingThing->getKingdom()."/img/".$livingThing->getName()."/*.".$mediaFile->guessExtension())
-                        )
-                    ) {
-                        unlink($this->getParameter('project_wikiearth_dir').$livingThing->getKingdom()."/img/".$livingThing->getName()."/".$newFilename);
-                    }
-                    
-                    $mediaFile->move(
-                        $this->getParameter('project_wikiearth_dir').$livingThing->getKingdom()."/img/".$livingThing->getName(),
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-                    dd($e->getMessage());
-                }
-
-                $livingThing->setImgPath($this->getParameter('project_wikiearth_dir').$livingThing->getKingdom()."/img/".$livingThing->getName()."/".$newFilename);
-            }
-
-            $manager->persist($livingThing);
-            $manager->flush();
+        if($formLivingThing->isSubmitted() && $formLivingThing->isValid()) {
+            $this->livingThingManager->setLivingThing(
+                $formLivingThing, 
+                $livingThing, 
+                $manager, 
+                $this->getParameter('project_wikiearth_dir')
+            );
         }
 
         return $this->render('user/living_thing/edit.html.twig', [
-            "formAnimal" => $formAnimal->createView()
+            "formLivingThing" => $formLivingThing->createView()
         ]);
     }
 
@@ -103,39 +93,20 @@ class UserController extends AbstractController
      */
     public function user_edit_living_thing(LivingThing $livingThing, Request $request, EntityManagerInterface $manager)
     {
-        $formAnimal = $this->createForm(LivingThingType::class, $livingThing);
-        $formAnimal->handleRequest($request);
+        $formLivingThing = $this->createForm(LivingThingType::class, $livingThing);
+        $formLivingThing->handleRequest($request);
 
-        if($formAnimal->isSubmitted() && $formAnimal->isValid()) {
-            $mediaFile = $formAnimal['imgPath']->getData();
-            if($mediaFile) {
-                $originalFilename = pathinfo($mediaFile->getClientOriginalName(), PATHINFO_FILENAME);
-                // this is needed to safely include the file name as part of the URL
-                $newFilename = $livingThing->getName() .'.'.$mediaFile->guessExtension();
-
-                // Move the file to the directory where brochures are stored
-                try {
-                    if(array_search('./content/wikiearth/animal/img/'.$livingThing->getName().'/'.$newFilename, glob("./content/wikiearth/animal/img/".$livingThing->getName()."/*.".$mediaFile->guessExtension()))) {
-                        unlink('./content/wikiearth/animal/img/'.$livingThing->getName().'/'.$newFilename);
-                    }
-                    
-                    $mediaFile->move(
-                        $this->getParameter('photo_animal_img_dir') . '/' . $livingThing->getName(),
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-                    dd($e->getMessage());
-                }
-
-                $livingThing->setImgPath('/content/wikiearth/animal/img/'.$livingThing->getName().'/'.$newFilename);
-            }
-
-            $manager->persist($livingThing);
-            $manager->flush();
+        if($formLivingThing->isSubmitted() && $formLivingThing->isValid()) {
+            $this->livingThingManager->setLivingThing(
+                $formLivingThing, 
+                $livingThing, 
+                $manager, 
+                $this->getParameter('project_wikiearth_dir')
+            );
         }
 
         return $this->render('user/living_thing/edit.html.twig', [
-            "formAnimal" => $formAnimal->createView()
+            "formLivingThing" => $formLivingThing->createView()
         ]);
     }
 
@@ -159,72 +130,13 @@ class UserController extends AbstractController
         $formArticle->handleRequest($request);
 
         if($formArticle->isSubmitted() && $formArticle->isValid()) {
-            $mediaLivingThingFile = isset($request->files->get('article_living_thing')['livingThing']['imgPath']) ? $request->files->get('article_living_thing')['livingThing']['imgPath'] : null;
-            $formRequest = $request->get('article_living_thing');
-            
-            $livingThing = new LivingThing();
-            $livingThing->setCommonName($formRequest["livingThing"]['commonName']);
-            $livingThing->setName($formRequest["livingThing"]['name']);
-            $livingThing->setKingdom($formRequest["livingThing"]['kingdom']);
-            $livingThing->setSubKingdom($formRequest["livingThing"]['subKingdom']);
-            $livingThing->setDomain($formRequest["livingThing"]['domain']);
-            $livingThing->setBranch($formRequest["livingThing"]['branch']);
-            $livingThing->setSubBranch($formRequest["livingThing"]['subBranch']);
-            $livingThing->setInfraBranch($formRequest["livingThing"]['infraBranch']);
-            $livingThing->setDivision($formRequest["livingThing"]['division']);
-            $livingThing->setSuperClass($formRequest["livingThing"]['superClass']);
-            $livingThing->setClass($formRequest["livingThing"]['class']);
-            $livingThing->setSubClass($formRequest["livingThing"]['subClass']);
-            $livingThing->setInfraClass($formRequest["livingThing"]['infraClass']);
-            $livingThing->setSuperOrder($formRequest["livingThing"]['superOrder']);
-            $livingThing->setNormalOrder($formRequest["livingThing"]['normalOrder']);
-            $livingThing->setSubOrder($formRequest["livingThing"]['subOrder']);
-            $livingThing->setInfraOrder($formRequest["livingThing"]['infraOrder']);
-            $livingThing->setMicroOrder($formRequest["livingThing"]['microOrder']);
-            $livingThing->setSuperFamily($formRequest["livingThing"]['superFamily']);
-            $livingThing->setFamily($formRequest["livingThing"]['family']);
-            $livingThing->setSubFamily($formRequest["livingThing"]['subFamily']);
-            $livingThing->setGenus($formRequest["livingThing"]['genus']);
-            $livingThing->setSubGenus($formRequest["livingThing"]['subGenus']);
-            $livingThing->setSpecies($formRequest["livingThing"]['species']);
-            $livingThing->setSubSpecies($formRequest["livingThing"]['subSpecies']);
-            
-            if($mediaLivingThingFile != null) {
-                $originalFilename = pathinfo($mediaLivingThingFile->getClientOriginalName(), PATHINFO_FILENAME);
-                // this is needed to safely include the file name as part of the URL
-                $newFilename = $livingThing->getName().'.'.$mediaLivingThingFile->guessExtension();
-
-                // Move the file to the directory where brochures are stored
-                try {
-                    if(
-                        array_search(
-                            $this->getParameter('project_wikiearth_dir').$livingThing->getKingdom()."/img/".$livingThing->getName()."/".$newFilename, 
-                            glob($this->getParameter('project_wikiearth_dir').$livingThing->getKingdom()."/img/".$livingThing->getName()."/*.".$mediaLivingThingFile->guessExtension())
-                        )
-                    ) {
-                        unlink($this->getParameter('project_wikiearth_dir').$livingThing->getKingdom()."/img/".$livingThing->getName()."/".$newFilename);
-                    }
-                    
-                    $mediaLivingThingFile->move(
-                        $this->getParameter('project_wikiearth_dir').$livingThing->getKingdom()."/img/".$livingThing->getName(),
-                        $newFilename
-                    );
-                    
-                    $livingThing->setImgPath($this->getParameter('project_wikiearth_dir').$livingThing->getKingdom()."/img/".$livingThing->getName()."/".$newFilename);
-                } catch (FileException $e) {
-                    die($e->getMessage());
-                }
-            }
-            
-            $article = new ArticleLivingThing();
-            $article->setUser($this->get('security.token_storage')->getToken()->getUser());
-            $article->setIdLivingThing($livingThing);
-            $article->setApproved(false);
-            $article->setCreatedAt(new \DateTime());
-
-            $manager->persist($livingThing);
-            $manager->persist($article);
-            $manager->flush();
+            $this->articleLivingThingManager->insertArticleLivingThing(
+                $formArticle, 
+                $request, 
+                $manager, 
+                $this->getParameter('project_wikiearth_dir'), 
+                $this->current_logged_user
+            );
         }
 
         return $this->render('user/article/add.html.twig', [
@@ -233,7 +145,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/user/article/{id}/add", name="userEditArticle")
+     * @Route("/user/article/{id}/edit", name="userEditArticle")
      */
     public function user_edit_article(ArticleLivingThing $article, Request $request, EntityManagerInterface $manager)
     {
@@ -241,72 +153,13 @@ class UserController extends AbstractController
         $formArticle->handleRequest($request);
 
         if($formArticle->isSubmitted() && $formArticle->isValid()) {
-            $mediaLivingThingFile = isset($request->files->get('article_living_thing')['livingThing']['imgPath']) ? $request->files->get('article_living_thing')['livingThing']['imgPath'] : null;
-            $formRequest = $request->get('article_living_thing');
-            
-            $livingThing = new LivingThing();
-            $livingThing->setCommonName($formRequest["livingThing"]['commonName']);
-            $livingThing->setName($formRequest["livingThing"]['name']);
-            $livingThing->setKingdom($formRequest["livingThing"]['kingdom']);
-            $livingThing->setSubKingdom($formRequest["livingThing"]['subKingdom']);
-            $livingThing->setDomain($formRequest["livingThing"]['domain']);
-            $livingThing->setBranch($formRequest["livingThing"]['branch']);
-            $livingThing->setSubBranch($formRequest["livingThing"]['subBranch']);
-            $livingThing->setInfraBranch($formRequest["livingThing"]['infraBranch']);
-            $livingThing->setDivision($formRequest["livingThing"]['division']);
-            $livingThing->setSuperClass($formRequest["livingThing"]['superClass']);
-            $livingThing->setClass($formRequest["livingThing"]['class']);
-            $livingThing->setSubClass($formRequest["livingThing"]['subClass']);
-            $livingThing->setInfraClass($formRequest["livingThing"]['infraClass']);
-            $livingThing->setSuperOrder($formRequest["livingThing"]['superOrder']);
-            $livingThing->setNormalOrder($formRequest["livingThing"]['normalOrder']);
-            $livingThing->setSubOrder($formRequest["livingThing"]['subOrder']);
-            $livingThing->setInfraOrder($formRequest["livingThing"]['infraOrder']);
-            $livingThing->setMicroOrder($formRequest["livingThing"]['microOrder']);
-            $livingThing->setSuperFamily($formRequest["livingThing"]['superFamily']);
-            $livingThing->setFamily($formRequest["livingThing"]['family']);
-            $livingThing->setSubFamily($formRequest["livingThing"]['subFamily']);
-            $livingThing->setGenus($formRequest["livingThing"]['genus']);
-            $livingThing->setSubGenus($formRequest["livingThing"]['subGenus']);
-            $livingThing->setSpecies($formRequest["livingThing"]['species']);
-            $livingThing->setSubSpecies($formRequest["livingThing"]['subSpecies']);
-            
-            if($mediaLivingThingFile != null) {
-                $originalFilename = pathinfo($mediaLivingThingFile->getClientOriginalName(), PATHINFO_FILENAME);
-                // this is needed to safely include the file name as part of the URL
-                $newFilename = $livingThing->getName().'.'.$mediaLivingThingFile->guessExtension();
-
-                // Move the file to the directory where brochures are stored
-                try {
-                    if(
-                        array_search(
-                            $this->getParameter('project_wikiearth_dir').$livingThing->getKingdom()."/img/".$livingThing->getName()."/".$newFilename, 
-                            glob($this->getParameter('project_wikiearth_dir').$livingThing->getKingdom()."/img/".$livingThing->getName()."/*.".$mediaLivingThingFile->guessExtension())
-                        )
-                    ) {
-                        unlink($this->getParameter('project_wikiearth_dir').$livingThing->getKingdom()."/img/".$livingThing->getName()."/".$newFilename);
-                    }
-                    
-                    $mediaLivingThingFile->move(
-                        $this->getParameter('project_wikiearth_dir').$livingThing->getKingdom()."/img/".$livingThing->getName(),
-                        $newFilename
-                    );
-                    
-                    $livingThing->setImgPath($this->getParameter('project_wikiearth_dir').$livingThing->getKingdom()."/img/".$livingThing->getName()."/".$newFilename);
-                } catch (FileException $e) {
-                    die($e->getMessage());
-                }
-            }
-            
-            $article = new ArticleLivingThing();
-            $article->setUser($this->get('security.token_storage')->getToken()->getUser());
-            $article->setIdLivingThing($livingThing);
-            $article->setApproved(false);
-            $article->setCreatedAt(new \DateTime());
-
-            $manager->persist($livingThing);
-            $manager->persist($article);
-            $manager->flush();
+            $this->articleLivingThingManager->insertArticleLivingThing(
+                $formArticle, 
+                $request, 
+                $manager, 
+                $this->getParameter('project_wikiearth_dir'), 
+                $this->current_logged_user
+            );
         }
 
         return $this->render('user/article/add.html.twig', [
