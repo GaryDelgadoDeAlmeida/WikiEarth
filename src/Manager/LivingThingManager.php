@@ -21,22 +21,22 @@ class LivingThingManager {
             try {
                 if(
                     array_search(
-                        $project_wikiearth_dir . $livingThing->getKingdom() . "/img/" . $livingThing->getName() . "/" . $newFilename, 
-                        glob($project_wikiearth_dir . $livingThing->getKingdom() . "/img/" . $livingThing->getName() . "/*." . $mediaFile->guessExtension())
+                        $project_wikiearth_dir . "living-thing/" . $livingThing->getKingdom() . "/img/" . $livingThing->getName() . "/" . $newFilename, 
+                        glob($project_wikiearth_dir . "living-thing/" . $livingThing->getKingdom() . "/img/" . $livingThing->getName() . "/*." . $mediaFile->guessExtension())
                     )
                 ) {
-                    unlink($project_wikiearth_dir . $livingThing->getKingdom() . "/img/" . $livingThing->getName() . "/" . $newFilename);
+                    unlink($project_wikiearth_dir . "living-thing/" . $livingThing->getKingdom() . "/img/" . $livingThing->getName() . "/" . $newFilename);
                 }
                 
                 $mediaFile->move(
-                    $project_wikiearth_dir . $livingThing->getKingdom() . "/img/" . $livingThing->getName(),
+                    $project_wikiearth_dir . "living-thing/" . $livingThing->getKingdom() . "/img/" . $livingThing->getName(),
                     $newFilename
                 );
             } catch (FileException $e) {
                 dd($e->getMessage());
             }
 
-            $livingThing->setImgPath($project_wikiearth_dir . $livingThing->getKingdom() . "/img/" . $livingThing->getName() . "/" . $newFilename);
+            $livingThing->setImgPath("content/wikiearth/living-thing/" . $livingThing->getKingdom() . "/img/" . $livingThing->getName() . "/" . $newFilename);
         }
 
         $manager->persist($livingThing);

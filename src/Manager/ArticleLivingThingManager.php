@@ -51,19 +51,19 @@ class ArticleLivingThingManager {
             try {
                 if(
                     array_search(
-                        $project_wikiearth_dir . $livingThing->getKingdom() . "/img/" . $livingThing->getName() . "/" . $newFilename, 
-                        glob($project_wikiearth_dir . $livingThing->getKingdom() . "/img/" . $livingThing->getName() . "/*." . $mediaLivingThingFile->guessExtension())
+                        $project_wikiearth_dir . "living-thing/" . $livingThing->getKingdom() . "/img/" . $livingThing->getName() . "/" . $newFilename, 
+                        glob($project_wikiearth_dir . "living-thing/" . $livingThing->getKingdom() . "/img/" . $livingThing->getName() . "/*." . $mediaLivingThingFile->guessExtension())
                     )
                 ) {
-                    unlink($project_wikiearth_dir . $livingThing->getKingdom() . "/img/" . $livingThing->getName() . "/" . $newFilename);
+                    unlink($project_wikiearth_dir . "living-thing/" . $livingThing->getKingdom() . "/img/" . $livingThing->getName() . "/" . $newFilename);
                 }
                 
                 $mediaLivingThingFile->move(
-                    $project_wikiearth_dir . $livingThing->getKingdom() . "/img/" . $livingThing->getName(),
+                    $project_wikiearth_dir . "living-thing/" . $livingThing->getKingdom() . "/img/" . $livingThing->getName(),
                     $newFilename
                 );
                 
-                $livingThing->setImgPath($project_wikiearth_dir . $livingThing->getKingdom() . "/img/" . $livingThing->getName() . "/" . $newFilename);
+                $livingThing->setImgPath("content/wikiearth/living-thing" . $livingThing->getKingdom() . "/img/" . $livingThing->getName() . "/" . $newFilename);
             } catch (FileException $e) {
                 die($e->getMessage());
             }

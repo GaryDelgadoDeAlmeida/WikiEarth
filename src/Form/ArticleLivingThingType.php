@@ -66,7 +66,11 @@ class ArticleLivingThingType extends AbstractType
                 'allow_delete' => true,
                 'required' => false
             ])
-            ->add('submit', SubmitType::class)
+            ->add('submit', SubmitType::class, [
+                "attr" => [
+                    "class" => "btn btn-primary"
+                ]
+            ])
         ;
     }
 

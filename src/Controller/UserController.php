@@ -89,6 +89,42 @@ class UserController extends AbstractController
     }
 
     /**
+     * @Route("/user/living-thing/{id}/article", name="userLivingThingCreateArticle")
+     */
+    public function user_living_thing_create_article($id, Request $request, EntityManagerInterface $manager)
+    {
+        $articleLivingThing = $this->getDoctrine()->getRepository(ArticleLivingThing::class)->getArticleLivingThingByLivingThingId($id);
+
+        if(empty($articleLivingThing)) {
+            $articleLivingThing = new ArticleLivingThing();
+            $livingThing = $this->getDoctrine()->getRepository(LivingThing::class)->getLivingThingById($id);
+
+            if(!empty($livingThing)) {
+                $formArticle = $this->createForm(ArticleLivingThingType::class, $articleLivingThing);
+                $formArticle->get('livingThing')->setData($livingThing);
+                $formArticle->handleRequest($request);
+
+                if($formArticle->isSubmitted() && $formArticle->isValid()) {
+                    $this->articleLivingThingManager->setArticleLivingThing(
+                        $articleLivingThing,
+                        $livingThing,
+                        $manager,
+                        $this->current_logged_user
+                    );
+                }
+            } else {
+                dd("L'identifiant {$id} n'existe pas.");
+            }
+        } else {
+            dd("Il existe déjà un article sur cette être vivant.");
+        }
+
+        return $this->render('user/article/edit.html.twig', [
+            "formArticle" => $formArticle->createView()
+        ]);
+    }
+
+    /**
      * @Route("/user/living-thing/{id}/edit", name="userEditLivingThing")
      */
     public function user_edit_living_thing(LivingThing $livingThing, Request $request, EntityManagerInterface $manager)

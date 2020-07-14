@@ -3,15 +3,16 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Entity\LivingThing;
-use App\Entity\ArticleLivingThing;
-use App\Entity\SourceLink;
-use App\Entity\MediaGallery;
 use App\Form\UserType;
+use App\Entity\SourceLink;
+use App\Entity\LivingThing;
+use App\Entity\MediaGallery;
+use App\Manager\UserManager;
 use App\Form\LivingThingType;
 use App\Form\UserRegisterType;
-use App\Form\ArticleLivingThingType;
 use Manager\LivingThingManager;
+use App\Entity\ArticleLivingThing;
+use App\Form\ArticleLivingThingType;
 use Manager\ArticleLivingThingManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,12 +26,14 @@ class AdminController extends AbstractController
     private $current_logged_user;
     private $livingThingManager;
     private $articleLivingThingManager;
+    private $userManager;
 
     public function __construct(TokenStorageInterface $tokenStorage)
     {
         $this->current_logged_user = $tokenStorage->getToken()->getUser();
         $this->livingThingManager = new LivingThingManager();
         $this->articleLivingThingManager = new ArticleLivingThingManager();
+        $this->userManager = new UserManager();
     }
     
     /**
@@ -51,13 +54,20 @@ class AdminController extends AbstractController
         $formUser->handleRequest($request);
 
         if($formUser->isSubmitted() && $formUser->isValid()) {
-            $user->setPassword($encoder->encodePassword($user, $user->getPassword()));
-            $manager->persist($user);
-            $manager->flush();
+            dd($formUser, $formUser['imgPath']->getData(), $user);
+
+            $this->userManager->updateUser(
+                $formUser, 
+                $user, 
+                $manager, 
+                $encoder, 
+                $this->getParameter('project_wikiearth_dir')
+            );
         }
 
         return $this->render('admin/profile/index.html.twig', [
-            "userForm" => $formUser->createView()
+            "userForm" => $formUser->createView(),
+            "userImg" => $user->getImgPath()
         ]);
     }
 
@@ -171,13 +181,13 @@ class AdminController extends AbstractController
                     );
                 }
             } else {
-                dd("L'identifiant de l'être vivant n'existe pas.");
+                dd("L'identifiant {$id} n'existe pas.");
             }
         } else {
-            dd("Il existe déjà un article à ce sujet. Voulez-vous le modifier ?");
+            dd("Il existe déjà un article sur cette être vivant.");
         }
 
-        return $this->render('admin/article/edit.html.twig', [
+        return $this->render('admin/article/new.html.twig', [
             "formArticle" => $formArticle->createView()
         ]);
     }
@@ -211,6 +221,8 @@ class AdminController extends AbstractController
      */
     public function admin_delete_living_thing(LivingThing $livingThing, EntityManagerInterface $manager)
     {
+        // $imgPath = $this->getParameter('project_public_dir') . $livingThing->getImgPath();
+        // unset($imgPath);
         $manager->remove($livingThing);
         $manager->flush();
 
@@ -256,6 +268,22 @@ class AdminController extends AbstractController
         return $this->render('admin/article/edit.html.twig', [
             "formArticle" => $formArticle->createView()
         ]);
+    }
+
+    /**
+     * Possibilité d'en faire une response API
+     * 
+     * Attention : supprimer un article revient à supprime également toutes les liaisons 1-1 (donc supprime
+     * la ligne correspondante dans la table "Living Thing")
+     * 
+     * @Route("/admin/article/{id}/delete", name="adminDeleteArticle")
+     */
+    public function admin_delete_article(ArticleLivingThing $articleLivingThing, EntityManagerInterface $manager)
+    {
+        $manager->remove($articleLivingThing);
+        $manager->flush();
+
+        return $this->redirectToRoute('adminArticle');
     }
 
     /**

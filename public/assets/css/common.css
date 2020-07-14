@@ -35,6 +35,10 @@ a, a:hover {
     margin-bottom: 10px;
 }
 
+.h-250px {
+    height: 250px !important;
+    margin-bottom: 10px;
+}
 
 /* ---------------------------------------- *\
                     Color

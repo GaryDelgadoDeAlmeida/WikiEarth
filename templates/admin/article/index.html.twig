@@ -3,7 +3,7 @@
 {% block body %}
     <div class="container">
         <a href="{{ path("adminAddArticle") }}" class="btn btn-success">Add</a>
-        <table class="table">
+        <table class="table text-center">
             <thead>
                 <tr>
                     <th>Title</th>
@@ -13,15 +13,18 @@
                 </tr>
             </thead>
             
-            <tbody class="text-center">
+            <tbody>
                 {% if articles != [] %}
                     {% for article in articles %}
                         <tr>
                             <td>{{ article.title }}</td>
                             <td></td>
                             <td></td>
-                            <td><a class="btn btn-primary" href=""><i class="far fa-edit"></i></a></td>
-                            <td><a class="btn btn-danger" href=""><i class="far fa-trash-alt"></i></a></td>
+                            {# <td><a class="btn btn-primary" href=""><i class="far fa-edit"></i></a></td> #}
+                            <td>
+                                <a class="btn btn-primary" href=""><i class="far fa-edit"></i></a>
+                                <a class="btn btn-danger" href="{{ path('adminDeleteArticle', {'id': article.id}) }}"><i class="far fa-trash-alt"></i></a>
+                            </td>
                         </tr>
                     {% endfor %}
                 {% else %}
