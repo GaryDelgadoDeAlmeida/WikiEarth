@@ -151,8 +151,18 @@ class UserController extends AbstractController
      */
     public function user_article()
     {
+        $limit = 10;
+        $offset = !empty($request->get('offset')) && preg_match('/^[0-9]*$/', $request->get('offset')) ? $request->get('offset') : 1;
+        $search = !empty($request->get('offset')) ? $request->get('offset') : null;
+
+        if(!empty($search)) {
+            //
+        } else {
+            $articleLivingThing = $this->current_logged_user->getArticleLivingThings();
+        }
+
         return $this->render('user/article/index.html.twig', [
-            "articles" => $this->get('security.token_storage')->getToken()->getUser()->getArticleLivingThings()
+            "articles" => $articleLivingThing
         ]);
     }
 

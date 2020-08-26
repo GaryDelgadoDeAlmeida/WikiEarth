@@ -80,9 +80,11 @@ class ArticleLivingThingManager {
         $manager->flush();
     }
 
-    public function setArticleLivingThing(ArticleLivingThing $articleLivingThing, LivingThing $livingThing, EntityManagerInterface $manager, $user)
+    public function setArticleLivingThing(ArticleLivingThing $articleLivingThing, LivingThing $livingThing, EntityManagerInterface $manager, $user = null)
     {
-        $articleLivingThing->setUser($user);
+        if(!empty($user)) {
+            $articleLivingThing->setUser($user);
+        }
         $articleLivingThing->setIdLivingThing($livingThing);
         $articleLivingThing->setApproved(false);
         $articleLivingThing->setCreatedAt(new \DateTime());

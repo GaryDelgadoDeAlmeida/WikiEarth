@@ -2,9 +2,10 @@
 
 namespace App\Repository;
 
+use Doctrine\ORM\Query\Expr\Join;
 use App\Entity\ArticleLivingThing;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method ArticleLivingThing|null find($id, $lockMode = null, $lockVersion = null)
@@ -19,6 +20,11 @@ class ArticleLivingThingRepository extends ServiceEntityRepository
         parent::__construct($registry, ArticleLivingThing::class);
     }
 
+    /**
+     * @param offset Parameter offset is the page
+     * @param limit Parameter limit is the number of element per page
+     * @return ArticleLivingThings[]
+     */
     public function getArticleLivingThings($offset, $limit)
     {
         return $this->createQueryBuilder('a')
@@ -28,6 +34,10 @@ class ArticleLivingThingRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    /**
+     * @param idLivingThing
+     * @return ArticleLivingThings
+     */
     public function getArticleLivingThingByLivingThingId($idLivingThing)
     {
         return $this->createQueryBuilder('a')
@@ -37,6 +47,67 @@ class ArticleLivingThingRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
+    /**
+     * @param kingdom
+     * @return ArticleLivingThings[]
+     */
+    public function getArticleLivingThingsByLivingThingKingdom($kingdom)
+    {
+        return $this->createQueryBuilder('a')
+            ->innerJoin('App\Entity\LivingThing', 'l', Join::WITH, 'l.id = a.idLivingThing')
+            ->where('l.kingdom = :kingdom')
+            ->setParameter('kingdom', $kingdom)
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @param kingdom
+     * @param id
+     * @return ArticleLivingThings
+     */
+    public function getArticleLivingThingsByLivingThingKingdomByID($kingdom, $id)
+    {
+        return $this->createQueryBuilder('a')
+            ->innerJoin('App\Entity\LivingThing', 'l', Join::WITH, 'l.id = a.idLivingThing')
+            ->where('l.kingdom = :kingdom')
+            ->andWhere('l.id = :id')
+            ->setParameter('kingdom', $kingdom)
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    /**
+     * @return ArticleLivingThings[]
+     */
+    public function getArticleLivingThingsByArticleNotTreatedToPublish()
+    {
+        return $this->createQueryBuilder('a')
+            ->innerJoin('App\Entity\LivingThing', 'l', Join::WITH, 'l.id = a.idLivingThing')
+            ->where('l.isTreated = 0')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @param id
+     * @return ArticleLivingThings
+     */
+    public function getArticleLivingThingsByArticleNotTreatedToPublishById($id)
+    {
+        return $this->createQueryBuilder('a')
+            ->innerJoin('App\Entity\LivingThing', 'l', Join::WITH, 'l.id = a.idLivingThing')
+            ->where('l.isTreated = 0')
+            ->andWhere('l.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getSingleResult();
+    }
+
+    /**
+     * @return ArticleLivingThings
+     */
     public function countArticleLivingThings()
     {
         return $this->createQueryBuilder('a')
@@ -44,33 +115,4 @@ class ArticleLivingThingRepository extends ServiceEntityRepository
             ->getQuery()
             ->getSingleResult();
     }
-
-    // /**
-    //  * @return ArticleLivingThing[] Returns an array of ArticleLivingThing objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('a.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?ArticleLivingThing
-    {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

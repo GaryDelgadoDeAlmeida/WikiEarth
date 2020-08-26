@@ -4,6 +4,93 @@
     <section class="home">
         <div class="fluid-container">
             <h2 class="c-white">Welcome to WikiEarth</h2>
+            
+            <form action="?search" method="get">
+                <input class="" type="text" placeholder="Search ...">
+                <button><i class=""></i></button>
+            </form>
         </div>
+    </section>
+
+    <section class="home-map">
+        {% include "anonymous/home/interactive-maps.html.twig" %}
+    </section>
+
+    <section class="home-article">
+        <div class="container">
+
+            {# Animalia Card #}
+            <div class="card">
+                <div class="card-header">
+                    <img class="img-fluid" src="" alt="Animalia">
+                </div>
+                <div class="card-content">
+                    <span>Lorem Ipsum est un texte d'espace réservé couramment utilisé dans les industries graphique, imprimée</span>
+                </div>
+                <div class="card-footer">
+                    <a class="btn" href="">See More</a>
+                </div>
+            </div>
+
+            {# Plants Card #}
+            <div class="card">
+                <div class="card-header">
+                    <img class="img-fluid" src="" alt="Plants">
+                </div>
+                <div class="card-content">
+                    <span>Lorem Ipsum est un texte d'espace réservé couramment utilisé dans les industries graphique, imprimée</span>
+                </div>
+                <div class="card-footer">
+                    <a class="btn" href="">See More</a>
+                </div>
+            </div>
+
+            {# Insect Card #}
+            <div class="card">
+                <div class="card-header">
+                    <img class="img-fluid" src="" alt="Insect">
+                </div>
+                <div class="card-content">
+                    <span>Lorem Ipsum est un texte d'espace réservé couramment utilisé dans les industries graphique, imprimée</span>
+                </div>
+                <div class="card-footer">
+                    <a class="btn" href="">See More</a>
+                </div>
+            </div>
+
+            {# Bacteria Card #}
+            <div class="card">
+                <div class="card-header">
+                    <img class="img-fluid" src="" alt="Bacteria">
+                </div>
+                <div class="card-content">
+                    <span>Lorem Ipsum est un texte d'espace réservé couramment utilisé dans les industries graphique, imprimée</span>
+                </div>
+                <div class="card-footer">
+                    <a class="btn" href="">See More</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="home-about">
+        <div class="container">
+            <div class="home-about-title"></div>
+            <div class="home-about-content">
+                <div class="left">
+                    <p>Lorem Ipsum est un texte d'espace réservé couramment utilisé dans les industries graphique, imprimée<p>
+
+                    <a class="btn btn-primary" href="">See</a>
+                </div>
+
+                <div class="right">
+                    <img class="img-fluid" src="" alt="">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="home-nbrArticles">
+        <div class="container"></div>
     </section>
 {% endblock %}

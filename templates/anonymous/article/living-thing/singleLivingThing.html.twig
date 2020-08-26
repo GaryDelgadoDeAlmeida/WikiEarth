@@ -1,0 +1,213 @@
+{% extends 'anonymous/baseAnonymous.html.twig' %}
+
+{% block body %}
+    <section class="articleLivingThing">
+        <div class="container">
+            <div class="articleLivingThing-single">
+
+                {# Left Content #}
+                <div class="left">
+                    <div class="logo">
+                        <img class="img-fluid" src="{{ asset('content/img/logo/world.png') }}" alt="WikiEarth">
+                    </div>
+                    <nav class="nav">
+                        <ul class="nav-items">
+                            <li class="nav-link"></li>
+                        </ul>
+                    </nav>
+                </div>
+
+                {# Center Content #}
+                <div class="center">
+                    <div class="post">
+                        <div class="post-title">
+                            <h1>{{ livingThing.title }}</h1>
+                        </div>
+
+                        <div class="post-content">
+                            <div class="post-content-geography">
+                                <div class="post-content-geography-title">
+                                    <h3>Geography</h3>
+                                </div>
+
+                                {# Geography #}
+                                <div class="post-content-geography-content">
+                                    {% for oneGeography in livingThing.geography %}
+                                        <div class="">
+                                            <div class="title">
+                                                <h4>{{ oneGeography.sub_title }}</h4>
+                                            </div>
+
+                                            <div class="content">
+                                                <p>{{ oneGeography.sub_content }}</p>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            {# Ecology #}
+                            <div class="post-content-ecology">
+                                <div class="post-content-ecology-title">
+                                    <h3>Ecology</h3>
+                                </div>
+
+                                <div class="post-content-ecology-content">
+                                    {% if livingThing.ecology != null %}
+                                        {% for oneEcology in livingThing.ecology %}
+                                            <div class="">
+                                                <div class="title">
+                                                    <h4>{{ oneEcology.sub_title }}</h4>
+                                                </div>
+
+                                                <div class="content">
+                                                    <p>{{ oneEcology.sub_content }}</p>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            {# Behaviour #}
+                            <div class="post-content-behaviour">
+                                <div class="post-content-behaviour-title">
+                                    <h3>Behaviour</h3>
+                                </div>
+
+                                <div class="post-content-behaviour-content">
+                                    {% if livingThing.behaviour != null %}
+                                        {% for oneBehaviour in livingThing.behaviour %}
+                                            <div class="">
+                                                <div class="title">
+                                                    <h4>{{ oneBehaviour.sub_title }}</h4>
+                                                </div>
+
+                                                <div class="content">
+                                                    <p>{{ oneBehaviour.sub_content }}</p>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            {# Way of Life #}
+                            <div class="post-content-wayOfLife">
+                                <div class="post-content-wayOfLife-title">
+                                    <h3>Way of Life</h3>
+                                </div>
+
+                                <div class="post-content-wayOfLife-content">
+                                    {% if livingThing.wayOfLife != null %}
+                                        {% for oneWayOfLife in livingThing.wayOfLife %}
+                                            <div class="">
+                                                <div class="title">
+                                                    <h4>{{ oneWayOfLife.sub_title }}</h4>
+                                                </div>
+
+                                                <div class="content">
+                                                    <p>{{ oneWayOfLife.sub_content }}</p>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            {# Description #}
+                            <div class="post-content-description">
+                                <div class="post-content-description-title">
+                                    <h3>Description</h3>
+                                </div>
+
+                                <div class="post-content-description-content">
+                                    {% if livingThing.description != null %}
+                                        {% for oneDescription in livingThing.description %}
+                                            <div class="">
+                                                <div class="title">
+                                                    <h4>{{ oneDescription.sub_title }}</h4>
+                                                </div>
+
+                                                <div class="content">
+                                                    <p>{{ oneDescription.sub_content }}</p>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            {# Other Information #}
+                            <div class="post-content-otherData">
+                                <div class="post-content-otherData-title">
+                                    <h3>Other Data</h3>
+                                </div>
+
+                                <div class="post-content-otherData-content">
+                                    {% if livingThing.otherData != null %}
+                                        {% for oneOtherData in livingThing.otherData %}
+                                            <div class="">
+                                                <div class="title">
+                                                    <h4>{{ oneOtherData.sub_title }}</h4>
+                                                </div>
+
+                                                <div class="content">
+                                                    <p>{{ oneOtherData.sub_content }}</p>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            {# Media Gallery Photo
+                            <div class="post-content-mediaGallery">
+                                <div class="post-content-mediaGallery-title">
+                                    <h3>Media Gallery Photo</h3>
+                                </div>
+
+                                <div class="post-content-mediaGallery-content"></div>
+                            </div> #}
+                        </div>
+                    </div>
+                </div>
+
+                {# Right Content #}
+                <div class="right">
+                    <div class="articleLivingThing-livingThing">
+                        <div class="livingThing-img">
+                            <img class="img-fluid" src="{{ asset(livingThing.idLivingThing.imgPath) }}" alt="{{ livingThing.idLivingThing.name }}">
+                        </div>
+
+                        <div class="livingThing-content">
+                            <span>Kingdom : {{ livingThing.idLivingThing.kingdom }}</span>
+                            <span>Sub Kingdom : {{ livingThing.idLivingThing.subKingdom }}</span>
+                            <span>Domain : {{ livingThing.idLivingThing.domain }}</span>
+                            <span>Branch : {{ livingThing.idLivingThing.branch }}</span>
+                            <span>Sub Branch : {{ livingThing.idLivingThing.subBranch }}</span>
+                            <span>Infra Branch : {{ livingThing.idLivingThing.infraBranch }}</span>
+                            <span>Division : {{ livingThing.idLivingThing.division }}</span>
+                            <span>Super Class : {{ livingThing.idLivingThing.superClass }}</span>
+                            <span>Class : {{ livingThing.idLivingThing.class }}</span>
+                            <span>Sub Class : {{ livingThing.idLivingThing.subClass }}</span>
+                            <span>Infra Class : {{ livingThing.idLivingThing.infraClass }}</span>
+                            <span>Super Order : {{ livingThing.idLivingThing.superOrder }}</span>
+                            <span>Order : {{ livingThing.idLivingThing.normalOrder }}</span>
+                            <span>Sub Order : {{ livingThing.idLivingThing.subOrder }}</span>
+                            <span>Infra Order : {{ livingThing.idLivingThing.infraOrder }}</span>
+                            <span>Micro Order : {{ livingThing.idLivingThing.microOrder }}</span>
+                            <span>Super Family : {{ livingThing.idLivingThing.superFamily }}</span>
+                            <span>Family : {{ livingThing.idLivingThing.family }}</span>
+                            <span>Sub Family : {{ livingThing.idLivingThing.subFamily }}</span>
+                            <span>Genus : {{ livingThing.idLivingThing.genus }}</span>
+                            <span>Sub Genus : {{ livingThing.idLivingThing.subGenus }}</span>
+                            <span>Species : {{ livingThing.idLivingThing.species }}</span>
+                            <span>Sub Species : {{ livingThing.idLivingThing.subSpecies }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

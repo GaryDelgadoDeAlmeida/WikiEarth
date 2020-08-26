@@ -1,0 +1,18 @@
+{% extends 'anonymous/baseAnonymous.html.twig' %}
+
+{% block body %}
+    <section class="livingThing">
+        <div class="container">
+            {% if livingThing != [] %}
+                {% for oneLivingThing in livingThing %}
+                    <a href="{{ path("articleLivingThingById", {"name": name, "id": oneLivingThing.idLivingThing.id }) }}">
+                        <img class="img-fluid" src="{{ asset(oneLivingThing.idLivingThing.imgPath) }}" alt="{{ oneLivingThing.idLivingThing.name }}">
+                        <p>{{ oneLivingThing.title }}</p>
+                    </a>
+                {% endfor %}
+            {% else %}
+                <li>Il n'y a être vivant de ce type pour le moment.</li>
+            {% endif %}
+        </div>
+    </section>
+{% endblock %}

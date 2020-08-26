@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\UserLoginType;
 use App\Form\UserRegisterType;
+use App\Entity\ArticleLivingThing;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,6 +20,75 @@ class AnonymousController extends AbstractController
     public function home()
     {
         return $this->render('anonymous/home/index.html.twig');
+    }
+
+    /**
+     * @Route("/{country}/articles", name="countryArticle")
+     */
+    public function country_article($country, Request $request)
+    {
+        $limit = 10;
+        $offset = !empty($request->get('offset')) && preg_match('/^[0-9]*$/', $request->get('offset')) ? $request->get('offset') : 1;
+
+        return $this->render('anonymous/home/index.html.twig');
+    }
+
+    /**
+     * @Route("/living-thing/{name}", name="articleLivingThing")
+     */
+    public function article_living_thing($name)
+    {
+        $limit = 10;
+        $offset = !empty($request->get('offset')) && preg_match('/^[0-9]*$/', $request->get('offset')) ? $request->get('offset') : 1;
+        $kingdom = "";
+
+        if($name == "animals") {
+            $kingdom = 'Animalia';
+        } elseif($name == "insects") {
+            $kingdom = 'Insecta';
+        } elseif($name == "plants") {
+            $kingdom = 'Plantae';
+        } elseif($name == "bacteria") {
+            $kingdom = 'Bacteria';
+        }
+
+        $livingThing = $this->getDoctrine()->getRepository(ArticleLivingThing::class)->getArticleLivingThingsByLivingThingKingdom($kingdom);
+
+        return $this->render('anonymous/article/living-thing/listLivingThing.html.twig', [
+            "livingThing" => $livingThing,
+            "name" => $name,
+            "offset" => $offset
+        ]);
+    }
+
+    /**
+     * @Route("/living-thing/{name}/{id}", name="articleLivingThingById")
+     */
+    public function article_living_thing_by_id($name, $id)
+    {
+        $livingThing = [];
+        $kingdom = "";
+
+        if($name == "animals") {
+            $kingdom = 'Animalia';
+        } elseif($name == "insects") {
+            $kingdom = 'Insecta';
+        } elseif($name == "plants") {
+            $kingdom = 'Plantae';
+        } elseif($name == "bacteria") {
+            $kingdom = 'Bacteria';
+        }
+
+        $livingThing = $this->getDoctrine()->getRepository(ArticleLivingThing::class)->getArticleLivingThingsByLivingThingKingdomByID($kingdom, $id);
+
+        if(empty($livingThing)) {
+            return $this->redirectToRoute("404Error");
+        }
+
+        return $this->render('anonymous/article/living-thing/singleLivingThing.html.twig', [
+            "livingThing" => $livingThing,
+            "name" => $name
+        ]);
     }
 
     /**

@@ -54,8 +54,6 @@ class AdminController extends AbstractController
         $formUser->handleRequest($request);
 
         if($formUser->isSubmitted() && $formUser->isValid()) {
-            dd($formUser, $formUser['imgPath']->getData(), $user);
-
             $this->userManager->updateUser(
                 $formUser, 
                 $user, 
@@ -106,7 +104,7 @@ class AdminController extends AbstractController
             "userForm" => $formUser->createView()
         ]);
     }
-
+    
     /**
      * @Route("/admin/users/{id}/delete", name="adminUserDelete")
      */
@@ -181,10 +179,11 @@ class AdminController extends AbstractController
                     );
                 }
             } else {
-                dd("L'identifiant {$id} n'existe pas.");
+                return $this->redirectToRoute("404Error");
             }
         } else {
-            dd("Il existe déjà un article sur cette être vivant.");
+            // dd("Il existe déjà un article sur cette être vivant.");
+            return $this->redirectToRoute("404Error");
         }
 
         return $this->render('admin/article/new.html.twig', [
@@ -221,8 +220,8 @@ class AdminController extends AbstractController
      */
     public function admin_delete_living_thing(LivingThing $livingThing, EntityManagerInterface $manager)
     {
-        // $imgPath = $this->getParameter('project_public_dir') . $livingThing->getImgPath();
-        // unset($imgPath);
+        $imgPath = $this->getParameter('project_public_dir') . $livingThing->getImgPath();
+        unset($imgPath);
         $manager->remove($livingThing);
         $manager->flush();
 
@@ -239,8 +238,8 @@ class AdminController extends AbstractController
 
         return $this->render('admin/article/index.html.twig', [
             "articles" => $this->getDoctrine()->getRepository(ArticleLivingThing::class)->getArticleLivingThings($offset, $limit),
-            "offset" => $offset,
-            "total_page" => ceil($this->getDoctrine()->getRepository(ArticleLivingThing::class)->countArticleLivingThings()[1] / $limit)
+            "total_page" => ceil($this->getDoctrine()->getRepository(ArticleLivingThing::class)->countArticleLivingThings()[1] / $limit),
+            "offset" => $offset
         ]);
     }
 
@@ -261,12 +260,32 @@ class AdminController extends AbstractController
                 $this->getParameter('project_wikiearth_dir'), 
                 $this->current_logged_user
             );
-
-            // $this->get('security.token_storage')->getToken()->getUser()
         }
 
         return $this->render('admin/article/edit.html.twig', [
             "formArticle" => $formArticle->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/admin/article/{id}/edit", name="adminArticleEdit")
+     */
+    public function admin_article_edit(ArticleLivingThing $articleLivingThing, Request $request, EntityManagerInterface $manager)
+    {
+        $formArticle = $this->createForm(ArticleLivingThingType::class, $articleLivingThing);
+        $formArticle->get('livingThing')->setData($articleLivingThing->getIdLivingThing());
+        $formArticle->handleRequest($request);
+
+        if($formArticle->isSubmitted() && $formArticle->isValid()) {
+            $this->articleLivingThingManager->setArticleLivingThing(
+                $articleLivingThing,
+                $articleLivingThing->getIdLivingThing(),
+                $manager
+            );
+        }
+
+        return $this->render('admin/article/edit.html.twig', [
+            "formArticle" => $formArticle->createView() 
         ]);
     }
 
@@ -284,6 +303,46 @@ class AdminController extends AbstractController
         $manager->flush();
 
         return $this->redirectToRoute('adminArticle');
+    }
+
+    /**
+     * @Route("/admin/article/{categoryArticle}/publish", name="adminArticleToPublish")
+     */
+    public function admin_article_to_publish($categoryArticle, Request $request)
+    {
+        $limit = 10;
+        $offset = !empty($request->get('offset')) && preg_match('/^[0-9]*$/', $request->get('offset')) ? $request->get('offset') : 1;
+        $articleToApproved = [];
+
+        if($categoryArticle == "living-thing") {
+            $articleToApproved = $this->getDoctrine()->getRepository(ArticleLivingThing::class)->getArticleLivingThingsByArticleNotTreatedToPublish();
+        } elseif($categoryArticle == "natural-element") {
+            $articleToApproved = [];
+        }
+
+        return $this->render("admin/article/approved.html.twig", [
+            "approvedListing" => $articleToApproved
+        ]);
+    }
+
+    /**
+     * @Route("/admin/article/{categoryArticle}/publish/{id}/details", name="adminArticleToPublishById")
+     */
+    public function admin_article_to_publish_by_id($categoryArticle, $id, Request $request)
+    {
+        $limit = 10;
+        $offset = !empty($request->get('offset')) && preg_match('/^[0-9]*$/', $request->get('offset')) ? $request->get('offset') : 1;
+        $articleToApproved = null;
+
+        if($categoryArticle == "living-thing") {
+            $articleToApproved = $this->getDoctrine()->getRepository(ArticleLivingThing::class)->getArticleLivingThingsByArticleNotTreatedToPublishById();
+        } elseif($categoryArticle == "natural-element") {
+            $articleToApproved = null;
+        }
+
+        return $this->render("admin/article/approved.html.twig", [
+            "approvedListing" => $articleToApproved
+        ]);
     }
 
     /**

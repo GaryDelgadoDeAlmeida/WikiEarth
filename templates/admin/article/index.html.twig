@@ -18,11 +18,11 @@
                     {% for article in articles %}
                         <tr>
                             <td>{{ article.title }}</td>
-                            <td></td>
-                            <td></td>
+                            <td>{{ article.idLivingThing.kingdom }}</td>
+                            <td>{{ article.user.id }}</td>
                             {# <td><a class="btn btn-primary" href=""><i class="far fa-edit"></i></a></td> #}
                             <td>
-                                <a class="btn btn-primary" href=""><i class="far fa-edit"></i></a>
+                                <a class="btn btn-primary" href="{{ path('adminArticleEdit', {'id': article.id}) }}"><i class="far fa-edit"></i></a>
                                 <a class="btn btn-danger" href="{{ path('adminDeleteArticle', {'id': article.id}) }}"><i class="far fa-trash-alt"></i></a>
                             </td>
                         </tr>
