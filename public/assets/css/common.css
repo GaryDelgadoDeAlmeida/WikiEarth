@@ -61,6 +61,10 @@ a, a:hover {
     color: rgb(255, 255, 255);
 }
 
+.txt-bold {
+    font-weight: 600;
+}
+
 
 /* ---------------------------------------- *\
                 Background-Color
@@ -69,6 +73,9 @@ a, a:hover {
     background-color: #010418;
 }
 
+.bg-midnight {
+    background-color: #01043F;
+}
 
 /* ---------------------------------------- *\
                     Button
@@ -76,6 +83,42 @@ a, a:hover {
 .btn-blue {
     color: #ffffff;
     background-color: #0366d6;
+}
+
+.btnCustomLogin {
+    text-align: center;
+    height: 34px;
+    width: 185px;
+    color: #ffffff;
+    background-color: #188038;
+    border: 2px solid #188038;
+    text-decoration: none;
+    border-radius: 7px;
+    font-size: 16px;
+    line-height: 1.25rem;
+}
+
+.btnCustomLogin:hover {
+    color: #188038;
+    background-color: #ffffff;
+}
+
+.btnCustomRegister {
+    text-align: center;
+    height: 34px;
+    width: 185px;
+    color: #ffffff;
+    background-color: #3F569B;
+    text-decoration: none;
+    border-radius: 7px;
+    border: 2px solid #3F569B;
+    font-size: 16px;
+    line-height: 1.25rem;
+}
+
+.btnCustomRegister:hover {
+    color: #3F569B;
+    background-color: #ffffff;
 }
 
 

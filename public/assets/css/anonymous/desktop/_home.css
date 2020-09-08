@@ -2,7 +2,7 @@
                     Home
 \* ---------------------------------------- */
 .home {
-    background: url("../../../content/img/background/background-earth.jpg") center center no-repeat;
+    background: url("../../../../content/img/background/background-earth.jpg") center center no-repeat;
     background-size: cover;
     height: 500px !important;
     width: 100% !important;
@@ -41,6 +41,7 @@
     color: #ffffff;
     border: none;
     overflow: hidden;
+    height: 35px;
 }
 
 .home .home-content form button i {

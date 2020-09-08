@@ -1,26 +1,29 @@
 {% extends 'anonymous/baseAnonymous.html.twig' %}
 
 {% block body %}
-    <div class="container">
-        {{ form_start(userRegisterForm, {'method': 'POST'}) }}
-            <div class="row">
-                <div class="form-group col-md-6 col-lg-6 wow fadeInUp animated">
-                    {{ form_label(userRegisterForm.firstname) }}
-                    {{ form_widget(userRegisterForm.firstname) }}
+    <section class="signUp">
+        <div class="container signUp-content">
+            <h3 class="signUp-title">Sign Up</h3>
+            {{ form_start(userRegisterForm, {'method': 'POST'}) }}
+                <div class="row">
+                    <div class="form-group col-md-6 col-lg-6 wow fadeInUp animated">
+                        {{ form_label(userRegisterForm.firstname) }}
+                        {{ form_widget(userRegisterForm.firstname) }}
+                    </div>
+                    <div class="form-group col-md-6 col-lg-6 wow fadeInUp animated">
+                        {{ form_label(userRegisterForm.lastname) }}
+                        {{ form_widget(userRegisterForm.lastname) }}
+                    </div>
+                    <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                        {{ form_label(userRegisterForm.email) }}
+                        {{ form_widget(userRegisterForm.email) }}
+                    </div>
+                    <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                        {{ form_label(userRegisterForm.password) }}
+                        {{ form_widget(userRegisterForm.password) }}
+                    </div>
                 </div>
-                <div class="form-group col-md-6 col-lg-6 wow fadeInUp animated">
-                    {{ form_label(userRegisterForm.lastname) }}
-                    {{ form_widget(userRegisterForm.lastname) }}
-                </div>
-                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
-                    {{ form_label(userRegisterForm.email) }}
-                    {{ form_widget(userRegisterForm.email) }}
-                </div>
-                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
-                    {{ form_label(userRegisterForm.password) }}
-                    {{ form_widget(userRegisterForm.password) }}
-                </div>
-            </div>
-        {{ form_end(userRegisterForm, {'method': 'POST'}) }}
-    </div>
+            {{ form_end(userRegisterForm, {'method': 'POST'}) }}
+        </div>
+    </section>
 {% endblock %}

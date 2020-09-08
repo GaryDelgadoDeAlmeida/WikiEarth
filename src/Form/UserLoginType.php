@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
 class UserLoginType extends AbstractType
@@ -15,12 +16,28 @@ class UserLoginType extends AbstractType
     {
         $builder
             ->add('login', null, [
-                "label" => "Login"
+                "label" => "Email",
+                "attr" => [
+                    "class" => "inputField"
+                ]
             ])
             ->add('password', PasswordType::class, [
-                "label" => "Password"
+                "label" => "Password",
+                "attr" => [
+                    "class" => "inputField"
+                ]
             ])
-            ->add('submit', SubmitType::class)
+            ->add('rememberMe', CheckboxType::class, [
+                "label" => "Remember me for 30 days",
+                "required" => false,
+                "mapped" => false
+            ])
+            ->add('submit', SubmitType::class, [
+                "label" => "Login",
+                "attr" => [
+                    "class" => "btn btnCustomLogin"
+                ]
+            ])
         ;
     }
 

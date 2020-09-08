@@ -1,0 +1,34 @@
+/* ---------------------------------------- *\
+                    Sign In
+\* ---------------------------------------- */
+.signUp {
+    background-color: #f2f2f2;
+    padding: 5rem 0;
+}
+
+.signUp > .signUp-content {
+    border-radius: 5px;
+    box-shadow: 2px 5px 5px #aaaaaa;
+    background-color: #ffffff;
+    width: 700px;
+}
+
+.signUp .signUp-content .signUp-title {
+    padding: 1.2rem 0;
+    text-align: center;
+    font-weight: 600;
+    font-size: 24px;
+}
+
+.signUp .signUp-content form {
+    padding: 1rem 3rem;
+}
+
+.signUp .signUp-content form .inputField {
+    background-color: #f5f5f5;
+    border: none;
+}
+
+.signUp .signUp-content form .btnCustomRegister {
+    margin: .5rem 0;
+}

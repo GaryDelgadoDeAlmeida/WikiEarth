@@ -18,29 +18,30 @@ class UserRegisterType extends AbstractType
             ->add('firstname', null, [
                 "label" => "Firstname",
                 "attr" => [
-                    "placeholder" => "ex: Marc"
+                    "class" => "inputField"
                 ]
             ])
             ->add('lastname', null, [
                 "label" => "Lastname",
                 "attr" => [
-                    "placeholder" => "ex: Dupont"
+                    "class" => "inputField"
                 ]
             ])
             ->add('email', EmailType::class, [
                 "label" => "Email",
                 "attr" => [
-                    "placeholder" => "ex: example@gmail.com"
+                    "class" => "inputField"
                 ]
             ])
             ->add('password', PasswordType::class, [
                 "attr" => [
-                    "placeholder" => "ex: Test@84*"
+                    "class" => "inputField"
                 ]
             ])
             ->add("submit", SubmitType::class, [
+                "label" => "Register",
                 "attr" => [
-                    "class" => "btn btn-blue rounded"
+                    "class" => "btn btnCustomRegister"
                 ]
             ])
         ;
