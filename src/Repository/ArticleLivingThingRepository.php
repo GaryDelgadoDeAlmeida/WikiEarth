@@ -106,6 +106,24 @@ class ArticleLivingThingRepository extends ServiceEntityRepository
     }
 
     /**
+     * @return ArticleLivingThings[]
+     */
+    public function getSearchArticleLivingThings($searchedValue)
+    {
+        return $this->createQueryBuilder('a')
+            ->where('a.title LIKE :searchValue')
+            ->orWhere('a.geography LIKE :searchValue')
+            ->orWhere('a.ecology LIKE :searchValue')
+            ->orWhere('a.behaviour LIKE :searchValue')
+            ->orWhere('a.wayOfLife LIKE :searchValue')
+            ->orWhere('a.description LIKE :searchValue')
+            ->orWhere('a.otherData LIKE :searchValue')
+            ->setParameter('searchValue', '%' . $searchedValue . '%')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
      * @return ArticleLivingThings
      */
     public function countArticleLivingThings()

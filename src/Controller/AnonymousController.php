@@ -36,7 +36,7 @@ class AnonymousController extends AbstractController
     /**
      * @Route("/living-thing/{name}", name="articleLivingThing")
      */
-    public function article_living_thing($name)
+    public function article_living_thing($name, Request $request)
     {
         $limit = 10;
         $offset = !empty($request->get('offset')) && preg_match('/^[0-9]*$/', $request->get('offset')) ? $request->get('offset') : 1;
@@ -97,6 +97,22 @@ class AnonymousController extends AbstractController
     public function about()
     {
         return $this->render('anonymous/about/index.html.twig');
+    }
+
+    /**
+     * @Route("/search", name="search")
+     */
+    public function search(Request $request)
+    {
+        $search = $request->get('searchInput');
+        $limit = 10;
+        $offset = !empty($request->get('offset')) && preg_match('/^[0-9]*$/', $request->get('offset')) ? $request->get('offset') : 1;
+        $livingThing = $this->getDoctrine()->getRepository(ArticleLivingThing::class)->getSearchArticleLivingThings($search);
+        
+        return $this->render('anonymous/article/living-thing/searchLivingThing.html.twig', [
+            "livingThing" => $livingThing,
+            "offset" => $offset
+        ]);
     }
 
     /**

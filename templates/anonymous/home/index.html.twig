@@ -2,95 +2,122 @@
 
 {% block body %}
     <section class="home">
-        <div class="fluid-container">
-            <h2 class="c-white">Welcome to WikiEarth</h2>
+        <div class="fluid-container home-content">
+            <h2 class="c-white">The Encyclopedia of the Earth</h2>
             
-            <form action="?search" method="get">
-                <input class="" type="text" placeholder="Search ...">
-                <button><i class=""></i></button>
+            <form action="{{ path('search') }}" method="post">
+                <input type="text" name="searchInput" placeholder="Search ...">
+                <button type="submit"><i class="fas fa-search"></i></button>
             </form>
         </div>
     </section>
 
-    <section class="home-map">
+    {# <section class="home-map">
         {% include "anonymous/home/interactive-maps.html.twig" %}
-    </section>
+    </section> #}
 
     <section class="home-article">
-        <div class="container">
+        <div class="slider owl-carousel">
+            <div class="card">
+                <div class="img">
+                    <img src="{{ asset('content/img/Animalia.jpg') }}" alt="Animalia">
+                </div>
+                
+                <div class="content">
+                    <h5 class="title">Animalia</h5>
+                    <p>Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <div class="btn">
+                        <a href="{{ path('articleLivingThing', {'name': 'animals'}) }}">See More</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="img">
+                    <img src="{{ asset('content/img/Plantae.jpg') }}" alt="Plantae">
+                </div>
+                
+                <div class="content">
+                    <h5 class="title">Plantae</h5>
+                    <p class="text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <div class="btn">
+                        <a href="{{ path('articleLivingThing', {'name': 'plants'}) }}">See More</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="img">
+                    <img src="{{ asset('content/img/Insecta.jpg') }}" alt="Insecta">
+                </div>
+                
+                <div class="content">
+                    <h5 class="title">Insecta</h5>
+                    <p class="text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <div class="btn">
+                        <a href="{{ path('articleLivingThing', {'name': 'insects'}) }}">See More</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="img">
+                    <img src="{{ asset('content/img/Insecta.jpg') }}" alt="Bacteria">
+                </div>
+                
+                <div class="content">
+                    <h5 class="title">Bacteria</h5>
+                    <p class="text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <div class="btn">
+                        <a href="{{ path('articleLivingThing', {'name': 'bacteria'}) }}">See More</a>
+                    </div>
+                </div>
+            </div>
+
 
             {# Animalia Card #}
-            <div class="card">
-                <div class="card-header">
-                    <img class="img-fluid" src="" alt="Animalia">
+            {# <div class="card" style="width: 18rem;">
+                <img class="card-img-top img-fluid" src="{{ asset('content/img/Animalia.jpg') }}" alt="Animalia">
+                
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn-primary">See More</a>
                 </div>
-                <div class="card-content">
-                    <span>Lorem Ipsum est un texte d'espace réservé couramment utilisé dans les industries graphique, imprimée</span>
-                </div>
-                <div class="card-footer">
-                    <a class="btn" href="">See More</a>
-                </div>
-            </div>
+            </div> #}
 
             {# Plants Card #}
-            <div class="card">
-                <div class="card-header">
-                    <img class="img-fluid" src="" alt="Plants">
+            {# <div class="card" style="width: 18rem;">
+                <img class="card-img-top img-fluid" src="{{ asset('content/img/Plantae.jpg') }}" alt="Plantae">
+                
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn-primary">See More</a>
                 </div>
-                <div class="card-content">
-                    <span>Lorem Ipsum est un texte d'espace réservé couramment utilisé dans les industries graphique, imprimée</span>
-                </div>
-                <div class="card-footer">
-                    <a class="btn" href="">See More</a>
-                </div>
-            </div>
-
+            </div> #}
+            
             {# Insect Card #}
-            <div class="card">
-                <div class="card-header">
-                    <img class="img-fluid" src="" alt="Insect">
+            {# <div class="card" style="width: 18rem;">
+                <img class="card-img-top img-fluid" src="{{ asset('content/img/Insecta.jpg') }}" alt="Insecta">
+                
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn-primary">See More</a>
                 </div>
-                <div class="card-content">
-                    <span>Lorem Ipsum est un texte d'espace réservé couramment utilisé dans les industries graphique, imprimée</span>
-                </div>
-                <div class="card-footer">
-                    <a class="btn" href="">See More</a>
-                </div>
-            </div>
+            </div> #}
 
             {# Bacteria Card #}
-            <div class="card">
-                <div class="card-header">
-                    <img class="img-fluid" src="" alt="Bacteria">
+            {# <div class="card" style="width: 18rem;">
+                <img class="card-img-top img-fluid" src="{{ asset('content/img/Bacteria.jpg') }}" alt="Bacteria">
+                
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn-primary">See More</a>
                 </div>
-                <div class="card-content">
-                    <span>Lorem Ipsum est un texte d'espace réservé couramment utilisé dans les industries graphique, imprimée</span>
-                </div>
-                <div class="card-footer">
-                    <a class="btn" href="">See More</a>
-                </div>
-            </div>
+            </div> #}
         </div>
-    </section>
-
-    <section class="home-about">
-        <div class="container">
-            <div class="home-about-title"></div>
-            <div class="home-about-content">
-                <div class="left">
-                    <p>Lorem Ipsum est un texte d'espace réservé couramment utilisé dans les industries graphique, imprimée<p>
-
-                    <a class="btn btn-primary" href="">See</a>
-                </div>
-
-                <div class="right">
-                    <img class="img-fluid" src="" alt="">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="home-nbrArticles">
-        <div class="container"></div>
     </section>
 {% endblock %}

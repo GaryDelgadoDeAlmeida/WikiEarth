@@ -8,13 +8,15 @@
 
 {# Header #}
 {% block header %}
-<nav class="navbar navbar-dark bg-dark">
+<nav class="navbar navbar-dark bg-night">
     <a class="navbar-brand" href="{{ path('home') }}">
         <img style="border-radius: 25px;" src="https://p7.hiclipart.com/preview/334/416/887/earth-global-warming-climate-change-environment-earth-png.jpg" width="30" height="30" class="d-inline-block align-top" alt="logo_wikiearth">
         <span>Wiki<em class="c-cyanBlue">Earth</em></span>
     </a>
+    
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
+        {# <span class="navbar-toggler-icon"></span> #}
+        <i class="fas fa-bars"></i>
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
@@ -28,7 +30,6 @@
                     <a class="dropdown-item" href="{{ path("articleLivingThing", {"name": "bacteria"}) }}">Bacteria</a>
                 </div>
             </li>
-            {# <li class="nav-item"><a class="nav-link" href="#"><span>Metal</span></a></li> #}
             <li class="nav-item"><a class="nav-link" href="{{ path('about') }}"><span>About</span></a></li>
             {% if not is_granted('IS_AUTHENTICATED_FULLY') %}
                 <li class="nav-item"><a class="nav-link" href="{{ path('login') }}"><span>Login</span></a></li>
@@ -41,11 +42,10 @@
 
 {# Footer #}
 {% block footer %}
-<footer>
+<footer class="bg-night">
     <div class="container">
         <div class="left">
             <span>Copyright &copy; {{ "now"|date("Y") }} &minus; <a href="{{ path('home') }}"><span class="c-white">Wiki<em class="c-cyanBlue">Earth</em></span></a></span>
-            <span>Tous droits réservés</span>
         </div>
         <div class="right">
             <span>Realised by <a class="c-cyanBlue" href="http://gary-delgado-de-almeida.000webhostapp.com" target="__blank">Garry Almeida</a></span>

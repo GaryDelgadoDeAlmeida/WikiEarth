@@ -2,23 +2,131 @@
                     Home
 \* ---------------------------------------- */
 .home {
-    background: url("../../../content/img/background/nature.jpg") center top no-repeat;
+    background: url("../../../content/img/background/background-earth.jpg") center center no-repeat;
+    background-size: cover;
     height: 500px !important;
     width: 100% !important;
 }
 
+.home .home-content {
+    padding-top: 10rem;
+    text-align: center;
+}
+
+.home .home-content h2,
+.home .home-content form {
+    padding: 0.5rem;
+}
+
+.home .home-content h2 {
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+.home .home-content form input {
+    background-color: #ffffff;
+    height: 35px;
+    width: 260px;
+    border-radius: 50px;
+    padding: 0 1.2rem;
+    border: none;
+}
+
+.home .home-content form input::placeholder {
+    color: #AAAAAA;
+}
+
+.home .home-content form button {
+    background-color: transparent;
+    color: #ffffff;
+    border: none;
+    overflow: hidden;
+}
+
+.home .home-content form button i {
+    font-size: 22px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+
 /* ---------------------------------------- *\
-                    About
+                Home-Article
 \* ---------------------------------------- */
+.home-article {
+    display: grid;
+    height: 100%;
+    place-items: center;
+    text-align: center;
+    background: #f2f2f2;
+    padding: 50px 50px;
+}
+.slider {
+    max-width: 900px;
+    overflow: hidden;
+    display: flex;
+}
+
+.slider .card {
+    background: #ffffff;
+    flex: 1;
+    margin: 0 10px;
+}
+
+.slider .card .img {
+    height: 200px;
+    width: 100%;
+}
+
+.slider .card .img img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.slider .card .content {
+    padding: 10px 20px;
+}
+
+.card .content .title {
+    font-size: 25px;
+    font-weight: 600;
+}
+
+.card .content p {
+    text-align: justify center;
+    margin: 10px 0;
+}
+
+.card .content .btn {
+    width: 150px;
+    margin: 10px 0;
+    border-radius: 15px;
+    border: 2px solid #868686;
+    outline: none;
+    transition: .5s;
+}
+
+.card .content .btn:hover {
+    background-color: #868686;
+    transition: .5s;
+}
+
+.card .content .btn:hover a {
+    color: #ffffff;
+}
 
 
 /* ---------------------------------------- *\
                     Footer
 \* ---------------------------------------- */
 footer {
-    background-color: #343a40 !important;
     height: 50px;
     color: #ffffff;
+}
+
+footer .container {
+    padding: 1rem 0;
 }
 
 .left {
