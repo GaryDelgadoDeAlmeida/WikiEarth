@@ -7,7 +7,7 @@
                 {% for oneLivingThing in livingThing %}
                     <li class="media">
                         <div class="media-header">
-                            <img height="128" width="156" class="img-fuild" src="{{ asset(oneLivingThing.idLivingThing.imgPath) }}" alt="{{ oneLivingThing.title }}">
+                            <img class="img-fuild" src="{{ asset(oneLivingThing.idLivingThing.imgPath) }}" alt="{{ oneLivingThing.title }}">
                         </div>
                         <div class="media-body">
                             <h5 class="media-body-title">{{ oneLivingThing.title }}</h5>
@@ -21,6 +21,25 @@
             {% endif %}
 
             {# Pagination #}
+            {% if offset > 1 and offset <= nbrOffset %}
+                <div class="pagination">
+                    <div class="pagination-links">
+                        <a href="{{ path('articleLivingThing', {'name': name, 'offset': 1}) }}"><i class="fas fa-angle-double-left"></i></a>
+                    
+                        {% if offset - 1 >= 1 %}
+                            <a class="" href="{{ path('articleLivingThing', {'name': name, 'offset': offset - 1}) }}">{{ offset - 1 }}</a>
+                        {% endif %}
+
+                        <a class="active" href="{{ path('articleLivingThing', {'name': name, 'offset': offset}) }}"><span>{{ offset }}</span></a>
+                        
+                        {% if offset + 1 <= nbrOffset %}
+                            <a class="" href="{{ path('articleLivingThing', {'name': name, 'offset': offset + 1}) }}">{{ offset + 1 }}</a>
+                        {% endif %}
+                        
+                        <a href="{{ path('articleLivingThing', {'name': name, 'offset': nbrOffset}) }}"><i class="fas fa-angle-double-right"></i></a>
+                    </div>
+                </div>
+            {% endif %}
         </div>
     </section>
 {% endblock %}

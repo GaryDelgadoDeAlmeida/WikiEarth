@@ -52,12 +52,14 @@ class AnonymousController extends AbstractController
             $kingdom = 'Bacteria';
         }
 
-        $livingThing = $this->getDoctrine()->getRepository(ArticleLivingThing::class)->getArticleLivingThingsByLivingThingKingdom($kingdom);
+        $livingThing = $this->getDoctrine()->getRepository(ArticleLivingThing::class)->getArticleLivingThingsByLivingThingKingdom($kingdom, $offset, $limit);
+        $totalOffset = ceil( $this->getDoctrine()->getRepository(ArticleLivingThing::class)->countArticleLivingThingsOffsetByKingdom($kingdom, $limit)['nbrOffset']);
 
         return $this->render('anonymous/article/living-thing/listLivingThing.html.twig', [
             "livingThing" => $livingThing,
             "name" => $name,
-            "offset" => $offset
+            "offset" => $offset,
+            "nbrOffset" => $totalOffset
         ]);
     }
 

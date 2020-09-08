@@ -1,0 +1,23 @@
+/* ---------------------------------------- *\
+                    Footer
+\* ---------------------------------------- */
+footer {
+    height: 50px;
+    color: #ffffff;
+}
+
+footer .container {
+    padding: 1rem 0;
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}
+
+.right .c-cyanBlue:hover {
+    color: rgb(0, 183, 235);
+}

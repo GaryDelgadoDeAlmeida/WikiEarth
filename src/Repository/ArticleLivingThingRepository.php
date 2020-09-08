@@ -48,15 +48,34 @@ class ArticleLivingThingRepository extends ServiceEntityRepository
     }
 
     /**
+     * @param offset Parameter offset is the page
+     * @param limit Parameter limit is the number of element per page
+     * @return ArticleLivingThings
+     */
+    public function countArticleLivingThingsOffsetByKingdom($kingdom, $limit)
+    {
+        return $this->createQueryBuilder('a')
+            ->select('COUNT(a.id) / :limit as nbrOffset')
+            ->innerJoin('App\Entity\LivingThing', 'l', Join::WITH, 'l.id = a.idLivingThing')
+            ->where('l.kingdom = :kingdom')
+            ->setParameter('limit', $limit)
+            ->setParameter('kingdom', $kingdom)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    /**
      * @param kingdom
      * @return ArticleLivingThings[]
      */
-    public function getArticleLivingThingsByLivingThingKingdom($kingdom)
+    public function getArticleLivingThingsByLivingThingKingdom($kingdom, $offset, $limit)
     {
         return $this->createQueryBuilder('a')
             ->innerJoin('App\Entity\LivingThing', 'l', Join::WITH, 'l.id = a.idLivingThing')
             ->where('l.kingdom = :kingdom')
             ->setParameter('kingdom', $kingdom)
+            ->setFirstResult(($offset - 1) * $limit)
+            ->setMaxResults($limit)
             ->getQuery()
             ->getResult();
     }
