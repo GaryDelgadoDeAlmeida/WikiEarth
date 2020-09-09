@@ -7,7 +7,7 @@
 
 {# Header #}
 {% block header %}
-<nav class="navbar navbar-dark bg-dark">
+<nav class="navbar navbar-dark bg-night">
     <a class="navbar-brand" href="{{ path('home') }}">
         <img style="border-radius: 25px;" src="https://p7.hiclipart.com/preview/334/416/887/earth-global-warming-climate-change-environment-earth-png.jpg" width="30" height="30" class="d-inline-block align-top" alt="logo_wikiearth">
         <span>Wiki<em class="c-cyanBlue">Earth</em></span>
@@ -31,12 +31,44 @@
 {# Footer #}
 {% block footer %}
 <footer class="footer">
-    <div class="center">
-        <span>Copyright &copy; {{ "now"|date("Y") }} &minus; WikiEarth</span>
-        <span>Tous droits réservés</span>
-    </div>
-    <div class="right">
-        <span>Realised by <a href="#">Garry Almeida</a></span>
+    {# <div class="footer-menu bg-midnight">
+        <nav>
+            <h3>Menu</h3>
+            <hr>
+            <ul>
+                <li><a href="{{ path('home') }}">Home</a></li>
+                <li><a href="{{ path('about') }}">About</a></li>
+                <li><a href="{{ path('login') }}">Login</a></li>
+                <li><a href="{{ path('register') }}">Register</a></li>
+            </ul>
+        </nav>
+        <nav>
+            <h3>Living Things</h3>
+            <hr>
+            <ul>
+                <li><a href="{{ path("articleLivingThing", {"name": "animals"}) }}">Animals</a></li>
+                <li><a href="{{ path("articleLivingThing", {"name": "insects"}) }}">Insects</a></li>
+                <li><a href="{{ path("articleLivingThing", {"name": "plants"}) }}">Plants</a></li>
+                <li><a href="{{ path("articleLivingThing", {"name": "bacteria"}) }}">Bacteria</a></li>
+            </ul>
+        </nav>
+        <nav>
+            <h3>Natural Elements</h3>
+            <hr>
+            <ul>
+                <li><a href="">Minerals</a></li>
+                <li><a href="">Metals</a></li>
+            </ul>
+        </nav>
+    </div> #}
+    <div class="copyright bg-night">
+        <div class="left">
+            <span>Copyright &copy; {{ "now"|date("Y") }} &minus; <a href="{{ path('home') }}"><span class="c-white">Wiki<em class="c-cyanBlue">Earth</em></span></a></span>
+        </div>
+        <div class="right">
+            {# <span>Realised by <a class="c-cyanBlue txt-bold" href="http://gary-delgado-de-almeida.000webhostapp.com" target="__blank">Garry Almeida</a></span> #}
+            <span>Realised by <a class="c-cyanBlue txt-bold" href="https://fr.linkedin.com/in/garry-almeida-7538b3175" target="__blank">Garry Almeida</a></span>
+        </div>
     </div>
 </footer>
 {% endblock %}

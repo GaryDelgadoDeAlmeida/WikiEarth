@@ -16,9 +16,9 @@ class UserManager {
 
     public function updateUser(Form $formUser, User $user, EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder, $project_wikiearth_dir)
     {
-        $img = $formUser['imgPath']->getData();
+        $mediaFile = $formUser['imgPath']->getData();
 
-        if(!empty($img)) {
+        if(!empty($mediaFile)) {
             $originalFilename = pathinfo($mediaFile->getClientOriginalName(), PATHINFO_FILENAME);
             // this is needed to safely include the file name as part of the URL
             $newFilename = $user->getFirstname().'_'.$user->getLastname() . '.' . $mediaFile->guessExtension();

@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class AnonymousController extends AbstractController
 {
@@ -128,6 +129,20 @@ class AnonymousController extends AbstractController
         return $this->render('anonymous/user/login.html.twig', [
             "userLoginForm" => $formUserLogin->createView()
         ]);
+    }
+
+    /**
+     * @Route("/login/check", name="checkUser")
+     */
+    public function checkUser(TokenStorageInterface $tokenStorage)
+    {
+        if($tokenStorage->getToken()->getUser()->getRoles()[0] == "ROLE_ADMIN") {
+            return $this->redirectToRoute("adminHome");
+        } elseif($tokenStorage->getToken()->getUser()->getRoles()[0] == "ROLE_USER") {
+            return $this->redirectToRoute("userHome");
+        }
+
+        return $this->redirectToRoute("home");
     }
 
     /**

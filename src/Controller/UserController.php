@@ -58,8 +58,11 @@ class UserController extends AbstractController
     /**
      * @Route("/user/living-thing", name="userLivingThing")
      */
-    public function user_living_thing()
+    public function user_living_thing(Request $request)
     {
+        $limit = 10;
+        $offset = !empty($request->get('offset')) && preg_match('/^[0-9]*$/', $request->get('offset')) ? $request->get('offset') : 1;
+
         return $this->render('user/living_thing/index.html.twig', [
             "livingThings" => []
         ]);
@@ -149,7 +152,7 @@ class UserController extends AbstractController
     /**
      * @Route("/user/article", name="userArticle")
      */
-    public function user_article()
+    public function user_article(Request $request)
     {
         $limit = 10;
         $offset = !empty($request->get('offset')) && preg_match('/^[0-9]*$/', $request->get('offset')) ? $request->get('offset') : 1;

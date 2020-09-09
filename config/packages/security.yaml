@@ -22,7 +22,7 @@ security:
                 username_parameter: "user_login[login]"
                 password_parameter: "user_login[password]"
                 csrf_parameter: "user_login[_token]"
-                # default_target_path: userHome
+                default_target_path: checkUser
             logout:
                 path: logout
 

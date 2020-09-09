@@ -1,0 +1,15 @@
+/* ---------------------------------------- *\
+                    Home
+\* ---------------------------------------- */
+.home {
+    background-color: #f2f2f2;
+}
+
+.home-content {
+    padding: 3rem;
+}
+
+.home .home-content .card-header .card-title {
+    text-transform: uppercase;
+    font-weight: 600;
+}

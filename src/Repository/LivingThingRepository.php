@@ -3,8 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\LivingThing;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method LivingThing|null find($id, $lockMode = null, $lockVersion = null)
@@ -21,7 +22,7 @@ class LivingThingRepository extends ServiceEntityRepository
 
     public function getLivingThings($offset, $limit)
     {
-        return $this->createQueryBuilder('a')
+        return $this->createQueryBuilder('l')
             ->setFirstResult(($offset - 1) * $limit)
             ->setMaxResults($limit)
             ->getQuery()
@@ -30,39 +31,10 @@ class LivingThingRepository extends ServiceEntityRepository
 
     public function getLivingThingById($id)
     {
-        return $this->createQueryBuilder('a')
-            ->where('a.id = :id')
+        return $this->createQueryBuilder('l')
+            ->where('l.id = :id')
             ->setParameter('id', $id)
             ->getQuery()
             ->getOneOrNullResult();
     }
-
-    // /**
-    //  * @return LivingThing[] Returns an array of LivingThing objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('a.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?LivingThing
-    {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

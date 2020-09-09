@@ -5,7 +5,7 @@
         {{ form_start(userForm, {'method': 'POST'}) }}
             <div class="row">
                 <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated text-center">
-                    <img class="img-fluid rounded" width="175" height="200">
+                    <img class="img-fluid rounded" width="175" height="200" src="{{ asset(userImg) }}">
                 </div>
                 <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
                     {{ form_row(userForm.imgPath) }}
