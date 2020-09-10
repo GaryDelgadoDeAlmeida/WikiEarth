@@ -82,6 +82,16 @@ class ArticleLivingThing
      */
     private $createdAt;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Country::class, mappedBy="articleLivingThing")
+     */
+    private $countries;
+
+    public function __construct()
+    {
+        $this->countries = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -215,6 +225,34 @@ class ArticleLivingThing
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Country[]
+     */
+    public function getCountries(): Collection
+    {
+        return $this->countries;
+    }
+
+    public function addCountry(Country $country): self
+    {
+        if (!$this->countries->contains($country)) {
+            $this->countries[] = $country;
+            $country->addArticleLivingThing($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCountry(Country $country): self
+    {
+        if ($this->countries->contains($country)) {
+            $this->countries->removeElement($country);
+            $country->removeArticleLivingThing($this);
+        }
 
         return $this;
     }
