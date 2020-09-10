@@ -75,4 +75,20 @@
             </div>
         </div>
     </section>
+
+    {% if countrys != [] %}
+        <section class="home-countrys">
+            <div class="countrys">
+                {% for oneCountry in countrys %}
+                    <ul class="countrys-content">
+                        {% for country in oneCountry %}
+                            <li class="fromLeft">
+                                <a href="{{ path('countryArticle', {'country': country.treatedCountryName|lower}) }}">{{ country.name }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endfor %}
+            </div>
+        </section>
+    {% endif %}
 {% endblock %}

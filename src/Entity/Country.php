@@ -25,6 +25,11 @@ class Country
     private $name;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $treatedCountryName;
+
+    /**
      * @ORM\Column(type="string", length=20, nullable=true)
      */
     private $alpha2Code;
@@ -72,6 +77,18 @@ class Country
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getTreatedCountryName(): ?string
+    {
+        return $this->treatedCountryName;
+    }
+
+    public function setTreatedCountryName(string $treatedCountryName): self
+    {
+        $this->treatedCountryName = $treatedCountryName;
 
         return $this;
     }

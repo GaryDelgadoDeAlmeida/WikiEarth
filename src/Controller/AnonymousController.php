@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\Country;
 use App\Form\UserLoginType;
 use App\Form\UserRegisterType;
 use App\Entity\ArticleLivingThing;
@@ -20,7 +21,13 @@ class AnonymousController extends AbstractController
      */
     public function home()
     {
-        return $this->render('anonymous/home/index.html.twig');
+        $countrys = $this->getDoctrine()->getRepository(Country::class)->findAll();
+        $nbrCountryPerColown = ceil(count($countrys) / 4);
+
+        return $this->render('anonymous/home/index.html.twig', [
+            "countrys" => array_chunk($countrys, $nbrCountryPerColown, true),
+            "nbrCountryPerColown" => $nbrCountryPerColown
+        ]);
     }
 
     /**
@@ -30,8 +37,14 @@ class AnonymousController extends AbstractController
     {
         $limit = 10;
         $offset = !empty($request->get('offset')) && preg_match('/^[0-9]*$/', $request->get('offset')) ? $request->get('offset') : 1;
+        $oneCountry = $this->getDoctrine()->getRepository(Country::class)->getCountryByName($country);
 
-        return $this->render('anonymous/home/index.html.twig');
+        return $this->render('anonymous/article/living-thing/countryLivingThing.html.twig', [
+            "country" => $country,
+            "articles" => $oneCountry->getArticleLivingThing()->getValues(),
+            "offset" => $offset,
+            "nbrOffset" => $offset
+        ]);
     }
 
     /**
