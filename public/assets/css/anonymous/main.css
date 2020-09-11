@@ -8,7 +8,9 @@
                 Living Thing
 \* ---------------------------------------- */
 @import './desktop/_livingThing.css';
+@import './desktop/_single_livingThing.css';
 @import './mobile/_livingThing.css';
+@import './mobile/_single_livingThing.css';
 
 /* ---------------------------------------- *\
                 Login & Register

@@ -1,0 +1,54 @@
+/* ---------------------------------------- *\
+            Single Living Thing
+\* ---------------------------------------- */
+.articleLivingThing {
+    background-color: #F7F8FA;
+}
+
+.articleLivingThing .articleLivingThing-single {
+    display: grid;
+    grid-template-columns: 12.5% 72.5% 15%;
+    height: auto;
+}
+
+.articleLivingThing-single-left,
+.articleLivingThing-single-right {
+    width: 100%;
+    height: 100%;
+    background-color: #f0f0f0;
+}
+
+.articleLivingThing-single-left .logo {
+    background-color: #F7F8FA;
+    width: 100%;
+}
+
+.articleLivingThing-single-left .logo img {
+    object-fit: cover;
+}
+
+.articleLivingThing-single-left .subLink {
+    padding: 1.5rem 0;
+}
+
+.articleLivingThing-single-left .subLink ul {
+    list-style: none;
+    text-align: left;
+    padding: 0 1rem;
+    margin: 0;
+}
+
+.articleLivingThing-single-left .subLink ul li.title {
+    color: #AAAAAA;
+    text-align: center;
+    font-weight: normal;
+    text-transform: uppercase;
+    font-size: 1.2rem;
+}
+
+.articleLivingThing-single-left .subLink ul li {
+    padding: .75rem 1rem;
+    font-weight: 600;
+    border-bottom: solid #AAAAAA;
+    font-size: .9rem;
+}

@@ -2,23 +2,31 @@
 
 {% block body %}
     <section class="articleLivingThing">
-        <div class="container">
+        {# <div class="container"> #}
             <div class="articleLivingThing-single">
 
                 {# Left Content #}
-                <div class="left">
+                <div class="articleLivingThing-single-left">
                     <div class="logo">
                         <img class="img-fluid" src="{{ asset('content/img/logo/world.png') }}" alt="WikiEarth">
                     </div>
-                    <nav class="nav">
-                        <ul class="nav-items">
-                            <li class="nav-link"></li>
+                    <div class="subLink">
+                        <ul>
+                            <li class="title">Contents</li>
+                            <li><a href="#geography">Geography</a></li>
+                            <li><a href="#ecology">Ecology</a></li>
+                            <li><a href="#behaviour">Behaviour</a></li>
+                            <li><a href="#wayOfLife">Way of life</a></li>
+                            <li><a href="#description">Description</a></li>
+                            <li><a href="#otherData">Other Data</a></li>
+                            <li><a href="#photo">Photos</a></li>
+                            <li><a href="#references">References</a></li>
                         </ul>
-                    </nav>
+                    </div>
                 </div>
 
                 {# Center Content #}
-                <div class="center">
+                <div class="articleLivingThing-single-center">
                     <div class="post">
                         <div class="post-title">
                             <h1>{{ livingThing.title }}</h1>
@@ -174,40 +182,40 @@
                 </div>
 
                 {# Right Content #}
-                <div class="right">
+                <div class="articleLivingThing-single-right">
                     <div class="articleLivingThing-livingThing">
                         <div class="livingThing-img">
                             <img class="img-fluid" src="{{ asset(livingThing.idLivingThing.imgPath) }}" alt="{{ livingThing.idLivingThing.name }}">
                         </div>
 
                         <div class="livingThing-content">
-                            <span>Kingdom : {{ livingThing.idLivingThing.kingdom }}</span>
-                            <span>Sub Kingdom : {{ livingThing.idLivingThing.subKingdom }}</span>
-                            <span>Domain : {{ livingThing.idLivingThing.domain }}</span>
-                            <span>Branch : {{ livingThing.idLivingThing.branch }}</span>
-                            <span>Sub Branch : {{ livingThing.idLivingThing.subBranch }}</span>
-                            <span>Infra Branch : {{ livingThing.idLivingThing.infraBranch }}</span>
-                            <span>Division : {{ livingThing.idLivingThing.division }}</span>
-                            <span>Super Class : {{ livingThing.idLivingThing.superClass }}</span>
-                            <span>Class : {{ livingThing.idLivingThing.class }}</span>
-                            <span>Sub Class : {{ livingThing.idLivingThing.subClass }}</span>
-                            <span>Infra Class : {{ livingThing.idLivingThing.infraClass }}</span>
-                            <span>Super Order : {{ livingThing.idLivingThing.superOrder }}</span>
-                            <span>Order : {{ livingThing.idLivingThing.normalOrder }}</span>
-                            <span>Sub Order : {{ livingThing.idLivingThing.subOrder }}</span>
-                            <span>Infra Order : {{ livingThing.idLivingThing.infraOrder }}</span>
-                            <span>Micro Order : {{ livingThing.idLivingThing.microOrder }}</span>
-                            <span>Super Family : {{ livingThing.idLivingThing.superFamily }}</span>
-                            <span>Family : {{ livingThing.idLivingThing.family }}</span>
-                            <span>Sub Family : {{ livingThing.idLivingThing.subFamily }}</span>
-                            <span>Genus : {{ livingThing.idLivingThing.genus }}</span>
-                            <span>Sub Genus : {{ livingThing.idLivingThing.subGenus }}</span>
-                            <span>Species : {{ livingThing.idLivingThing.species }}</span>
-                            <span>Sub Species : {{ livingThing.idLivingThing.subSpecies }}</span>
+                            <li>Kingdom : {{ livingThing.idLivingThing.kingdom }}</li>
+                            <li>Sub Kingdom : {{ livingThing.idLivingThing.subKingdom }}</li>
+                            <li>Domain : {{ livingThing.idLivingThing.domain }}</li>
+                            <li>Branch : {{ livingThing.idLivingThing.branch }}</li>
+                            <li>Sub Branch : {{ livingThing.idLivingThing.subBranch }}</li>
+                            <li>Infra Branch : {{ livingThing.idLivingThing.infraBranch }}</li>
+                            <li>Division : {{ livingThing.idLivingThing.division }}</li>
+                            <li>Super Class : {{ livingThing.idLivingThing.superClass }}</li>
+                            <li>Class : {{ livingThing.idLivingThing.class }}</li>
+                            <li>Sub Class : {{ livingThing.idLivingThing.subClass }}</li>
+                            <li>Infra Class : {{ livingThing.idLivingThing.infraClass }}</li>
+                            <li>Super Order : {{ livingThing.idLivingThing.superOrder }}</li>
+                            <li>Order : {{ livingThing.idLivingThing.normalOrder }}</li>
+                            <li>Sub Order : {{ livingThing.idLivingThing.subOrder }}</li>
+                            <li>Infra Order : {{ livingThing.idLivingThing.infraOrder }}</li>
+                            <li>Micro Order : {{ livingThing.idLivingThing.microOrder }}</li>
+                            <li>Super Family : {{ livingThing.idLivingThing.superFamily }}</li>
+                            <li>Family : {{ livingThing.idLivingThing.family }}</li>
+                            <li>Sub Family : {{ livingThing.idLivingThing.subFamily }}</li>
+                            <li>Genus : {{ livingThing.idLivingThing.genus }}</li>
+                            <li>Sub Genus : {{ livingThing.idLivingThing.subGenus }}</li>
+                            <li>Species : {{ livingThing.idLivingThing.species }}</li>
+                            <li>Sub Species : {{ livingThing.idLivingThing.subSpecies }}</li>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        {# </div> #}
     </section>
 {% endblock %}

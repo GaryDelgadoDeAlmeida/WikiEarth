@@ -22,7 +22,7 @@ class CountryRepository extends ServiceEntityRepository
     public function getCountryByName($country_name)
     {
         return $this->createQueryBuilder('c')
-            ->where('c.name = :name')
+            ->where('c.treatedCountryName = :name')
             ->setParameter('name', $country_name)
             ->getQuery()
             ->getOneOrNullResult();
