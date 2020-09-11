@@ -7,7 +7,7 @@
 
 .articleLivingThing .articleLivingThing-single {
     display: grid;
-    grid-template-columns: 12.5% 72.5% 15%;
+    grid-template-columns: 13% 70% 17%;
     height: auto;
 }
 
@@ -18,13 +18,38 @@
     background-color: #f0f0f0;
 }
 
-.articleLivingThing-single-left .logo {
+.articleLivingThing-single-left .wikiearth-header {
+    padding: 1rem 0;
     background-color: #F7F8FA;
+    justify-content: center;
     width: 100%;
 }
 
-.articleLivingThing-single-left .logo img {
+.articleLivingThing-single-left .wikiearth-header-logo {
+    max-width: 125px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.articleLivingThing-single-left .wikiearth-header-logo img {
     object-fit: cover;
+}
+
+.articleLivingThing-single-left .wikiearth-header-content {
+    text-align: center;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.articleLivingThing-single-left .wikiearth-header-content .wikiearth-header-title {
+    font-weight: 600;
+    font-size: 18px;
+}
+
+.articleLivingThing-single-left .wikiearth-header-content .wikiearth-header-text {
+    margin-top: 10px;
+    font-size: 14px;
+    padding: 0 10px 0 10px;
 }
 
 .articleLivingThing-single-left .subLink {
@@ -41,7 +66,6 @@
 .articleLivingThing-single-left .subLink ul li.title {
     color: #AAAAAA;
     text-align: center;
-    font-weight: normal;
     text-transform: uppercase;
     font-size: 1.2rem;
 }
@@ -49,6 +73,54 @@
 .articleLivingThing-single-left .subLink ul li {
     padding: .75rem 1rem;
     font-weight: 600;
-    border-bottom: solid #AAAAAA;
+    border-bottom: 1px solid #AAAAAA;
     font-size: .9rem;
+}
+
+.articleLivingThing .articleLivingThing-single-center {
+    padding: 2rem;
+    text-align: justify;
+}
+
+.articleLivingThing .articleLivingThing-single-center .post .post-title {
+    font-weight: 700;
+}
+
+.post-content-geography,
+.post-content-ecology,
+.post-content-behaviour,
+.post-content-wayOfLife,
+.post-content-description,
+.post-content-otherData {
+    border-bottom: 1px solid #AAAAAA;
+    padding: 1.5rem 0;
+}
+
+.post-content-geography-title,
+.post-content-ecology-title,
+.post-content-behaviour-title,
+.post-content-wayOfLife-title,
+.post-content-description-title,
+.post-content-otherData-title {
+    font-weight: 700;
+}
+
+.geography-content .title,
+.ecology-content .title,
+.behaviour-content .title,
+.wayOfLife-content .title,
+.description-content .title,
+.otherData-content .title {
+    padding: 1rem 0;
+    font-weight: 600;
+    font-size: 21px;
+}
+
+.articleLivingThing-livingThing .livingThing-content {
+    list-style: none;
+    padding: 0 1rem;
+}
+
+.articleLivingThing-livingThing .livingThing-content li {
+    padding: .2rem 0;
 }

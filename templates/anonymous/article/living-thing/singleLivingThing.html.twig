@@ -7,8 +7,14 @@
 
                 {# Left Content #}
                 <div class="articleLivingThing-single-left">
-                    <div class="logo">
-                        <img class="img-fluid" src="{{ asset('content/img/logo/world.png') }}" alt="WikiEarth">
+                    <div class="wikiearth-header">
+                        <div class="wikiearth-header-logo">
+                            <img class="img-fluid" src="{{ asset('content/img/logo/world.png') }}" alt="WikiEarth">
+                        </div>
+                        <div class="wikiearth-header-content">
+                            <span class="wikiearth-header-title">WikiEarth</span>
+                            <p class="wikiearth-header-text">The encyclopedia on the Earth</p>
+                        </div>
                     </div>
                     <div class="subLink">
                         <ul>
@@ -28,46 +34,40 @@
                 {# Center Content #}
                 <div class="articleLivingThing-single-center">
                     <div class="post">
-                        <div class="post-title">
-                            <h1>{{ livingThing.title }}</h1>
-                        </div>
+                        <h1 class="post-title">{{ livingThing.title }}</h1>
 
                         <div class="post-content">
-                            <div class="post-content-geography">
-                                <div class="post-content-geography-title">
-                                    <h3>Geography</h3>
-                                </div>
+                            <div class="post-content-geography" id="geography">
+                                <h3 class="post-content-geography-title">Geography</h3>
 
                                 {# Geography #}
                                 <div class="post-content-geography-content">
-                                    {% for oneGeography in livingThing.geography %}
-                                        <div class="">
-                                            <div class="title">
-                                                <h4>{{ oneGeography.sub_title }}</h4>
+                                    {% if livingThing.geography != null %}
+                                        {% for oneGeography in livingThing.geography %}
+                                            <div class="geography-content">
+                                                <div class="title">
+                                                    <span>{{ oneGeography.sub_title }}</span>
+                                                </div>
+                                                <div class="content">
+                                                    <p>{{ oneGeography.sub_content }}</p>
+                                                </div>
                                             </div>
-
-                                            <div class="content">
-                                                <p>{{ oneGeography.sub_content }}</p>
-                                            </div>
-                                        </div>
-                                    {% endfor %}
+                                        {% endfor %}
+                                    {% endif %}
                                 </div>
                             </div>
 
                             {# Ecology #}
-                            <div class="post-content-ecology">
-                                <div class="post-content-ecology-title">
-                                    <h3>Ecology</h3>
-                                </div>
+                            <div class="post-content-ecology" id="ecology">
+                                <h3 class="post-content-ecology-title">Ecology</h3>
 
                                 <div class="post-content-ecology-content">
                                     {% if livingThing.ecology != null %}
                                         {% for oneEcology in livingThing.ecology %}
-                                            <div class="">
+                                            <div class="ecology-content">
                                                 <div class="title">
-                                                    <h4>{{ oneEcology.sub_title }}</h4>
+                                                    <span>{{ oneEcology.sub_title }}</span>
                                                 </div>
-
                                                 <div class="content">
                                                     <p>{{ oneEcology.sub_content }}</p>
                                                 </div>
@@ -78,19 +78,16 @@
                             </div>
 
                             {# Behaviour #}
-                            <div class="post-content-behaviour">
-                                <div class="post-content-behaviour-title">
-                                    <h3>Behaviour</h3>
-                                </div>
+                            <div class="post-content-behaviour" id="behaviour">
+                                <h3 class="post-content-behaviour-title">Behaviour</h3>
 
                                 <div class="post-content-behaviour-content">
                                     {% if livingThing.behaviour != null %}
                                         {% for oneBehaviour in livingThing.behaviour %}
-                                            <div class="">
+                                            <div class="behaviour-content">
                                                 <div class="title">
-                                                    <h4>{{ oneBehaviour.sub_title }}</h4>
+                                                    <span>{{ oneBehaviour.sub_title }}</span>
                                                 </div>
-
                                                 <div class="content">
                                                     <p>{{ oneBehaviour.sub_content }}</p>
                                                 </div>
@@ -101,19 +98,16 @@
                             </div>
 
                             {# Way of Life #}
-                            <div class="post-content-wayOfLife">
-                                <div class="post-content-wayOfLife-title">
-                                    <h3>Way of Life</h3>
-                                </div>
+                            <div class="post-content-wayOfLife" id="wayOfLife">
+                                <h3 class="post-content-wayOfLife-title">Way of Life</h3>
 
                                 <div class="post-content-wayOfLife-content">
                                     {% if livingThing.wayOfLife != null %}
                                         {% for oneWayOfLife in livingThing.wayOfLife %}
-                                            <div class="">
+                                            <div class="wayOfLife-content">
                                                 <div class="title">
-                                                    <h4>{{ oneWayOfLife.sub_title }}</h4>
+                                                    <span>{{ oneWayOfLife.sub_title }}</span>
                                                 </div>
-
                                                 <div class="content">
                                                     <p>{{ oneWayOfLife.sub_content }}</p>
                                                 </div>
@@ -124,19 +118,16 @@
                             </div>
 
                             {# Description #}
-                            <div class="post-content-description">
-                                <div class="post-content-description-title">
-                                    <h3>Description</h3>
-                                </div>
+                            <div class="post-content-description" id="description">
+                                <h3 class="post-content-description-title">Description</h3>
 
                                 <div class="post-content-description-content">
                                     {% if livingThing.description != null %}
                                         {% for oneDescription in livingThing.description %}
-                                            <div class="">
+                                            <div class="description-content">
                                                 <div class="title">
-                                                    <h4>{{ oneDescription.sub_title }}</h4>
+                                                    <span>{{ oneDescription.sub_title }}</span>
                                                 </div>
-
                                                 <div class="content">
                                                     <p>{{ oneDescription.sub_content }}</p>
                                                 </div>
@@ -147,19 +138,16 @@
                             </div>
 
                             {# Other Information #}
-                            <div class="post-content-otherData">
-                                <div class="post-content-otherData-title">
-                                    <h3>Other Data</h3>
-                                </div>
+                            <div class="post-content-otherData" id="otherData">
+                                <h3 class="post-content-otherData-title">Other Data</h3>
 
                                 <div class="post-content-otherData-content">
                                     {% if livingThing.otherData != null %}
                                         {% for oneOtherData in livingThing.otherData %}
-                                            <div class="">
+                                            <div class="otherData-content">
                                                 <div class="title">
-                                                    <h4>{{ oneOtherData.sub_title }}</h4>
+                                                    <span>{{ oneOtherData.sub_title }}</span>
                                                 </div>
-
                                                 <div class="content">
                                                     <p>{{ oneOtherData.sub_content }}</p>
                                                 </div>
@@ -170,7 +158,7 @@
                             </div>
 
                             {# Media Gallery Photo
-                            <div class="post-content-mediaGallery">
+                            <div class="post-content-mediaGallery" id="references">
                                 <div class="post-content-mediaGallery-title">
                                     <h3>Media Gallery Photo</h3>
                                 </div>
@@ -189,29 +177,97 @@
                         </div>
 
                         <div class="livingThing-content">
-                            <li>Kingdom : {{ livingThing.idLivingThing.kingdom }}</li>
-                            <li>Sub Kingdom : {{ livingThing.idLivingThing.subKingdom }}</li>
-                            <li>Domain : {{ livingThing.idLivingThing.domain }}</li>
-                            <li>Branch : {{ livingThing.idLivingThing.branch }}</li>
-                            <li>Sub Branch : {{ livingThing.idLivingThing.subBranch }}</li>
-                            <li>Infra Branch : {{ livingThing.idLivingThing.infraBranch }}</li>
-                            <li>Division : {{ livingThing.idLivingThing.division }}</li>
-                            <li>Super Class : {{ livingThing.idLivingThing.superClass }}</li>
-                            <li>Class : {{ livingThing.idLivingThing.class }}</li>
-                            <li>Sub Class : {{ livingThing.idLivingThing.subClass }}</li>
-                            <li>Infra Class : {{ livingThing.idLivingThing.infraClass }}</li>
-                            <li>Super Order : {{ livingThing.idLivingThing.superOrder }}</li>
-                            <li>Order : {{ livingThing.idLivingThing.normalOrder }}</li>
-                            <li>Sub Order : {{ livingThing.idLivingThing.subOrder }}</li>
-                            <li>Infra Order : {{ livingThing.idLivingThing.infraOrder }}</li>
-                            <li>Micro Order : {{ livingThing.idLivingThing.microOrder }}</li>
-                            <li>Super Family : {{ livingThing.idLivingThing.superFamily }}</li>
-                            <li>Family : {{ livingThing.idLivingThing.family }}</li>
-                            <li>Sub Family : {{ livingThing.idLivingThing.subFamily }}</li>
-                            <li>Genus : {{ livingThing.idLivingThing.genus }}</li>
-                            <li>Sub Genus : {{ livingThing.idLivingThing.subGenus }}</li>
-                            <li>Species : {{ livingThing.idLivingThing.species }}</li>
-                            <li>Sub Species : {{ livingThing.idLivingThing.subSpecies }}</li>
+                            {% if livingThing.idLivingThing.kingdom != null %}
+                                <li>Kingdom : {{ livingThing.idLivingThing.kingdom }}</li>
+                            {% endif %}
+
+                            {% if livingThing.idLivingThing.subKingdom != null %}
+                                <li>Sub Kingdom : {{ livingThing.idLivingThing.subKingdom }}</li>
+                            {% endif %}
+                            
+                            {% if livingThing.idLivingThing.domain != null %}
+                                <li>Domain : {{ livingThing.idLivingThing.domain }}</li>
+                            {% endif %}
+
+                            {% if livingThing.idLivingThing.branch != null %}
+                                <li>Branch : {{ livingThing.idLivingThing.branch }}</li>
+                            {% endif %}
+                            
+                            {% if livingThing.idLivingThing.subBranch != null %}
+                                <li>Sub Branch : {{ livingThing.idLivingThing.subBranch }}</li>
+                            {% endif %}
+
+                            {% if livingThing.idLivingThing.infraBranch != null %}
+                                <li>Infra Branch : {{ livingThing.idLivingThing.infraBranch }}</li>
+                            {% endif %}
+                                
+                            {% if livingThing.idLivingThing.division != null %}
+                                <li>Division : {{ livingThing.idLivingThing.division }}</li>
+                            {% endif %}
+
+                            {% if livingThing.idLivingThing.superClass != null %}
+                                <li>Super Class : {{ livingThing.idLivingThing.superClass }}</li>
+                            {% endif %}
+
+                            {% if livingThing.idLivingThing.class != null %}
+                                <li>Class : {{ livingThing.idLivingThing.class }}</li>
+                            {% endif %}
+
+                            {% if livingThing.idLivingThing.subClass != null %}
+                                <li>Sub Class : {{ livingThing.idLivingThing.subClass }}</li>
+                            {% endif %}
+
+                            {% if livingThing.idLivingThing.infraClass != null %}
+                                <li>Infra Class : {{ livingThing.idLivingThing.infraClass }}</li>
+                            {% endif %}
+
+                            {% if livingThing.idLivingThing.superOrder != null %}
+                                <li>Super Order : {{ livingThing.idLivingThing.superOrder }}</li>
+                            {% endif %}
+
+                            {% if livingThing.idLivingThing.normalOrder != null %}
+                                <li>Order : {{ livingThing.idLivingThing.normalOrder }}</li>
+                            {% endif %}
+
+                            {% if livingThing.idLivingThing.subOrder != null %}
+                                <li>Sub Order : {{ livingThing.idLivingThing.subOrder }}</li>
+                            {% endif %}
+                            
+                            {% if livingThing.idLivingThing.infraOrder != null %}
+                                <li>Infra Order : {{ livingThing.idLivingThing.infraOrder }}</li>
+                            {% endif %}
+
+                            {% if livingThing.idLivingThing.microOrder != null %}
+                                <li>Micro Order : {{ livingThing.idLivingThing.microOrder }}</li>
+                            {% endif %}
+
+                            {% if livingThing.idLivingThing.superFamily != null %}
+                                <li>Super Family : {{ livingThing.idLivingThing.superFamily }}</li>
+                            {% endif %}
+
+                            {% if livingThing.idLivingThing.family != null %}
+                                <li>Family : {{ livingThing.idLivingThing.family }}</li>
+                            {% endif %}
+
+                            {% if livingThing.idLivingThing.subFamily != null %}
+                                <li>Sub Family : {{ livingThing.idLivingThing.subFamily }}</li>
+                            {% endif %}
+
+                            {% if livingThing.idLivingThing.genus != null %}
+                                <li>Genus : {{ livingThing.idLivingThing.genus }}</li>
+                            {% endif %}
+
+                            {% if livingThing.idLivingThing.subGenus != null %}
+                                <li>Sub Genus : {{ livingThing.idLivingThing.subGenus }}</li>
+                            {% endif %}
+
+                            {% if livingThing.idLivingThing.species != null %}
+                                <li>Species : {{ livingThing.idLivingThing.species }}</li>
+                            {% endif %}
+
+                            {% if livingThing.idLivingThing.subSpecies != null %}
+                                <li>Sub Species : {{ livingThing.idLivingThing.subSpecies }}</li>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
