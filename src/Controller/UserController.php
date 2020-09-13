@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Form\UserType;
 use App\Entity\LivingThing;
+use App\Manager\UserManager;
 use App\Form\LivingThingType;
 use Manager\LivingThingManager;
 use App\Entity\ArticleLivingThing;
@@ -21,12 +22,14 @@ class UserController extends AbstractController
     private $current_logged_user;
     private $livingThingManager;
     private $articleLivingThingManager;
+    private $userManager;
 
     public function __construct(TokenStorageInterface $tokenStorage)
     {
         $this->current_logged_user = $tokenStorage->getToken()->getUser();
         $this->livingThingManager = new LivingThingManager();
         $this->articleLivingThingManager = new ArticleLivingThingManager();
+        $this->userManager = new UserManager();
     }
 
     /**
@@ -42,17 +45,26 @@ class UserController extends AbstractController
      */
     public function user_profil(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder)
     {
-        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $user = $this->current_logged_user;
         $formUser = $this->createForm(UserType::class, $user);
         $formUser->handleRequest($request);
 
         if($formUser->isSubmitted() && $formUser->isValid()) {
-            $user->setPassword($encoder->encodePassword($user, $user->getPassword()));
-            $manager->persist($user);
-            $manager->flush();
+            dd($formUser->get("password")->getData(), $user);
+            $this->userManager->updateUser(
+                $formUser, 
+                $user, 
+                $manager, 
+                $encoder, 
+                $this->getParameter('project_users_dir')
+            );
         }
         
-        return $this->render('user/profile/index.html.twig');
+        return $this->render('user/profile/index.html.twig', [
+            "user" => $this->current_logged_user,
+            "userImg" => $this->current_logged_user->getImgPath() ? $this->current_logged_user->getImgPath() : "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/1024px-User_icon_2.svg.png",
+            "formUser" => $formUser->createView()
+        ]);
     }
 
     /**

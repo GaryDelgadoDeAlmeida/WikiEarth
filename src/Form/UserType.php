@@ -18,14 +18,24 @@ class UserType extends AbstractType
         $builder
             ->add('imgPath', FileType::class, [
                 'label' => 'Image',
-                'required' => false
+                'required' => false,
+                "mapped" => false
             ])
             ->add('firstname', null, ['label' => 'Firstname'])
             ->add('lastname', null, ['label' => 'Lastname'])
             ->add('email', EmailType::class, ['label' => 'Email'])
             ->add('login', null, ['label' => 'Login'])
-            ->add('password', PasswordType::class, ['label' => 'Password'])
-            ->add('submit', SubmitType::class)
+            ->add('password', PasswordType::class, [
+                'label' => 'Password',
+                'required' => false,
+                "mapped" => false
+            ])
+            ->add('submit', SubmitType::class, [
+                "label" => "Update",
+                "attr" => [
+                    "class" => "btnCustomLogin"
+                ]
+            ])
         ;
     }
 

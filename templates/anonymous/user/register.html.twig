@@ -22,6 +22,11 @@
                         {{ form_label(userRegisterForm.password) }}
                         {{ form_widget(userRegisterForm.password) }}
                     </div>
+
+                    <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                        {{ form_widget(userRegisterForm.submit) }}
+                        <a href="{{ path('login') }}" class="btn btnCustomLogin">Login</a>
+                    </div>
                 </div>
             {{ form_end(userRegisterForm, {'method': 'POST'}) }}
         </div>

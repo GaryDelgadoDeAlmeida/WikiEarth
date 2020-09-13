@@ -1,9 +1,20 @@
 {% extends 'user/baseUser.html.twig' %}
 
 {% block body %}
-    <section class="home">
-        <div class="container">
-            <h2>Profil Page / User Section</h2>
+    <section class="profile">
+        <div class="profile-content">
+            <div class="profile-left">
+                <div class="profile-img">
+                    <img class="img-fluid" src="{{ asset(userImg) }}" alt="{{ user.firstname }} {{ user.lastname }}">
+                </div>
+                <div class="profile-user-identity">
+                    <span>{{ user.firstname }}</span>
+                    <span>{{ user.lastname }}</span>
+                </div>
+            </div>
+            <div class="profile-right">
+                {{ form(formUser, {"method": "POST"}) }}
+            </div>
         </div>
     </section>
 {% endblock %}

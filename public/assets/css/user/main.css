@@ -1,11 +1,17 @@
 /* ---------------------------------------- *\
-                Home
+                    Home
 \* ---------------------------------------- */
 @import './desktop/_home.css';
 @import './mobile/_home.css';
 
 /* ---------------------------------------- *\
-                Footer
+                    User
+\* ---------------------------------------- */
+@import './desktop/_profile.css';
+@import './mobile/_profile.css';
+
+/* ---------------------------------------- *\
+                    Footer
 \* ---------------------------------------- */
 @import './desktop/_footer.css';
 @import './mobile/_footer.css';

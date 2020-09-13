@@ -1,0 +1,42 @@
+/* ---------------------------------------- *\
+                    Home
+\* ---------------------------------------- */
+.profile {
+    padding: 2rem;
+}
+
+.profile-content {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    height: auto;
+}
+
+.profile-left {
+    padding: 2rem;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.profile-left .profile-img {
+    max-width: 400px;
+}
+
+.profile-left .profile-img img {
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: top;
+    height: 400px;
+    width: 400px;
+}
+
+.profile-left .profile-user-identity {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+}
+
+.profile-left .profile-user-identity span {
+    display: list-item;
+    list-style: none;
+}

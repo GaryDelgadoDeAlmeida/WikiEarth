@@ -59,7 +59,7 @@ class AdminController extends AbstractController
                 $user, 
                 $manager, 
                 $encoder, 
-                $this->getParameter('project_wikiearth_dir')
+                $this->getParameter('project_users_dir')
             );
         }
 
