@@ -9,16 +9,11 @@
     padding: 3rem;
 }
 
-/* .home .home-content .livingThing-card-header .livingThing-card-title {
-    text-transform: uppercase;
-    font-weight: 600;
-} */
-
 .livingThing-card {
     background-color: #ffffff;
     box-shadow: 3px 3px 3px 3px #aaaaaa;
     padding: 1rem;
-    margin-bottom: 3rem;
+    margin-bottom: 1.25rem;
     height: auto;
 }
 
@@ -32,9 +27,57 @@
     padding: 1rem .5rem;
 }
 
-.livingThing-subcard {
+.livingThing-box {
     background-color: #ffffff;
     box-shadow: 3px 3px 3px 3px #aaaaaa;
     padding: 1rem;
-    height: 100px;
+    height: 150px;
+}
+
+.livingThing-box .livingThing-box-header {
+    padding: 0 .5rem;
+}
+
+.livingThing-box .livingThing-box-body {
+    padding: .8rem .5rem;
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+.notification-card,
+.recent-activity-card,
+.recent-conversation-card {
+    background-color: #ffffff;
+    height: auto;
+    margin: 1.25rem 0;
+}
+
+.recent-activity-card-header,
+.notification-card-header,
+.recent-conversation-card-header {
+    padding: .75rem 1.25rem;
+    border-bottom: 1px solid #afafaf;
+}
+
+.recent-activity-card-body,
+.notification-card-body,
+.recent-conversation-card-body {
+    padding: 1.25rem;
+}
+
+.recent-activity-card-title,
+.notification-card-title,
+.recent-conversation-card-title {
+    font-weight: 600;
+}
+
+.post {
+    height: auto;
+    box-shadow: 3px 3px 3px 3px #aaaaaa;
+    margin: .3rem 0;
+    padding: 0 1rem;
+}
+
+.post .post-title {
+    font-weight: 600;
 }

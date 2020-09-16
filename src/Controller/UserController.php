@@ -38,10 +38,10 @@ class UserController extends AbstractController
     public function user_home()
     {
         return $this->render('user/home/index.html.twig', [
-            "nbrAnimalia" => 0,
-            "nbrPlantae" => 0,
-            "nbrInsecta" => 0,
-            "nbrBacteria" => 0,
+            "nbrAnimalia" => 10,
+            "nbrPlantae" => 100,
+            "nbrInsecta" => 1000,
+            "nbrBacteria" => 10000,
         ]);
     }
 
