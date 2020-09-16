@@ -93,9 +93,13 @@ class AdminController extends AbstractController
         $formUser->handleRequest($request);
 
         if($formUser->isSubmitted() && $formUser->isValid()) {
-            $user->setPassword($encoder->encodePassword($user, $user->getPassword()));
-            $manager->persist($user);
-            $manager->flush();
+            $this->userManager->updateUser(
+                $formUser, 
+                $user, 
+                $manager, 
+                $encoder, 
+                $this->getParameter('project_users_dir')
+            );
 
             $this->redirectToRoute('adminUsersListing');
         }

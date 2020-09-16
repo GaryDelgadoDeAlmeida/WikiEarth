@@ -37,7 +37,12 @@ class UserController extends AbstractController
      */
     public function user_home()
     {
-        return $this->render('user/home/index.html.twig');
+        return $this->render('user/home/index.html.twig', [
+            "nbrAnimalia" => 0,
+            "nbrPlantae" => 0,
+            "nbrInsecta" => 0,
+            "nbrBacteria" => 0,
+        ]);
     }
 
     /**
@@ -50,7 +55,7 @@ class UserController extends AbstractController
         $formUser->handleRequest($request);
 
         if($formUser->isSubmitted() && $formUser->isValid()) {
-            dd($formUser->get("password")->getData(), $user);
+            // dd($formUser->get("password")->getData(), $user);
             $this->userManager->updateUser(
                 $formUser, 
                 $user, 

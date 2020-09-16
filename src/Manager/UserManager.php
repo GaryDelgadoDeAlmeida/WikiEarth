@@ -21,7 +21,6 @@ class UserManager {
     {
         $this->insertUserImg($project_users_dir, $formUser['imgPath']->getData(), $user);
 
-        // if(!empty($user->getPassword())) {
         if(!empty($formUser->get("password")->getData())) {
             $user->setPassword($encoder->encodePassword($user, $formUser->get("password")->getData()));
         }

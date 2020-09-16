@@ -30,6 +30,15 @@ class AnonymousController extends AbstractController
         ]);
     }
 
+    // /**
+    //  * @Route("/test", name="test")
+    //  */
+    // public function test()
+    // {
+    //     $link = "D:/garya/Documents/research/WFOTaxonomicBackbone_v.1.1_20190513/references.txt";
+    //     dd($link, \file_get_contents($link));
+    // }
+
     /**
      * @Route("/{country}/articles", name="countryArticle")
      */
