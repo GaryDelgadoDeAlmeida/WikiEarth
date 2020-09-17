@@ -6,7 +6,7 @@
 }
 
 .home-content {
-    padding: 3rem;
+    padding: 3rem 6rem;
 }
 
 .livingThing-card {
@@ -47,9 +47,9 @@
 .notification-card,
 .recent-activity-card,
 .recent-conversation-card {
-    background-color: #ffffff;
-    height: auto;
     margin: 1.25rem 0;
+    box-shadow: 3px 3px 4px 3px #aaaaaa;
+    background-color: #ffffff;
 }
 
 .recent-activity-card-header,
@@ -72,12 +72,54 @@
 }
 
 .post {
-    height: auto;
-    box-shadow: 3px 3px 3px 3px #aaaaaa;
-    margin: .3rem 0;
+    box-shadow: 3px 4px 5px 1px #aaaaaa;
+    margin: 1.2rem 0;
     padding: 0 1rem;
+    text-align: left;
 }
 
-.post .post-title {
+.post .post-content {
+    padding: .4rem .5rem;
+}
+
+.post .post-avatar {
+    height: 45px;
+    width: 45px;
+}
+
+.post .post-avatar img {
+    object-fit: cover;
+    object-position: top center;
+}
+
+.post .post-content .post-title {
     font-weight: 600;
+}
+
+.post-button {
+    margin-top: 75px;
+    margin-bottom: 10px;
+    justify-content: center;
+    text-align: center;
+}
+
+.btn-custom-blue {
+    max-width: 250px;
+    width: 100%;
+    height: 40px;
+    border-radius: 10px;
+    color: #ffffff;
+    vertical-align: middle;
+    box-shadow: 1px 2px 4px #afafaf;
+    background-color: #2962ff;
+}
+
+.btn-custom-blue:hover {
+    color: #ffffff;
+}
+
+.btn-custom-blue span {
+    text-transform: uppercase;
+    font-size: .9rem;
+    vertical-align: middle;
 }
