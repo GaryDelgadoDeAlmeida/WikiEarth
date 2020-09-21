@@ -1,4 +1,4 @@
-﻿# WikiEarth
+﻿# WikiEarth - Copyright All rights reserved
  
  <b>Ce projet est, pour le moment, en phase de développement.</b>
 
