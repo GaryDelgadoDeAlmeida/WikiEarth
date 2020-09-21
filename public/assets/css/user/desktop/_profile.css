@@ -40,3 +40,7 @@
     display: list-item;
     list-style: none;
 }
+
+form.user div.form-group:last-child {
+    text-align: center;
+}

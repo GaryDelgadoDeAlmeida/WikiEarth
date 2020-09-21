@@ -76,6 +76,7 @@
     margin: 1.2rem 0;
     padding: 0 1rem;
     text-align: left;
+    display: flex;
 }
 
 .post .post-content {
@@ -83,8 +84,10 @@
 }
 
 .post .post-avatar {
-    height: 45px;
-    width: 45px;
+    max-height: 45px;
+    max-width: 45px;
+    display: block;
+    padding: .5rem 0;
 }
 
 .post .post-avatar img {

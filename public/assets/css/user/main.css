@@ -5,10 +5,16 @@
 @import './mobile/_home.css';
 
 /* ---------------------------------------- *\
-                    User
+                    Profile
 \* ---------------------------------------- */
 @import './desktop/_profile.css';
 @import './mobile/_profile.css';
+
+/* ---------------------------------------- *\
+                Living Thing
+\* ---------------------------------------- */
+@import './desktop/_livingThing.css';
+@import './mobile/_livingThing.css';
 
 /* ---------------------------------------- *\
                     Footer

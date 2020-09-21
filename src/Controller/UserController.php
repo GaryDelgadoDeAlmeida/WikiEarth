@@ -79,9 +79,10 @@ class UserController extends AbstractController
     {
         $limit = 10;
         $offset = !empty($request->get('offset')) && preg_match('/^[0-9]*$/', $request->get('offset')) ? $request->get('offset') : 1;
+        $livingThing = $this->getDoctrine()->getRepository(LivingThing::class)->findAll();
 
         return $this->render('user/living_thing/index.html.twig', [
-            "livingThings" => []
+            "livingThings" => $livingThing
         ]);
     }
 
@@ -167,6 +168,17 @@ class UserController extends AbstractController
     }
 
     /**
+     * @Route("/user/living-thing/{id}/delete", name="userDeleteLivingThing")
+     */
+    public function user_delete_living_thing(LivingThing $livingThing, Request $request, EntityManagerInterface $manager)
+    {
+        $manager->remove($livingThing);
+        $manager->flush();
+
+        return $this->redirectToRoute('userLivingThing');
+    }
+
+    /**
      * @Route("/user/article", name="userArticle")
      */
     public function user_article(Request $request)
@@ -230,6 +242,16 @@ class UserController extends AbstractController
 
         return $this->render('user/article/add.html.twig', [
             "formArticle" => $formArticle->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/user/notifications", name="userNotifs")
+     */
+    public function user_notifications()
+    {
+        return $this->render('user/notifications/index.html.twig', [
+            "notifications" => []
         ]);
     }
 
