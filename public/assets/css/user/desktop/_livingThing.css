@@ -1,10 +1,96 @@
 /* ---------------------------------------- *\
             Living Thing - Desktop
 \* ---------------------------------------- */
-.livingThing {
+.list-livingThing {
     background-color: #F7F8FA;
 }
 
-.livingThing-content {
-    padding: 2rem 20%;
+.list-livingThing-content {
+    padding: 1rem 10%;
+}
+
+.list-livingThing-content .list-livingThing-header {
+    text-align: center;
+}
+
+.list-livingThing-content .list-livingThing-header .list-livingThing-title {
+    margin: 3rem 0;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 1.7rem;
+    letter-spacing: 1px;
+}
+
+.list-livingThing-content .list-livingThing-search {
+    background-color: #ffffff;
+    text-align: center;
+}
+
+.list-livingThing-content .list-livingThing-search .formSearch {
+    padding: 5%;
+    display: inline-flex;
+    width: 100%;
+}
+
+.list-livingThing-content .list-livingThing-search .formSearch .formSearch-input {
+    padding: 0 25px;
+    background-color: #F5F5F5;
+    border-style: none;
+    height: 50px;
+    width: calc(100% - 170px);
+    vertical-align: middle;
+}
+
+.list-livingThing-content .list-livingThing-search .formSearch .formSearch-input::placeholder {
+    color: #A9A9A9;
+}
+
+.list-livingThing-content .list-livingThing-search .formSearch .formSearch-button {
+    background-color: #0366d6;
+    color: #ffffff;
+    border-style: none;
+    height: 50px;
+    width: 170px;
+}
+
+.list-livingThing-options {
+    justify-content: center;
+    vertical-align: middle;
+    padding: 7% 0;
+}
+
+.list-livingThing-options select {
+    padding: 5px 12px;
+    border-radius: 10px;
+    border: 1px solid #aaaaaa;
+    background-color: #ffffff;
+    box-shadow: 3px 4px 5px 1px #aaaaaa;
+    width: 180px;
+}
+
+.category-by--action label,
+.filter-by--action label {
+    font-weight: 600;
+    margin-right: 7px;
+}
+
+.list-livingThing-wrapper {
+    padding: 4%;
+    background-color: #ffffff;
+}
+
+.list-livingThing-box {
+    margin: 1rem 0;
+    padding: 1rem;
+    border: 1px solid #aaaaaa;
+    display: flex;
+}
+
+.box-livingThingImg {
+    max-width:120px;
+    max-height: 90px;
+}
+
+.box-livingThingImg img {
+    object-fit: cover;
 }

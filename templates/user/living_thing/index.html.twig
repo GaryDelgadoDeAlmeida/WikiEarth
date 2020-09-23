@@ -1,29 +1,73 @@
 {% extends 'user/baseUser.html.twig' %}
 
 {% block body %}
-    <div class="livingThing">
-        <div class="livingThing-content">
-            <div class="livingThing-header">
-                <div class="livingThing-title">&nbsp;</div>
+    <div class="list-livingThing">
+        <div class="list-livingThing-content">
+            <div class="list-livingThing-header">
+                <div class="list-livingThing-title">Living Thing</div>
             </div>
 
-            {% if livingThings != [] %}
-                {% for livingThing in livingThings %}
-                    <div class="livingThing-card">
-                        <div class="">
-                            <img style="max-width:120px;" class="img-fluid" src="{{ asset(livingThing.imgPath) }}" alt="{{ livingThing.name }}">
-                        </div>
-                        <div>
-                            <h2 class="title">{{ livingThing.name }}</h2>
-                            <span>Genus : {{ livingThing.genus }}</span>
-                        </div>
-                        <div>
-                            <a class="btn btn-success" href="{{ path('userEditLivingThing', {'id':livingThing.id}) }}"><i class="fas fa-pencil-alt"></i></a>
-                            <a class="btn btn-danger" href="{{ path('userDeleteLivingThing', {'id':livingThing.id}) }}"><i class="fas fa-times"></i></a>
-                        </div>
+            <div class="list-livingThing-search">
+                <form class="form formSearch" method="post" action="{{ path('userLivingThing') }}">
+                    <input class="formSearch-input" type="search" name="search" placeholder="Search a living thing . . ." required>
+                    <button class="formSearch-button">Search</button>
+                </form>
+            </div>
+
+            <div class="list-livingThing-options row">
+                <div class="col-4">
+                    <div class="add--action">
+                        <a class="btn btnCustomLogin" href="{{ path('userAddLivingThing') }}">ADD</a>
                     </div>
-                {% endfor %}
-            {% endif %}
+                </div>
+
+                <div class="col-4">
+                    <div class="filter-by--action">
+                        <label>Filter By</label>
+                        <select id="filter-by-livingThing" name="filter-by-livingThing">
+                            <option value="all" select>All</option>
+                            <option value="have-article">Have an article</option>
+                            <option value="not-have-article">Not have an article</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-4">
+                    <div class="category-by--action">
+                        <label>Category By</label>
+                        <select id="category-by-livingThing" name="category-by-livingThing">
+                            <option value="all" selected>All</option>
+                            <option value="animalia">Animals</option>
+                            <option value="plantae">Plants</option>
+                            <option value="insecta">Insecta</option>
+                            <option value="bacteria">Bacteria</option>
+                            <option value="virus">Virus</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="list-livingThing-wrapper">
+                {% if livingThings != [] %}
+                    {% for livingThing in livingThings %}
+                        <div class="list-livingThing-box">
+                            <div class="box-livingThingImg">
+                                <img class="img-fluid" src="{{ asset(livingThing.imgPath) }}" alt="{{ livingThing.name }}">
+                            </div>
+                            <div class="box-livingThinfText">
+                                <h4 class="title">{{ livingThing.name }}</h4>
+                                <span>Genus / Species : {{ livingThing.genus }}</span>
+                            </div>
+                            <div class="box-livingThingAction">
+                                <a class="btn btn-success" href="{{ path('userEditLivingThing', {'id':livingThing.id}) }}"><i class="fas fa-pencil-alt"></i></a>
+                                <a class="btn btn-danger" href="{{ path('userDeleteLivingThing', {'id':livingThing.id}) }}"><i class="fas fa-times"></i></a>
+                            </div>
+                        </div>
+                    {% endfor %}
+
+                    {# Pagination #}
+                {% endif %}
+            </div>
         </div>
     </div>
 {% endblock %}

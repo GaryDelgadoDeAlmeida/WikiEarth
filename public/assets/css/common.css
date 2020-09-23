@@ -39,6 +39,9 @@ a, a:hover {
 /* ---------------------------------------- *\
                     Height
 \* ---------------------------------------- */
+.h-50px {
+    height: 50px;
+}
 .h-150px {
     height: 150px !important;
     margin-bottom: 10px;
@@ -73,6 +76,9 @@ a, a:hover {
 /* ---------------------------------------- *\
                 Background-Color
 \* ---------------------------------------- */
+.bg-white {
+    background-color: #ffffff;
+}
 .bg-night {
     background-color: #010418;
 }
@@ -87,6 +93,10 @@ a, a:hover {
 .btn-blue {
     color: #ffffff;
     background-color: #0366d6;
+}
+
+.btn-blue:hover {
+    color: #ffffff;
 }
 
 .btnCustomLogin {
