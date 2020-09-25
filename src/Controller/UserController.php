@@ -55,7 +55,6 @@ class UserController extends AbstractController
         $formUser->handleRequest($request);
 
         if($formUser->isSubmitted() && $formUser->isValid()) {
-            // dd($formUser->get("password")->getData(), $user);
             $this->userManager->updateUser(
                 $formUser, 
                 $user, 
@@ -79,10 +78,13 @@ class UserController extends AbstractController
     {
         $limit = 10;
         $offset = !empty($request->get('offset')) && preg_match('/^[0-9]*$/', $request->get('offset')) ? $request->get('offset') : 1;
-        $livingThing = $this->getDoctrine()->getRepository(LivingThing::class)->findAll();
+        $livingThing = $this->getDoctrine()->getRepository(LivingThing::class)->getLivingThings($offset, $limit);
+        $nbrPages = ceil($this->getDoctrine()->getRepository(LivingThing::class)->countLivingThings() / $limit);
 
         return $this->render('user/living_thing/index.html.twig', [
-            "livingThings" => $livingThing
+            "livingThings" => $livingThing,
+            "offset" => $offset,
+            "total_page" => $nbrPages,
         ]);
     }
 
@@ -140,7 +142,7 @@ class UserController extends AbstractController
             dd("Il existe déjà un article sur cette être vivant.");
         }
 
-        return $this->render('user/article/edit.html.twig', [
+        return $this->render('user/article/add.html.twig', [
             "formArticle" => $formArticle->createView()
         ]);
     }
@@ -186,15 +188,19 @@ class UserController extends AbstractController
         $limit = 10;
         $offset = !empty($request->get('offset')) && preg_match('/^[0-9]*$/', $request->get('offset')) ? $request->get('offset') : 1;
         $search = !empty($request->get('offset')) ? $request->get('offset') : null;
+        $nbrPages = null;
 
         if(!empty($search)) {
             //
         } else {
-            $articleLivingThing = $this->current_logged_user->getArticleLivingThings();
+            $articleLivingThing = $this->getDoctrine()->getRepository(ArticleLivingThing::class)->getArticleLivingThings($this->current_logged_user->getId(), $offset, $limit);
+            $nbrPages = ceil($this->getDoctrine()->getRepository(ArticleLivingThing::class)->countArticleLivingThingsUser($this->current_logged_user->getId()) / $limit);
         }
 
         return $this->render('user/article/index.html.twig', [
-            "articles" => $articleLivingThing
+            "articles" => $articleLivingThing,
+            "offset" => $offset,
+            "total_page" => $nbrPages
         ]);
     }
 

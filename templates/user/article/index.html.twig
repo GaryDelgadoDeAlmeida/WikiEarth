@@ -1,32 +1,85 @@
 {% extends 'user/baseUser.html.twig' %}
 
 {% block body %}
-    <div class="container">
-        <a href="{{ path("userAddArticle") }}" class="btn btn-success">Add</a>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>Type</th>
-                    <th></th>
-                </tr>
-            </thead>
-            
-            <tbody class="text-center">
+    <div class="list-livingThing">
+        <div class="list-livingThing-content">
+            <div class="list-livingThing-header">
+                <div class="list-livingThing-title">Articles</div>
+            </div>
+
+            <div class="list-livingThing-search">
+                <form class="form formSearch" method="post" action="{{ path('userArticle') }}">
+                    <input class="formSearch-input" type="search" name="search" placeholder="Search a living thing . . ." required>
+                    <button class="formSearch-button">Search</button>
+                </form>
+            </div>
+
+            <div class="list-livingThing-options row">
+                <div class="col-4">
+                    <div class="add--action">
+                        <a class="btn btn-custom-green" href="{{ path('userAddArticle') }}">ADD</a>
+                    </div>
+                </div>
+
+                <div class="col-4">
+                    <div class="category-by--action">
+                        <label>Category By</label>
+                        <select id="category-by-livingThing" name="category-by-livingThing">
+                            <option value="all" selected>All</option>
+                            <option value="animalia">Animals</option>
+                            <option value="plantae">Plants</option>
+                            <option value="insecta">Insecta</option>
+                            <option value="bacteria">Bacteria</option>
+                            <option value="virus">Virus</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="list-livingThing-wrapper">
                 {% if articles != [] %}
                     {% for article in articles %}
-                        <tr>
-                            <td>{{ article.title }}</td>
-                            <td>{{ article.kingdom }}</td>
-                            <td><a href="">Voir</a></td>
-                        </tr>
+                        <div class="list-livingThing-box">
+                            <div class="box-livingThingImg">
+                                <img class="img-fluid" src="{{ asset(article.idLivingThing.imgPath != null ? article.idLivingThing.imgPath : "content/wikiearth/Plantae/img/Malus/Malus.jpeg") }}" alt="{{ livingThing.name }}">
+                            </div>
+                            <div class="box-livingThinfText">
+                                <h4 class="title">{{ article.title }}</h4>
+                            </div>
+                            <div class="box-livingThingAction">
+                                <a class="btn btn-custom-midnight" href="{{ path('articleLivingThingById', {'name': article.idLivingThing.kingdom|kingdom, 'id': article.idLivingThing.id}) }}">See Article</a>
+                            </div>
+                        </div>
                     {% endfor %}
+
+                    {# Pagination #}
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item {% if offset == 1 %} disabled {% endif %}">
+                                <a class="page-link" href="{{ path("userLivingThing") }}" tabindex="-1" aria-disabled="true"><i class="fas fa-angle-double-left"></i></a>
+                            </li>
+                            
+                            {% if offset - 1 >= 1  %}
+                                <li class="page-item"><a class="page-link" href="{{ path("userLivingThing", {'offset': (offset - 1)}) }}">{{ offset - 1 }}</a></li>
+                            {% endif %}
+
+                            <li class="page-item"><a class="page-link" >{{ offset }}</a></li>
+
+                            {% if offset + 1 <= total_page  %}
+                                <li class="page-item"><a class="page-link" href="{{ path("userLivingThing", {'offset': (offset + 1)}) }}">{{ offset + 1 }}</a></li>
+                            {% endif %}
+
+                            <li class="page-item {% if offset == total_page %} disabled {% endif %}">
+                                <a class="page-link" href="{{ path("userLivingThing", {'offset': (total_page)}) }}"><i class="fas fa-angle-double-right"></i></a>
+                            </li>
+                        </ul>
+                    </nav>
                 {% else %}
-                    <tr>
-                        <td colspan="5">Aucun article n'a été trouvé</td>
-                    </tr>
+                    <div class="alert alert-info">
+                        <span>You writed none article</span>
+                    </div>
                 {% endif %}
-            </tbody>
-        </table>
+            </div>
+        </div>
     </div>
 {% endblock %}

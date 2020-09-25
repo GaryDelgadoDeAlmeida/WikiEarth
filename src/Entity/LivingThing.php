@@ -254,6 +254,11 @@ class LivingThing
      */
     private $imgPath;
 
+    /**
+     * @ORM\OneToOne(targetEntity=ArticleLivingThing::class, mappedBy="idLivingThing", cascade={"persist", "remove"})
+     */
+    private $articleLivingThing;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -567,6 +572,24 @@ class LivingThing
     public function setImgPath(string $imgPath): self
     {
         $this->imgPath = $imgPath;
+
+        return $this;
+    }
+
+    public function getArticleLivingThing(): ?ArticleLivingThing
+    {
+        return $this->articleLivingThing;
+    }
+
+    public function setArticleLivingThing(?ArticleLivingThing $articleLivingThing): self
+    {
+        $this->articleLivingThing = $articleLivingThing;
+
+        // set (or unset) the owning side of the relation if necessary
+        $newIdLivingThing = null === $articleLivingThing ? null : $this;
+        if ($articleLivingThing->getIdLivingThing() !== $newIdLivingThing) {
+            $articleLivingThing->setIdLivingThing($newIdLivingThing);
+        }
 
         return $this;
     }

@@ -35,7 +35,7 @@ class UserLoginType extends AbstractType
             ->add('submit', SubmitType::class, [
                 "label" => "Login",
                 "attr" => [
-                    "class" => "btn btnCustomLogin"
+                    "class" => "btn btn-custom-green"
                 ]
             ])
         ;

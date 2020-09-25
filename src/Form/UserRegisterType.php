@@ -41,7 +41,7 @@ class UserRegisterType extends AbstractType
             ->add("submit", SubmitType::class, [
                 "label" => "Register",
                 "attr" => [
-                    "class" => "btn btnCustomRegister"
+                    "class" => "btn btn-custom-midnight"
                 ]
             ])
         ;

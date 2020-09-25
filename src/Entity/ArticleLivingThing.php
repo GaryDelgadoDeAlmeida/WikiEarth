@@ -26,7 +26,7 @@ class ArticleLivingThing
     private $user;
 
     /**
-     * @ORM\OneToOne(targetEntity=LivingThing::class, cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=LivingThing::class, inversedBy="articleLivingThing", cascade={"persist", "remove"})
      */
     private $idLivingThing;
 

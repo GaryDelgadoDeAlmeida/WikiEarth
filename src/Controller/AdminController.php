@@ -131,7 +131,7 @@ class AdminController extends AbstractController
         return $this->render('admin/living_thing/index.html.twig', [
             "livingThings" => $this->getDoctrine()->getRepository(LivingThing::class)->getLivingThings($offset, $limit),
             "offset" => $offset,
-            "total_page" => ceil($this->getDoctrine()->getRepository(ArticleLivingThing::class)->countArticleLivingThings()[1] / $limit)
+            "total_page" => ceil($this->getDoctrine()->getRepository(ArticleLivingThing::class)->countArticleLivingThings() / $limit)
         ]);
     }
 
@@ -242,7 +242,7 @@ class AdminController extends AbstractController
 
         return $this->render('admin/article/index.html.twig', [
             "articles" => $this->getDoctrine()->getRepository(ArticleLivingThing::class)->getArticleLivingThings($offset, $limit),
-            "total_page" => ceil($this->getDoctrine()->getRepository(ArticleLivingThing::class)->countArticleLivingThings()[1] / $limit),
+            "total_page" => ceil($this->getDoctrine()->getRepository(ArticleLivingThing::class)->countArticleLivingThings() / $limit),
             "offset" => $offset
         ]);
     }

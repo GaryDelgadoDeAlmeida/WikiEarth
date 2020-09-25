@@ -17,7 +17,7 @@
             <div class="list-livingThing-options row">
                 <div class="col-4">
                     <div class="add--action">
-                        <a class="btn btnCustomLogin" href="{{ path('userAddLivingThing') }}">ADD</a>
+                        <a class="btn btn-custom-green" href="{{ path('userAddLivingThing') }}">ADD</a>
                     </div>
                 </div>
 
@@ -52,20 +52,50 @@
                     {% for livingThing in livingThings %}
                         <div class="list-livingThing-box">
                             <div class="box-livingThingImg">
-                                <img class="img-fluid" src="{{ asset(livingThing.imgPath) }}" alt="{{ livingThing.name }}">
+                                <img class="img-fluid" src="{{ asset(livingThing.imgPath != null ? livingThing.imgPath : "content/wikiearth/Plantae/img/Malus/Malus.jpeg") }}" alt="{{ livingThing.name }}">
                             </div>
                             <div class="box-livingThinfText">
                                 <h4 class="title">{{ livingThing.name }}</h4>
                                 <span>Genus / Species : {{ livingThing.genus }}</span>
                             </div>
                             <div class="box-livingThingAction">
-                                <a class="btn btn-success" href="{{ path('userEditLivingThing', {'id':livingThing.id}) }}"><i class="fas fa-pencil-alt"></i></a>
-                                <a class="btn btn-danger" href="{{ path('userDeleteLivingThing', {'id':livingThing.id}) }}"><i class="fas fa-times"></i></a>
+                                {% if livingThing.articleLivingThing != null %}
+                                    <span class="c-red">Have an article</span>
+                                    <a class="btn btn-custom-midnight" href="{{ path('articleLivingThingById', {'name': livingThing.kingdom|kingdom, 'id': livingThing.id}) }}">See Article</a>
+                                {% else %}
+                                    <span class="c-green">No article found</span>
+                                    <a class="btn btn-custom-midnight" href="{{ path('userLivingThingCreateArticle', {'id': livingThing.id}) }}">Create article</a>
+                                {% endif %}
                             </div>
                         </div>
                     {% endfor %}
 
                     {# Pagination #}
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item {% if offset == 1 %} disabled {% endif %}">
+                                <a class="page-link" href="{{ path("userLivingThing") }}" tabindex="-1" aria-disabled="true"><i class="fas fa-angle-double-left"></i></a>
+                            </li>
+                            
+                            {% if offset - 1 >= 1  %}
+                                <li class="page-item"><a class="page-link" href="{{ path("userLivingThing", {'offset': (offset - 1)}) }}">{{ offset - 1 }}</a></li>
+                            {% endif %}
+
+                            <li class="page-item"><a class="page-link" >{{ offset }}</a></li>
+
+                            {% if offset + 1 <= total_page  %}
+                                <li class="page-item"><a class="page-link" href="{{ path("userLivingThing", {'offset': (offset + 1)}) }}">{{ offset + 1 }}</a></li>
+                            {% endif %}
+
+                            <li class="page-item {% if offset == total_page %} disabled {% endif %}">
+                                <a class="page-link" href="{{ path("userLivingThing", {'offset': (total_page)}) }}"><i class="fas fa-angle-double-right"></i></a>
+                            </li>
+                        </ul>
+                    </nav>
+                {% else %}
+                    <div class="alert alert-info">
+                        <span>You writed none article</span>
+                    </div>
                 {% endif %}
             </div>
         </div>

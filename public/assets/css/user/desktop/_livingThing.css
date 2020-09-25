@@ -79,6 +79,10 @@
     background-color: #ffffff;
 }
 
+.list-livingThing-wrapper .alert.alert-info {
+    margin-bottom: 0;
+}
+
 .list-livingThing-box {
     margin: 1rem 0;
     padding: 1rem;
@@ -87,10 +91,23 @@
 }
 
 .box-livingThingImg {
-    max-width:120px;
+    max-width: 120px;
     max-height: 90px;
 }
 
 .box-livingThingImg img {
+    height: 100%;
+    height: 100%;
     object-fit: cover;
+}
+
+.box-livingThingAction {
+    display: grid;
+}
+
+.box-livingThingAction .btn-custom-midnight {
+    text-transform: uppercase;
+    vertical-align: middle;
+    font-size: .9rem;
+    border-radius: 10px;
 }

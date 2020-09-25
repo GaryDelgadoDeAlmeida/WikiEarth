@@ -148,8 +148,18 @@ class ArticleLivingThingRepository extends ServiceEntityRepository
     public function countArticleLivingThings()
     {
         return $this->createQueryBuilder('a')
-            ->select('count(a.id)')
+            ->select('count(a.id) as nbrArticles')
             ->getQuery()
-            ->getSingleResult();
+            ->getSingleResult()["nbrArticles"];
+    }
+
+    public function countArticleLivingThingsUser($user_id)
+    {
+        return $this->createQueryBuilder('a')
+            ->select('count(a.id) as nbrUserArticle')
+            ->where("a.user = :user_id")
+            ->setParameter('user_id', $user_id)
+            ->getQuery()
+            ->getSingleResult()["nbrUserArticle"];
     }
 }

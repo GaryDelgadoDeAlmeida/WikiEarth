@@ -37,4 +37,12 @@ class LivingThingRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
+
+    public function countLivingThings()
+    {
+        return $this->createQueryBuilder('l')
+            ->select('count(l.id) as nbrLivingThing')
+            ->getQuery()
+            ->getSingleResult()["nbrLivingThing"];
+    }
 }
