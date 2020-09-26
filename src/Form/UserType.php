@@ -33,7 +33,7 @@ class UserType extends AbstractType
             ->add('submit', SubmitType::class, [
                 "label" => "Update",
                 "attr" => [
-                    "class" => "btn-custom-green"
+                    "class" => "btn-custom-green r-20px"
                 ]
             ])
         ;
