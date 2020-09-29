@@ -3,6 +3,7 @@
 \* ---------------------------------------- */
 .home {
     background: url("../../../../content/img/background/background-earth.jpg") center center no-repeat;
+    /* background: url("../../../../content/img/background/background.jpg") center center no-repeat; */
     background-size: cover;
     height: 500px !important;
     width: 100% !important;

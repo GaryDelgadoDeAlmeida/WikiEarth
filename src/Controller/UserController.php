@@ -38,10 +38,13 @@ class UserController extends AbstractController
     public function user_home()
     {
         return $this->render('user/home/index.html.twig', [
-            "nbrAnimalia" => 10,
-            "nbrPlantae" => 100,
-            "nbrInsecta" => 1000,
-            "nbrBacteria" => 10000,
+            "nbrAnimalia" => $this->getDoctrine()->getRepository(LivingThing::class)->countLivingThingKingdom('Animalia'),
+            "nbrPlantae" => $this->getDoctrine()->getRepository(LivingThing::class)->countLivingThingKingdom('Plantae'),
+            "nbrInsecta" => $this->getDoctrine()->getRepository(LivingThing::class)->countLivingThingKingdom('Insecta'),
+            "nbrBacteria" => $this->getDoctrine()->getRepository(LivingThing::class)->countLivingThingKingdom('Bacteria'),
+            "recent_activity" => [],
+            "notifications" => [],
+            "recent_conversation" => [],
         ]);
     }
 
@@ -110,8 +113,7 @@ class UserController extends AbstractController
             $this->livingThingManager->setLivingThing(
                 $formLivingThing, 
                 $livingThing, 
-                $manager, 
-                $this->getParameter('project_wikiearth_dir')
+                $manager
             );
         }
 
@@ -168,8 +170,7 @@ class UserController extends AbstractController
             $this->livingThingManager->setLivingThing(
                 $formLivingThing, 
                 $livingThing, 
-                $manager, 
-                $this->getParameter('project_wikiearth_dir')
+                $manager
             );
         }
 

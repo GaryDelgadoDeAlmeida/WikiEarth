@@ -18,13 +18,6 @@ class KingdomExtension extends AbstractExtension
         ];
     }
 
-    // public function getFunctions(): array
-    // {
-    //     return [
-    //         new TwigFunction('function_name', [$this, 'doSomething']),
-    //     ];
-    // }
-
     public function convertKingdomClassification($kingdomClassification)
     {
         $kingdom = "";

@@ -148,8 +148,7 @@ class AdminController extends AbstractController
             $this->livingThingManager->setLivingThing(
                 $formLivingThing, 
                 $livingThing, 
-                $manager, 
-                $this->getParameter('project_wikiearth_dir')
+                $manager
             );
         }
 
@@ -207,8 +206,7 @@ class AdminController extends AbstractController
             $this->livingThingManager->setLivingThing(
                 $formLivingThing, 
                 $livingThing, 
-                $manager, 
-                $this->getParameter('project_wikiearth_dir')
+                $manager
             );
         }
 

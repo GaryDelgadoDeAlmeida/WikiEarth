@@ -37,9 +37,9 @@ class ImportDinosaurCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $wikiearthDinosaurDir = $this->params->get("project_living_thing_dinosaur_dir");
-        $dinosaurFilePath = $this->params->get("project_public_dir") . "content/file/imports/living-thing/dinosauria/dinosauria.csv";
-        $dinosaurImgDir = scandir($this->params->get("project_public_dir") . "content/file/imports/living-thing/dinosauria/image/");
+        $wikiearthDinosaurDir = $this->params->get("project_living_thing_animals_dinosaur_dir");
+        $dinosaurFilePath = $this->params->get("project_import_dir") . "living-thing/dinosauria/dinosauria.csv";
+        $dinosaurImgDir = scandir($this->params->get("project_import_dir") . "living-thing/dinosauria/image/");
         $dinosaurFileContaint = file_get_contents($dinosaurFilePath);
         $dinosaurFileData = $this->fileManager->explodeFileToArray($dinosaurFileContaint);
         $dinosaurFileColownName = array_shift($dinosaurFileData);
