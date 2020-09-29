@@ -31,6 +31,8 @@ class ImportAnimalsCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        ini_set("memory_limit", "-1");
+        set_time_limit(0);
         $io = new SymfonyStyle($input, $output);
         $filePath = $input->getArgument('filePath');
         $fileContent = file_get_contents($filePath);

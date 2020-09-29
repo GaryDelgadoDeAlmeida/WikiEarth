@@ -167,7 +167,7 @@ class AdminController extends AbstractController
 
         if(empty($articleLivingThing)) {
             $articleLivingThing = new ArticleLivingThing();
-            $livingThing = $this->getDoctrine()->getRepository(LivingThing::class)->getLivingThingById($id);
+            $livingThing = $this->getDoctrine()->getRepository(LivingThing::class)->getLivingThing($id);
 
             if(!empty($livingThing)) {
                 $formArticle = $this->createForm(ArticleLivingThingType::class, $articleLivingThing);

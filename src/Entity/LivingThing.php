@@ -62,12 +62,22 @@ class LivingThing
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $infraKingdom;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\Length(
      *      max = 255,
      *      maxMessage = "The domain of the animal cannot be longer than {{ limit }} character"
      * )
      */
     private $domain;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $superBranch;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -312,6 +322,18 @@ class LivingThing
         return $this;
     }
 
+    public function getInfraKingdom(): ?string
+    {
+        return $this->infraKingdom;
+    }
+
+    public function setInfraKingdom(?string $infraKingdom): self
+    {
+        $this->infraKingdom = $infraKingdom;
+
+        return $this;
+    }
+
     public function getDomain(): ?string
     {
         return $this->domain;
@@ -320,6 +342,18 @@ class LivingThing
     public function setDomain(?string $domain): self
     {
         $this->domain = $domain;
+
+        return $this;
+    }
+
+    public function getSuperBranch(): ?string
+    {
+        return $this->superBranch;
+    }
+
+    public function setSuperBranch(?string $superBranch): self
+    {
+        $this->superBranch = $superBranch;
 
         return $this;
     }

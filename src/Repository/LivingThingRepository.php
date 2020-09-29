@@ -29,11 +29,20 @@ class LivingThingRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function getLivingThingById($id)
+    public function getLivingThing($id)
     {
         return $this->createQueryBuilder('l')
             ->where('l.id = :id')
             ->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    public function getLivingThingByName($name)
+    {
+        return $this->createQueryBuilder('l')
+            ->where('l.name = :name OR l.commonName = :name')
+            ->setParameter('name', $name)
             ->getQuery()
             ->getOneOrNullResult();
     }
