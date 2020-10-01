@@ -51,21 +51,21 @@
                 {% if livingThings != [] %}
                     {% for livingThing in livingThings %}
                         <div class="list-livingThing-box">
-                            <div class="box-livingThingImg">
-                                <img class="img-fluid" src="{{ asset(livingThing.imgPath != null ? livingThing.imgPath : "content/wikiearth/Plantae/img/Malus/Malus.jpeg") }}" alt="{{ livingThing.name }}">
+                            <div class="box-livingThing-img">
+                                <img class="img-fluid" src="{{ asset(livingThing.imgPath != null ? livingThing.imgPath : "content/wikiearth/thumbnail.jpg") }}" alt="{{ livingThing.name }}">
                             </div>
-                            <div class="box-livingThinfText">
+                            <div class="box-livingThing-text">
                                 <h4 class="title">{{ livingThing.name }}</h4>
-                                <span>Genus / Species : {{ livingThing.genus }}</span>
-                            </div>
-                            <div class="box-livingThingAction">
-                                {% if livingThing.articleLivingThing != null %}
-                                    <span class="c-red">Have an article</span>
-                                    <a class="btn btn-custom-midnight" href="{{ path('articleLivingThingById', {'name': livingThing.kingdom|kingdom, 'id': livingThing.id}) }}">See Article</a>
-                                {% else %}
-                                    <span class="c-green">No article found</span>
-                                    <a class="btn btn-custom-midnight" href="{{ path('userLivingThingCreateArticle', {'id': livingThing.id}) }}">Create article</a>
-                                {% endif %}
+
+                                <div class="box-livingThing-action">
+                                    {% if livingThing.articleLivingThing != null %}
+                                        <span class="c-red">Have an article</span>
+                                        <a class="btn btn-custom-midnight" href="{{ path('articleLivingThingById', {'name': livingThing.kingdom|kingdom, 'id': livingThing.id}) }}">See Article</a>
+                                    {% else %}
+                                        <span class="c-green">No article found</span>
+                                        <a class="btn btn-custom-midnight" href="{{ path('userLivingThingCreateArticle', {'id': livingThing.id}) }}">Create article</a>
+                                    {% endif %}
+                                </div>
                             </div>
                         </div>
                     {% endfor %}
@@ -94,7 +94,7 @@
                     </nav>
                 {% else %}
                     <div class="alert alert-info">
-                        <span>You writed none article</span>
+                        <span>We founded no living thing</span>
                     </div>
                 {% endif %}
             </div>

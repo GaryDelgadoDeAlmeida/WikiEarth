@@ -88,24 +88,32 @@
     padding: 1rem;
     border: 1px solid #aaaaaa;
     display: flex;
+    /* height: 150px; */
 }
 
-.box-livingThingImg {
-    max-width: 120px;
-    max-height: 90px;
-}
-
-.box-livingThingImg img {
+.box-livingThing-img {
+    width: 150px;
     height: 100%;
+}
+
+.box-livingThing-img img {
+    width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-.box-livingThingAction {
+.box-livingThing-text {
+    width: calc(100% - 150px);
+    height: 100%;
+    padding-left: 15px;
+    display: block;
+}
+
+.box-livingThing-action {
     display: grid;
 }
 
-.box-livingThingAction .btn-custom-midnight {
+.box-livingThing-text .box-livingThing-action .btn-custom-midnight {
     text-transform: uppercase;
     vertical-align: middle;
     font-size: .9rem;
