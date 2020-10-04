@@ -28,6 +28,23 @@ class ArticleLivingThingRepository extends ServiceEntityRepository
     public function getArticleLivingThings($offset, $limit)
     {
         return $this->createQueryBuilder('a')
+            ->where('a.approved = 1')
+            ->setFirstResult(($offset - 1) * $limit)
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @param offset Parameter offset is the page
+     * @param limit Parameter limit is the number of element per page
+     * @return ArticleLivingThings[]
+     */
+    public function getArticleLivingThingsDesc($offset, $limit)
+    {
+        return $this->createQueryBuilder('a')
+            ->where('a.approved = 1')
+            ->orderBy('a.createdAt', "DESC")
             ->setFirstResult(($offset - 1) * $limit)
             ->setMaxResults($limit)
             ->getQuery()
@@ -38,28 +55,12 @@ class ArticleLivingThingRepository extends ServiceEntityRepository
      * @param idLivingThing
      * @return ArticleLivingThings
      */
-    public function getArticleLivingThingByLivingThingId($idLivingThing)
+    public function getArticleLivingThing($idLivingThing)
     {
         return $this->createQueryBuilder('a')
             ->where('a.idLivingThing = :idLivingThing')
+            ->andWhere('a.approved = 1')
             ->setParameter('idLivingThing', $idLivingThing)
-            ->getQuery()
-            ->getOneOrNullResult();
-    }
-
-    /**
-     * @param offset Parameter offset is the page
-     * @param limit Parameter limit is the number of element per page
-     * @return ArticleLivingThings
-     */
-    public function countArticleLivingThingsOffsetByKingdom($kingdom, $limit)
-    {
-        return $this->createQueryBuilder('a')
-            ->select('COUNT(a.id) / :limit as nbrOffset')
-            ->innerJoin('App\Entity\LivingThing', 'l', Join::WITH, 'l.id = a.idLivingThing')
-            ->where('l.kingdom = :kingdom')
-            ->setParameter('limit', $limit)
-            ->setParameter('kingdom', $kingdom)
             ->getQuery()
             ->getOneOrNullResult();
     }
@@ -73,6 +74,7 @@ class ArticleLivingThingRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('a')
             ->innerJoin('App\Entity\LivingThing', 'l', Join::WITH, 'l.id = a.idLivingThing')
             ->where('l.kingdom = :kingdom')
+            ->andWhere('a.approved = 1')
             ->setParameter('kingdom', $kingdom)
             ->setFirstResult(($offset - 1) * $limit)
             ->setMaxResults($limit)
@@ -90,6 +92,7 @@ class ArticleLivingThingRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('a')
             ->innerJoin('App\Entity\LivingThing', 'l', Join::WITH, 'l.id = a.idLivingThing')
             ->where('l.kingdom = :kingdom')
+            ->andWhere('a.approved = 1')
             ->andWhere('l.id = :id')
             ->setParameter('kingdom', $kingdom)
             ->setParameter('id', $id)
@@ -103,8 +106,7 @@ class ArticleLivingThingRepository extends ServiceEntityRepository
     public function getArticleLivingThingsByArticleNotTreatedToPublish()
     {
         return $this->createQueryBuilder('a')
-            ->innerJoin('App\Entity\LivingThing', 'l', Join::WITH, 'l.id = a.idLivingThing')
-            ->where('l.isTreated = 0')
+            ->where('a.approved = 0')
             ->getQuery()
             ->getResult();
     }
@@ -117,7 +119,7 @@ class ArticleLivingThingRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('a')
             ->innerJoin('App\Entity\LivingThing', 'l', Join::WITH, 'l.id = a.idLivingThing')
-            ->where('l.isTreated = 0')
+            ->where('a.approved = 0')
             ->andWhere('l.id = :id')
             ->setParameter('id', $id)
             ->getQuery()
@@ -140,6 +142,22 @@ class ArticleLivingThingRepository extends ServiceEntityRepository
             ->setParameter('searchValue', '%' . $searchedValue . '%')
             ->getQuery()
             ->getResult();
+    }
+
+    /**
+     * @param limit Parameter limit is the number of element per page
+     * @return ArticleLivingThings
+     */
+    public function countArticleLivingThingsByKingdom($kingdom, $limit)
+    {
+        return $this->createQueryBuilder('a')
+            ->select('COUNT(a.id) / :limit as nbrOffset')
+            ->innerJoin('App\Entity\LivingThing', 'l', Join::WITH, 'l.id = a.idLivingThing')
+            ->where('l.kingdom = :kingdom')
+            ->setParameter('limit', $limit)
+            ->setParameter('kingdom', $kingdom)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 
     /**

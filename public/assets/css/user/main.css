@@ -2,22 +2,28 @@
                     Home
 \* ---------------------------------------- */
 @import './desktop/_home.css';
-@import './mobile/_home.css';
+/* @import './mobile/_home.css'; */
 
 /* ---------------------------------------- *\
                     Profile
 \* ---------------------------------------- */
 @import './desktop/_profile.css';
-@import './mobile/_profile.css';
+/* @import './mobile/_profile.css'; */
 
 /* ---------------------------------------- *\
                 Living Thing
 \* ---------------------------------------- */
 @import './desktop/_livingThing.css';
-@import './mobile/_livingThing.css';
+/* @import './mobile/_livingThing.css'; */
+
+/* ---------------------------------------- *\
+                Notification
+\* ---------------------------------------- */
+@import './desktop/_notification.css';
+/* @import './mobile/_notification.css'; */
 
 /* ---------------------------------------- *\
                     Footer
 \* ---------------------------------------- */
 @import './desktop/_footer.css';
-@import './mobile/_footer.css';
+/* @import './mobile/_footer.css'; */

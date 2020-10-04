@@ -76,7 +76,7 @@ class AnonymousController extends AbstractController
         }
 
         $livingThing = $this->getDoctrine()->getRepository(ArticleLivingThing::class)->getArticleLivingThingsByLivingThingKingdom($kingdom, $offset, $limit);
-        $totalOffset = ceil( $this->getDoctrine()->getRepository(ArticleLivingThing::class)->countArticleLivingThingsOffsetByKingdom($kingdom, $limit)['nbrOffset']);
+        $totalOffset = ceil( $this->getDoctrine()->getRepository(ArticleLivingThing::class)->countArticleLivingThingsByKingdom($kingdom, $limit)['nbrOffset']);
 
         return $this->render('anonymous/article/living-thing/listLivingThing.html.twig', [
             "livingThing" => $livingThing,

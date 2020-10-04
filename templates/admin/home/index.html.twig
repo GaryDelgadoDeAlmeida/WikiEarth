@@ -2,16 +2,61 @@
 
 {% block body %}
     <div class="container">
-        <div class="card">
-            <a href=""><span>Users</span></a>
-        </div>
+        <div class="row">
+            <div class="col-4">
+                <div class="card">
+                    <div class="card-header bg-white">
+                        <span class="card-title">Users</span>
+                    </div>
+                    <div class="card-body">
+                        <span>{{ nbrUsers }}</span>
+                    </div>
+                </div>
+            </div>
 
-        <div class="card">
-            <a href=""><span>Articles</span></a>
-        </div>
+            <div class="col-4">
+                <div class="card">
+                    <div class="card-header bg-white">
+                        <span class="card-title">Articles</span>
+                    </div>
+                    <div class="card-body">
+                        <span>{{ nbrArticles }}</span>
+                    </div>
+                </div>
+            </div>
 
-        <div class="card">
-            <a href=""><span>Media</span></a>
+            <div class="col-4">
+                <div class="card">
+                    <div class="card-header bg-white">
+                        <span class="card-title">Living Thing</span>
+                    </div>
+                    <div class="card-body">
+                        <span>{{ nbrLivingThings }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-4">
+                <div class="card">
+                    <div class="card-header bg-white">
+                        <span class="card-title">Atome</span>
+                    </div>
+                    <div class="card-body">
+                        <span>56</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-4">
+                <div class="card">
+                    <div class="card-header bg-white">
+                        <span class="card-title">Minerals</span>
+                    </div>
+                    <div class="card-body">
+                        <span>5617</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 {% endblock %}

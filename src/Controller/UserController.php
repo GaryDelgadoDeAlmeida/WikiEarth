@@ -42,7 +42,7 @@ class UserController extends AbstractController
             "nbrPlantae" => $this->getDoctrine()->getRepository(LivingThing::class)->countLivingThingKingdom('Plantae'),
             "nbrInsecta" => $this->getDoctrine()->getRepository(LivingThing::class)->countLivingThingKingdom('Insecta'),
             "nbrBacteria" => $this->getDoctrine()->getRepository(LivingThing::class)->countLivingThingKingdom('Bacteria'),
-            "recent_activity" => [],
+            "recent_posts" => $this->getDoctrine()->getRepository(ArticleLivingThing::class)->getArticleLivingThingsDesc(1, 4),
             "notifications" => [],
             "recent_conversation" => [],
         ]);
@@ -127,7 +127,7 @@ class UserController extends AbstractController
      */
     public function user_living_thing_create_article($id, Request $request, EntityManagerInterface $manager)
     {
-        $articleLivingThing = $this->getDoctrine()->getRepository(ArticleLivingThing::class)->getArticleLivingThingByLivingThingId($id);
+        $articleLivingThing = $this->getDoctrine()->getRepository(ArticleLivingThing::class)->getArticleLivingThing($id);
 
         if(empty($articleLivingThing)) {
             $articleLivingThing = new ArticleLivingThing();
@@ -145,6 +145,12 @@ class UserController extends AbstractController
                         $manager,
                         $this->current_logged_user
                     );
+                    // $this->articleLivingThingManager->insertArticleLivingThing(
+                    //     $articleLivingThing,
+                    //     $livingThing,
+                    //     $manager,
+                    //     $this->current_logged_user
+                    // );
                 }
             } else {
                 dd("L'identifiant {$id} n'existe pas.");

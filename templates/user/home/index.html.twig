@@ -59,52 +59,25 @@
                 <div class="col-md-6">
                     <div class="recent-activity-card">
                         <div class="recent-activity-card-header">
-                            <span class="recent-activity-card-title">Recent Activity</span>
+                            <span class="recent-activity-card-title">Recent Posts</span>
                         </div>
                         <div class="recent-activity-card-body">
-                            <div class="post">
-                                <div class="post-content">
-                                    <div class="post-header">
-                                        <span class="post-title">Article Title</span>
+                            {% if recent_posts != [] %}
+                                {% for onePost in recent_posts %}
+                                    <div class="post">
+                                        <div class="post-content">
+                                            <div class="post-header">
+                                                <span class="post-title"><a href="">{{ onePost.title }}</a></span>
+                                            </div>
+                                            <div class="post-body">
+                                                <span class="post-text">Created at {{ onePost.createdAt|date("Y-m-d H:i:s") }}</span>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="post-body">
-                                        <span class="post-text">Created at 10-12-2019 00:12:20</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="post">
-                                <div class="post-content">
-                                    <div class="post-header">
-                                        <span class="post-title">Article Title</span>
-                                    </div>
-                                    <div class="post-body">
-                                        <span class="post-text">Created at 10-12-2019 00:12:20</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="post">
-                                <div class="post-content">
-                                    <div class="post-header">
-                                        <span class="post-title">Article Title</span>
-                                    </div>
-                                    <div class="post-body">
-                                        <span class="post-text">Created at 10-12-2019 00:12:20</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="post">
-                                <div class="post-content">
-                                    <div class="post-header">
-                                        <span class="post-title">Article Title</span>
-                                    </div>
-                                    <div class="post-body">
-                                        <span class="post-text">Created at 10-12-2019 00:12:20</span>
-                                    </div>
-                                </div>
-                            </div>
+                                {% endfor %}
+                            {% else %}
+                                <p class="text-center">No article has been found.</p>
+                            {% endif %}
 
                             <div class="post-button">
                                 <a class="btn btn-custom-blue" href="{{ path('userArticle') }}"><span>See More</span></a>

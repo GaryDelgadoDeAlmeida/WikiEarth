@@ -38,7 +38,7 @@ class UserRepository extends ServiceEntityRepository
             ->where('u.id != :current_admin_id')
             ->setParameter('current_admin_id', $current_admin_id)
             ->getQuery()
-            ->getSingleResult();
+            ->getSingleResult()["nbrUsers"];
     }
 
     // /**

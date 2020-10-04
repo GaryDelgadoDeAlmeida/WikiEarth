@@ -41,7 +41,11 @@ class AdminController extends AbstractController
      */
     public function admin_home()
     {
-        return $this->render('admin/home/index.html.twig');
+        return $this->render('admin/home/index.html.twig', [
+            "nbrUsers" => $this->getDoctrine()->getRepository(User::class)->countUsers($this->current_logged_user->getId()),
+            "nbrArticles" => $this->getDoctrine()->getRepository(ArticleLivingThing::class)->countArticleLivingThings(),
+            "nbrLivingThings" => $this->getDoctrine()->getRepository(LivingThing::class)->countLivingThings()
+        ]);
     }
 
     /**
@@ -80,7 +84,7 @@ class AdminController extends AbstractController
         return $this->render('admin/users/index.html.twig', [
             "users" => $this->getDoctrine()->getRepository(User::class)->getUsers($offset - 1, $limit, $this->current_logged_user->getId()),
             "offset" => $offset,
-            "total_page" => ceil($this->getDoctrine()->getRepository(User::class)->countUsers($this->current_logged_user->getId())["nbrUsers"] / $limit)
+            "total_page" => ceil($this->getDoctrine()->getRepository(User::class)->countUsers($this->current_logged_user->getId()) / $limit)
         ]);
     }
 
@@ -162,7 +166,7 @@ class AdminController extends AbstractController
      */
     public function admin_living_thing_create_article($id, Request $request, EntityManagerInterface $manager)
     {
-        $articleLivingThing = $this->getDoctrine()->getRepository(ArticleLivingThing::class)->getArticleLivingThingByLivingThingId($id);
+        $articleLivingThing = $this->getDoctrine()->getRepository(ArticleLivingThing::class)->getArticleLivingThing($id);
 
         if(empty($articleLivingThing)) {
             $articleLivingThing = new ArticleLivingThing();
