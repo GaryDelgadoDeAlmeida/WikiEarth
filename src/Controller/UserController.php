@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Form\UserType;
 use App\Entity\LivingThing;
+use App\Entity\Notification;
 use App\Manager\UserManager;
 use App\Form\LivingThingType;
 use Manager\LivingThingManager;
@@ -37,13 +38,16 @@ class UserController extends AbstractController
      */
     public function user_home()
     {
+        $offset = 1;
+        $limit = 4;
+        
         return $this->render('user/home/index.html.twig', [
             "nbrAnimalia" => $this->getDoctrine()->getRepository(LivingThing::class)->countLivingThingKingdom('Animalia'),
             "nbrPlantae" => $this->getDoctrine()->getRepository(LivingThing::class)->countLivingThingKingdom('Plantae'),
             "nbrInsecta" => $this->getDoctrine()->getRepository(LivingThing::class)->countLivingThingKingdom('Insecta'),
             "nbrBacteria" => $this->getDoctrine()->getRepository(LivingThing::class)->countLivingThingKingdom('Bacteria'),
-            "recent_posts" => $this->getDoctrine()->getRepository(ArticleLivingThing::class)->getArticleLivingThingsDesc(1, 4),
-            "notifications" => [],
+            "recent_posts" => $this->getDoctrine()->getRepository(ArticleLivingThing::class)->getArticleLivingThingsDesc($offset, $limit),
+            "notifications" => $this->getDoctrine()->getRepository(Notification::class)->getLatestNotifications($this->current_logged_user->getId(), $offset, $limit),
             "recent_conversation" => [],
         ]);
     }
@@ -270,10 +274,13 @@ class UserController extends AbstractController
     /**
      * @Route("/user/notifications", name="userNotifs")
      */
-    public function user_notifications()
+    public function user_notifications(Request $request)
     {
+        $offset = !empty($request->get('offset')) && preg_match('/^[0-9]*$/', $request->get('offset')) ? $request->get('offset') : 1;
+        $limit = 10;
+
         return $this->render('user/notifications/index.html.twig', [
-            "notifications" => []
+            "notifications" => $this->getDoctrine()->getRepository(Notification::class)->getLatestNotifications($this->current_logged_user->getId(), $offset, $limit),
         ]);
     }
 

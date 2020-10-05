@@ -19,6 +19,38 @@ class NotificationRepository extends ServiceEntityRepository
         parent::__construct($registry, Notification::class);
     }
 
+    /**
+     * Get les notifications d'un user dans l'ordre de création croissante
+     */
+    public function getNotifications($user, $offset, $limit)
+    {
+        return $this->createQueryBuilder('n')
+            ->where("n.user = :user")
+            ->setFirstResult(($offset - 1) * $limit)
+            ->setMaxResults($limit)
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getResult();
+        ;
+    }
+
+
+    /**
+     * Get les notifications d'un user dans l'ordre de création décroissante
+     */
+    public function getLatestNotifications($user, $offset, $limit)
+    {
+        return $this->createQueryBuilder('n')
+            ->where("n.user = :user")
+            ->orderBy('n.createdAt', 'DESC')
+            ->setFirstResult(($offset - 1) * $limit)
+            ->setMaxResults($limit)
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getResult();
+        ;
+    }
+
     // /**
     //  * @return Notification[] Returns an array of Notification objects
     //  */

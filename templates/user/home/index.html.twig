@@ -92,49 +92,22 @@
                             <span class="notification-card-title">Notifications</span>
                         </div>
                         <div class="notification-card-body">
-                            <div class="post">
-                                <div class="post-content">
-                                    <div class="post-header">
-                                        <span class="post-title">Your publication has been accepted by the taff</span>
+                            {% if notifications != null %}
+                                {% for notification in notifications %}
+                                    <div class="post">
+                                        <div class="post-content">
+                                            <div class="post-header">
+                                                <span class="post-title">Your publication has been accepted by the taff</span>
+                                            </div>
+                                            <div class="post-body">
+                                                <span class="post-text">Created at 10-12-2019 00:12:20</span>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="post-body">
-                                        <span class="post-text">Created at 10-12-2019 00:12:20</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="post">
-                                <div class="post-content">
-                                    <div class="post-header">
-                                        <span class="post-title">New Article - Stage 3 enterred</span>
-                                    </div>
-                                    <div class="post-body">
-                                        <span class="post-text">Created at 10-12-2019 00:12:20</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="post">
-                                <div class="post-content">
-                                    <div class="post-header">
-                                        <span class="post-title">New Article - Stage 2 enterred</span>
-                                    </div>
-                                    <div class="post-body">
-                                        <span class="post-text">Created at 10-12-2019 00:12:20</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="post">
-                                <div class="post-content">
-                                    <div class="post-header">
-                                        <span class="post-title">Thanks you for your contribution. We'll check it and inform you.</span>
-                                    </div>
-                                    <div class="post-body">
-                                        <span class="post-text">Created at 10-12-2019 00:12:20</span>
-                                    </div>
-                                </div>
-                            </div>
+                                {% endfor %}
+                            {% else %}
+                                <p class="text-center">You have no notifications</p>
+                            {% endif %}
 
                             <div class="post-button">
                                 <a class="btn btn-custom-blue" href="{{ path('userNotifs') }}"><span>See More</span></a>
