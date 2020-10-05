@@ -97,9 +97,15 @@ class User implements UserInterface
      */
     private $articleLivingThings;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Notification::class, mappedBy="userId")
+     */
+    private $notifications;
+
     public function __construct()
     {
         $this->articleLivingThings = new ArrayCollection();
+        $this->notifications = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -243,6 +249,37 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($articleLivingThing->getUser() === $this) {
                 $articleLivingThing->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Notification[]
+     */
+    public function getNotifications(): Collection
+    {
+        return $this->notifications;
+    }
+
+    public function addNotification(Notification $notification): self
+    {
+        if (!$this->notifications->contains($notification)) {
+            $this->notifications[] = $notification;
+            $notification->setUserId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNotification(Notification $notification): self
+    {
+        if ($this->notifications->contains($notification)) {
+            $this->notifications->removeElement($notification);
+            // set the owning side to null (unless already changed)
+            if ($notification->getUserId() === $this) {
+                $notification->setUserId(null);
             }
         }
 
