@@ -40,6 +40,15 @@ class LivingThing
     private $name;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Length(
+     *      max = 255,
+     *      maxMessage = "The domain of the animal cannot be longer than {{ limit }} character"
+     * )
+     */
+    private $domain;
+
+    /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotNull
      * @Assert\Length(
@@ -64,15 +73,6 @@ class LivingThing
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $infraKingdom;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * @Assert\Length(
-     *      max = 255,
-     *      maxMessage = "The domain of the animal cannot be longer than {{ limit }} character"
-     * )
-     */
-    private $domain;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -298,6 +298,18 @@ class LivingThing
         return $this;
     }
 
+    public function getDomain(): ?string
+    {
+        return $this->domain;
+    }
+
+    public function setDomain(?string $domain): self
+    {
+        $this->domain = $domain;
+
+        return $this;
+    }
+
     public function getKingdom(): ?string
     {
         return $this->kingdom;
@@ -330,18 +342,6 @@ class LivingThing
     public function setInfraKingdom(?string $infraKingdom): self
     {
         $this->infraKingdom = $infraKingdom;
-
-        return $this;
-    }
-
-    public function getDomain(): ?string
-    {
-        return $this->domain;
-    }
-
-    public function setDomain(?string $domain): self
-    {
-        $this->domain = $domain;
 
         return $this;
     }

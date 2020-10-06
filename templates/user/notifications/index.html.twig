@@ -1,23 +1,27 @@
 {% extends 'user/baseUser.html.twig' %}
 
 {% block body %}
-    <section class="about">
-        <div class="container">
-            <h2>Notification Page / User Section</h2>
+    <section class="notification">
+        <div class="notification-content">
+            <div class="notification-header">
+                <h2 class="notification-title">Notification</h2>
+            </div>
 
-            <div class="notice info"><p>This is a an info notice, it provides feedback of a neutral nature to the user.</p></div>
-            <div class="notice success"><p>This is a success notice, it provides feedback of a positive nature to the user.</p></div>
-            <div class="notice warning"><p>This is a warning notice, it provides feedback of a potentially negative nature to the user.</p></div>
-            <div class="notice error"><p>This is an error notice, it provides feedback of a negative nature to the user.</p></div>
-            {% if notifications != [] %}
-                {% for notification in notifications %}
-                    <div class="notice {{ notification.type }}">
-                        <p>This is a an info notice, it provides feedback of a neutral nature to the user.</p>
-                    </div>
-                {% endfor %}
-            {% else %}
-                <li>You have no notifications</li>
-            {% endif %}
+            <div class="notification-body">
+                <div class="notice info"><p>This is a an info notice, it provides feedback of a neutral nature to the user.</p></div>
+                <div class="notice success"><p>This is a success notice, it provides feedback of a positive nature to the user.</p></div>
+                <div class="notice warning"><p>This is a warning notice, it provides feedback of a potentially negative nature to the user.</p></div>
+                <div class="notice error"><p>This is an error notice, it provides feedback of a negative nature to the user.</p></div>
+                {% if notifications != [] %}
+                    {% for notification in notifications %}
+                        <div class="notice {{ notification.type }}">
+                            <p>This is a an info notice, it provides feedback of a neutral nature to the user.</p>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <li>You have no notifications</li>
+                {% endif %}
+            </div>
         </div>
     </section>
 {% endblock %}

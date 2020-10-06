@@ -18,6 +18,7 @@ class ImportDinosaurCommand extends Command
     protected static $defaultName = 'app:import:dinosaur';
     private $fileManager;
     private $params;
+    private $manager;
 
     public function __construct(EntityManagerInterface $manager, ParameterBagInterface $params, FileManager $fileManager)
     {
@@ -30,12 +31,14 @@ class ImportDinosaurCommand extends Command
     protected function configure()
     {
         $this
-            ->setDescription('Import all dinosaur from a csv file to the database.')
+            ->setDescription('Import dinosaur from a csv file to the database.')
         ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
-    {
+    {   
+        set_time_limit(0);
+        ini_set("memory_limit", "-1");
         $io = new SymfonyStyle($input, $output);
         $wikiearthDinosaurDir = $this->params->get("project_living_thing_animals_dinosaur_dir");
         $dinosaurFilePath = $this->params->get("project_import_dir") . "living-thing/dinosauria/dinosauria.csv";
