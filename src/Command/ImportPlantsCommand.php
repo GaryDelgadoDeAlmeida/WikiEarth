@@ -53,8 +53,6 @@ class ImportPlantsCommand extends Command
             mkdir($wikiearthPlantsDir, 0777, true);
         }
 
-        dd($plantsFileColownName);
-
         foreach($plantsFileData as $key => $onePlant) {
             if(empty($this->manager->getRepository(LivingThing::class)->getLivingThingByName($onePlant[3]))) {
                 foreach($plantsImgDir as $onePlantImg) {

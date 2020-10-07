@@ -1,0 +1,64 @@
+/* ---------------------------------------- *\
+                Living Thing
+\* ---------------------------------------- */
+/* .livingThing {
+    padding: 2rem;
+    background-color: #f2f2f2;
+} */
+
+.livingThing .media {
+    background-color: #ffffff;
+    box-shadow: 2.5px 5px 5px #aaa;
+    margin: 1rem 0;
+    /* height: 130px; */
+}
+
+.livingThing .media .media-header {
+    height: 100%;
+    width: 156px;
+}
+
+.livingThing .media .media-header img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.livingThing .media .media-body {
+    padding: 1rem 1rem;
+    height: 100%;
+}
+
+.livingThing .media .media-body .media-body-title {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.livingThing .pagination {
+    margin-top: 1rem;
+    background-color: #ffffff;
+    box-shadow: 2.5px 5px 5px #aaa;
+    justify-content: center;
+}
+
+.livingThing .pagination .pagination-links {
+    width: 100%;
+    text-align: center;
+    margin: .2rem;
+}
+
+.livingThing .pagination .pagination-links > a {
+    margin: 0 .5rem;
+    border: 2px solid #000000;
+    text-align: center;
+    width: 30px;
+    display: inline-block;
+}
+
+.livingThing .pagination .pagination-links > a.active {
+    border: none;
+    color: #0000F6;
+    border-bottom-color: #0000F6;
+    border-bottom-style: solid;
+    border-bottom-width: 3px;
+}

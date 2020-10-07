@@ -48,6 +48,20 @@
 
             <div class="card">
                 <div class="img">
+                    <img src="{{ asset('content/img/Fungi.jpg') }}" alt="Fungi">
+                </div>
+                
+                <div class="content">
+                    <h5 class="title">Fungi</h5>
+                    <p class="text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <div class="btn">
+                        <a href="{{ path('articleLivingThing', {'name': 'fungi'}) }}">See More</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="img">
                     <img src="{{ asset('content/img/Insecta.jpg') }}" alt="Insecta">
                 </div>
                 
@@ -73,6 +87,20 @@
                     </div>
                 </div>
             </div>
+
+            <div class="card">
+                <div class="img">
+                    <img src="{{ asset('content/img/Viruses.jpg') }}" alt="Viruses">
+                </div>
+                
+                <div class="content">
+                    <h5 class="title">Viruses</h5>
+                    <p class="text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <div class="btn">
+                        <a href="{{ path('articleLivingThing', {'name': 'viruses'}) }}">See More</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -91,4 +119,54 @@
             </div>
         </section>
     {% endif %}
+
+    <section class="home-about">
+        <div class="about">
+            <div class="about-title">About Us</div>
+            <div class="about-content">
+                <div class="about-intro">
+                    <p>WikiEarth est un projet d’encyclopédie collective en ligne, universelle et fonctionnant sur le même principe que Wikipédia, celui du wiki.</p>
+                    <p>WikiEarth propose et expose différents articles sur les animaux, les végétaux, les bactéries et autres formes de vie mais aussi sur les élèments naturels et le fonctionnement de l’écosystème que nous pouvons trouver sur notre planète, la Terre.</p>
+                    <p>La Team WikiEarth prennent le temps de vérifier (à la loupe) chaque article, chaque contenu, que WikiEarth présente pour que nous puissions vous affirmer la qualité et la fiabilité de l’information.</p>
+                </div>
+                <div class="about-img">
+                    <img class="img-fluid" src="{{ asset('content/wikiearth/thumbnail.jpg') }}" alt="about-us">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="home-nbrArticles">
+        <div class="nbrArticles">
+            <div class="">
+                <span class="txt-strong">490</span>
+                <span>Articles</span>
+            </div>
+
+            <div class="">
+                <span class="txt-strong">1000</span>
+                <span>Animals</span>
+            </div>
+
+            <div class="">
+                <span class="txt-strong">200</span>
+                <span>Insects</span>
+            </div>
+
+            <div class="">
+                <span class="txt-strong">50</span>
+                <span>Bacteria</span>
+            </div>
+
+            <div class="">
+                <span class="txt-strong">40</span>
+                <span>Plants</span>
+            </div>
+
+            <div class="">
+                <span class="txt-strong">100</span>
+                <span>Natural Elements</span>
+            </div>
+        </div>
+    </section>
 {% endblock %}

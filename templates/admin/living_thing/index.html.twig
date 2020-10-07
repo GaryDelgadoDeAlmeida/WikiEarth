@@ -1,25 +1,42 @@
 {% extends 'admin/baseAdmin.html.twig' %}
 
 {% block body %}
-    <div class="container">
-        <div>&nbsp;</div>
+    <section class="livingThing">
+        <div class="container">
+            {# <div>&nbsp;</div> #}
+            {% if livingThings != [] %}
+                {% for livingThing in livingThings %}
+                    <li class="media">
+                        <div class="media-header">
+                            <img class="img-fluid" src="{{ asset(livingThing.imgPath != null ? livingThing.imgPath : "content/wikiearth/thumbnail.jpg") }}" alt="{{ livingThing.name }}">
+                        </div>
+                        <div class="media-body">
+                            <h5 class="media-body-title">{{ livingThing.name }}</h5>
+                            <a class="btn btn-success" href="{{ path('adminEditLivingThing', {'id':livingThing.id}) }}"><i class="far fa-edit"></i></a>
+                            <a class="btn btn-danger" href="{{ path('adminDeleteLivingThing', {'id':livingThing.id}) }}"><i class="far fa-trash-alt"></i></a>
+                        </div>
+                    </li>
+                {% endfor %}
 
-        {% if livingThings != [] %}
-            {% for livingThing in livingThings %}
-                <div>
-                    <div>
-                        <img style="max-width:120px;" class="img-fluid" src="{{ asset(livingThing.imgPath) }}" alt="{{ livingThing.name }}">
+                {# Pagination #}
+                {% if offset >= 1 and offset <= nbrOffset %}
+                    <div class="pagination">
+                        <div class="pagination-links">
+                            {% if offset - 1 >= 1 %}
+                                <a href="{{ path('adminLivingThing', {'offset': 1}) }}"><i class="fas fa-angle-double-left"></i></a>
+                                <a class="" href="{{ path('adminLivingThing', {'offset': offset - 1}) }}">{{ offset - 1 }}</a>
+                            {% endif %}
+
+                            <a class="active" href="{{ path('adminLivingThing', {'offset': offset}) }}"><span>{{ offset }}</span></a>
+                            
+                            {% if offset + 1 <= nbrOffset %}
+                                <a class="" href="{{ path('adminLivingThing', {'offset': offset + 1}) }}">{{ offset + 1 }}</a>
+                                <a href="{{ path('adminLivingThing', {'offset': nbrOffset}) }}"><i class="fas fa-angle-double-right"></i></a>
+                            {% endif %}
+                        </div>
                     </div>
-                    <div>
-                        <h2 class="title">{{ livingThing.name }}</h2>
-                        <span>Genus : {{ livingThing.genus }}</span>
-                    </div>
-                    <div>
-                        <a class="btn btn-success" href="{{ path('adminEditLivingThing', {'id':livingThing.id}) }}"><i class="far fa-edit"></i></a>
-                        <a class="btn btn-danger" href="{{ path('adminDeleteLivingThing', {'id':livingThing.id}) }}"><i class="far fa-trash-alt"></i></a>
-                    </div>
-                </div>
-            {% endfor %}
-        {% endif %}
-    </div>
+                {% endif %}
+            {% endif %}
+        </div>
+    </section>
 {% endblock %}

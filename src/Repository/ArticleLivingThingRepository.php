@@ -28,7 +28,36 @@ class ArticleLivingThingRepository extends ServiceEntityRepository
     public function getArticleLivingThings($offset, $limit)
     {
         return $this->createQueryBuilder('a')
+            ->setFirstResult(($offset - 1) * $limit)
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @param offset Parameter offset is the page
+     * @param limit Parameter limit is the number of element per page
+     * @return ArticleLivingThings[]
+     */
+    public function getArticleLivingThingsApproved($offset, $limit)
+    {
+        return $this->createQueryBuilder('a')
             ->where('a.approved = 1')
+            ->setFirstResult(($offset - 1) * $limit)
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @param offset Parameter offset is the page
+     * @param limit Parameter limit is the number of element per page
+     * @return ArticleLivingThings[]
+     */
+    public function getArticleLivingThingsNotApproved($offset, $limit)
+    {
+        return $this->createQueryBuilder('a')
+            ->where('a.approved = 0')
             ->setFirstResult(($offset - 1) * $limit)
             ->setMaxResults($limit)
             ->getQuery()
@@ -60,6 +89,34 @@ class ArticleLivingThingRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('a')
             ->where('a.idLivingThing = :idLivingThing')
             ->andWhere('a.approved = 1')
+            ->setParameter('idLivingThing', $idLivingThing)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    /**
+     * @param idLivingThing
+     * @return ArticleLivingThings
+     */
+    public function getArticleLivingThingApproved($idLivingThing)
+    {
+        return $this->createQueryBuilder('a')
+            ->where('a.idLivingThing = :idLivingThing')
+            ->andWhere('a.approved = 1')
+            ->setParameter('idLivingThing', $idLivingThing)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    /**
+     * @param idLivingThing
+     * @return ArticleLivingThings
+     */
+    public function getArticleLivingThingNotApproved($idLivingThing)
+    {
+        return $this->createQueryBuilder('a')
+            ->where('a.idLivingThing = :idLivingThing')
+            ->andWhere('a.approved = 0')
             ->setParameter('idLivingThing', $idLivingThing)
             ->getQuery()
             ->getOneOrNullResult();
@@ -112,21 +169,6 @@ class ArticleLivingThingRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param id
-     * @return ArticleLivingThings
-     */
-    public function getArticleLivingThingsByArticleNotTreatedToPublishById($id)
-    {
-        return $this->createQueryBuilder('a')
-            ->innerJoin('App\Entity\LivingThing', 'l', Join::WITH, 'l.id = a.idLivingThing')
-            ->where('a.approved = 0')
-            ->andWhere('l.id = :id')
-            ->setParameter('id', $id)
-            ->getQuery()
-            ->getSingleResult();
-    }
-
-    /**
      * @return ArticleLivingThings[]
      */
     public function getSearchArticleLivingThings($searchedValue)
@@ -139,6 +181,7 @@ class ArticleLivingThingRepository extends ServiceEntityRepository
             ->orWhere('a.wayOfLife LIKE :searchValue')
             ->orWhere('a.description LIKE :searchValue')
             ->orWhere('a.otherData LIKE :searchValue')
+            ->andWhere('a.approved = 1')
             ->setParameter('searchValue', '%' . $searchedValue . '%')
             ->getQuery()
             ->getResult();
@@ -154,6 +197,7 @@ class ArticleLivingThingRepository extends ServiceEntityRepository
             ->select('COUNT(a.id) / :limit as nbrOffset')
             ->innerJoin('App\Entity\LivingThing', 'l', Join::WITH, 'l.id = a.idLivingThing')
             ->where('l.kingdom = :kingdom')
+            ->andWhere('a.approved = 1')
             ->setParameter('limit', $limit)
             ->setParameter('kingdom', $kingdom)
             ->getQuery()
@@ -167,6 +211,30 @@ class ArticleLivingThingRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('a')
             ->select('count(a.id) as nbrArticles')
+            ->getQuery()
+            ->getSingleResult()["nbrArticles"];
+    }
+
+    /**
+     * @return ArticleLivingThings
+     */
+    public function countArticleLivingThingsApproved()
+    {
+        return $this->createQueryBuilder('a')
+            ->select('count(a.id) as nbrArticles')
+            ->where('a.approved = 1')
+            ->getQuery()
+            ->getSingleResult()["nbrArticles"];
+    }
+
+    /**
+     * @return ArticleLivingThings
+     */
+    public function countArticleLivingThingsNotApproved()
+    {
+        return $this->createQueryBuilder('a')
+            ->select('count(a.id) as nbrArticles')
+            ->where('a.approved = 0')
             ->getQuery()
             ->getSingleResult()["nbrArticles"];
     }
