@@ -3,27 +3,8 @@
 {% block body %}
     <section class="livingThing">
         <div class="container">
-            <a href="{{ path("adminAddArticle") }}" class="btn btn-success">Add</a>
-            
-            {% if articles != [] %}
-                {% for article in articles %}
-                    <li class="media">
-                        <div class="media-header">
-                            <img class="img-fluid" src="{{ asset(article.idLivingThing.imgPath != null ? article.idLivingThing.imgPath : "content/wikiearth/thumbnail.jpg") }}" alt="{{ article.idLivingThing.name }}">
-                        </div>
-                        <div class="media-body">
-                            <h5 class="media-body-title">{{ article.title }}</h5>
-                            <p class="{{ article.approved ? "c-green" : "c-red" }}">{{ article.approved ? "Approved" : "Not Approved" }}</p>
-                            <a class="btn btn-primary" href="{{ path('adminArticleEdit', {'id': article.id}) }}"><i class="far fa-edit"></i></a>
-                            <a class="btn btn-danger" href="{{ path('adminDeleteArticle', {'id': article.id}) }}"><i class="far fa-trash-alt"></i></a>
-                        </div>
-                    </li>
-                {% endfor %}
-            {% else %}
-                <li class="media">
-                    <div class="media-body">Aucun article n'a été trouvé</div>
-                </li>
-            {% endif %}
+            <a class="btn btn-custom-green" href="{{ path('adminArticleByCategory', {'category': "living-thing"}) }}">Living Things</a>
+            <a class="btn btn-custom-midnight" href="{{ path('adminArticleByCategory', {'category': "natural-elements"}) }}">Natural Elements</a>
         </div>
     </section>
 {% endblock %}

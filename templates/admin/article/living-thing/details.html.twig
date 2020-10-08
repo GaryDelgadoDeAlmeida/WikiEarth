@@ -1,0 +1,250 @@
+{% extends 'admin/baseAdmin.html.twig' %}
+
+{% block body %}
+    <section class="article-details">
+        <div class="container">
+            <div class="articleLivingThing-single-center">
+                <div class="post">
+                    <h1 class="post-title">{{ article.title }}</h1>
+
+                    <div class="post-content">
+                        <div class="post-content-geography" id="geography">
+                            <h3 class="post-content-geography-title">Geography</h3>
+
+                            {# Geography #}
+                            <div class="post-content-geography-content">
+                                {% if article.geography != null %}
+                                    {% for oneGeography in article.geography %}
+                                        <div class="geography-content">
+                                            <div class="title">
+                                                <span>{{ oneGeography.sub_title }}</span>
+                                            </div>
+                                            <div class="content">
+                                                <p>{{ oneGeography.sub_content }}</p>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        {# Ecology #}
+                        <div class="post-content-ecology" id="ecology">
+                            <h3 class="post-content-ecology-title">Ecology</h3>
+
+                            <div class="post-content-ecology-content">
+                                {% if article.ecology != null %}
+                                    {% for oneEcology in article.ecology %}
+                                        <div class="ecology-content">
+                                            <div class="title">
+                                                <span>{{ oneEcology.sub_title }}</span>
+                                            </div>
+                                            <div class="content">
+                                                <p>{{ oneEcology.sub_content }}</p>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        {# Behaviour #}
+                        <div class="post-content-behaviour" id="behaviour">
+                            <h3 class="post-content-behaviour-title">Behaviour</h3>
+
+                            <div class="post-content-behaviour-content">
+                                {% if article.behaviour != null %}
+                                    {% for oneBehaviour in article.behaviour %}
+                                        <div class="behaviour-content">
+                                            <div class="title">
+                                                <span>{{ oneBehaviour.sub_title }}</span>
+                                            </div>
+                                            <div class="content">
+                                                <p>{{ oneBehaviour.sub_content }}</p>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        {# Way of Life #}
+                        <div class="post-content-wayOfLife" id="wayOfLife">
+                            <h3 class="post-content-wayOfLife-title">Way of Life</h3>
+
+                            <div class="post-content-wayOfLife-content">
+                                {% if article.wayOfLife != null %}
+                                    {% for oneWayOfLife in article.wayOfLife %}
+                                        <div class="wayOfLife-content">
+                                            <div class="title">
+                                                <span>{{ oneWayOfLife.sub_title }}</span>
+                                            </div>
+                                            <div class="content">
+                                                <p>{{ oneWayOfLife.sub_content }}</p>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        {# Description #}
+                        <div class="post-content-description" id="description">
+                            <h3 class="post-content-description-title">Description</h3>
+
+                            <div class="post-content-description-content">
+                                {% if article.description != null %}
+                                    {% for oneDescription in article.description %}
+                                        <div class="description-content">
+                                            <div class="title">
+                                                <span>{{ oneDescription.sub_title }}</span>
+                                            </div>
+                                            <div class="content">
+                                                <p>{{ oneDescription.sub_content }}</p>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        {# Other Information #}
+                        <div class="post-content-otherData" id="otherData">
+                            <h3 class="post-content-otherData-title">Other Data</h3>
+
+                            <div class="post-content-otherData-content">
+                                {% if article.otherData != null %}
+                                    {% for oneOtherData in article.otherData %}
+                                        <div class="otherData-content">
+                                            <div class="title">
+                                                <span>{{ oneOtherData.sub_title }}</span>
+                                            </div>
+                                            <div class="content">
+                                                <p>{{ oneOtherData.sub_content }}</p>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        {# Media Gallery Photo
+                        <div class="post-content-mediaGallery" id="references">
+                            <div class="post-content-mediaGallery-title">
+                                <h3>Media Gallery Photo</h3>
+                            </div>
+
+                            <div class="post-content-mediaGallery-content"></div>
+                        </div> #}
+                    </div>
+                </div>
+            </div>
+
+            {# Right Content #}
+            <div class="articleLivingThing-single-right">
+                <div class="articleLivingThing-livingThing">
+                    <div class="livingThing-img">
+                        <img class="img-fluid" src="{{ asset(article.idLivingThing.imgPath != null ? article.idLivingThing.imgPath : "content/wikiearth/thumbnail.jpg") }}" alt="{{ article.idLivingThing.name }}">
+                    </div>
+
+                    <div class="livingThing-content">
+                        {% if article.idLivingThing.domain != null %}
+                            <li>Domain : {{ article.idLivingThing.domain }}</li>
+                        {% endif %}
+
+                        {% if article.idLivingThing.kingdom != null %}
+                            <li>Kingdom : {{ article.idLivingThing.kingdom }}</li>
+                        {% endif %}
+
+                        {% if article.idLivingThing.subKingdom != null %}
+                            <li>Sub Kingdom : {{ article.idLivingThing.subKingdom }}</li>
+                        {% endif %}
+
+                        {% if article.idLivingThing.branch != null %}
+                            <li>Branch : {{ article.idLivingThing.branch }}</li>
+                        {% endif %}
+                        
+                        {% if article.idLivingThing.subBranch != null %}
+                            <li>Sub Branch : {{ article.idLivingThing.subBranch }}</li>
+                        {% endif %}
+
+                        {% if article.idLivingThing.infraBranch != null %}
+                            <li>Infra Branch : {{ article.idLivingThing.infraBranch }}</li>
+                        {% endif %}
+                            
+                        {% if article.idLivingThing.division != null %}
+                            <li>Division : {{ article.idLivingThing.division }}</li>
+                        {% endif %}
+
+                        {% if article.idLivingThing.superClass != null %}
+                            <li>Super Class : {{ article.idLivingThing.superClass }}</li>
+                        {% endif %}
+
+                        {% if article.idLivingThing.class != null %}
+                            <li>Class : {{ article.idLivingThing.class }}</li>
+                        {% endif %}
+
+                        {% if article.idLivingThing.subClass != null %}
+                            <li>Sub Class : {{ article.idLivingThing.subClass }}</li>
+                        {% endif %}
+
+                        {% if article.idLivingThing.infraClass != null %}
+                            <li>Infra Class : {{ article.idLivingThing.infraClass }}</li>
+                        {% endif %}
+
+                        {% if article.idLivingThing.superOrder != null %}
+                            <li>Super Order : {{ article.idLivingThing.superOrder }}</li>
+                        {% endif %}
+
+                        {% if article.idLivingThing.normalOrder != null %}
+                            <li>Order : {{ article.idLivingThing.normalOrder }}</li>
+                        {% endif %}
+
+                        {% if article.idLivingThing.subOrder != null %}
+                            <li>Sub Order : {{ article.idLivingThing.subOrder }}</li>
+                        {% endif %}
+                        
+                        {% if article.idLivingThing.infraOrder != null %}
+                            <li>Infra Order : {{ article.idLivingThing.infraOrder }}</li>
+                        {% endif %}
+
+                        {% if article.idLivingThing.microOrder != null %}
+                            <li>Micro Order : {{ article.idLivingThing.microOrder }}</li>
+                        {% endif %}
+
+                        {% if article.idLivingThing.superFamily != null %}
+                            <li>Super Family : {{ article.idLivingThing.superFamily }}</li>
+                        {% endif %}
+
+                        {% if article.idLivingThing.family != null %}
+                            <li>Family : {{ article.idLivingThing.family }}</li>
+                        {% endif %}
+
+                        {% if article.idLivingThing.subFamily != null %}
+                            <li>Sub Family : {{ article.idLivingThing.subFamily }}</li>
+                        {% endif %}
+
+                        {% if article.idLivingThing.genus != null %}
+                            <li>Genus : {{ article.idLivingThing.genus }}</li>
+                        {% endif %}
+
+                        {% if article.idLivingThing.subGenus != null %}
+                            <li>Sub Genus : {{ article.idLivingThing.subGenus }}</li>
+                        {% endif %}
+
+                        {% if article.idLivingThing.species != null %}
+                            <li>Species : {{ article.idLivingThing.species }}</li>
+                        {% endif %}
+
+                        {% if article.idLivingThing.subSpecies != null %}
+                            <li>Sub Species : {{ article.idLivingThing.subSpecies }}</li>
+                        {% endif %}
+                        
+                        <a class="btn btn-primary" href="{{ path('adminEditArticleByCategory', {'id': article.id, 'category': category}) }}"><i class="far fa-edit"></i></a>
+                        <a class="btn btn-danger" href="{{ path('adminDeleteArticleByCategory', {'id': article.id, 'category': category}) }}"><i class="far fa-trash-alt"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

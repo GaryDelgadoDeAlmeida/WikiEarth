@@ -1,8 +1,40 @@
 {% extends 'admin/baseAdmin.html.twig' %}
 
 {% block body %}
-    <div class="container">
-        {{ form_start(userForm, {'method': 'POST'}) }}
-        {{ form_end(userForm, {'method': 'POST'}) }}
-    </div>
+    <section class="user-profile">
+        <div class="container">
+            {{ form_start(userForm, {'method': 'POST'}) }}
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated text-center">
+                            <label for="user_imgPath"><img class="img-fluid rounded" width="175" height="200" src="{{ asset(userImg) }}"></label>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                            {{ form_row(userForm.firstname) }}
+                        </div>
+                        <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                            {{ form_row(userForm.lastname) }}
+                        </div>
+                        <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                            {{ form_row(userForm.email, {"attr": {"readonly": "true"}}) }}
+                        </div>
+                        <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                            {{ form_row(userForm.login, {"attr": {"readonly": "true"}}) }}
+                        </div>
+                        <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                            {{ form_row(userForm.password) }}
+                        </div>
+                        <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated" hidden>
+                            {{ form_row(userForm.imgPath) }}
+                        </div>
+                        <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated" >
+                            {{ form_row(userForm.submit) }}
+                        </div>
+                    </div>
+                </div>
+            {{ form_end(userForm, {'method': 'POST'}) }}
+        </div>
+    </section>
 {% endblock %}

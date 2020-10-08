@@ -88,7 +88,6 @@ class ArticleLivingThingRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('a')
             ->where('a.idLivingThing = :idLivingThing')
-            ->andWhere('a.approved = 1')
             ->setParameter('idLivingThing', $idLivingThing)
             ->getQuery()
             ->getOneOrNullResult();

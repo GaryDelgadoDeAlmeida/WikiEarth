@@ -173,20 +173,20 @@
                 <div class="articleLivingThing-single-right">
                     <div class="articleLivingThing-livingThing">
                         <div class="livingThing-img">
-                            <img class="img-fluid" src="{{ asset(livingThing.idLivingThing.imgPath) }}" alt="{{ livingThing.idLivingThing.name }}">
+                            <img class="img-fluid" src="{{ asset(livingThing.idLivingThing.imgPath != null ? livingThing.idLivingThing.imgPath : "content/wikiearth/thumbnail.jpg") }}" alt="{{ livingThing.idLivingThing.name }}">
                         </div>
 
                         <div class="livingThing-content">
+                            {% if livingThing.idLivingThing.domain != null %}
+                                <li>Domain : {{ livingThing.idLivingThing.domain }}</li>
+                            {% endif %}
+
                             {% if livingThing.idLivingThing.kingdom != null %}
                                 <li>Kingdom : {{ livingThing.idLivingThing.kingdom }}</li>
                             {% endif %}
 
                             {% if livingThing.idLivingThing.subKingdom != null %}
                                 <li>Sub Kingdom : {{ livingThing.idLivingThing.subKingdom }}</li>
-                            {% endif %}
-                            
-                            {% if livingThing.idLivingThing.domain != null %}
-                                <li>Domain : {{ livingThing.idLivingThing.domain }}</li>
                             {% endif %}
 
                             {% if livingThing.idLivingThing.branch != null %}

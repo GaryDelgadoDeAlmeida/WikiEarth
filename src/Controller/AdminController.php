@@ -109,7 +109,8 @@ class AdminController extends AbstractController
         }
 
         return $this->render('admin/users/edit.html.twig', [
-            "userForm" => $formUser->createView()
+            "userForm" => $formUser->createView(),
+            "userImg" => $user->getImgPath() ? $user->getImgPath() : "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/1024px-User_icon_2.svg.png"
         ]);
     }
     
@@ -193,7 +194,7 @@ class AdminController extends AbstractController
             return $this->redirectToRoute("404Error");
         }
 
-        return $this->render('admin/article/new.html.twig', [
+        return $this->render('admin/article/living-thing/new.html.twig', [
             "formArticle" => $formArticle->createView()
         ]);
     }
@@ -239,116 +240,152 @@ class AdminController extends AbstractController
      */
     public function admin_article(Request $request)
     {
-        $limit = 10;
+        return $this->render('admin/article/index.html.twig');
+    }
+
+    /**
+     * Affiche les articles selon la categorie d'appartenance. C'est-à-dire, on affiche 
+     * les articles sur les êtres vivants si c'est la categorie demandée est les êtres vivants
+     * 
+     * @Route("/admin/article/{category}", name="adminArticleByCategory")
+     */
+    public function admin_article_by_category(string $category, Request $request)
+    {
         $offset = !empty($request->get('offset')) && preg_match('/^[0-9]*$/', $request->get('offset')) ? $request->get('offset') : 1;
+        $limit = 10;
 
-        return $this->render('admin/article/index.html.twig', [
-            "articles" => $this->getDoctrine()->getRepository(ArticleLivingThing::class)->getArticleLivingThings($offset, $limit),
-            "nbrOffset" => ceil($this->getDoctrine()->getRepository(ArticleLivingThing::class)->countArticleLivingThings() / $limit),
-            "offset" => $offset
-        ]);
+        if($category == "living-thing") {
+            return $this->render('admin/article/living-thing/index.html.twig', [
+                "articles" => $this->getDoctrine()->getRepository(ArticleLivingThing::class)->getArticleLivingThings($offset, $limit),
+                "nbrOffset" => ceil($this->getDoctrine()->getRepository(ArticleLivingThing::class)->countArticleLivingThings() / $limit),
+                "offset" => $offset,
+                "category" => $category
+            ]);
+        } elseif($category == "natural-elements") {
+            die("Cette partie n'est pas encore disponible.");
+            
+            /* Exemple en tête */
+            // return $this->render('admin/article/natural-elements/index.html.twig', [
+            //     "articles" => $this->getDoctrine()->getRepository(ArticleNaturalElement::class)->getArticleNaturalElements($offset, $limit),
+            //     "nbrOffset" => ceil($this->getDoctrine()->getRepository(ArticleNaturalElement::class)->countArticleNaturalElements() / $limit),
+            //     "offset" => $offset
+            // ]);
+        }
+
+        return $this->redirectToRoute("404Error");
     }
 
     /**
-     * @Route("/admin/article/add", name="adminAddArticle")
+     * Ajout un article celon le type (la categorie => "living-thing" ou "natural-elements") de l'article.
+     * 
+     * @Route("/admin/article/{category}/add", name="adminAddArticleByCategory")
      */
-    public function admin_add_article(Request $request, EntityManagerInterface $manager)
+    public function admin_add_article_by_category(string $category, Request $request, EntityManagerInterface $manager)
     {
-        $article = new ArticleLivingThing();
-        $formArticle = $this->createForm(ArticleLivingThingType::class, $article);
-        $formArticle->handleRequest($request);
+        if($category == "living-thing") {
+            $article = new ArticleLivingThing();
+            $formArticle = $this->createForm(ArticleLivingThingType::class, $article);
+            $formArticle->handleRequest($request);
 
-        if($formArticle->isSubmitted() && $formArticle->isValid()) {
-            $this->articleLivingThingManager->insertArticleLivingThing(
-                $formArticle, 
-                $request, 
-                $manager, 
-                $this->getParameter('project_wikiearth_dir'), 
-                $this->current_logged_user
-            );
+            // Quand le formulaire est soumit et valide celon la config dans l'entity
+            if($formArticle->isSubmitted() && $formArticle->isValid()) {
+                $this->articleLivingThingManager->insertArticleLivingThing(
+                    $formArticle, 
+                    $request, 
+                    $manager, 
+                    $this->getParameter('project_wikiearth_dir'), 
+                    $this->current_logged_user
+                );
+            }
+
+            return $this->render('admin/article/edit.html.twig', [
+                "formArticle" => $formArticle->createView(),
+                "category" => $category
+            ]);
+        } elseif($category == "natural-elements") {
+            die("Cette partie n'est pas encore disponible.");
         }
 
-        return $this->render('admin/article/edit.html.twig', [
-            "formArticle" => $formArticle->createView()
-        ]);
+        return $this->redirectToRoute("404Error");
     }
 
     /**
-     * @Route("/admin/article/{id}/edit", name="adminArticleEdit")
+     * @Route("/admin/article/{category}/{id}", name="adminSingleArticleByCategory")
      */
-    public function admin_article_edit(ArticleLivingThing $articleLivingThing, Request $request, EntityManagerInterface $manager)
+    public function admin_single_article_by_category(int $id, string $category, Request $request)
     {
-        $formArticle = $this->createForm(ArticleLivingThingType::class, $articleLivingThing);
-        $formArticle->get('livingThing')->setData($articleLivingThing->getIdLivingThing());
-        $formArticle->handleRequest($request);
-
-        if($formArticle->isSubmitted() && $formArticle->isValid()) {
-            $this->articleLivingThingManager->setArticleLivingThing(
-                $articleLivingThing,
-                $articleLivingThing->getIdLivingThing(),
-                $manager
-            );
+        if($category == "living-thing") {
+            return $this->render('admin/article/living-thing/details.html.twig', [
+                "article" => $this->getDoctrine()->getRepository(ArticleLivingThing::class)->getArticleLivingThing($id),
+                "category" => $category
+            ]);
+        } elseif ($category == "natural-elements") {
+            die("Cette partie n'est pas encore disponible.");
         }
 
-        return $this->render('admin/article/edit.html.twig', [
-            "formArticle" => $formArticle->createView() 
-        ]);
+        return $this->redirectToRoute("404Error");
+    }
+
+    /**
+     * @Route("/admin/article/{category}/{id}/edit", name="adminEditArticleByCategory")
+     */
+    public function admin_edit_article_by_category(int $id, string $category, Request $request, EntityManagerInterface $manager)
+    {
+        if($category == "living-thing") {
+            $articleLivingThing = $this->getDoctrine()->getRepository(ArticleLivingThing::class)->getArticleLivingThing($id);
+            
+            if(empty($articleLivingThing)) {
+                return $this->redirectToRoute("404Error");
+            }
+            
+            $formArticle = $this->createForm(ArticleLivingThingType::class, $articleLivingThing);
+            $formArticle->get('livingThing')->setData($articleLivingThing->getIdLivingThing());
+            $formArticle->handleRequest($request);
+
+            if($formArticle->isSubmitted() && $formArticle->isValid()) {
+                $this->articleLivingThingManager->setArticleLivingThing(
+                    $articleLivingThing,
+                    $articleLivingThing->getIdLivingThing(),
+                    $manager
+                );
+            }
+
+            return $this->render('admin/article/living-thing/edit.html.twig', [
+                "formArticle" => $formArticle->createView(),
+                "category" => $category
+            ]);
+        } elseif($category == "natural-elements") {
+            die("Cette partie n'est pas encore disponible.");
+        }
+
+        return $this->redirectToRoute("404Error");
     }
 
     /**
      * Possibilité d'en faire une response API
      * 
-     * Attention : supprimer un article revient à supprime également toutes les liaisons 1-1 (donc supprime
-     * la ligne correspondante dans la table "Living Thing")
+     * Attention : supprimer un article revient à supprime également toutes les liaisons 1-1 auquel elle est liée
      * 
-     * @Route("/admin/article/{id}/delete", name="adminDeleteArticle")
+     * @Route("/admin/article/{category}/{id}/delete", name="adminDeleteArticleByCategory")
      */
-    public function admin_delete_article(ArticleLivingThing $articleLivingThing, EntityManagerInterface $manager)
+    public function admin_delete_article_by_category(int $id, string $category, EntityManagerInterface $manager)
     {
-        $manager->remove($articleLivingThing);
+        $article = null;
+        if($category == "living-thing") {
+            $article = $this->manager->getDoctrine()->getRepository(ArticleLivingThing::class)->getArticleLivingThing($id);
+            if(empty($article)) {
+                return $this->redirectToRoute("404Error");
+            }
+        } elseif($category == "natural-elements") {
+            die("Cette partie n'est pas encore disponible.");
+        } else {
+            return $this->redirectToRoute("404Error");
+        }
+
+        $manager->remove($article);
         $manager->flush();
 
         return $this->redirectToRoute('adminArticle');
-    }
-
-    /**
-     * @Route("/admin/article/{categoryArticle}/publish", name="adminArticleToPublish")
-     */
-    public function admin_article_to_publish($categoryArticle, Request $request)
-    {
-        $limit = 10;
-        $offset = !empty($request->get('offset')) && preg_match('/^[0-9]*$/', $request->get('offset')) ? $request->get('offset') : 1;
-        $articleToApproved = [];
-
-        if($categoryArticle == "living-thing") {
-            $articleToApproved = $this->getDoctrine()->getRepository(ArticleLivingThing::class)->getArticleLivingThingsByArticleNotTreatedToPublish();
-        } elseif($categoryArticle == "natural-element") {
-            $articleToApproved = [];
-        }
-
-        return $this->render("admin/article/approved.html.twig", [
-            "approvedListing" => $articleToApproved
-        ]);
-    }
-
-    /**
-     * @Route("/admin/article/{categoryArticle}/publish/{id}/details", name="adminArticleToPublishById")
-     */
-    public function admin_article_to_publish_by_id($categoryArticle, $id, Request $request)
-    {
-        $limit = 10;
-        $offset = !empty($request->get('offset')) && preg_match('/^[0-9]*$/', $request->get('offset')) ? $request->get('offset') : 1;
-        $articleToApproved = null;
-
-        if($categoryArticle == "living-thing") {
-            $articleToApproved = $this->getDoctrine()->getRepository(ArticleLivingThing::class)->getArticleLivingThingNotApproved($id);
-        } elseif($categoryArticle == "natural-element") {
-            $articleToApproved = null;
-        }
-
-        return $this->render("admin/article/approved.html.twig", [
-            "approvedListing" => $articleToApproved
-        ]);
     }
 
     /**

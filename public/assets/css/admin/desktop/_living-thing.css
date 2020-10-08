@@ -1,10 +1,10 @@
 /* ---------------------------------------- *\
                 Living Thing
 \* ---------------------------------------- */
-/* .livingThing {
+.livingThing {
     padding: 2rem;
-    background-color: #f2f2f2;
-} */
+    /* background-color: #f2f2f2; */
+}
 
 .livingThing .media {
     background-color: #ffffff;
@@ -45,6 +45,7 @@
     width: 100%;
     text-align: center;
     margin: .2rem;
+    padding: .4rem 0;
 }
 
 .livingThing .pagination .pagination-links > a {
