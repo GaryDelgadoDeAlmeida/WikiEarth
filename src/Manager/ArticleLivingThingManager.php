@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class ArticleLivingThingManager {
 
-    public function insertArticleLivingThing(Form $formRequest, Request $request, EntityManagerInterface $manager, $project_wikiearth_dir, $user)
+    public function insertArticleLivingThing(Form $formRequest, ArticleLivingThing $article, Request $request, EntityManagerInterface $manager, $project_wikiearth_dir, $user)
     {
         $mediaLivingThingFile = isset($request->files->get('article_living_thing')['livingThing']['imgPath']) ? $request->files->get('article_living_thing')['livingThing']['imgPath'] : null;
         $formRequest = $request->get('article_living_thing');
@@ -69,12 +69,10 @@ class ArticleLivingThingManager {
             }
         }
         
-        $article = new ArticleLivingThing();
         $article->setUser($user);
         $article->setIdLivingThing($livingThing);
         $article->setApproved(false);
         $article->setCreatedAt(new \DateTime());
-
         $manager->persist($livingThing);
         $manager->persist($article);
         $manager->flush();

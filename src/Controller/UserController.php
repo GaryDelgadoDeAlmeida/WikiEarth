@@ -131,7 +131,7 @@ class UserController extends AbstractController
      */
     public function user_living_thing_create_article($id, Request $request, EntityManagerInterface $manager)
     {
-        $articleLivingThing = $this->getDoctrine()->getRepository(ArticleLivingThing::class)->getArticleLivingThing($id);
+        $articleLivingThing = $this->getDoctrine()->getRepository(ArticleLivingThing::class)->findOneBy(["id" => $id]);
 
         if(empty($articleLivingThing)) {
             $articleLivingThing = new ArticleLivingThing();
@@ -236,6 +236,7 @@ class UserController extends AbstractController
         if($formArticle->isSubmitted() && $formArticle->isValid()) {
             $this->articleLivingThingManager->insertArticleLivingThing(
                 $formArticle, 
+                $article,
                 $request, 
                 $manager, 
                 $this->getParameter('project_wikiearth_dir'), 
@@ -259,6 +260,7 @@ class UserController extends AbstractController
         if($formArticle->isSubmitted() && $formArticle->isValid()) {
             $this->articleLivingThingManager->insertArticleLivingThing(
                 $formArticle, 
+                $article,
                 $request, 
                 $manager, 
                 $this->getParameter('project_wikiearth_dir'), 

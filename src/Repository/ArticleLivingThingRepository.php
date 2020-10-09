@@ -81,42 +81,29 @@ class ArticleLivingThingRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param idLivingThing
+     * @param id
      * @return ArticleLivingThings
      */
-    public function getArticleLivingThing($idLivingThing)
+    public function getArticleLivingThingApproved($id)
     {
         return $this->createQueryBuilder('a')
-            ->where('a.idLivingThing = :idLivingThing')
-            ->setParameter('idLivingThing', $idLivingThing)
-            ->getQuery()
-            ->getOneOrNullResult();
-    }
-
-    /**
-     * @param idLivingThing
-     * @return ArticleLivingThings
-     */
-    public function getArticleLivingThingApproved($idLivingThing)
-    {
-        return $this->createQueryBuilder('a')
-            ->where('a.idLivingThing = :idLivingThing')
+            ->where('a.id = :id')
             ->andWhere('a.approved = 1')
-            ->setParameter('idLivingThing', $idLivingThing)
+            ->setParameter('id', $id)
             ->getQuery()
             ->getOneOrNullResult();
     }
 
     /**
-     * @param idLivingThing
+     * @param id
      * @return ArticleLivingThings
      */
-    public function getArticleLivingThingNotApproved($idLivingThing)
+    public function getArticleLivingThingNotApproved($id)
     {
         return $this->createQueryBuilder('a')
-            ->where('a.idLivingThing = :idLivingThing')
+            ->where('a.id = :id')
             ->andWhere('a.approved = 0')
-            ->setParameter('idLivingThing', $idLivingThing)
+            ->setParameter('id', $id)
             ->getQuery()
             ->getOneOrNullResult();
     }

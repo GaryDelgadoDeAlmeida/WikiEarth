@@ -24,13 +24,15 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 class AdminController extends AbstractController
 {
     private $current_logged_user;
+    private $em;
     private $livingThingManager;
     private $articleLivingThingManager;
     private $userManager;
 
-    public function __construct(TokenStorageInterface $tokenStorage)
+    public function __construct(TokenStorageInterface $tokenStorage, EntityManagerInterface $em)
     {
         $this->current_logged_user = $tokenStorage->getToken()->getUser();
+        $this->em = $em;
         $this->livingThingManager = new LivingThingManager();
         $this->articleLivingThingManager = new ArticleLivingThingManager();
         $this->userManager = new UserManager();
@@ -42,26 +44,25 @@ class AdminController extends AbstractController
     public function admin_home()
     {
         return $this->render('admin/home/index.html.twig', [
-            "nbrUsers" => $this->getDoctrine()->getRepository(User::class)->countUsers($this->current_logged_user->getId()),
-            "nbrArticles" => $this->getDoctrine()->getRepository(ArticleLivingThing::class)->countArticleLivingThings(),
-            "nbrLivingThings" => $this->getDoctrine()->getRepository(LivingThing::class)->countLivingThings()
+            "nbrUsers" => $this->em->getRepository(User::class)->countUsers($this->current_logged_user->getId()),
+            "nbrArticles" => $this->em->getRepository(ArticleLivingThing::class)->countArticleLivingThings(),
+            "nbrLivingThings" => $this->em->getRepository(LivingThing::class)->countLivingThings()
         ]);
     }
 
     /**
      * @Route("/admin/profile", name="adminProfile")
      */
-    public function admin_profile(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder)
+    public function admin_profile(Request $request, UserPasswordEncoderInterface $encoder)
     {
-        $user = $this->current_logged_user;
-        $formUser = $this->createForm(UserType::class, $user);
+        $formUser = $this->createForm(UserType::class, $this->current_logged_user);
         $formUser->handleRequest($request);
 
         if($formUser->isSubmitted() && $formUser->isValid()) {
             $this->userManager->updateUser(
                 $formUser, 
-                $user, 
-                $manager, 
+                $this->current_logged_user, 
+                $this->em, 
                 $encoder, 
                 $this->getParameter('project_users_dir')
             );
@@ -69,7 +70,7 @@ class AdminController extends AbstractController
 
         return $this->render('admin/profile/index.html.twig', [
             "userForm" => $formUser->createView(),
-            "userImg" => $user->getImgPath() ? $user->getImgPath() : "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/1024px-User_icon_2.svg.png"
+            "userImg" => $this->current_logged_user->getImgPath() ? $this->current_logged_user->getImgPath() : "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/1024px-User_icon_2.svg.png"
         ]);
     }
 
@@ -82,16 +83,16 @@ class AdminController extends AbstractController
         $offset = !empty($request->get('offset')) && preg_match('/^[0-9]*$/', $request->get('offset')) ? $request->get('offset') : 1;
 
         return $this->render('admin/users/index.html.twig', [
-            "users" => $this->getDoctrine()->getRepository(User::class)->getUsers($offset - 1, $limit, $this->current_logged_user->getId()),
+            "users" => $this->em->getRepository(User::class)->getUsers($offset - 1, $limit, $this->current_logged_user->getId()),
             "offset" => $offset,
-            "total_page" => ceil($this->getDoctrine()->getRepository(User::class)->countUsers($this->current_logged_user->getId()) / $limit)
+            "total_page" => ceil($this->em->getRepository(User::class)->countUsers($this->current_logged_user->getId()) / $limit)
         ]);
     }
 
     /**
      * @Route("/admin/users/{id}", name="adminUserEdit")
      */
-    public function admin_user_edit(User $user, Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder)
+    public function admin_user_edit(User $user, Request $request, UserPasswordEncoderInterface $encoder)
     {
         $formUser = $this->createForm(UserType::class, $user);
         $formUser->handleRequest($request);
@@ -100,7 +101,7 @@ class AdminController extends AbstractController
             $this->userManager->updateUser(
                 $formUser, 
                 $user, 
-                $manager, 
+                $this->em, 
                 $encoder, 
                 $this->getParameter('project_users_dir')
             );
@@ -117,10 +118,10 @@ class AdminController extends AbstractController
     /**
      * @Route("/admin/users/{id}/delete", name="adminUserDelete")
      */
-    public function admin_user_delete(User $user, EntityManagerInterface $manager)
+    public function admin_user_delete(User $user)
     {
-        $manager->remove($user);
-        $manager->flush();
+        $this->em->remove($user);
+        $this->em->flush();
 
         return $this->redirectToRoute('adminUsersListing');
     }
@@ -134,16 +135,16 @@ class AdminController extends AbstractController
         $offset = !empty($request->get('offset')) && preg_match('/^[0-9]*$/', $request->get('offset')) ? $request->get('offset') : 1;
 
         return $this->render('admin/living_thing/index.html.twig', [
-            "livingThings" => $this->getDoctrine()->getRepository(LivingThing::class)->getLivingThings($offset, $limit),
+            "livingThings" => $this->em->getRepository(LivingThing::class)->getLivingThings($offset, $limit),
             "offset" => $offset,
-            "nbrOffset" => ceil($this->getDoctrine()->getRepository(LivingThing::class)->countLivingThings() / $limit)
+            "nbrOffset" => ceil($this->em->getRepository(LivingThing::class)->countLivingThings() / $limit)
         ]);
     }
 
     /**
      * @Route("/admin/living-thing/add", name="adminAddLivingThing")
      */
-    public function admin_add_living_thing(Request $request, EntityManagerInterface $manager)
+    public function admin_add_living_thing(Request $request)
     {
         $livingThing = new LivingThing();
         $formLivingThing = $this->createForm(LivingThingType::class, $livingThing);
@@ -153,7 +154,7 @@ class AdminController extends AbstractController
             $this->livingThingManager->setLivingThing(
                 $formLivingThing, 
                 $livingThing, 
-                $manager
+                $this->em
             );
         }
 
@@ -165,13 +166,13 @@ class AdminController extends AbstractController
     /**
      * @Route("/admin/living-thing/{id}/article", name="adminLivingThingCreateArticle")
      */
-    public function admin_living_thing_create_article($id, Request $request, EntityManagerInterface $manager)
+    public function admin_living_thing_create_article($id, Request $request)
     {
-        $articleLivingThing = $this->getDoctrine()->getRepository(ArticleLivingThing::class)->getArticleLivingThing($id);
+        $articleLivingThing = $this->em->getRepository(ArticleLivingThing::class)->findOneBy(["id" => $id]);
 
         if(empty($articleLivingThing)) {
             $articleLivingThing = new ArticleLivingThing();
-            $livingThing = $this->getDoctrine()->getRepository(LivingThing::class)->getLivingThing($id);
+            $livingThing = $this->em->getRepository(LivingThing::class)->getLivingThing($id);
 
             if(!empty($livingThing)) {
                 $formArticle = $this->createForm(ArticleLivingThingType::class, $articleLivingThing);
@@ -182,7 +183,7 @@ class AdminController extends AbstractController
                     $this->articleLivingThingManager->setArticleLivingThing(
                         $articleLivingThing,
                         $livingThing,
-                        $manager,
+                        $this->em,
                         $this->current_logged_user
                     );
                 }
@@ -202,7 +203,7 @@ class AdminController extends AbstractController
     /**
      * @Route("/admin/living-thing/{id}/edit", name="adminEditLivingThing")
      */
-    public function admin_edit_living_thing(LivingThing $livingThing, Request $request, EntityManagerInterface $manager)
+    public function admin_edit_living_thing(LivingThing $livingThing, Request $request)
     {
         $formLivingThing = $this->createForm(LivingThingType::class, $livingThing);
         $formLivingThing->handleRequest($request);
@@ -211,7 +212,7 @@ class AdminController extends AbstractController
             $this->livingThingManager->setLivingThing(
                 $formLivingThing, 
                 $livingThing, 
-                $manager
+                $this->em
             );
         }
 
@@ -223,14 +224,17 @@ class AdminController extends AbstractController
     /**
      * Possibilité d'en faire une response API
      * 
+     * Attention : supprimer un living thing possèdant une liaison avec un article,
+     * l'article et le living thing seront supprimé de la base de données.
+     * 
      * @Route("/admin/living-thing/{id}/delete", name="adminDeleteLivingThing")
      */
-    public function admin_delete_living_thing(LivingThing $livingThing, EntityManagerInterface $manager)
+    public function admin_delete_living_thing(LivingThing $livingThing)
     {
         $imgPath = $this->getParameter('project_public_dir') . $livingThing->getImgPath();
         unset($imgPath);
-        $manager->remove($livingThing);
-        $manager->flush();
+        $this->em->remove($livingThing);
+        $this->em->flush();
 
         return $this->redirectToRoute('adminLivingThing');
     }
@@ -256,20 +260,13 @@ class AdminController extends AbstractController
 
         if($category == "living-thing") {
             return $this->render('admin/article/living-thing/index.html.twig', [
-                "articles" => $this->getDoctrine()->getRepository(ArticleLivingThing::class)->getArticleLivingThings($offset, $limit),
-                "nbrOffset" => ceil($this->getDoctrine()->getRepository(ArticleLivingThing::class)->countArticleLivingThings() / $limit),
+                "articles" => $this->em->getRepository(ArticleLivingThing::class)->getArticleLivingThings($offset, $limit),
+                "nbrOffset" => ceil($this->em->getRepository(ArticleLivingThing::class)->countArticleLivingThings() / $limit),
                 "offset" => $offset,
                 "category" => $category
             ]);
         } elseif($category == "natural-elements") {
             die("Cette partie n'est pas encore disponible.");
-            
-            /* Exemple en tête */
-            // return $this->render('admin/article/natural-elements/index.html.twig', [
-            //     "articles" => $this->getDoctrine()->getRepository(ArticleNaturalElement::class)->getArticleNaturalElements($offset, $limit),
-            //     "nbrOffset" => ceil($this->getDoctrine()->getRepository(ArticleNaturalElement::class)->countArticleNaturalElements() / $limit),
-            //     "offset" => $offset
-            // ]);
         }
 
         return $this->redirectToRoute("404Error");
@@ -280,7 +277,7 @@ class AdminController extends AbstractController
      * 
      * @Route("/admin/article/{category}/add", name="adminAddArticleByCategory")
      */
-    public function admin_add_article_by_category(string $category, Request $request, EntityManagerInterface $manager)
+    public function admin_add_article_by_category(string $category, Request $request)
     {
         if($category == "living-thing") {
             $article = new ArticleLivingThing();
@@ -291,14 +288,15 @@ class AdminController extends AbstractController
             if($formArticle->isSubmitted() && $formArticle->isValid()) {
                 $this->articleLivingThingManager->insertArticleLivingThing(
                     $formArticle, 
+                    $article,
                     $request, 
-                    $manager, 
+                    $this->em, 
                     $this->getParameter('project_wikiearth_dir'), 
                     $this->current_logged_user
                 );
             }
 
-            return $this->render('admin/article/edit.html.twig', [
+            return $this->render('admin/article/living-thing/edit.html.twig', [
                 "formArticle" => $formArticle->createView(),
                 "category" => $category
             ]);
@@ -312,11 +310,11 @@ class AdminController extends AbstractController
     /**
      * @Route("/admin/article/{category}/{id}", name="adminSingleArticleByCategory")
      */
-    public function admin_single_article_by_category(int $id, string $category, Request $request)
+    public function admin_single_article_by_category(int $id, string $category)
     {
         if($category == "living-thing") {
             return $this->render('admin/article/living-thing/details.html.twig', [
-                "article" => $this->getDoctrine()->getRepository(ArticleLivingThing::class)->getArticleLivingThing($id),
+                "article" => $this->em->getRepository(ArticleLivingThing::class)->findOneBy(["id" => $id]),
                 "category" => $category
             ]);
         } elseif ($category == "natural-elements") {
@@ -329,11 +327,11 @@ class AdminController extends AbstractController
     /**
      * @Route("/admin/article/{category}/{id}/approve", name="adminApproveArticleByCategory")
      */
-    public function admin_approve_single_article_by_category(int $id, string $category, Request $request, EntityManagerInterface $manager)
+    public function admin_approve_single_article_by_category(int $id, string $category)
     {
         $article = null;
         if($category == "living-thing") {
-            $article = $this->getDoctrine()->getRepository(ArticleLivingThing::class)->getArticleLivingThing($id);
+            $article = $this->em->getRepository(ArticleLivingThing::class)->findOneBy(["id" => $id]);
         } elseif ($category == "natural-elements") {
             die("Cette partie n'est pas encore disponible.");
         }
@@ -342,20 +340,30 @@ class AdminController extends AbstractController
             return $this->redirectToRoute("404Error");
         }
 
-        $article->setApproved(true);
-        $manager->persist($article);
-        $manager->flush();
+        if(!$article->getApproved()) {
+            $notfication = new Notification();
+            $notfication->setUser($article->getUser());
+            $notfication->setType("success");
+            $notfication->setContent("The content of the article {$article->getTitle()} you writed is accurate. This article is now public.");
+            $notfication->setCreatedAt(current_time("mysql"));
+            $article->setApproved(true);
+            $this->em->persist($article);
+            $this->em->persist($notfication);
+            $this->em->flush();
+        }
 
-        return $this->redirectToRoute("adminArticleByCategory");
+        return $this->redirectToRoute("adminArticleByCategory", [
+            "category" => $category
+        ]);
     }
 
     /**
      * @Route("/admin/article/{category}/{id}/edit", name="adminEditArticleByCategory")
      */
-    public function admin_edit_article_by_category(int $id, string $category, Request $request, EntityManagerInterface $manager)
+    public function admin_edit_article_by_category(int $id, string $category, Request $request)
     {
         if($category == "living-thing") {
-            $articleLivingThing = $this->getDoctrine()->getRepository(ArticleLivingThing::class)->getArticleLivingThing($id);
+            $articleLivingThing = $this->em->getRepository(ArticleLivingThing::class)->findOneBy(["id" => $id]);
             
             if(empty($articleLivingThing)) {
                 return $this->redirectToRoute("404Error");
@@ -369,7 +377,7 @@ class AdminController extends AbstractController
                 $this->articleLivingThingManager->setArticleLivingThing(
                     $articleLivingThing,
                     $articleLivingThing->getIdLivingThing(),
-                    $manager
+                    $this->em
                 );
             }
 
@@ -387,28 +395,37 @@ class AdminController extends AbstractController
     /**
      * Possibilité d'en faire une response API
      * 
-     * Attention : supprimer un article revient à supprime également toutes les liaisons 1-1 auquel elle est liée
+     * Supprimer un article uniquement. La liaison 1-1 avec un living thing que l'article possède
+     * ne sera pas affectée
      * 
      * @Route("/admin/article/{category}/{id}/delete", name="adminDeleteArticleByCategory")
      */
-    public function admin_delete_article_by_category(int $id, string $category, EntityManagerInterface $manager)
+    public function admin_delete_article_by_category(int $id, string $category)
     {
         $article = null;
         if($category == "living-thing") {
-            $article = $this->manager->getDoctrine()->getRepository(ArticleLivingThing::class)->getArticleLivingThing($id);
-            if(empty($article)) {
-                return $this->redirectToRoute("404Error");
-            }
+            $article = $this->em->getRepository(ArticleLivingThing::class)->findOneBy(["id" => $id]);
         } elseif($category == "natural-elements") {
             die("Cette partie n'est pas encore disponible.");
-        } else {
+        }
+
+        if(empty($article)) {
             return $this->redirectToRoute("404Error");
         }
 
-        $manager->remove($article);
-        $manager->flush();
+        $article->setIdLivingThing(null);
+        $notfication = new Notification();
+        $notfication->setUser($article->getUser());
+        $notfication->setType("danger");
+        $notfication->setContent("The content of the article {$article->getTitle()} you writed wasn't accurate. This article has been rejected.");
+        $notfication->setCreatedAt(current_time("mysql"));
+        $this->em->remove($article);
+        $this->em->persist($notfication);
+        $this->em->flush();
 
-        return $this->redirectToRoute('adminArticle');
+        return $this->redirectToRoute('adminArticleByCategory', [
+            "category" => $category
+        ]);
     }
 
     /**
@@ -429,7 +446,7 @@ class AdminController extends AbstractController
 
         return $this->render('admin/media/list_media.html.twig', [
             "mediaType" => $type,
-            "medias" => $this->getDoctrine()->getRepository(MediaGallery::class)->getMediaGalleryByType($type, $offset, $limit)
+            "medias" => $this->em->getRepository(MediaGallery::class)->getMediaGalleryByType($type, $offset, $limit)
         ]);
     }
 }
