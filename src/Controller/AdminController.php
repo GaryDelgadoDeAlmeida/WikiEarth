@@ -327,6 +327,29 @@ class AdminController extends AbstractController
     }
 
     /**
+     * @Route("/admin/article/{category}/{id}/approve", name="adminApproveArticleByCategory")
+     */
+    public function admin_approve_single_article_by_category(int $id, string $category, Request $request, EntityManagerInterface $manager)
+    {
+        $article = null;
+        if($category == "living-thing") {
+            $article = $this->getDoctrine()->getRepository(ArticleLivingThing::class)->getArticleLivingThing($id);
+        } elseif ($category == "natural-elements") {
+            die("Cette partie n'est pas encore disponible.");
+        }
+
+        if(empty($article)) {
+            return $this->redirectToRoute("404Error");
+        }
+
+        $article->setApproved(true);
+        $manager->persist($article);
+        $manager->flush();
+
+        return $this->redirectToRoute("adminArticleByCategory");
+    }
+
+    /**
      * @Route("/admin/article/{category}/{id}/edit", name="adminEditArticleByCategory")
      */
     public function admin_edit_article_by_category(int $id, string $category, Request $request, EntityManagerInterface $manager)

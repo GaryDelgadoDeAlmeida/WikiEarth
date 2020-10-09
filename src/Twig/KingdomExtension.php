@@ -26,6 +26,8 @@ class KingdomExtension extends AbstractExtension
             $kingdom = "animals";
         } elseif($kingdomClassification == "Plantae") {
             $kingdom = "plants";
+        } elseif($kingdomClassification == "Fungi") {
+            $kingdom = "fungi";
         } elseif($kingdomClassification == "Insecta") {
             $kingdom = "insects";
         } elseif($kingdomClassification == "Bacteria") {

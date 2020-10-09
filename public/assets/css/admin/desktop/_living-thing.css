@@ -52,8 +52,8 @@
     margin: 0 .5rem;
     border: 2px solid #000000;
     text-align: center;
-    width: 30px;
     display: inline-block;
+    padding: 0 10px;
 }
 
 .livingThing .pagination .pagination-links > a.active {

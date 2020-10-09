@@ -27,9 +27,9 @@
                     <a class="dropdown-item" href="{{ path("articleLivingThing", {"name": "animals"}) }}">Animals</a>
                     <a class="dropdown-item" href="{{ path("articleLivingThing", {"name": "fungi"}) }}">Fungi</a>
                     <a class="dropdown-item" href="{{ path("articleLivingThing", {"name": "plants"}) }}">Plants</a>
-                    <a class="dropdown-item" href="{{ path("articleLivingThing", {"name": "insects"}) }}">Insects</a>
+                    {# <a class="dropdown-item" href="{{ path("articleLivingThing", {"name": "insects"}) }}">Insects</a> #}
                     <a class="dropdown-item" href="{{ path("articleLivingThing", {"name": "bacteria"}) }}">Bacteria</a>
-                    <a class="dropdown-item" href="{{ path("articleLivingThing", {"name": "viruses"}) }}">Bacteria</a>
+                    <a class="dropdown-item" href="{{ path("articleLivingThing", {"name": "viruses"}) }}">Virus</a>
                 </div>
             </li>
             <li class="nav-item"><a class="nav-link" href="{{ path('about') }}"><span>About</span></a></li>
@@ -61,17 +61,19 @@
             <hr>
             <ul>
                 <li><a href="{{ path("articleLivingThing", {"name": "animals"}) }}">Animals</a></li>
-                <li><a href="{{ path("articleLivingThing", {"name": "insects"}) }}">Insects</a></li>
+                {# <li><a href="{{ path("articleLivingThing", {"name": "insects"}) }}">Insects</a></li> #}
                 <li><a href="{{ path("articleLivingThing", {"name": "plants"}) }}">Plants</a></li>
+                <li><a href="{{ path("articleLivingThing", {"name": "fungi"}) }}">Fungi</a></li>
                 <li><a href="{{ path("articleLivingThing", {"name": "bacteria"}) }}">Bacteria</a></li>
+                <li><a href="{{ path("articleLivingThing", {"name": "viruses"}) }}">Virus</a></li>
             </ul>
         </nav>
         <nav>
             <h3>Natural Elements</h3>
             <hr>
             <ul>
+                <li><a href="">Atome</a></li>
                 <li><a href="">Minerals</a></li>
-                <li><a href="">Metals</a></li>
             </ul>
         </nav>
     </div>
