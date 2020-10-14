@@ -65,13 +65,19 @@ Sauvegarder les modifications dans la database :
 
 ### Imports
 
-Il existe un répertoire nommé "imports" dans "public/content/file". Ce répertoire servira exclusivement à importé son contenu (le contenu dans ce répertoire) dans la base de données comme "données initiales" (les données de base qu'elle (le site) contiendra au tout début du lancement). Dans ce répertoire, il y existe, pour le moment, 2 grands répertoires (types) contenant différent répertoire : 
+Il existe un répertoire nommé "imports" dans "public/content/file". Ce répertoire servira exclusivement à importé son contenu (le contenu dans ce répertoire) dans la base de données comme "données initiales" (les données de base qu'elle (le site) contiendra au tout début du lancement). Dans ce répertoire, il y existe, pour le moment, 2 grands répertoires (types) contenant différents répertoires : 
+
   - le répertoire "Living Thing" contenant tous les êtres vivants
-    - le répertoire "Plants"
-    - le répertoire "Fungi" (champignons)
-    - le répertoire "Bacteria"
     - le répertoire "Animalia"
-    - le répertoire "Virus"
+    - le répertoire "Plantae"
+    - le répertoire "Fungi" (champignons)
+    - le répertoire "Protista"
+    - le répertoire "Archaea"
+    - le répertoire "Archaebacteria"
+    - le répertoire "Eubacteria"
+    - le répertoire "Bacteria"
+    - le répertoire "Virae"
+    
   - le répertoire "Natural Elements" contenant tous les atomes (métaux et non-métaux), les minéraux.
     - le répertoire "Atome"
     - le répertoire "Minerals"
@@ -83,14 +89,24 @@ Pour importer les animaux
     symfony console app:import:animals
 ```
 
-Pour importer les dinosaures
-```bash
-    symfony console app:import:dinosaurs
-```
-
 Pour importer les plantes
 ```bash
     symfony console app:import:plants
+```
+
+Pour importer les atomes
+```bash
+    symfony console app:import:atomes
+```
+
+Pour importer les minéraux
+```bash
+    symfony console app:import:minerals
+```
+
+Pour importer les pays
+```bash
+    symfony console app:import:country
 ```
 
 ## Compatibilité Apache 2
