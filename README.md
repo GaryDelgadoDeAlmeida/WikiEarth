@@ -44,7 +44,9 @@ Cette commande est nécessaire pour mettre à jour toutes les dépendances. Elle
     composer update
 ```
 
-## Création de la base de données (terminal)
+## Base de données
+
+### Installation
 
 Créer la database :
 ```bash
@@ -59,6 +61,36 @@ Générer les tables (pour la database) :
 Sauvegarder les modifications dans la database :
 ```bash
     symfony console doctrine:migrations:migrate
+```
+
+### Imports
+
+Il existe un répertoire nommé "imports" dans "public/content/file". Ce répertoire servira exclusivement à importé son contenu (le contenu dans ce répertoire) dans la base de données comme "données initiales" (les données de base qu'elle (le site) contiendra au tout début du lancement). Dans ce répertoire, il y existe, pour le moment, 2 grands répertoires (types) contenant différent répertoire : 
+  - le répertoire "Living Thing" contenant tous les êtres vivants
+    - le répertoire "Plants"
+    - le répertoire "Fungi" (champignons)
+    - le répertoire "Bacteria"
+    - le répertoire "Animalia"
+    - le répertoire "Virus"
+  - le répertoire "Natural Elements" contenant tous les atomes (métaux et non-métaux), les minéraux.
+    - le répertoire "Atome"
+    - le répertoire "Minerals"
+
+Pour le système d'import, en fonction de la commande appeler, il appellera le fichier et les images (s'ils en ont) dans le dossier cible pour les importés dans la base de données.
+
+Pour importer les animaux
+```bash
+    symfony console app:import:animals
+```
+
+Pour importer les dinosaures
+```bash
+    symfony console app:import:dinosaurs
+```
+
+Pour importer les plantes
+```bash
+    symfony console app:import:plants
 ```
 
 ## Compatibilité Apache 2
