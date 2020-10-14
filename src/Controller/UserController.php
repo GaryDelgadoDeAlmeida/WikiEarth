@@ -211,10 +211,11 @@ class UserController extends AbstractController
         $nbrPages = null;
 
         if(!empty($search)) {
-            //
+            $articleLivingThing = $this->getDoctrine()->getRepository(ArticleLivingThing::class)->searchArticleLivingThings($search);
+            $nbrPages = ceil($this->getDoctrine()->getRepository(ArticleLivingThing::class)->countSearchArticleLivingThings() / $limit);
         } else {
-            $articleLivingThing = $this->getDoctrine()->getRepository(ArticleLivingThing::class)->getArticleLivingThings($this->current_logged_user->getId(), $offset, $limit);
-            $nbrPages = ceil($this->getDoctrine()->getRepository(ArticleLivingThing::class)->countArticleLivingThingsUser($this->current_logged_user->getId()) / $limit);
+            $articleLivingThing = $this->getDoctrine()->getRepository(ArticleLivingThing::class)->getArticleLivingThingsApproved($offset, $limit);
+            $nbrPages = ceil($this->getDoctrine()->getRepository(ArticleLivingThing::class)->countArticleLivingThingsApproved() / $limit);
         }
 
         return $this->render('user/article/index.html.twig', [

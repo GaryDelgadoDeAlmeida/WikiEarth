@@ -67,7 +67,7 @@
                                     <div class="post">
                                         <div class="post-content">
                                             <div class="post-header">
-                                                <span class="post-title"><a href="">{{ onePost.title }}</a></span>
+                                                <span class="post-title"><a href="{{ path('articleLivingThingById', {'name': onePost.idLivingThing.kingdom|kingdom, 'id': onePost.idLivingThing.id}) }}">{{ onePost.title }}</a></span>
                                             </div>
                                             <div class="post-body">
                                                 <span class="post-text">Created at {{ onePost.createdAt|date("Y-m-d H:i:s") }}</span>

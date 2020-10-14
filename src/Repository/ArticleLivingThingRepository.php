@@ -157,7 +157,7 @@ class ArticleLivingThingRepository extends ServiceEntityRepository
     /**
      * @return ArticleLivingThings[]
      */
-    public function getSearchArticleLivingThings($searchedValue)
+    public function searchArticleLivingThings($searchedValue)
     {
         return $this->createQueryBuilder('a')
             ->where('a.title LIKE :searchValue')
@@ -171,23 +171,6 @@ class ArticleLivingThingRepository extends ServiceEntityRepository
             ->setParameter('searchValue', '%' . $searchedValue . '%')
             ->getQuery()
             ->getResult();
-    }
-
-    /**
-     * @param limit Parameter limit is the number of element per page
-     * @return ArticleLivingThings
-     */
-    public function countArticleLivingThingsByKingdom($kingdom, $limit)
-    {
-        return $this->createQueryBuilder('a')
-            ->select('COUNT(a.id) / :limit as nbrOffset')
-            ->innerJoin('App\Entity\LivingThing', 'l', Join::WITH, 'l.id = a.idLivingThing')
-            ->where('l.kingdom = :kingdom')
-            ->andWhere('a.approved = 1')
-            ->setParameter('limit', $limit)
-            ->setParameter('kingdom', $kingdom)
-            ->getQuery()
-            ->getOneOrNullResult();
     }
 
     /**
@@ -225,12 +208,47 @@ class ArticleLivingThingRepository extends ServiceEntityRepository
             ->getSingleResult()["nbrArticles"];
     }
 
+    /**
+     * @param limit Parameter limit is the number of element per page
+     * @return ArticleLivingThings
+     */
+    public function countArticleLivingThingsByKingdom($kingdom, $limit)
+    {
+        return $this->createQueryBuilder('a')
+            ->select('COUNT(a.id) / :limit as nbrOffset')
+            ->innerJoin('App\Entity\LivingThing', 'l', Join::WITH, 'l.id = a.idLivingThing')
+            ->where('l.kingdom = :kingdom')
+            ->andWhere('a.approved = 1')
+            ->setParameter('limit', $limit)
+            ->setParameter('kingdom', $kingdom)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
     public function countArticleLivingThingsUser($user_id)
     {
         return $this->createQueryBuilder('a')
             ->select('count(a.id) as nbrUserArticle')
             ->where("a.user = :user_id")
             ->setParameter('user_id', $user_id)
+            ->getQuery()
+            ->getSingleResult()["nbrUserArticle"];
+    }
+
+    public function countSearchArticleLivingThings($searchedValue)
+    {
+        return $this->createQueryBuilder('a')
+            ->select('COUNT(a.id) as nbrUserArticle')
+            // ->innerJoin('App\Entity\LivingThing', 'l', Join::WITH, 'l.id = a.idLivingThing')
+            ->where('a.title LIKE :searchValue')
+            ->orWhere('a.geography LIKE :searchValue')
+            ->orWhere('a.ecology LIKE :searchValue')
+            ->orWhere('a.behaviour LIKE :searchValue')
+            ->orWhere('a.wayOfLife LIKE :searchValue')
+            ->orWhere('a.description LIKE :searchValue')
+            ->orWhere('a.otherData LIKE :searchValue')
+            ->andWhere('a.approved = 1')
+            ->setParameter('searchValue', '%' . $searchedValue . '%')
             ->getQuery()
             ->getSingleResult()["nbrUserArticle"];
     }

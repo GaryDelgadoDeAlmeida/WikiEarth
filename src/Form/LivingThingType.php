@@ -38,16 +38,16 @@ class LivingThingType extends AbstractType
                 'label' => "Name",
                 "required" => true
             ])
+            ->add('domain', null, [
+                'label' => "Domain",
+                "required" => false
+            ])
             ->add('kingdom', null, [
                 'label' => "Kingdom",
                 "required" => false
             ])
             ->add('subKingdom', null, [
                 'label' => "Sub Kingdom",
-                "required" => false
-            ])
-            ->add('domain', null, [
-                'label' => "Domain",
                 "required" => false
             ])
             ->add('branch', null, [

@@ -7,7 +7,7 @@
                 {% for oneArticle in articles %}
                     <li class="media">
                         <div class="media-header">
-                            <img class="img-fuild" src="{{ asset(oneArticle.idLivingThing.imgPath) }}" alt="{{ oneArticle.title }}">
+                            <img class="img-fuild" src="{{ asset(oneArticle.idLivingThing.imgPath != null ? oneArticle.idLivingThing.imgPath : "content/wikiearth/thumbnail.jpg") }}" alt="{{ oneArticle.title }}">
                         </div>
                         <div class="media-body">
                             <h5 class="media-body-title">{{ oneArticle.title }}</h5>

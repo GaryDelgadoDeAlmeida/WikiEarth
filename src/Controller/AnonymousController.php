@@ -106,6 +106,7 @@ class AnonymousController extends AbstractController
 
         $livingThing = $this->getDoctrine()->getRepository(ArticleLivingThing::class)->getArticleLivingThingsByLivingThingKingdomByID($kingdom, $id);
 
+        // S'il est vide (soit il n'existe pas, soit l'article n'est pas encore approuver) alors ...
         if(empty($livingThing)) {
             return $this->redirectToRoute("404Error");
         }
@@ -132,7 +133,7 @@ class AnonymousController extends AbstractController
         $search = $request->get('searchInput');
         $limit = 10;
         $offset = !empty($request->get('offset')) && preg_match('/^[0-9]*$/', $request->get('offset')) ? $request->get('offset') : 1;
-        $livingThing = $this->getDoctrine()->getRepository(ArticleLivingThing::class)->getSearchArticleLivingThings($search);
+        $livingThing = $this->getDoctrine()->getRepository(ArticleLivingThing::class)->searchArticleLivingThings($search);
         
         return $this->render('anonymous/article/living-thing/searchLivingThing.html.twig', [
             "livingThing" => $livingThing,
