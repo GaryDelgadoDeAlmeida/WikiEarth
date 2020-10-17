@@ -59,9 +59,15 @@ class Country
      */
     private $articleLivingThing;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Mineral::class, mappedBy="country")
+     */
+    private $minerals;
+
     public function __construct()
     {
         $this->articleLivingThing = new ArrayCollection();
+        $this->minerals = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -174,6 +180,34 @@ class Country
     {
         if ($this->articleLivingThing->contains($articleLivingThing)) {
             $this->articleLivingThing->removeElement($articleLivingThing);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Mineral[]
+     */
+    public function getMinerals(): Collection
+    {
+        return $this->minerals;
+    }
+
+    public function addMineral(Mineral $mineral): self
+    {
+        if (!$this->minerals->contains($mineral)) {
+            $this->minerals[] = $mineral;
+            $mineral->addCountry($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMineral(Mineral $mineral): self
+    {
+        if ($this->minerals->contains($mineral)) {
+            $this->minerals->removeElement($mineral);
+            $mineral->removeCountry($this);
         }
 
         return $this;

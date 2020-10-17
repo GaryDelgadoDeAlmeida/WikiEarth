@@ -31,7 +31,7 @@ class ImportDinosaurCommand extends Command
     protected function configure()
     {
         $this
-            ->setDescription('Import dinosaur from a csv file to the database.')
+            ->setDescription('Import dinosaurs from a csv file to the database.')
         ;
     }
 
