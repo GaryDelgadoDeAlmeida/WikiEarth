@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Form\SourceLinkType;
+use App\Form\ReferenceType;
 use App\Form\LivingThingType;
 use App\Form\ArticleContentType;
 use App\Entity\ArticleLivingThing;
@@ -68,7 +68,7 @@ class ArticleLivingThingType extends AbstractType
                 'required' => false
             ])
             ->add('references', CollectionType::class, [
-                "entry_type" => SourceLinkType::class,
+                "entry_type" => ReferenceType::class,
                 'entry_options' => ['label' => false],
                 'allow_add' => true,
                 'allow_delete' => true,

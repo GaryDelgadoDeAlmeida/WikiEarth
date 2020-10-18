@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\LivingThingRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -268,6 +270,16 @@ class LivingThing
      * @ORM\OneToOne(targetEntity=ArticleLivingThing::class, mappedBy="idLivingThing", cascade={"persist", "remove"})
      */
     private $articleLivingThing;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Country::class, mappedBy="livingThing")
+     */
+    private $countries;
+
+    public function __construct()
+    {
+        $this->countries = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -623,6 +635,34 @@ class LivingThing
         $newIdLivingThing = null === $articleLivingThing ? null : $this;
         if ($articleLivingThing->getIdLivingThing() !== $newIdLivingThing) {
             $articleLivingThing->setIdLivingThing($newIdLivingThing);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Country[]
+     */
+    public function getCountries(): Collection
+    {
+        return $this->countries;
+    }
+
+    public function addCountry(Country $country): self
+    {
+        if (!$this->countries->contains($country)) {
+            $this->countries[] = $country;
+            $country->addLivingThing($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCountry(Country $country): self
+    {
+        if ($this->countries->contains($country)) {
+            $this->countries->removeElement($country);
+            $country->removeLivingThing($this);
         }
 
         return $this;

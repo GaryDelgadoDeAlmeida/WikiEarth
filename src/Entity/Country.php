@@ -55,9 +55,9 @@ class Country
     private $nativeName;
 
     /**
-     * @ORM\ManyToMany(targetEntity=ArticleLivingThing::class, inversedBy="countries")
+     * @ORM\ManyToMany(targetEntity=LivingThing::class, inversedBy="countries")
      */
-    private $articleLivingThing;
+    private $livingThing;
 
     /**
      * @ORM\ManyToMany(targetEntity=Mineral::class, mappedBy="country")
@@ -68,6 +68,7 @@ class Country
     {
         $this->articleLivingThing = new ArrayCollection();
         $this->minerals = new ArrayCollection();
+        $this->livingThing = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -160,26 +161,26 @@ class Country
     }
 
     /**
-     * @return Collection|ArticleLivingThing[]
+     * @return Collection|LivingThing[]
      */
-    public function getArticleLivingThing(): Collection
+    public function getLivingThing(): Collection
     {
-        return $this->articleLivingThing;
+        return $this->livingThing;
     }
 
-    public function addArticleLivingThing(ArticleLivingThing $articleLivingThing): self
+    public function addLivingThing(LivingThing $livingThing): self
     {
-        if (!$this->articleLivingThing->contains($articleLivingThing)) {
-            $this->articleLivingThing[] = $articleLivingThing;
+        if (!$this->livingThing->contains($livingThing)) {
+            $this->livingThing[] = $livingThing;
         }
 
         return $this;
     }
 
-    public function removeArticleLivingThing(ArticleLivingThing $articleLivingThing): self
+    public function removeLivingThing(LivingThing $livingThing): self
     {
-        if ($this->articleLivingThing->contains($articleLivingThing)) {
-            $this->articleLivingThing->removeElement($articleLivingThing);
+        if ($this->livingThing->contains($livingThing)) {
+            $this->livingThing->removeElement($livingThing);
         }
 
         return $this;

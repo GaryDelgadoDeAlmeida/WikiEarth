@@ -2,14 +2,14 @@
 
 namespace App\Entity;
 
-use App\Repository\SourceLinkRepository;
+use App\Repository\ReferenceRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass=SourceLinkRepository::class)
+ * @ORM\Entity(repositoryClass=ReferenceRepository::class)
  */
-class SourceLink
+class Reference
 {
     /**
      * @ORM\Id()

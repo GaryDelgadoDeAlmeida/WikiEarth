@@ -2,6 +2,7 @@
 
 namespace App\Command;
 
+use App\Entity\Country;
 use App\Entity\Mineral;
 use App\Manager\FileManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -40,6 +41,7 @@ class ImportMineralsCommand extends Command
         set_time_limit(0);
         ini_set("memory_limit", "-1");
         $io = new SymfonyStyle($input, $output);
+        // $country = $this->manager->getRepository(Country::class);
         $wikiearthMineralsDir = $this->params->get("project_natural_elements_minerals_dir");
         $mineralsFilePath = $this->params->get("project_import_dir") . "natural-elements/minerals/minerals.csv";
         $mineralsImgDir = scandir($this->params->get("project_import_dir") . "natural-elements/minerals/image/");
@@ -63,11 +65,14 @@ class ImportMineralsCommand extends Command
                 $mineral->setImaChemistry($oneMineralData[3]);
                 $mineral->setChemistryElements($oneMineralData[4]);
                 $mineral->setImaNumber($oneMineralData[5]);
-                // $mineral->addCountry($oneMineralData[7]);
                 $mineral->setImaStatus($oneMineralData[8]);
                 $mineral->setStructuralGroupname($oneMineralData[9]);
                 $mineral->setCrystalSystem($oneMineralData[10]);
                 $mineral->setValenceElements($oneMineralData[11]);
+
+                if(!empty($country->findOneBy(["alpha3_code" => $oneMineralData[7]]))) {
+                    $mineral->addCountry($oneMineralData[7]);
+                }
 
                 if($oneMineralData[12] == 1) {
                     // Do something
