@@ -165,8 +165,13 @@ a, a:hover {
 
 
 /* ---------------------------------------- *\
-                    Fieldset
+                    Form
 \* ---------------------------------------- */
 fieldset.form-group {
     display: none;
+}
+
+.form-group li {
+    list-style: none;
+    margin: 15px 0;
 }

@@ -135,7 +135,12 @@
                 </div>
 
                 <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
-                    <button type="submit">Valider</button>
+                    {{ form_label(formLivingThing.countries) }}
+                    {{ form_widget(formLivingThing.countries) }}
+                </div>
+
+                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                    <button class="btn btn-custom-blue" type="submit">Submit</button>
                 </div>
             </div>
         {{ form_end(formLivingThing, {"method": "POST"}) }}

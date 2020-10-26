@@ -115,7 +115,7 @@ class UserController extends AbstractController
 
         if($formLivingThing->isSubmitted() && $formLivingThing->isValid()) {
             $this->livingThingManager->setLivingThing(
-                $formLivingThing, 
+                $formLivingThing["imgPath"]->getData(), 
                 $livingThing, 
                 $manager
             );
@@ -178,7 +178,7 @@ class UserController extends AbstractController
 
         if($formLivingThing->isSubmitted() && $formLivingThing->isValid()) {
             $this->livingThingManager->setLivingThing(
-                $formLivingThing, 
+                $formLivingThing["imgPath"]->getData(), 
                 $livingThing, 
                 $manager
             );
@@ -238,7 +238,6 @@ class UserController extends AbstractController
             $this->articleLivingThingManager->insertArticleLivingThing(
                 $formArticle, 
                 $article,
-                $request, 
                 $manager, 
                 $this->getParameter('project_wikiearth_dir'), 
                 $this->current_logged_user
@@ -262,7 +261,6 @@ class UserController extends AbstractController
             $this->articleLivingThingManager->insertArticleLivingThing(
                 $formArticle, 
                 $article,
-                $request, 
                 $manager, 
                 $this->getParameter('project_wikiearth_dir'), 
                 $this->current_logged_user

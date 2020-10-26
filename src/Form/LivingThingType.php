@@ -2,9 +2,11 @@
 
 namespace App\Form;
 
+use App\Entity\Country;
 use App\Entity\LivingThing;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -129,6 +131,15 @@ class LivingThingType extends AbstractType
             ->add('subSpecies', null, [
                 'label' => "Sub Species",
                 "required" => false
+            ])
+            ->add("countries", EntityType::class, [
+                'label' => "Countrys",
+                "class" => Country::class,
+                "choice_label" => "name",
+                'multiple' => true,
+                // 'expanded' => true,
+                "required" => false,
+                "mapped" => true,
             ])
         ;
     }

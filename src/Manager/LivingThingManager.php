@@ -5,31 +5,31 @@ namespace Manager;
 use App\Entity\LivingThing;
 use Symfony\Component\Form\Form;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class LivingThingManager extends AbstractController {
 
-    public function setLivingThing(Form $formAnimal, LivingThing $livingThing, EntityManagerInterface $manager)
+    public function setLivingThing(UploadedFile $mediaFile, LivingThing $livingThing, EntityManagerInterface $manager)
     {
-        $mediaFile = $formAnimal['imgPath']->getData();
         if($mediaFile) {
             $originalFilename = pathinfo($mediaFile->getClientOriginalName(), PATHINFO_FILENAME);
-            // this is needed to safely include the file name as part of the URL
             $newFilename = $livingThing->getName() . '.' . $mediaFile->guessExtension();
+            $kingdomDirectory = $this->getKingdomDirectory(ucfirst(strtolower($livingThing->getKingdom())));
+            dd($mediaFile, ucfirst(strtolower($livingThing->getKingdom())), $originalFilename, $newFilename);
 
-            // Move the file to the directory where brochures are stored
             try {
                 if(
                     array_search(
-                        $this->getKingdomDirectory(ucfirst(strtolower($livingThing->getKingdom()))) . $newFilename, 
-                        glob($this->getKingdomDirectory(ucfirst(strtolower($livingThing->getKingdom()))) . "*." . $mediaFile->guessExtension())
+                        $kingdomDirectory . $newFilename, 
+                        glob($kingdomDirectory . "*." . $mediaFile->guessExtension())
                     )
                 ) {
-                    unlink($this->getKingdomDirectory(ucfirst(strtolower($livingThing->getKingdom()))) . $newFilename);
+                    unlink($kingdomDirectory . $newFilename);
                 }
                 
                 $mediaFile->move(
-                    $this->getKingdomDirectory(ucfirst(strtolower($livingThing->getKingdom()))),
+                    $kingdomDirectory,
                     $newFilename
                 );
             } catch (FileException $e) {
@@ -37,7 +37,13 @@ class LivingThingManager extends AbstractController {
             }
 
             $livingThing->setImgPath("content/wikiearth/living-thing/" . $this->convertKingdomClassification(ucfirst(strtolower($livingThing->getKingdom()))) . "/{$newFilename}");
-            dd($livingThing);
+        }
+
+        if(!empty($livingThing->getCountries())) {
+            foreach($livingThing->getCountries() as $oneCountry) {
+                $oneCountry->addLivingThing($livingThing);
+                $manager->persist($oneCountry);
+            }
         }
 
         $manager->persist($livingThing);
@@ -52,6 +58,8 @@ class LivingThingManager extends AbstractController {
             $kingdomPath = $this->getParameter('project_living_thing_animals_dir');
         } elseif($kingdomClassification == "Plantae") {
             $kingdomPath = $this->getParameter('project_living_thing_plants_dir');
+        } elseif($kingdomClassification == "Fungi") {
+            // $kingdomPath = $this->getParameter('project_living_thing_fungis_dir');
         } elseif($kingdomClassification == "Insecta") {
             $kingdomPath = $this->getParameter('project_living_thing_insects_dir');
         } elseif($kingdomClassification == "Bacteria") {
@@ -71,6 +79,8 @@ class LivingThingManager extends AbstractController {
             $kingdom = "animals";
         } elseif($kingdomClassification == "Plantae") {
             $kingdom = "plants";
+        } elseif($kingdomClassification == "Fungi") {
+            $kingdom = "fungi";
         } elseif($kingdomClassification == "Insecta") {
             $kingdom = "insects";
         } elseif($kingdomClassification == "Bacteria") {

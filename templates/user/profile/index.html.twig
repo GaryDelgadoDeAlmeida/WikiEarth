@@ -7,10 +7,10 @@
                 <div class="profile-img">
                     <label for="user_imgPath"><img class="img-fluid" src="{{ asset(userImg) }}" alt="{{ user.firstname }} {{ user.lastname }}"></label>
                 </div>
-                <div class="profile-user-identity">
+                {# <div class="profile-user-identity">
                     <span>{{ user.firstname }}</span>
                     <span>{{ user.lastname }}</span>
-                </div>
+                </div> #}
             </div>
             <div class="profile-right">
                 {{ form_start(formUser, {"action": "path('userProfile')", "method": "POST"}) }}
