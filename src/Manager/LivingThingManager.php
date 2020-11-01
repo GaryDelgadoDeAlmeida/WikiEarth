@@ -16,7 +16,6 @@ class LivingThingManager extends AbstractController {
             $originalFilename = pathinfo($mediaFile->getClientOriginalName(), PATHINFO_FILENAME);
             $newFilename = $livingThing->getName() . '.' . $mediaFile->guessExtension();
             $kingdomDirectory = $this->getKingdomDirectory(ucfirst(strtolower($livingThing->getKingdom())));
-            dd($mediaFile, ucfirst(strtolower($livingThing->getKingdom())), $originalFilename, $newFilename);
 
             try {
                 if(
@@ -48,6 +47,9 @@ class LivingThingManager extends AbstractController {
 
         $manager->persist($livingThing);
         $manager->flush();
+        $manager->clear();
+
+        return $livingThing;
     }
 
     public function getKingdomDirectory($kingdomClassification)
@@ -59,7 +61,7 @@ class LivingThingManager extends AbstractController {
         } elseif($kingdomClassification == "Plantae") {
             $kingdomPath = $this->getParameter('project_living_thing_plants_dir');
         } elseif($kingdomClassification == "Fungi") {
-            // $kingdomPath = $this->getParameter('project_living_thing_fungis_dir');
+            $kingdomPath = $this->getParameter('project_living_thing_fungis_dir');
         } elseif($kingdomClassification == "Insecta") {
             $kingdomPath = $this->getParameter('project_living_thing_insects_dir');
         } elseif($kingdomClassification == "Bacteria") {
@@ -80,7 +82,7 @@ class LivingThingManager extends AbstractController {
         } elseif($kingdomClassification == "Plantae") {
             $kingdom = "plants";
         } elseif($kingdomClassification == "Fungi") {
-            $kingdom = "fungi";
+            $kingdom = "fungis";
         } elseif($kingdomClassification == "Insecta") {
             $kingdom = "insects";
         } elseif($kingdomClassification == "Bacteria") {

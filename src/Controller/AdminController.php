@@ -152,7 +152,7 @@ class AdminController extends AbstractController
 
         if($formLivingThing->isSubmitted() && $formLivingThing->isValid()) {
             $this->livingThingManager->setLivingThing(
-                $formLivingThing, 
+                $formLivingThing["imgPath"]->getData(), 
                 $livingThing, 
                 $this->em
             );
@@ -224,14 +224,17 @@ class AdminController extends AbstractController
     /**
      * Possibilité d'en faire une response API
      * 
-     * Attention : supprimer un living thing possèdant une liaison avec un article,
-     * l'article et le living thing seront supprimé de la base de données.
+     * Attention : supprimer un living thing possèdant une liaison avec une autre table,
+     * la donnée dans l'autre table et le living thing seront supprimés de la base de données.
      * 
      * @Route("/admin/living-thing/{id}/delete", name="adminDeleteLivingThing")
      */
     public function admin_delete_living_thing(LivingThing $livingThing)
     {
         $imgPath = $this->getParameter('project_public_dir') . $livingThing->getImgPath();
+        foreach($livingThing->getCountries() as $oneCountry) {
+            $livingThing->removeCountry($oneCountry);
+        }
         unset($imgPath);
         $this->em->remove($livingThing);
         $this->em->flush();

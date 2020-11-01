@@ -43,7 +43,7 @@ class ArticleLivingThingManager extends AbstractController {
                     $newFilename
                 );
                 
-                $livingThing->setImgPath("content/wikiearth/living-thing" . $livingThing->getKingdom() . "/img/" . $livingThing->getName() . "/" . $newFilename);
+                $livingThing->setImgPath("content/wikiearth/living-thing/" . $livingThing->getKingdom() . "/img/" . $livingThing->getName() . "/" . $newFilename);
             } catch (FileException $e) {
                 die($e->getMessage());
             }
@@ -63,6 +63,7 @@ class ArticleLivingThingManager extends AbstractController {
         $manager->persist($livingThing);
         $manager->persist($article);
         $manager->flush();
+        $manager->clear();
     }
 
     public function setArticleLivingThing(ArticleLivingThing $articleLivingThing, LivingThing $livingThing, EntityManagerInterface $manager, $user = null)
@@ -78,5 +79,6 @@ class ArticleLivingThingManager extends AbstractController {
         $manager->persist($livingThing);
         $manager->persist($articleLivingThing);
         $manager->flush();
+        $manager->clear();
     }
 }

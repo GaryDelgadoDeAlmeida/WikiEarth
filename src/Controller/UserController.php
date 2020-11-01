@@ -24,13 +24,15 @@ class UserController extends AbstractController
     private $livingThingManager;
     private $articleLivingThingManager;
     private $userManager;
+    private $manager;
 
-    public function __construct(TokenStorageInterface $tokenStorage)
+    public function __construct(TokenStorageInterface $tokenStorage, EntityManagerInterface $manager)
     {
         $this->current_logged_user = $tokenStorage->getToken()->getUser();
         $this->livingThingManager = new LivingThingManager();
         $this->articleLivingThingManager = new ArticleLivingThingManager();
         $this->userManager = new UserManager();
+        $this->manager = $manager;
     }
 
     /**
@@ -55,7 +57,7 @@ class UserController extends AbstractController
     /**
      * @Route("/user/profile", name="userProfile")
      */
-    public function user_profil(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder)
+    public function user_profil(Request $request, UserPasswordEncoderInterface $encoder)
     {
         $user = $this->current_logged_user;
         $formUser = $this->createForm(UserType::class, $user);
@@ -65,7 +67,7 @@ class UserController extends AbstractController
             $this->userManager->updateUser(
                 $formUser, 
                 $user, 
-                $manager, 
+                $this->manager, 
                 $encoder, 
                 $this->getParameter('project_users_dir')
             );
@@ -107,7 +109,7 @@ class UserController extends AbstractController
     /**
      * @Route("/user/living-thing/add", name="userAddLivingThing")
      */
-    public function user_add_living_thing(Request $request, EntityManagerInterface $manager)
+    public function user_add_living_thing(Request $request)
     {
         $livingThing = new LivingThing();
         $formLivingThing = $this->createForm(LivingThingType::class, $livingThing);
@@ -117,7 +119,7 @@ class UserController extends AbstractController
             $this->livingThingManager->setLivingThing(
                 $formLivingThing["imgPath"]->getData(), 
                 $livingThing, 
-                $manager
+                $this->manager
             );
         }
 
@@ -129,7 +131,7 @@ class UserController extends AbstractController
     /**
      * @Route("/user/living-thing/{id}/article", name="userLivingThingCreateArticle")
      */
-    public function user_living_thing_create_article($id, Request $request, EntityManagerInterface $manager)
+    public function user_living_thing_create_article($id, Request $request)
     {
         $articleLivingThing = $this->getDoctrine()->getRepository(ArticleLivingThing::class)->findOneBy(["id" => $id]);
 
@@ -143,18 +145,19 @@ class UserController extends AbstractController
                 $formArticle->handleRequest($request);
 
                 if($formArticle->isSubmitted() && $formArticle->isValid()) {
+                    
+                    $livingThing = $this->livingThingManager->setLivingThing(
+                        $formArticle["livingThing"]["imgPath"]->getData(),
+                        $livingThing,
+                        $this->manager
+                    );
+
                     $this->articleLivingThingManager->setArticleLivingThing(
                         $articleLivingThing,
                         $livingThing,
-                        $manager,
+                        $this->manager,
                         $this->current_logged_user
                     );
-                    // $this->articleLivingThingManager->insertArticleLivingThing(
-                    //     $articleLivingThing,
-                    //     $livingThing,
-                    //     $manager,
-                    //     $this->current_logged_user
-                    // );
                 }
             } else {
                 dd("L'identifiant {$id} n'existe pas.");
@@ -171,7 +174,7 @@ class UserController extends AbstractController
     /**
      * @Route("/user/living-thing/{id}/edit", name="userEditLivingThing")
      */
-    public function user_edit_living_thing(LivingThing $livingThing, Request $request, EntityManagerInterface $manager)
+    public function user_edit_living_thing(LivingThing $livingThing, Request $request)
     {
         $formLivingThing = $this->createForm(LivingThingType::class, $livingThing);
         $formLivingThing->handleRequest($request);
@@ -180,24 +183,13 @@ class UserController extends AbstractController
             $this->livingThingManager->setLivingThing(
                 $formLivingThing["imgPath"]->getData(), 
                 $livingThing, 
-                $manager
+                $this->manager
             );
         }
 
         return $this->render('user/living_thing/edit.html.twig', [
             "formLivingThing" => $formLivingThing->createView()
         ]);
-    }
-
-    /**
-     * @Route("/user/living-thing/{id}/delete", name="userDeleteLivingThing")
-     */
-    public function user_delete_living_thing(LivingThing $livingThing, Request $request, EntityManagerInterface $manager)
-    {
-        $manager->remove($livingThing);
-        $manager->flush();
-
-        return $this->redirectToRoute('userLivingThing');
     }
 
     /**
@@ -228,18 +220,23 @@ class UserController extends AbstractController
     /**
      * @Route("/user/article/add", name="userAddArticle")
      */
-    public function user_add_article(Request $request, EntityManagerInterface $manager)
+    public function user_add_article(Request $request)
     {
         $article = new ArticleLivingThing();
         $formArticle = $this->createForm(ArticleLivingThingType::class, $article);
         $formArticle->handleRequest($request);
 
         if($formArticle->isSubmitted() && $formArticle->isValid()) {
-            $this->articleLivingThingManager->insertArticleLivingThing(
-                $formArticle, 
-                $article,
-                $manager, 
-                $this->getParameter('project_wikiearth_dir'), 
+            $livingThing = $this->livingThingManager->setLivingThing(
+                $formArticle["livingThing"]['imgPath']->getData(),
+                $formArticle["livingThing"]->getData(),
+                $this->manager
+            );
+
+            $this->articleLivingThingManager->setArticleLivingThing(
+                $article, 
+                $livingThing,
+                $this->manager, 
                 $this->current_logged_user
             );
         }
@@ -252,17 +249,22 @@ class UserController extends AbstractController
     /**
      * @Route("/user/article/{id}/edit", name="userEditArticle")
      */
-    public function user_edit_article(ArticleLivingThing $article, Request $request, EntityManagerInterface $manager)
+    public function user_edit_article(ArticleLivingThing $article, Request $request)
     {
         $formArticle = $this->createForm(ArticleLivingThingType::class, $article);
         $formArticle->handleRequest($request);
 
         if($formArticle->isSubmitted() && $formArticle->isValid()) {
-            $this->articleLivingThingManager->insertArticleLivingThing(
-                $formArticle, 
-                $article,
-                $manager, 
-                $this->getParameter('project_wikiearth_dir'), 
+            $livingThing = $this->livingThingManager->setLivingThing(
+                $formArticle["livingThing"]["imgPath"]->getData(),
+                $formArticle["livingThing"]->getData(),
+                $this->manager
+            );
+
+            $this->articleLivingThingManager->setArticleLivingThing(
+                $article, 
+                $livingThing,
+                $this->manager, 
                 $this->current_logged_user
             );
         }
