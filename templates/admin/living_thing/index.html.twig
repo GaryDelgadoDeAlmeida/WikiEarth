@@ -3,6 +3,7 @@
 {% block body %}
     <section class="livingThing">
         <div class="container">
+            <a class="btn btn-custom-green" href="{{ path('adminAddLivingThing') }}">ADD</a>
             {# <div>&nbsp;</div> #}
             {% if livingThings != [] %}
                 {% for livingThing in livingThings %}

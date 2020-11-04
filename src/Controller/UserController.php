@@ -101,6 +101,7 @@ class UserController extends AbstractController
 
         return $this->render('user/living_thing/index.html.twig', [
             "livingThings" => $livingThing,
+            "search" => $search,
             "offset" => $offset,
             "total_page" => $nbrPages,
         ]);
@@ -160,10 +161,10 @@ class UserController extends AbstractController
                     );
                 }
             } else {
-                dd("L'identifiant {$id} n'existe pas.");
+                return $this->redirectToRoute("404Error");
             }
         } else {
-            dd("Il existe déjà un article sur cette être vivant.");
+            return $this->redirectToRoute("403Error");
         }
 
         return $this->render('user/article/add.html.twig', [
@@ -212,6 +213,7 @@ class UserController extends AbstractController
 
         return $this->render('user/article/index.html.twig', [
             "articles" => $articleLivingThing,
+            "search" => $search,
             "offset" => $offset,
             "total_page" => $nbrPages
         ]);
@@ -279,11 +281,15 @@ class UserController extends AbstractController
      */
     public function user_notifications(Request $request)
     {
-        $offset = !empty($request->get('offset')) && preg_match('/^[0-9]*$/', $request->get('offset')) ? $request->get('offset') : 1;
         $limit = 10;
+        $offset = !empty($request->get('offset')) && preg_match('/^[0-9]*$/', $request->get('offset')) ? $request->get('offset') : 1;
+        $notifications = $this->getDoctrine()->getRepository(Notification::class)->getLatestNotifications($this->current_logged_user->getId(), $offset, $limit);
+        $totalPage = ceil($this->getDoctrine()->getRepository(Notification::class)->countNotification($this->current_logged_user->getId()) / $limit);
 
         return $this->render('user/notifications/index.html.twig', [
-            "notifications" => $this->getDoctrine()->getRepository(Notification::class)->getLatestNotifications($this->current_logged_user->getId(), $offset, $limit),
+            "notifications" => $notifications,
+            "offset" => $offset,
+            "nbrPage" => $totalPage,
         ]);
     }
 

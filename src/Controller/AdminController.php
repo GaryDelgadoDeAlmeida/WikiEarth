@@ -289,12 +289,16 @@ class AdminController extends AbstractController
 
             // Quand le formulaire est soumit et valide celon la config dans l'entity
             if($formArticle->isSubmitted() && $formArticle->isValid()) {
-                $this->articleLivingThingManager->insertArticleLivingThing(
-                    $formArticle, 
+                $livingThing = $this->livingThingManager->setLivingThing(
+                    $formArticle["livingThing"]["imgPath"]->getData(),
+                    $formArticle["livingThing"]->getData(),
+                    $this->em
+                );
+
+                $this->articleLivingThingManager->setArticleLivingThing(
                     $article,
-                    $request, 
-                    $this->em, 
-                    $this->getParameter('project_wikiearth_dir'), 
+                    $livingThing,
+                    $this->em,
                     $this->current_logged_user
                 );
             }

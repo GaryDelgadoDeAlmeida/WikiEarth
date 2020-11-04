@@ -8,7 +8,9 @@ use App\Form\ArticleContentType;
 use App\Entity\ArticleLivingThing;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -74,6 +76,20 @@ class ArticleLivingThingType extends AbstractType
                 'allow_delete' => true,
                 'required' => true,
                 'mapped' => false
+            ])
+            ->add('mediaGallery', FileType::class, [
+                'label' => 'Media Gallery',
+                'multiple' => true,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '5120k',
+                    ])
+                ],
+                'attr'     => [
+                    'accept' => 'image/*',
+                    'multiple' => 'multiple'
+                ],
+                'mapped' => false,
             ])
             ->add('submit', SubmitType::class, [
                 "attr" => [
