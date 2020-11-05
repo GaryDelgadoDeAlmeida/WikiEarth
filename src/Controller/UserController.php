@@ -10,6 +10,7 @@ use App\Form\LivingThingType;
 use Manager\LivingThingManager;
 use App\Entity\ArticleLivingThing;
 use App\Form\ArticleLivingThingType;
+use App\Manager\MediaGalleryManager;
 use Psr\Container\ContainerInterface;
 use Manager\ArticleLivingThingManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -24,6 +25,7 @@ class UserController extends AbstractController
     private $current_logged_user;
     private $livingThingManager;
     private $articleLivingThingManager;
+    private $mediaGalleryManager;
     private $userManager;
     private $manager;
 
@@ -32,6 +34,7 @@ class UserController extends AbstractController
         $this->current_logged_user = $tokenStorage->getToken()->getUser();
         $this->livingThingManager = new LivingThingManager($container);
         $this->articleLivingThingManager = new ArticleLivingThingManager();
+        $this->mediaGalleryManager = new MediaGalleryManager($container);
         $this->userManager = new UserManager();
         $this->manager = $manager;
     }
@@ -118,11 +121,15 @@ class UserController extends AbstractController
         $formLivingThing->handleRequest($request);
 
         if($formLivingThing->isSubmitted() && $formLivingThing->isValid()) {
-            $this->livingThingManager->setLivingThing(
-                $formLivingThing["imgPath"]->getData(), 
-                $livingThing, 
-                $this->manager
-            );
+            if(empty($this->em->getRepository(LivingThing::class)->getLivingThingByName($livingThing->getName()))) {
+                $this->livingThingManager->setLivingThing(
+                    $formLivingThing["imgPath"]->getData(), 
+                    $livingThing, 
+                    $this->manager
+                );
+            } else {
+                // Error : Ce living thing existe déjà
+            }
         }
 
         return $this->render('user/living_thing/edit.html.twig', [
@@ -147,7 +154,6 @@ class UserController extends AbstractController
                 $formArticle->handleRequest($request);
 
                 if($formArticle->isSubmitted() && $formArticle->isValid()) {
-                    
                     $livingThing = $this->livingThingManager->setLivingThing(
                         $formArticle["livingThing"]["imgPath"]->getData(),
                         $livingThing,
@@ -159,6 +165,12 @@ class UserController extends AbstractController
                         $livingThing,
                         $this->manager,
                         $this->current_logged_user
+                    );
+
+                    $this->mediaGalleryManager->setMediaGalleryLivingThing(
+                        $formArticle["mediaGallery"]->getData(),
+                        $articleLivingThing,
+                        $this->manager
                     );
                 }
             } else {

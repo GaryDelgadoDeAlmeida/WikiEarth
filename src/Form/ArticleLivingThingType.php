@@ -80,11 +80,6 @@ class ArticleLivingThingType extends AbstractType
             ->add('mediaGallery', FileType::class, [
                 'label' => 'Media Gallery',
                 'multiple' => true,
-                'constraints' => [
-                    new File([
-                        'maxSize' => '5120k',
-                    ])
-                ],
                 'attr'     => [
                     'accept' => 'image/*',
                     'multiple' => 'multiple'

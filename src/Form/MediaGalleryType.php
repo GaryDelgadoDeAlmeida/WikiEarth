@@ -16,11 +16,6 @@ class MediaGalleryType extends AbstractType
         $builder
             ->add('path', FileType::class, [
                 'multiple' => true,
-                'constraints' => [
-                    new File([
-                        'maxSize' => '5120k',
-                    ])
-                ],
                 'attr' => [
                     'accept' => 'image/*',
                     'multiple' => 'multiple'

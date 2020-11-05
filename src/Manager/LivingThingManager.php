@@ -15,12 +15,16 @@ class LivingThingManager extends AbstractController {
         $this->setContainer($container);
     }
 
-    public function setLivingThing(UploadedFile $mediaFile, LivingThing $livingThing, EntityManagerInterface $manager)
+    public function setLivingThing(UploadedFile $mediaFile = null, LivingThing $livingThing, EntityManagerInterface $manager)
     {
         if($mediaFile) {
             $originalFilename = pathinfo($mediaFile->getClientOriginalName(), PATHINFO_FILENAME);
             $newFilename = $livingThing->getName() . '.' . $mediaFile->guessExtension();
             $kingdomDirectory = $this->getKingdomDirectory(ucfirst(strtolower($livingThing->getKingdom())));
+
+            if(!file_exists($kingdomDirectory)) {
+                mkdir($kingdomDirectory, 0777, true);
+            }
 
             try {
                 if(

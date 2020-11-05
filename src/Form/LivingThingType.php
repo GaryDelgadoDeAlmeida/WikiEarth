@@ -33,11 +33,11 @@ class LivingThingType extends AbstractType
                 'mapped' => false
             ])
             ->add('commonName', null, [
-                'label' => "Common Name",
+                'label' => "Name",
                 "required" => true
             ])
             ->add('name', null, [
-                'label' => "Name",
+                'label' => "Scientific Name",
                 "required" => true
             ])
             ->add('domain', null, [

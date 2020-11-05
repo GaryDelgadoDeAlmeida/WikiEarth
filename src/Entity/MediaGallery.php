@@ -34,6 +34,11 @@ class MediaGallery
     private $mediaType;
 
     /**
+     * @ORM\ManyToOne(targetEntity=ArticleLivingThing::class, inversedBy="mediaGallery")
+     */
+    private $articleLivingThing;
+
+    /**
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
@@ -75,6 +80,18 @@ class MediaGallery
     public function setMediaType(string $mediaType): self
     {
         $this->mediaType = $mediaType;
+
+        return $this;
+    }
+
+    public function getArticleLivingThing(): ?ArticleLivingThing
+    {
+        return $this->articleLivingThing;
+    }
+
+    public function setArticleLivingThing(?ArticleLivingThing $articleLivingThing): self
+    {
+        $this->articleLivingThing = $articleLivingThing;
 
         return $this;
     }

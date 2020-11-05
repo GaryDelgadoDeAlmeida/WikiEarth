@@ -12,7 +12,9 @@ class ArticleLivingThingManager extends AbstractController {
     public function setArticleLivingThing(ArticleLivingThing $articleLivingThing, LivingThing $livingThing, EntityManagerInterface $manager, $user = null)
     {
         if(!empty($user)) {
+            $user->addArticleLivingThing($articleLivingThing);
             $articleLivingThing->setUser($user);
+            $manager->persist($user);
         }
 
         $articleLivingThing->setIdLivingThing($livingThing);

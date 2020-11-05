@@ -73,6 +73,11 @@ class ArticleLivingThing
     private $otherData = [];
 
     /**
+     * @ORM\OneToMany(targetEntity=MediaGallery::class, mappedBy="articleLivingThing")
+     */
+    private $mediaGallery;
+
+    /**
      * @ORM\Column(type="boolean")
      */
     private $approved;
@@ -85,6 +90,7 @@ class ArticleLivingThing
     public function __construct()
     {
         $this->countries = new ArrayCollection();
+        $this->mediaGallery = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -196,6 +202,37 @@ class ArticleLivingThing
     public function setOtherData(?array $otherData): self
     {
         $this->otherData = $otherData;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|MediaGallery[]
+     */
+    public function getMediaGallery(): Collection
+    {
+        return $this->mediaGallery;
+    }
+
+    public function addMediaGallery(MediaGallery $mediaGallery): self
+    {
+        if (!$this->mediaGallery->contains($mediaGallery)) {
+            $this->mediaGallery[] = $mediaGallery;
+            $mediaGallery->setArticleLivingThing($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMediaGallery(MediaGallery $mediaGallery): self
+    {
+        if ($this->mediaGallery->contains($mediaGallery)) {
+            $this->mediaGallery->removeElement($mediaGallery);
+            // set the owning side to null (unless already changed)
+            if ($mediaGallery->getArticleLivingThing() === $this) {
+                $mediaGallery->setArticleLivingThing(null);
+            }
+        }
 
         return $this;
     }

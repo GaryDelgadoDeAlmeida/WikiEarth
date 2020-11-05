@@ -3,11 +3,11 @@
 {% block body %}
     <div class="container">
         {% if medias != [] %}
-            {% for medias in media %}
+            {% for media in medias %}
                 <li>
                     <div>
                         <span>{{ media.name }}</span>
-                        <img src="{{ asset(media.path) }}" alt="{{ media.name }}">
+                        <img width="150" height="200" src="{{ asset(media.path) }}" alt="{{ media.name }}">
                     </div>
                 </li>
             {% endfor %}
