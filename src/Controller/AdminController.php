@@ -7,12 +7,14 @@ use App\Form\UserType;
 use App\Entity\SourceLink;
 use App\Entity\LivingThing;
 use App\Entity\MediaGallery;
+use App\Entity\Notification;
 use App\Manager\UserManager;
 use App\Form\LivingThingType;
 use App\Form\UserRegisterType;
 use Manager\LivingThingManager;
 use App\Entity\ArticleLivingThing;
 use App\Form\ArticleLivingThingType;
+use Psr\Container\ContainerInterface;
 use Manager\ArticleLivingThingManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,18 +26,18 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 class AdminController extends AbstractController
 {
     private $current_logged_user;
-    private $em;
     private $livingThingManager;
     private $articleLivingThingManager;
     private $userManager;
+    private $em;
 
-    public function __construct(TokenStorageInterface $tokenStorage, EntityManagerInterface $em)
+    public function __construct(TokenStorageInterface $tokenStorage, EntityManagerInterface $em, ContainerInterface $container)
     {
         $this->current_logged_user = $tokenStorage->getToken()->getUser();
-        $this->em = $em;
-        $this->livingThingManager = new LivingThingManager();
+        $this->livingThingManager = new LivingThingManager($container);
         $this->articleLivingThingManager = new ArticleLivingThingManager();
         $this->userManager = new UserManager();
+        $this->em = $em;
     }
     
     /**
@@ -421,6 +423,8 @@ class AdminController extends AbstractController
         }
 
         $article->setIdLivingThing(null);
+
+        // Envoi d'une notification à l'utilisateur
         $notfication = new Notification();
         $notfication->setUser($article->getUser());
         $notfication->setType("danger");

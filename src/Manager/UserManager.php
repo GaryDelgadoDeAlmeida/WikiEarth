@@ -29,6 +29,9 @@ class UserManager {
         $manager->flush();
     }
 
+    /**
+     * Problème de cache utilisateur de l'image provenant du navigateur
+     */
     private function insertUserImg($project_users_dir, $mediaFile, &$user)
     {
         if(!empty($mediaFile)) {

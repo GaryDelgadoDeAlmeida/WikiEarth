@@ -23,6 +23,7 @@ class LivingThingRepository extends ServiceEntityRepository
     public function getLivingThings($offset, $limit)
     {
         return $this->createQueryBuilder('l')
+            ->orderBy('l.name', 'ASC', 'l.commonName', 'ASC')
             ->setFirstResult(($offset - 1) * $limit)
             ->setMaxResults($limit)
             ->getQuery()
@@ -51,6 +52,7 @@ class LivingThingRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('l')
             ->where('l.commonName LIKE :search OR l.name LIKE :search OR l.genus LIKE :search OR l.subGenus LIKE :search OR l.species LIKE :search OR l.subSpecies LIKE :search')
+            ->orderBy('l.name', 'ASC', 'l.commonName', 'ASC')
             ->setParameter('search', "%" . $search . "%")
             ->setFirstResult(($offset - 1) * $limit)
             ->setMaxResults($limit)

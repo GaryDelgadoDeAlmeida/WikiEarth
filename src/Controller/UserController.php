@@ -10,6 +10,7 @@ use App\Form\LivingThingType;
 use Manager\LivingThingManager;
 use App\Entity\ArticleLivingThing;
 use App\Form\ArticleLivingThingType;
+use Psr\Container\ContainerInterface;
 use Manager\ArticleLivingThingManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,10 +27,10 @@ class UserController extends AbstractController
     private $userManager;
     private $manager;
 
-    public function __construct(TokenStorageInterface $tokenStorage, EntityManagerInterface $manager)
+    public function __construct(TokenStorageInterface $tokenStorage, EntityManagerInterface $manager, ContainerInterface $container)
     {
         $this->current_logged_user = $tokenStorage->getToken()->getUser();
-        $this->livingThingManager = new LivingThingManager();
+        $this->livingThingManager = new LivingThingManager($container);
         $this->articleLivingThingManager = new ArticleLivingThingManager();
         $this->userManager = new UserManager();
         $this->manager = $manager;

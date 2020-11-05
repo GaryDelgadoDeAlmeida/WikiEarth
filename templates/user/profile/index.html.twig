@@ -13,7 +13,7 @@
                 </div> #}
             </div>
             <div class="profile-right">
-                {{ form_start(formUser, {"action": "path('userProfile')", "method": "POST"}) }}
+                {{ form_start(formUser, {"method": "POST"}) }}
                     <div class="form-group">
                         {{ form_label(formUser.firstname) }}
                         {{ form_widget(formUser.firstname) }}
@@ -40,7 +40,7 @@
                     <div class="form-group text-center">
                         {{ form_widget(formUser.submit) }}
                     </div>
-                {{ form_end(formUser, {"action": "path('userProfile')", "method": "POST"}) }}
+                {{ form_end(formUser, {"method": "POST"}) }}
             </div>
         </div>
     </section>

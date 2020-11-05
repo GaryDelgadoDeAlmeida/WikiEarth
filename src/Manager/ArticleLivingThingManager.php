@@ -3,19 +3,11 @@
 namespace Manager;
 
 use App\Entity\LivingThing;
-use Symfony\Component\Form\Form;
 use App\Entity\ArticleLivingThing;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ArticleLivingThingManager extends AbstractController {
-
-    private $livingThingManager;
-
-    function __construct()
-    {
-        $this->livingThingManager = new LivingThingManager();
-    }
 
     public function setArticleLivingThing(ArticleLivingThing $articleLivingThing, LivingThing $livingThing, EntityManagerInterface $manager, $user = null)
     {
