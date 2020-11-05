@@ -167,11 +167,11 @@ class UserController extends AbstractController
                         $this->current_logged_user
                     );
 
-                    $this->mediaGalleryManager->setMediaGalleryLivingThing(
-                        $formArticle["mediaGallery"]->getData(),
-                        $articleLivingThing,
-                        $this->manager
-                    );
+                    // $this->mediaGalleryManager->setMediaGalleryLivingThing(
+                    //     $formArticle["mediaGallery"]->getData(),
+                    //     $articleLivingThing,
+                    //     $this->manager
+                    // );
                 }
             } else {
                 return $this->redirectToRoute("404Error");
