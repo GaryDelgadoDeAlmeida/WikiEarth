@@ -142,23 +142,31 @@ class UserController extends AbstractController
      */
     public function user_living_thing_create_article($id, Request $request)
     {
-        $articleLivingThing = $this->getDoctrine()->getRepository(ArticleLivingThing::class)->findOneBy(["id" => $id]);
+        $articleLivingThing = $this->getDoctrine()->getRepository(ArticleLivingThing::class)->findOneBy(["idLivingThing" => $id]);
 
         if(empty($articleLivingThing)) {
-            $articleLivingThing = new ArticleLivingThing();
             $livingThing = $this->getDoctrine()->getRepository(LivingThing::class)->getLivingThing($id);
 
             if(!empty($livingThing)) {
+                $articleLivingThing = new ArticleLivingThing();
                 $formArticle = $this->createForm(ArticleLivingThingType::class, $articleLivingThing);
                 $formArticle->get('livingThing')->setData($livingThing);
                 $formArticle->handleRequest($request);
 
                 if($formArticle->isSubmitted() && $formArticle->isValid()) {
-                    $livingThing = $this->livingThingManager->setLivingThing(
+
+                    $this->livingThingManager->setLivingThing(
                         $formArticle["livingThing"]["imgPath"]->getData(),
                         $livingThing,
                         $this->manager
                     );
+
+                    // Bug rencontré => La mise à jour de l'article semble posé des erreurs
+                    // $this->mediaGalleryManager->setMediaGalleryLivingThing(
+                    //     $formArticle["mediaGallery"]->getData(),
+                    //     $articleLivingThing,
+                    //     $this->manager
+                    // );
 
                     $this->articleLivingThingManager->setArticleLivingThing(
                         $articleLivingThing,
@@ -167,11 +175,7 @@ class UserController extends AbstractController
                         $this->current_logged_user
                     );
 
-                    // $this->mediaGalleryManager->setMediaGalleryLivingThing(
-                    //     $formArticle["mediaGallery"]->getData(),
-                    //     $articleLivingThing,
-                    //     $this->manager
-                    // );
+                    $this->redirectToRoute("userLivingThing");
                 }
             } else {
                 return $this->redirectToRoute("404Error");

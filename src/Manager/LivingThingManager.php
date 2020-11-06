@@ -15,7 +15,7 @@ class LivingThingManager extends AbstractController {
         $this->setContainer($container);
     }
 
-    public function setLivingThing(UploadedFile $mediaFile = null, LivingThing $livingThing, EntityManagerInterface $manager)
+    public function setLivingThing(UploadedFile $mediaFile = null, LivingThing &$livingThing, EntityManagerInterface $manager)
     {
         if($mediaFile) {
             $originalFilename = pathinfo($mediaFile->getClientOriginalName(), PATHINFO_FILENAME);
@@ -47,18 +47,11 @@ class LivingThingManager extends AbstractController {
             $livingThing->setImgPath("content/wikiearth/living-thing/" . $this->convertKingdomClassification(ucfirst(strtolower($livingThing->getKingdom()))) . "/{$newFilename}");
         }
 
-        if(!empty($livingThing->getCountries())) {
-            foreach($livingThing->getCountries() as $oneCountry) {
-                $oneCountry->addLivingThing($livingThing);
-                $manager->persist($oneCountry);
-            }
-        }
-
         $manager->persist($livingThing);
         $manager->flush();
         $manager->clear();
 
-        return $livingThing;
+        // return $livingThing;
     }
 
     public function getKingdomDirectory($kingdomClassification)
