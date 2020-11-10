@@ -94,13 +94,23 @@
                         <div class="notification-card-body">
                             {% if notifications != null %}
                                 {% for notification in notifications %}
-                                    <div class="post">
+                                    {# <div class="post">
                                         <div class="post-content">
                                             <div class="post-header">
                                                 <span class="post-title">Your publication has been accepted by the taff</span>
                                             </div>
                                             <div class="post-body">
                                                 <span class="post-text">Created at 10-12-2019 00:12:20</span>
+                                            </div>
+                                        </div>
+                                    </div> #}
+                                    <div class="post">
+                                        <div class="post-content">
+                                            <div class="post-header">
+                                                <span class="post-title">{{ notification.content }}</span>
+                                            </div>
+                                            <div class="post-body">
+                                                <span class="post-text">Created at {{ notification.createdAt|date('Y-m-d H:s:i') }}</span>
                                             </div>
                                         </div>
                                     </div>

@@ -8,40 +8,42 @@
             </div>
 
             <div class="notification-body">
-                <div class="notice info"><p>This is a an info notice, it provides feedback of a neutral nature to the user.</p></div>
+                {# <div class="notice info"><p>This is a an info notice, it provides feedback of a neutral nature to the user.</p></div>
                 <div class="notice success"><p>This is a success notice, it provides feedback of a positive nature to the user.</p></div>
                 <div class="notice warning"><p>This is a warning notice, it provides feedback of a potentially negative nature to the user.</p></div>
-                <div class="notice error"><p>This is an error notice, it provides feedback of a negative nature to the user.</p></div>
+                <div class="notice error"><p>This is an error notice, it provides feedback of a negative nature to the user.</p></div> #}
                 
                 {% if notifications != [] %}
                     {% for notification in notifications %}
                         <div class="notice {{ notification.type }}">
-                            <p>This is a an info notice, it provides feedback of a neutral nature to the user.</p>
+                            <p>{{ notification.content }}</p>
                         </div>
                     {% endfor %}
 
                     {# Pagination #}
-                    <nav aria-label="Page navigation example">
-                        <ul class="pagination justify-content-center">
-                            <li class="page-item {% if offset == 1 %} disabled {% endif %}">
-                                <a class="page-link" href="{{ path("userNotifs") }}" tabindex="-1" aria-disabled="true"><i class="fas fa-angle-double-left"></i></a>
-                            </li>
-                            
-                            {% if offset - 1 >= 1  %}
-                                <li class="page-item"><a class="page-link" href="{{ path("userNotifs", {'offset': (offset - 1)}) }}">{{ offset - 1 }}</a></li>
-                            {% endif %}
+                    {% if nbrPage > 1 %}
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination justify-content-center">
+                                <li class="page-item {% if offset == 1 %} disabled {% endif %}">
+                                    <a class="page-link" href="{{ path("userNotifs") }}" tabindex="-1" aria-disabled="true"><i class="fas fa-angle-double-left"></i></a>
+                                </li>
+                                
+                                {% if offset - 1 >= 1  %}
+                                    <li class="page-item"><a class="page-link" href="{{ path("userNotifs", {'offset': (offset - 1)}) }}">{{ offset - 1 }}</a></li>
+                                {% endif %}
 
-                            <li class="page-item"><a class="page-link" >{{ offset }}</a></li>
+                                <li class="page-item"><a class="page-link" >{{ offset }}</a></li>
 
-                            {% if offset + 1 <= total_page  %}
-                                <li class="page-item"><a class="page-link" href="{{ path("userNotifs", {'offset': (offset + 1)}) }}">{{ offset + 1 }}</a></li>
-                            {% endif %}
+                                {% if offset + 1 <= nbrPage  %}
+                                    <li class="page-item"><a class="page-link" href="{{ path("userNotifs", {'offset': (offset + 1)}) }}">{{ offset + 1 }}</a></li>
+                                {% endif %}
 
-                            <li class="page-item {% if offset == total_page %} disabled {% endif %}">
-                                <a class="page-link" href="{{ path("userNotifs", {'offset': (total_page)}) }}"><i class="fas fa-angle-double-right"></i></a>
-                            </li>
-                        </ul>
-                    </nav>
+                                <li class="page-item {% if offset == nbrPage %} disabled {% endif %}">
+                                    <a class="page-link" href="{{ path("userNotifs", {'offset': (nbrPage)}) }}"><i class="fas fa-angle-double-right"></i></a>
+                                </li>
+                            </ul>
+                        </nav>
+                    {% endif %}
                 {% else %}
                     <li>You have no notifications</li>
                 {% endif %}

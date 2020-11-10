@@ -354,7 +354,7 @@ class AdminController extends AbstractController
             $notfication->setUser($article->getUser());
             $notfication->setType("success");
             $notfication->setContent("The content of the article {$article->getTitle()} you writed is accurate. This article is now public.");
-            $notfication->setCreatedAt(current_time("mysql"));
+            $notfication->setCreatedAt(new \DateTime());
             $article->setApproved(true);
             $this->em->persist($article);
             $this->em->persist($notfication);
@@ -429,7 +429,7 @@ class AdminController extends AbstractController
         $notfication->setUser($article->getUser());
         $notfication->setType("danger");
         $notfication->setContent("The content of the article {$article->getTitle()} you writed wasn't accurate. This article has been rejected.");
-        $notfication->setCreatedAt(current_time("mysql"));
+        $notfication->setCreatedAt(new \DateTime());
         $this->em->remove($article);
         $this->em->persist($notfication);
         $this->em->flush();

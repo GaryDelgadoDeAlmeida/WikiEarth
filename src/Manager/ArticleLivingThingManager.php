@@ -26,7 +26,5 @@ class ArticleLivingThingManager extends AbstractController {
         $livingThing->setArticleLivingThing($articleLivingThing);
         $manager->merge($articleLivingThing);
         $manager->flush();
-
-        // return $articleLivingThing->getId();
     }
 }

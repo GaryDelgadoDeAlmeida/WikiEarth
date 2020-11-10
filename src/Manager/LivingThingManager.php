@@ -50,8 +50,6 @@ class LivingThingManager extends AbstractController {
         $manager->persist($livingThing);
         $manager->flush();
         $manager->clear();
-
-        // return $livingThing;
     }
 
     public function getKingdomDirectory($kingdomClassification)

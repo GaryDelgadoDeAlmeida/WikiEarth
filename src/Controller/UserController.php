@@ -11,6 +11,7 @@ use Manager\LivingThingManager;
 use App\Entity\ArticleLivingThing;
 use App\Form\ArticleLivingThingType;
 use App\Manager\MediaGalleryManager;
+use App\Manager\NotificationManager;
 use Psr\Container\ContainerInterface;
 use Manager\ArticleLivingThingManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -23,19 +24,23 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 class UserController extends AbstractController
 {
     private $current_logged_user;
+    private $manager;
+
+    // Manager
+    private $userManager;
     private $livingThingManager;
     private $articleLivingThingManager;
     private $mediaGalleryManager;
-    private $userManager;
-    private $manager;
+    private $notificationManager;
 
     public function __construct(TokenStorageInterface $tokenStorage, EntityManagerInterface $manager, ContainerInterface $container)
     {
         $this->current_logged_user = $tokenStorage->getToken()->getUser();
+        $this->userManager = new UserManager();
         $this->livingThingManager = new LivingThingManager($container);
         $this->articleLivingThingManager = new ArticleLivingThingManager();
         $this->mediaGalleryManager = new MediaGalleryManager($container);
-        $this->userManager = new UserManager();
+        $this->notificationManager = new NotificationManager($manager);
         $this->manager = $manager;
     }
 
@@ -68,6 +73,8 @@ class UserController extends AbstractController
         $formUser->handleRequest($request);
 
         if($formUser->isSubmitted() && $formUser->isValid()) {
+
+            // On mets à jour les informations de l'utilisateur (nom, prénom, img, pass, etc ...)
             $this->userManager->updateUser(
                 $formUser, 
                 $user, 
@@ -155,27 +162,39 @@ class UserController extends AbstractController
 
                 if($formArticle->isSubmitted() && $formArticle->isValid()) {
 
+                    // On effectue en premier le traitement sur le living thing
                     $this->livingThingManager->setLivingThing(
                         $formArticle["livingThing"]["imgPath"]->getData(),
                         $livingThing,
                         $this->manager
                     );
 
-                    $articleId = $this->articleLivingThingManager->setArticleLivingThing(
+                    // On traite maintenant l'article (pour cause ces liaisons avec les autres tables)
+                    $this->articleLivingThingManager->setArticleLivingThing(
                         $articleLivingThing,
                         $livingThing,
                         $this->manager,
                         $this->current_logged_user
                     );
 
-                    // Bug rencontré => La mise à jour de l'article semble posé des erreurs
+                    // Une fois le traitement du living thing et de l'article, on traite les médias (qui seront liée à l'article)
                     $this->mediaGalleryManager->setMediaGalleryLivingThing(
                         $formArticle["mediaGallery"]->getData(),
                         $articleLivingThing,
                         $this->manager
                     );
 
-                    $this->redirectToRoute("userLivingThing");
+                    // On envoie une notification à l'utilisateur
+                    $notification = new Notification();
+                    $notification->setUser($this->current_logged_user);
+                    $notification->setType("info");
+                    $notification->setContent("You created a article : {$articleLivingThing->getTitle()}. We'll check it");
+                    $notification->setCreatedAt(new \DateTime());
+                    $this->manager->merge($notification);
+                    $this->manager->flush();
+                    $this->manager->clear();
+
+                    return $this->redirectToRoute("userLivingThing");
                 }
             } else {
                 return $this->redirectToRoute("404Error");
@@ -198,6 +217,8 @@ class UserController extends AbstractController
         $formLivingThing->handleRequest($request);
 
         if($formLivingThing->isSubmitted() && $formLivingThing->isValid()) {
+
+            // On effectue en premier le traitement sur le living thing
             $this->livingThingManager->setLivingThing(
                 $formLivingThing["imgPath"]->getData(), 
                 $livingThing, 
@@ -247,17 +268,27 @@ class UserController extends AbstractController
 
         if($formArticle->isSubmitted() && $formArticle->isValid()) {
             $livingThing = $formArticle["livingThing"]->getData();
+            
+            // On effectue en premier le traitement sur le living thing
             $this->livingThingManager->setLivingThing(
                 $formArticle["livingThing"]['imgPath']->getData(),
                 $livingThing,
                 $this->manager
             );
 
+            // On traite maintenant l'article (pour cause ces liaisons avec les autres tables)
             $this->articleLivingThingManager->setArticleLivingThing(
                 $article, 
                 $livingThing,
                 $this->manager, 
                 $this->current_logged_user
+            );
+
+            // Une fois le traitement du living thing et de l'article, on traite les médias (qui seront liée à l'article)
+            $this->mediaGalleryManager->setMediaGalleryLivingThing(
+                $formArticle["mediaGallery"]->getData(),
+                $articleLivingThing,
+                $this->manager
             );
         }
 
@@ -275,17 +306,29 @@ class UserController extends AbstractController
         $formArticle->handleRequest($request);
 
         if($formArticle->isSubmitted() && $formArticle->isValid()) {
-            $livingThing = $this->livingThingManager->setLivingThing(
+
+            $livingThing = $formArticle["livingThing"]->getData();
+            
+            // On effectue en premier le traitement sur le living thing
+            $this->livingThingManager->setLivingThing(
                 $formArticle["livingThing"]["imgPath"]->getData(),
-                $formArticle["livingThing"]->getData(),
+                $livingThing,
                 $this->manager
             );
 
+            // On traite maintenant l'article (pour cause ces liaisons avec les autres tables)
             $this->articleLivingThingManager->setArticleLivingThing(
                 $article, 
                 $livingThing,
                 $this->manager, 
                 $this->current_logged_user
+            );
+
+            // Une fois le traitement du living thing et de l'article, on traite les médias (qui seront liée à l'article)
+            $this->mediaGalleryManager->setMediaGalleryLivingThing(
+                $formArticle["mediaGallery"]->getData(),
+                $articleLivingThing,
+                $this->manager
             );
         }
 
