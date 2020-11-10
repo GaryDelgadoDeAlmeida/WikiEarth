@@ -121,7 +121,7 @@ class UserController extends AbstractController
         $formLivingThing->handleRequest($request);
 
         if($formLivingThing->isSubmitted() && $formLivingThing->isValid()) {
-            if(empty($this->em->getRepository(LivingThing::class)->getLivingThingByName($livingThing->getName()))) {
+            if(empty($this->manager->getRepository(LivingThing::class)->getLivingThingByName($livingThing->getName()))) {
                 $this->livingThingManager->setLivingThing(
                     $formLivingThing["imgPath"]->getData(), 
                     $livingThing, 
@@ -161,18 +161,18 @@ class UserController extends AbstractController
                         $this->manager
                     );
 
-                    // Bug rencontré => La mise à jour de l'article semble posé des erreurs
-                    // $this->mediaGalleryManager->setMediaGalleryLivingThing(
-                    //     $formArticle["mediaGallery"]->getData(),
-                    //     $articleLivingThing,
-                    //     $this->manager
-                    // );
-
-                    $this->articleLivingThingManager->setArticleLivingThing(
+                    $articleId = $this->articleLivingThingManager->setArticleLivingThing(
                         $articleLivingThing,
                         $livingThing,
                         $this->manager,
                         $this->current_logged_user
+                    );
+
+                    // Bug rencontré => La mise à jour de l'article semble posé des erreurs
+                    $this->mediaGalleryManager->setMediaGalleryLivingThing(
+                        $formArticle["mediaGallery"]->getData(),
+                        $articleLivingThing,
+                        $this->manager
                     );
 
                     $this->redirectToRoute("userLivingThing");
@@ -246,9 +246,10 @@ class UserController extends AbstractController
         $formArticle->handleRequest($request);
 
         if($formArticle->isSubmitted() && $formArticle->isValid()) {
-            $livingThing = $this->livingThingManager->setLivingThing(
+            $livingThing = $formArticle["livingThing"]->getData();
+            $this->livingThingManager->setLivingThing(
                 $formArticle["livingThing"]['imgPath']->getData(),
-                $formArticle["livingThing"]->getData(),
+                $livingThing,
                 $this->manager
             );
 

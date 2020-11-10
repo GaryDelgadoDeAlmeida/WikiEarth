@@ -2,6 +2,7 @@
 
 namespace App\Manager;
 
+use App\Entity\LivingThing;
 use App\Entity\MediaGallery;
 use App\Entity\ArticleLivingThing;
 use Psr\Container\ContainerInterface;
@@ -18,7 +19,7 @@ class MediaGalleryManager extends AbstractController {
     /**
      * Insertion ou mise à jour des medias en base de données.
      */
-    public function setMediaGalleryLivingThing(array $files, ArticleLivingThing $articleLivingThing, EntityManagerInterface $manager)
+    public function setMediaGalleryLivingThing(array $files, ArticleLivingThing &$articleLivingThing, EntityManagerInterface $manager)
     {
         $date = new \DateTime();
         $mediaGallery = null;
@@ -53,18 +54,17 @@ class MediaGalleryManager extends AbstractController {
             if(empty($manager->getRepository(MediaGallery::class)->getMediaGalleryByName($fileName))) {
                 $mediaGallery = new MediaGallery();
                 $mediaGallery->setName($fileName);
-                $mediaGallery->setPath("content/wikiearth/living-thing/media-gallery/" . $this->convertKingdomClassification(ucfirst(strtolower($articleLivingThing->getIdLivingThing()->getKingdom()))) . "/{$newFilename}");
+                $mediaGallery->setPath("content/wikiearth/living-thing/media-gallery/{$this->convertKingdomClassification(ucfirst(strtolower($articleLivingThing->getIdLivingThing()->getKingdom())))}/{$newFilename}");
                 $mediaGallery->setMediaType("image");
                 $mediaGallery->setCreatedAt($date);
-                $articleLivingThing->addMediaGallery($mediaGallery);
+                $manager->persist($mediaGallery);
+                $manager->flush();
+                $manager->clear();
+                
+                $mediaGallery->setArticleLivingThing($articleLivingThing);
                 $manager->merge($mediaGallery);
+                $manager->flush();
             }
-        }
-
-        if(!empty($mediaGallery)) {
-            $manager->merge($articleLivingThing);
-            $manager->flush();
-            // $manager->clear();
         }
     }
 
