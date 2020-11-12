@@ -134,8 +134,12 @@ class UserController extends AbstractController
                     $livingThing, 
                     $this->manager
                 );
+
+                // TODO : On envoi une notification / un email aux admins du site
             } else {
-                // Error : Ce living thing existe déjà
+                // On envoi une notif à l'utilisateur l'avertissant que le living thing qu'il a tenté d'ajouté existe déjà
+                $this->notificationManager->livingThingAlreadyExist($this->current_logged_user);
+                return $this->redirectToRoute("userLivingThing");
             }
         }
 
@@ -185,21 +189,20 @@ class UserController extends AbstractController
                     );
 
                     // On envoie une notification à l'utilisateur
-                    $notification = new Notification();
-                    $notification->setUser($this->current_logged_user);
-                    $notification->setType("info");
-                    $notification->setContent("You created a article : {$articleLivingThing->getTitle()}. We'll check it");
-                    $notification->setCreatedAt(new \DateTime());
-                    $this->manager->merge($notification);
-                    $this->manager->flush();
-                    $this->manager->clear();
+                    $this->notificationManager->userCreateArticle($this->current_logged_user);
 
                     return $this->redirectToRoute("userLivingThing");
                 }
             } else {
+                // On envoi une notif à l'utilisateur l'avertissant que le living thing qu'il a tenté d'ajouté n'existe pas
+                $this->notificationManager->livingThingNotFound($this->current_logged_user);
+
                 return $this->redirectToRoute("404Error");
             }
         } else {
+            // On envoi une notif à l'utilisateur l'avertissant que le living thing possède déjà un article
+            $this->notificationManager->articleAlreadyExist($this->current_logged_user);
+
             return $this->redirectToRoute("403Error");
         }
 
@@ -290,6 +293,9 @@ class UserController extends AbstractController
                 $articleLivingThing,
                 $this->manager
             );
+
+            // On notifie que l'utilisateur vient de créer un nouvel article et que nous allons le vérifier
+            $this->notificationManager->userCreateArticle($this->current_logged_user);
         }
 
         return $this->render('user/article/add.html.twig', [
@@ -330,6 +336,9 @@ class UserController extends AbstractController
                 $articleLivingThing,
                 $this->manager
             );
+
+            // On envoie une notification à l'utilisateur l'avertissant de la demande de mise à jour de l'article
+            $this->notificationManager->userUpdateArticle($this->current_logged_user);
         }
 
         return $this->render('user/article/add.html.twig', [
