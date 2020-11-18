@@ -7,3 +7,8 @@
                 Living Thing
 \* ---------------------------------------- */
 @import './desktop/_living-thing.css';
+
+/* ---------------------------------------- *\
+            Article Living Thing
+\* ---------------------------------------- */
+@import './desktop/_article.css';

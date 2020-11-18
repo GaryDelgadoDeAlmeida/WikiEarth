@@ -50,7 +50,7 @@ class AnonymousController extends AbstractController
 
         return $this->render('anonymous/article/living-thing/countryLivingThing.html.twig', [
             "country" => $country,
-            "articles" => $oneCountry ? $oneCountry->getArticleLivingThing()->getValues() : [],
+            "articles" => $oneCountry ? $oneCountry->getLivingThing()->getValues() : [],
             "offset" => $offset,
             "nbrOffset" => $offset
         ]);

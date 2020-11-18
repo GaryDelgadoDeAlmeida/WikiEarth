@@ -1,6 +1,26 @@
 /* ---------------------------------------- *\
                 Notification
 \* ---------------------------------------- */
+.notification {
+    background-color: #f2f2f2;
+}
+
+.notification-content {
+    padding: 3rem 5%;
+}
+
+.notification-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.notification-title {
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 1.7rem;
+    letter-spacing: 1px;
+}
+
 .notice {
     position: relative;
     margin: 1em;
@@ -8,6 +28,7 @@
     padding: 1em 1em 1em 2em;
     border-left: 4px solid #DDD;
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.125);
+    display: grid;
 }
 
 .notice:before {
@@ -25,6 +46,10 @@
     font-weight: bold;
     font-family: Georgia;
     text-shadow: 1px 1px rgba(0, 0, 0, 0.5);
+}
+
+.notice span:first-child {
+    font-weight: 600;
 }
 
 .info {

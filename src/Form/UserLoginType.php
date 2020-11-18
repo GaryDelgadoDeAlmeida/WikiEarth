@@ -27,11 +27,11 @@ class UserLoginType extends AbstractType
                     "class" => "inputField"
                 ]
             ])
-            ->add('rememberMe', CheckboxType::class, [
-                "label" => "Remember me for 30 days",
-                "required" => false,
-                "mapped" => false
-            ])
+            // ->add('rememberMe', CheckboxType::class, [
+            //     "label" => "Remember me for 30 days",
+            //     "required" => false,
+            //     "mapped" => false
+            // ])
             ->add('submit', SubmitType::class, [
                 "label" => "Login",
                 "attr" => [

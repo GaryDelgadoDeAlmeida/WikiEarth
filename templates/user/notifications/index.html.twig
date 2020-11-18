@@ -16,7 +16,8 @@
                 {% if notifications != [] %}
                     {% for notification in notifications %}
                         <div class="notice {{ notification.type }}">
-                            <p>{{ notification.content }}</p>
+                            <span>{{ notification.content }}</span>
+                            <span>Created at {{ notification.createdAt|date('Y-m-d H:s:i') }}</span>
                         </div>
                     {% endfor %}
 
