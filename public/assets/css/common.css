@@ -80,6 +80,10 @@ a, a:hover {
     font-weight: 600;
 }
 
+.txt-size-middle {
+    font-size: 1.3rem !important;
+}
+
 
 /* ---------------------------------------- *\
                 Border Radius

@@ -193,3 +193,33 @@
 .home-nbrArticles {
     padding: 50px;
 }
+
+.nbrArticles {
+    margin: 0 10%;
+    text-align: center;
+}
+
+.nbrArticles-articles {
+    margin-bottom: 40px;
+    font-size: 2rem;
+}
+
+.nbrArticles-articles span {
+    margin: 0 5px;
+}
+
+.nbrArticles-details {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.nbrArticles-content {
+    display: grid;
+    width: 120px;
+    height: min-content;
+}
+
+.nbrArticles-content .txt-bold {
+    font-size: 1.7rem !important;
+}
