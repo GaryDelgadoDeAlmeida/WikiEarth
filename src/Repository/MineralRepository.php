@@ -19,6 +19,15 @@ class MineralRepository extends ServiceEntityRepository
         parent::__construct($registry, Mineral::class);
     }
 
+    public function countMinerals()
+    {
+        return $this->createQueryBuilder('m')
+            ->select('count(m.id) as nbrMinerals')
+            ->getQuery()
+            ->getSingleResult()['nbrMinerals']
+        ;
+    }
+
     // /**
     //  * @return Mineral[] Returns an array of Mineral objects
     //  */

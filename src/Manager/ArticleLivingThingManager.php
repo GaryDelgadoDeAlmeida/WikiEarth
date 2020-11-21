@@ -1,10 +1,8 @@
 <?php
 
-namespace Manager;
+namespace App\Manager;
 
-use App\Entity\LivingThing;
-use App\Entity\MediaGallery;
-use App\Entity\ArticleLivingThing;
+use App\Entity\{LivingThing, MediaGallery, ArticleLivingThing};
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 

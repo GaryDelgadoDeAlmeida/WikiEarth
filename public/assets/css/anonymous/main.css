@@ -2,26 +2,27 @@
                 Home
 \* ---------------------------------------- */
 @import './desktop/_home.css';
-@import './mobile/_home.css';
+@import './tablet/_home.css';
+/* @import './mobile/_home.css'; */
 
 /* ---------------------------------------- *\
                 Living Thing
 \* ---------------------------------------- */
 @import './desktop/_livingThing.css';
 @import './desktop/_single_livingThing.css';
-@import './mobile/_livingThing.css';
-@import './mobile/_single_livingThing.css';
+/* @import './mobile/_livingThing.css'; */
+/* @import './mobile/_single_livingThing.css'; */
 
 /* ---------------------------------------- *\
                 Login & Register
 \* ---------------------------------------- */
 @import './desktop/_signIn.css';
-@import './mobile/_signIn.css';
+/* @import './mobile/_signIn.css'; */
 @import './desktop/_signUp.css';
-@import './mobile/_signUp.css';
+/* @import './mobile/_signUp.css'; */
 
 /* ---------------------------------------- *\
                 Footer
 \* ---------------------------------------- */
 @import './desktop/_footer.css';
-@import './mobile/_footer.css';
+/* @import './mobile/_footer.css'; */

@@ -19,6 +19,15 @@ class AtomeRepository extends ServiceEntityRepository
         parent::__construct($registry, Atome::class);
     }
 
+    public function countAtomes()
+    {
+        return $this->createQueryBuilder('a')
+            ->select('count(a.id) as nbrAtomes')
+            ->getQuery()
+            ->getSingleResult()["nbrAtomes"];
+        ;
+    }
+
     // /**
     //  * @return Atome[] Returns an array of Atome objects
     //  */

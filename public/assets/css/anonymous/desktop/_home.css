@@ -191,11 +191,11 @@
                 Home-NbrArticles
 \* ---------------------------------------- */
 .home-nbrArticles {
-    padding: 50px;
+    padding: 50px 0;
 }
 
 .nbrArticles {
-    margin: 0 10%;
+    margin: 2% 0;
     text-align: center;
 }
 
@@ -210,14 +210,14 @@
 
 .nbrArticles-details {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: center;
 }
 
 .nbrArticles-content {
+    margin: 0 25px;
     display: grid;
-    width: 120px;
-    height: min-content;
+    width: 130px;
+    /* height: min-content; */
 }
 
 .nbrArticles-content .txt-bold {

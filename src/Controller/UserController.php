@@ -2,18 +2,10 @@
 
 namespace App\Controller;
 
-use App\Form\UserType;
-use App\Entity\LivingThing;
-use App\Entity\Notification;
-use App\Manager\UserManager;
-use App\Form\LivingThingType;
-use Manager\LivingThingManager;
-use App\Entity\ArticleLivingThing;
-use App\Form\ArticleLivingThingType;
-use App\Manager\MediaGalleryManager;
-use App\Manager\NotificationManager;
+use App\Form\{UserType, LivingThingType, ArticleLivingThingType};
+use App\Entity\{LivingThing, Notification, ArticleLivingThing};
+use App\Manager\{UserManager, LivingThingManager, MediaGalleryManager, NotificationManager, ArticleLivingThingManager};
 use Psr\Container\ContainerInterface;
-use Manager\ArticleLivingThingManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;

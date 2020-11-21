@@ -2,11 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
-use App\Entity\Country;
-use App\Form\UserLoginType;
-use App\Form\UserRegisterType;
-use App\Entity\ArticleLivingThing;
+use App\Entity\{User, Atome, Country, Mineral, LivingThing, ArticleLivingThing};
+use App\Form\{UserLoginType, UserRegisterType};
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -26,18 +23,13 @@ class AnonymousController extends AbstractController
 
         return $this->render('anonymous/home/index.html.twig', [
             "countrys" => array_chunk($countrys, $nbrCountryPerColown, true),
-            "nbrCountryPerColown" => $nbrCountryPerColown
+            "nbrCountryPerColown" => $nbrCountryPerColown,
+            "nbrArticles" => $this->getDoctrine()->getRepository(ArticleLivingThing::class)->countArticleLivingThingsApproved(),
+            "nbrLivingThings" => $this->getDoctrine()->getRepository(LivingThing::class)->countLivingThings(),
+            "nbrAtomes" => $this->getDoctrine()->getRepository(Atome::class)->countAtomes(),
+            "nbrMinerals" => $this->getDoctrine()->getRepository(Mineral::class)->countMinerals(),
         ]);
     }
-
-    // /**
-    //  * @Route("/test", name="test")
-    //  */
-    // public function test()
-    // {
-    //     $link = "D:/garya/Documents/research/WFOTaxonomicBackbone_v.1.1_20190513/references.txt";
-    //     dd($link, \file_get_contents($link));
-    // }
 
     /**
      * @Route("/{country}/articles", name="countryArticle")
