@@ -25,4 +25,5 @@
                 Footer
 \* ---------------------------------------- */
 @import './desktop/_footer.css';
+@import './tablet/_footer.css';
 /* @import './mobile/_footer.css'; */

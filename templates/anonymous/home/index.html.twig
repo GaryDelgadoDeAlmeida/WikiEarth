@@ -86,7 +86,7 @@
                 {% for oneCountry in countrys %}
                     <ul class="countrys-content">
                         {% for country in oneCountry %}
-                            <li class="fromLeft">
+                            <li>
                                 <a href="{{ path('countryArticle', {'country': country.treatedCountryName|lower}) }}">{{ country.name }}</a>
                             </li>
                         {% endfor %}
@@ -106,7 +106,7 @@
                     <p>La Team WikiEarth prennent le temps de vérifier (à la loupe) chaque article, chaque contenu, que WikiEarth présente pour que nous puissions vous affirmer la qualité et la fiabilité de l’information.</p>
                 </div>
                 <div class="about-img">
-                    <img class="img-fluid" src="{{ asset('content/wikiearth/thumbnail.jpg') }}" alt="about-us">
+                    <img src="{{ asset('content/wikiearth/thumbnail.jpg') }}" alt="about-us">
                 </div>
             </div>
         </div>

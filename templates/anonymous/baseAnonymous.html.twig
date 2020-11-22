@@ -27,7 +27,6 @@
                     <a class="dropdown-item" href="{{ path("articleLivingThing", {"name": "animals"}) }}">Animals</a>
                     <a class="dropdown-item" href="{{ path("articleLivingThing", {"name": "fungi"}) }}">Fungi</a>
                     <a class="dropdown-item" href="{{ path("articleLivingThing", {"name": "plants"}) }}">Plants</a>
-                    {# <a class="dropdown-item" href="{{ path("articleLivingThing", {"name": "insects"}) }}">Insects</a> #}
                     <a class="dropdown-item" href="{{ path("articleLivingThing", {"name": "bacteria"}) }}">Bacteria</a>
                     <a class="dropdown-item" href="{{ path("articleLivingThing", {"name": "viruses"}) }}">Virus</a>
                 </div>
@@ -46,43 +45,42 @@
 {% block footer %}
 <footer class="footer">
     <div class="footer-menu bg-midnight">
-        <nav>
+        <div class="footer-menu-container">
             <h3>Menu</h3>
             <hr>
-            <ul>
+            <ul class="footer-menu-items">
                 <li><a href="{{ path('home') }}">Home</a></li>
                 <li><a href="{{ path('about') }}">About</a></li>
                 <li><a href="{{ path('login') }}">Login</a></li>
                 <li><a href="{{ path('register') }}">Register</a></li>
             </ul>
-        </nav>
-        <nav>
+        </div>
+        <div class="footer-menu-container">
             <h3>Living Things</h3>
             <hr>
-            <ul>
+            <ul class="footer-menu-items">
                 <li><a href="{{ path("articleLivingThing", {"name": "animals"}) }}">Animals</a></li>
-                {# <li><a href="{{ path("articleLivingThing", {"name": "insects"}) }}">Insects</a></li> #}
                 <li><a href="{{ path("articleLivingThing", {"name": "plants"}) }}">Plants</a></li>
                 <li><a href="{{ path("articleLivingThing", {"name": "fungi"}) }}">Fungi</a></li>
                 <li><a href="{{ path("articleLivingThing", {"name": "bacteria"}) }}">Bacteria</a></li>
                 <li><a href="{{ path("articleLivingThing", {"name": "viruses"}) }}">Virus</a></li>
             </ul>
-        </nav>
-        <nav>
+        </div>
+        <div class="footer-menu-container">
             <h3>Natural Elements</h3>
             <hr>
-            <ul>
+            <ul class="footer-menu-items">
                 <li><a href="">Atome</a></li>
                 <li><a href="">Minerals</a></li>
                 <li><a href="">Non Minerals</a></li>
             </ul>
-        </nav>
+        </div>
     </div>
-    <div class="copyright bg-night">
-        <div class="left">
+    <div class="footer-copyright bg-night">
+        <div class="copyright">
             <span>Copyright &copy; {{ "now"|date("Y") }} &minus; <a href="{{ path('home') }}"><span class="c-white">Wiki<em class="c-cyanBlue">Earth</em></span></a></span>
         </div>
-        <div class="right">
+        <div class="creator">
             {# <span>Realised by <a class="c-cyanBlue txt-bold" href="http://gary-delgado-de-almeida.000webhostapp.com" target="__blank">Garry Almeida</a></span> #}
             <span>Realised by <a class="c-cyanBlue txt-bold" href="https://fr.linkedin.com/in/garry-almeida-7538b3175" target="__blank">Garry Almeida</a></span>
         </div>

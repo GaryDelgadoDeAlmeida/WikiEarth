@@ -16,16 +16,16 @@ footer {
     padding: 2rem 0;
 }
 
-.footer-menu nav {
-    margin: 1rem 2rem;
+.footer-menu-container {
+    margin: 1rem;
 }
 
-.footer-menu nav h3 {
+.footer-menu-container h3 {
     text-align: left;
     font-size: 20px;
 }
 
-.footer-menu nav hr {
+.footer-menu-container hr {
     margin: -.2rem;
     margin-bottom: .3rem;
     width: 200px;
@@ -33,35 +33,41 @@ footer {
     height: 2px;
 }
 
-.footer-menu nav ul {
+.footer-menu-container .footer-menu-items {
+    list-style: none;
     padding-top: .3rem;
 }
 
-.footer-menu nav ul li {
-    list-style: none;
+.footer-menu-container .footer-menu-items li {
     margin: .3rem 0;
 }
     
 
-.footer-menu nav ul li a {
+.footer-menu-container .footer-menu-items li a {
     margin-left: -2.5rem;
     text-decoration: none;
     color: #ffffff;
 }
 
-.copyright {
+.footer-menu-container .footer-menu-items li a:hover {
+    transition: .5s;
+    color: rgb(0, 183, 235);
+}
+
+.footer-copyright {
+    display: block;
     height: 75px;
     padding: 1.7rem 2rem;
 }
 
-.left {
+.copyright {
     float: left;
 }
 
-.right {
+.creator {
     float: right;
 }
 
-.right .c-cyanBlue:hover {
+.creator .c-cyanBlue:hover {
     color: rgb(0, 183, 235);
 }
