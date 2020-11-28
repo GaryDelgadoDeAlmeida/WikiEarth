@@ -60,7 +60,6 @@
     height: 100%;
     place-items: center;
     text-align: center;
-    background: #f2f2f2;
     padding: 50px 50px;
 }
 .slider {
@@ -132,7 +131,7 @@
 .home-countrys .countrys .countrys-content {
     list-style: none;
     /* width: 40vh; */
-    width: calc(100% / 4);
+    width: calc(100% / 3);
 }
 
 .home-countrys .countrys .countrys-content li {
@@ -158,7 +157,6 @@
                 Home-About
 \* ---------------------------------------- */
 .home-about {
-    background-color: #f2f2f2;
     padding: 50px;
 }
 

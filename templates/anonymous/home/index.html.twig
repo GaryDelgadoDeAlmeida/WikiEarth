@@ -16,7 +16,7 @@
         {% include "anonymous/home/interactive-maps.html.twig" %}
     </section> #}
 
-    <section class="home-article">
+    <section class="home-article bg-lightGrey">
         <div class="slider owl-carousel">
             <div class="card">
                 <div class="img">
@@ -77,10 +77,46 @@
                     <a class="btn" href="{{ path('articleLivingThing', {'name': 'viruses'}) }}">See More</a>
                 </div>
             </div>
+
+            <div class="card">
+                <div class="img">
+                    <img src="{{ asset('content/img/Atome.jpg') }}" alt="Elements">
+                </div>
+                
+                <div class="content">
+                    <h5 class="title">Elements</h5>
+                    <p class="text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a class="btn" href="">See More</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="img">
+                    <img src="{{ asset('content/img/Minerals.jpg') }}" alt="Minerals">
+                </div>
+                
+                <div class="content">
+                    <h5 class="title">Minerals</h5>
+                    <p class="text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a class="btn" href="">See More</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="img">
+                    <img src="{{ asset('content/img/Rocks.jpg') }}" alt="Rocks">
+                </div>
+                
+                <div class="content">
+                    <h5 class="title">Rocks</h5>
+                    <p class="text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a class="btn" href="">See More</a>
+                </div>
+            </div>
         </div>
     </section>
 
-    {% if countrys != [] %}
+    {# {% if countrys != [] %}
         <section class="home-countrys">
             <div class="countrys">
                 {% for oneCountry in countrys %}
@@ -94,7 +130,7 @@
                 {% endfor %}
             </div>
         </section>
-    {% endif %}
+    {% endif %} #}
 
     <section class="home-about">
         <div class="about">
@@ -112,7 +148,7 @@
         </div>
     </section>
 
-    <section class="home-nbrArticles">
+    <section class="home-nbrArticles bg-lightGrey">
         <div class="nbrArticles">
             <div class="nbrArticles-articles">
                 <span class="txt-bold">{{ nbrArticles }}</span>
