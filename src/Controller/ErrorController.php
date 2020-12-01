@@ -12,7 +12,7 @@ class ErrorController extends AbstractController
      */
     public function error403()
     {
-        return $this->render('bundles/TwigBundle/Exception/error403.html.twig');
+        return $this->render('error/403.html.twig');
     }
 
     /**
@@ -20,7 +20,7 @@ class ErrorController extends AbstractController
      */
     public function error404()
     {
-        return $this->render('bundles/TwigBundle/Exception/error404.html.twig');
+        return $this->render('error/404.html.twig');
     }
 
     /**
@@ -28,6 +28,6 @@ class ErrorController extends AbstractController
      */
     public function error500()
     {
-        return $this->render('bundles/TwigBundle/Exception/error.html.twig');
+        return $this->render('error/500.html.twig');
     }
 }

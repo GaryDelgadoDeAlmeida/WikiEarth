@@ -2,42 +2,55 @@
 
 {# CSS #}
 {% block stylesheets %}
+    <link href="{{ asset('lib/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/css/anonymous/main.css') }}" rel="stylesheet">
 {% endblock %}
 
 
 {# Header #}
 {% block header %}
-<nav class="navbar navbar-dark bg-night">
-    <a class="navbar-brand" href="{{ path('home') }}">
-        <img class="d-inline-block align-top" src="{{ asset('content/img/logo/world.png') }}" width="30" height="30" alt="logo_wikiearth">
-        <span>Wiki<em class="c-cyanBlue">Earth</em></span>
-    </a>
-    
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-        {# <span class="navbar-toggler-icon"></span> #}
+<header class="header bg-night">
+    <h2 class="logo">
+        <a href="{{ path('home') }}">
+            <img src="{{ asset('content/img/logo/world.png') }}" width="30" height="30" alt="logo_wikiearth">
+            <span>Wiki<em class="c-cyanBlue">Earth</em></span>
+        </a>
+    </h2>
+
+    <input type="checkbox" name="chk" id="chk">
+    <label for="chk" class="show-menu-btn">
         <i class="fas fa-bars"></i>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div class="navbar-nav">
-            <li class="nav-item"><a class="nav-link" href="{{ path('home') }}"><span>Home</span></a></li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Living Things</a>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="{{ path("articleLivingThing", {"name": "animals"}) }}">Animals</a>
-                    <a class="dropdown-item" href="{{ path("articleLivingThing", {"name": "fungi"}) }}">Fungi</a>
-                    <a class="dropdown-item" href="{{ path("articleLivingThing", {"name": "plants"}) }}">Plants</a>
-                    <a class="dropdown-item" href="{{ path("articleLivingThing", {"name": "bacteria"}) }}">Bacteria</a>
-                    <a class="dropdown-item" href="{{ path("articleLivingThing", {"name": "viruses"}) }}">Virus</a>
-                </div>
+    </label>
+    <nav class="menu">
+        <ul>
+            <li><a  href="{{ path('home') }}"><span>Home</span></a></li>
+            <li>
+                <span>Living Things</span>
+                <ul class="submenu">
+                    <li><a href="{{ path("articleLivingThing", {"name": "animals"}) }}">Animals</a></li>    
+                    <li><a href="{{ path("articleLivingThing", {"name": "plants"}) }}">Plants</a></li>
+                    <li><a href="{{ path("articleLivingThing", {"name": "fungi"}) }}">Fungi</a></li>
+                    <li><a href="{{ path("articleLivingThing", {"name": "bacteria"}) }}">Bacteria</a></li>
+                    <li><a href="{{ path("articleLivingThing", {"name": "viruses"}) }}">Virus</a></li>
+                </ul>
             </li>
-            <li class="nav-item"><a class="nav-link" href="{{ path('about') }}"><span>About</span></a></li>
+            <li>
+                <span>Natural Elements</span>
+                <ul class="submenu">
+                    <li><a href="">Elements</a></li>    
+                    <li><a href="">Minerals</a></li>
+                    <li><a href="">Rocks</a></li>
+                    <li><a href="">Chimical Reaction</a></li>
+                </ul>
+            </li>
+            <li><a href="{{ path('about') }}"><span>About</span></a></li>
+            <li><a href="{{ path('about') }}"><span>News</span></a></li>
             {% if not is_granted('IS_AUTHENTICATED_FULLY') %}
-                <li class="nav-item"><a class="nav-link" href="{{ path('login') }}"><span>Login</span></a></li>
+                <li><a href="{{ path('login') }}"><span>Login</span></a></li>
             {% endif %}
-        </div>
-    </div>
-</nav>
+        </ul>
+    </nav>
+</header>
 {% endblock %}
 
 
@@ -70,9 +83,10 @@
             <h3>Natural Elements</h3>
             <hr>
             <ul class="footer-menu-items">
-                <li><a href="">Atome</a></li>
+                <li><a href="">Elements</a></li>
                 <li><a href="">Minerals</a></li>
-                <li><a href="">Non Minerals</a></li>
+                <li><a href="">Rocks</a></li>
+                <li><a href="">Chimical Reaction</a></li>
             </ul>
         </div>
     </div>

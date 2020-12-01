@@ -1,15 +1,12 @@
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     background-color: #F7F8FA;
+    padding: 0;
+    margin: 0;
 }
 
-
-/* ---------------------------------------- *\
-                    Navbar
-\* ---------------------------------------- */
-.navbar-toggler i {
-    font-size: 1.5em;
-    color: #ffffff;
+:root {
+    --navHeight: 90px;
 }
 
 
@@ -18,7 +15,7 @@ html, body {
 \* ---------------------------------------- */
 a, a:hover {
     color: #000000;
-    text-decoration: none;
+    text-decoration: none !important;
 }
 
 
@@ -183,4 +180,12 @@ fieldset.form-group {
 .form-group li {
     list-style: none;
     margin: 15px 0;
+}
+
+/* ---------------------------------------- *\
+                    Height
+\* ---------------------------------------- */
+.m-middle {
+    display: block;
+    margin: auto;
 }
