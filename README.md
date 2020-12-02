@@ -73,7 +73,6 @@ Il existe un répertoire nommé "imports" dans "public/content/file". Ce répert
     - le répertoire "Fungi" (champignons)
     - le répertoire "Protista"
     - le répertoire "Archaea"
-    - le répertoire "Archaebacteria"
     - le répertoire "Eubacteria"
     - le répertoire "Bacteria"
     - le répertoire "Virae"
