@@ -12,7 +12,7 @@
 <header class="header bg-night">
     <h2 class="logo">
         <a href="{{ path('home') }}">
-            <img src="{{ asset('content/img/logo/world.png') }}" width="30" height="30" alt="logo_wikiearth">
+            <img src="{{ asset('content/img/logo/world.png') }}" width="45" height="45" alt="logo_wikiearth">
             <span>Wiki<em class="c-cyanBlue">Earth</em></span>
         </a>
     </h2>
@@ -22,7 +22,7 @@
         <i class="fas fa-bars"></i>
     </label>
     <nav class="menu">
-        <ul>
+        <div>
             <li><a  href="{{ path('home') }}"><span>Home</span></a></li>
             <li>
                 <span>Living Things</span>
@@ -48,7 +48,7 @@
             {% if not is_granted('IS_AUTHENTICATED_FULLY') %}
                 <li><a href="{{ path('login') }}"><span>Login</span></a></li>
             {% endif %}
-        </ul>
+        </div>
     </nav>
 </header>
 {% endblock %}

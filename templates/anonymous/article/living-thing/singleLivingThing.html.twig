@@ -69,7 +69,7 @@
                                                     <span>{{ oneEcology.sub_title }}</span>
                                                 </div>
                                                 <div class="content">
-                                                    <p>{{ oneEcology.sub_content }}</p>
+                                                    <span>{{ oneEcology.sub_content }}</span>
                                                 </div>
                                             </div>
                                         {% endfor %}
@@ -173,7 +173,7 @@
                 <div class="articleLivingThing-single-right">
                     <div class="articleLivingThing-livingThing">
                         <div class="livingThing-img">
-                            <img class="img-fluid" src="{{ asset(livingThing.idLivingThing.imgPath != null ? livingThing.idLivingThing.imgPath : "content/wikiearth/thumbnail.jpg") }}" alt="{{ livingThing.idLivingThing.name }}">
+                            <img class="img-fluid" src="{{ asset(file_exist(livingThing.idLivingThing.imgPath)) }}" alt="{{ livingThing.idLivingThing.name }}">
                         </div>
 
                         <div class="livingThing-content">

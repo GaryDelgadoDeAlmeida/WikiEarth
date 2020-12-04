@@ -2,7 +2,6 @@
 
 {# CSS #}
 {% block stylesheets %}
-    <link href="{{ asset('lib/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/css/admin/main.css') }}" rel="stylesheet">
 {% endblock %}
 
@@ -38,6 +37,11 @@
                 <li class="nav-item px-3">
                     <a class="nav-link" href="{{ path('adminLivingThing') }}">
                         <span class="oi" aria-hidden="true"><i class="fas fa-dna"></i></span> Living Being
+                    </a>
+                </li>
+                <li class="nav-item px-3">
+                    <a class="nav-link" href="{{ path('adminElement') }}">
+                        <span class="oi" aria-hidden="true"><i class="fas fa-dna"></i></span> Element
                     </a>
                 </li>
                 <li class="nav-item px-3">

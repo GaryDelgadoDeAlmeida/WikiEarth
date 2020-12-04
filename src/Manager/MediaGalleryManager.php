@@ -66,9 +66,9 @@ class MediaGalleryManager extends AbstractController {
         }
     }
 
-    public function setMediaGalleryAtomes(array $files)
+    public function setMediaGalleryElements(array $files)
     {
-        // TODO : effectué la logique métier d'insertion des médias pour les articles de type "atomes"
+        // TODO : effectué la logique métier d'insertion des médias pour les articles de type "elements"
     }
 
     public function setMediaGalleryMinerals(array $files)

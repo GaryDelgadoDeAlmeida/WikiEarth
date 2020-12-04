@@ -7,8 +7,9 @@
 
 .articleLivingThing .articleLivingThing-single {
     display: grid;
-    grid-template-columns: 13% 70% 17%;
+    grid-template-columns: 200px calc(100% - 450px) 250px;
     height: auto;
+    width: 100%;
 }
 
 .articleLivingThing-single-left,
@@ -115,6 +116,16 @@
     padding: 1rem 0;
     font-weight: 600;
     font-size: 21px;
+}
+
+.geography-content .content,
+.ecology-content .content,
+.behaviour-content .content,
+.wayOfLife-content .content,
+.description-content .content,
+.otherData-content .content {
+    overflow-wrap: break-word !important;
+    padding: 0;
 }
 
 .articleLivingThing-livingThing .livingThing-content {

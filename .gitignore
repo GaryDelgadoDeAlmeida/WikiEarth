@@ -6,6 +6,7 @@
 /config/secrets/prod/prod.decrypt.private.php
 /public/bundles/
 /public/content/file/imports/
+/public/content/users/
 /public/content/wikiearth/
 /var/
 /vendor/

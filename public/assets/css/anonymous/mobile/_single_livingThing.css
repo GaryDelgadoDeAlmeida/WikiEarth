@@ -1,0 +1,8 @@
+/* ---------------------------------------- *\
+            Single Living Thing
+\* ---------------------------------------- */
+@media(max-height : 991px) {
+    .articleLivingThing .articleLivingThing-single {
+        display: inherit;
+    }
+}

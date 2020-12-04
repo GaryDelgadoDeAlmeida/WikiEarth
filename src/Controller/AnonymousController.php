@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\{User, Atome, Country, Mineral, LivingThing, ArticleLivingThing};
+use App\Entity\{User, Element, Country, Mineral, LivingThing, ArticleLivingThing};
 use App\Form\{UserLoginType, UserRegisterType};
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,7 +26,7 @@ class AnonymousController extends AbstractController
             "nbrCountryPerColown" => $nbrCountryPerColown,
             "nbrArticles" => $this->getDoctrine()->getRepository(ArticleLivingThing::class)->countArticleLivingThingsApproved(),
             "nbrLivingThings" => $this->getDoctrine()->getRepository(LivingThing::class)->countLivingThings(),
-            "nbrAtomes" => $this->getDoctrine()->getRepository(Atome::class)->countAtomes(),
+            "nbrElements" => $this->getDoctrine()->getRepository(Element::class)->countElements(),
             "nbrMinerals" => $this->getDoctrine()->getRepository(Mineral::class)->countMinerals(),
         ]);
     }

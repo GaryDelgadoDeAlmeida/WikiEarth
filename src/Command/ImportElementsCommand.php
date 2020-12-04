@@ -9,14 +9,14 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-class ImportAtomesCommand extends Command
+class ImportElementsCommand extends Command
 {
-    protected static $defaultName = 'app:import:atomes';
+    protected static $defaultName = 'app:import:elements';
 
     protected function configure()
     {
         $this
-            ->setDescription('Import atomes from a csv file to the database.')
+            ->setDescription('Import elements from a csv file to the database.')
         ;
     }
 

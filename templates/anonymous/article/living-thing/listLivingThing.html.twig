@@ -7,7 +7,7 @@
                 {% for oneLivingThing in livingThing %}
                     <li class="media">
                         <div class="media-header">
-                            <img class="img-fuild" src="{{ asset(oneLivingThing.idLivingThing.imgPath != null ? oneLivingThing.idLivingThing.imgPath : "content/wikiearth/thumbnail.jpg") }}" alt="{{ oneLivingThing.title }}">
+                            <img class="img-fuild" src="{{ asset(file_exist(oneLivingThing.idLivingThing.imgPath)) }}" alt="{{ oneLivingThing.title }}">
                         </div>
                         <div class="media-body">
                             <h5 class="media-body-title">{{ oneLivingThing.title }}</h5>

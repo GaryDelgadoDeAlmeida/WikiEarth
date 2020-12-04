@@ -9,7 +9,7 @@
                 {% for article in articles %}
                     <li class="media">
                         <div class="media-header">
-                            <img class="img-fluid" src="{{ asset(article.idLivingThing.imgPath != null ? article.idLivingThing.imgPath : "content/wikiearth/thumbnail.jpg") }}" alt="{{ article.idLivingThing.name }}">
+                            <img class="img-fluid" src="{{ asset(file_exist(article.idLivingThing.imgPath)) }}" alt="{{ article.idLivingThing.name }}">
                         </div>
                         <div class="media-body">
                             <h5 class="media-body-title">{{ article.title }}</h5>

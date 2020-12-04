@@ -1,15 +1,14 @@
 {% extends 'admin/baseAdmin.html.twig' %}
 
 {% block body %}
-    <section class="livingThing">
-        <div class="container">
-            <a class="btn btn-custom-green" href="{{ path('adminAddLivingThing') }}">ADD</a>
-            {# <div>&nbsp;</div> #}
-            {% if livingThings != [] %}
-                {% for livingThing in livingThings %}
+    <section class="natural-elements">
+        <div class="mineral">
+            
+            {% if minerals != [] %}
+                {% for mineral in minerals %}
                     <li class="media">
                         <div class="media-header">
-                            <img class="img-fluid" src="{{ asset(file_exist(livingThing.imgPath)) }}" alt="{{ livingThing.name }}">
+                            <img class="img-fluid" src="{{ asset(livingThing.imgPath != null ? livingThing.imgPath : "content/wikiearth/thumbnail.jpg") }}" alt="{{ livingThing.name }}">
                         </div>
                         <div class="media-body">
                             <h5 class="media-body-title">{{ livingThing.name }}</h5>

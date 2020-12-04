@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\{User, SourceLink, LivingThing, MediaGallery, Notification, ArticleLivingThing};
+use App\Entity\{User, Element, SourceLink, LivingThing, MediaGallery, Notification, ArticleLivingThing};
 use App\Form\{UserType, LivingThingType, UserRegisterType, ArticleLivingThingType};
 use App\Manager\{UserManager, LivingThingManager, ArticleLivingThingManager};
 use Psr\Container\ContainerInterface;
@@ -232,6 +232,21 @@ class AdminController extends AbstractController
         $this->em->flush();
 
         return $this->redirectToRoute('adminLivingThing');
+    }
+
+    /**
+     * @Route("/admin/element", name="adminElement")
+     */
+    public function admin_element(Request $request)
+    {
+        $offset = !empty($request->get('offset')) && preg_match('/^[0-9]*$/', $request->get('offset')) ? $request->get('offset') : 1;
+        $limit = 10;
+
+        return $this->render('admin/natural_element/element/index.html.twig', [
+            "offset" => $offset,
+            "nbrOffset" => ceil($this->getDoctrine()->getRepository(Element::class)->countElements() / $limit),
+            "elements" => $this->getDoctrine()->getRepository(Element::class)->getElements($offset, $limit),
+        ]);
     }
 
     /**

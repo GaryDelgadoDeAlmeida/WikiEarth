@@ -41,7 +41,7 @@
                     {% for article in articles %}
                         <div class="list-livingThing-box">
                             <div class="box-livingThing-img">
-                                <img class="img-fluid" src="{{ asset(article.idLivingThing.imgPath != null ? article.idLivingThing.imgPath : "content/wikiearth/thumbnail.jpg") }}" alt="{{ article.idLivingThing.name }}">
+                                <img class="img-fluid" src="{{ asset(file_exist(article.idLivingThing.imgPath)) }}" alt="{{ article.idLivingThing.name }}">
                             </div>
                             <div class="box-livingThing-text">
                                 <h4 class="title">{{ article.title }}</h4>

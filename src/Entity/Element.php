@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\AtomeRepository;
+use App\Repository\ElementRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=AtomeRepository::class)
+ * @ORM\Entity(repositoryClass=ElementRepository::class)
  */
-class Atome
+class Element
 {
     /**
      * @ORM\Id
