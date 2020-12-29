@@ -40,7 +40,6 @@
 .articleLivingThing-single-left .wikiearth-header-content {
     margin: 15px 0;
     text-align: center;
-    /* font-family: 'Courier New', Courier, monospace; */
 }
 
 .articleLivingThing-single-left .wikiearth-header-content .wikiearth-header-title {
@@ -77,6 +76,11 @@
     font-weight: 600;
     border-bottom: 1px solid #AAAAAA;
     font-size: .9rem;
+}
+
+.subLink .subLink-item a {
+    text-decoration: none;
+    color: #000000 !important;
 }
 
 .articleLivingThing .articleLivingThing-single-center {

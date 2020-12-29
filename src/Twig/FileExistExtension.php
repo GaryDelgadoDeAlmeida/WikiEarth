@@ -23,10 +23,14 @@ class FileExistExtension extends AbstractExtension
         ];
     }
 
-    public function fileExist($value)
+    public function fileExist($value, $alternativePath = true)
     {
-        if(!file_exists($this->container->getParameter("project_public_dir") . $value)) {
-            $value = "content/wikiearth/thumbnail.jpg";
+        if(empty($value) || !file_exists($this->container->getParameter("project_public_dir") . $value)) {
+            if($alternativePath) {
+                $value = "content/wikiearth/thumbnail.jpg";
+            } else {
+                $value = "";
+            }
         }
 
         return $value;

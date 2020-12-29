@@ -40,7 +40,7 @@ class AnonymousController extends AbstractController
         $offset = !empty($request->get('offset')) && preg_match('/^[0-9]*$/', $request->get('offset')) ? $request->get('offset') : 1;
         $oneCountry = $this->getDoctrine()->getRepository(Country::class)->getCountryByName($country);
 
-        return $this->render('anonymous/article/living-thing/countryLivingThing.html.twig', [
+        return $this->render('anonymous/article/living-thing/country.html.twig', [
             "country" => $country,
             "articles" => $oneCountry ? $oneCountry->getLivingThing()->getValues() : [],
             "offset" => $offset,
@@ -70,7 +70,7 @@ class AnonymousController extends AbstractController
         $livingThing = $this->getDoctrine()->getRepository(ArticleLivingThing::class)->getArticleLivingThingsByLivingThingKingdom($kingdom, $offset, $limit);
         $totalOffset = ceil( $this->getDoctrine()->getRepository(ArticleLivingThing::class)->countArticleLivingThingsByKingdom($kingdom, $limit)['nbrOffset']);
 
-        return $this->render('anonymous/article/living-thing/listLivingThing.html.twig', [
+        return $this->render('anonymous/article/living-thing/list.html.twig', [
             "livingThing" => $livingThing,
             "name" => $name,
             "offset" => $offset,
@@ -103,7 +103,7 @@ class AnonymousController extends AbstractController
             return $this->redirectToRoute("404Error");
         }
 
-        return $this->render('anonymous/article/living-thing/singleLivingThing.html.twig', [
+        return $this->render('anonymous/article/living-thing/single.html.twig', [
             "livingThing" => $livingThing,
             "name" => $name
         ]);
@@ -127,7 +127,7 @@ class AnonymousController extends AbstractController
         $offset = !empty($request->get('offset')) && preg_match('/^[0-9]*$/', $request->get('offset')) ? $request->get('offset') : 1;
         $livingThing = $this->getDoctrine()->getRepository(ArticleLivingThing::class)->searchArticleLivingThings($search);
         
-        return $this->render('anonymous/article/living-thing/searchLivingThing.html.twig', [
+        return $this->render('anonymous/article/living-thing/search.html.twig', [
             "livingThing" => $livingThing,
             "offset" => $offset
         ]);

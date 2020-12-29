@@ -1,0 +1,45 @@
+{% extends 'anonymous/baseAnonymous.html.twig' %}
+
+{% block body %}
+    <section class="livingThing">
+        <div class="container">
+            {% if articles != [] %}
+                {% for oneArticle in articles %}
+                    <li class="media">
+                        <div class="media-header">
+                            <img class="img-fuild" src="{{ asset(file_exist(oneArticle.idLivingThing.imgPath)) }}" alt="{{ oneArticle.title }}">
+                        </div>
+                        <div class="media-body">
+                            <h5 class="media-body-title">{{ oneArticle.title }}</h5>
+                            {# Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus. #}
+                            <a class="btn btn-outline-secondary" href="{{ path("articleLivingThingById", {"name": name, "id": oneArticle.idLivingThing.id }) }}">See Article</a>
+                        </div>
+                    </li>
+                {% endfor %}
+
+                {# Pagination #}
+                {% if offset > 1 and offset <= nbrOffset %}
+                    <div class="pagination">
+                        <div class="pagination-links">
+                            <a href="{{ path('countryArticle', {'country': country, 'offset': 1}) }}"><i class="fas fa-angle-double-left"></i></a>
+                        
+                            {% if offset - 1 >= 1 %}
+                                <a class="" href="{{ path('countryArticle', {'country': country, 'offset': offset - 1}) }}">{{ offset - 1 }}</a>
+                            {% endif %}
+
+                            <a class="active" href="{{ path('countryArticle', {'country': country, 'offset': offset}) }}"><span>{{ offset }}</span></a>
+                            
+                            {% if offset + 1 <= nbrOffset %}
+                                <a class="" href="{{ path('countryArticle', {'country': country, 'offset': offset + 1}) }}">{{ offset + 1 }}</a>
+                            {% endif %}
+                            
+                            <a href="{{ path('countryArticle', {'country': country, 'offset': nbrOffset}) }}"><i class="fas fa-angle-double-right"></i></a>
+                        </div>
+                    </div>
+                {% endif %}
+            {% else %}
+                <li>No {% name %} has been found.</li>
+            {% endif %}
+        </div>
+    </section>
+{% endblock %}

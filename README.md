@@ -77,8 +77,8 @@ Il existe un répertoire nommé "imports" dans "public/content/file". Ce répert
     - le répertoire "Bacteria"
     - le répertoire "Virae"
     
-  - le répertoire "Natural Elements" contenant tous les atomes (métaux et non-métaux), les minéraux.
-    - le répertoire "Atome"
+  - le répertoire "Natural Elements" contenant tous les élements du tableau périodique (métaux et non-métaux), les minéraux.
+    - le répertoire "Elements"
     - le répertoire "Minerals"
 
 Pour le système d'import, en fonction de la commande appeler, il appellera le fichier et les images (s'ils en ont) dans le dossier cible pour les importés dans la base de données.
@@ -95,7 +95,7 @@ Pour importer les plantes
 
 Pour importer les atomes
 ```bash
-    symfony console app:import:atomes
+    symfony console app:import:elements
 ```
 
 Pour importer les minéraux
