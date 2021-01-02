@@ -75,7 +75,6 @@ class ImportMineralsCommand extends Command
                 }
 
                 if($oneMineralData[12] == 1) {
-                    // Do something
                     $mineral->setImgPath($oneMineralData[12]);
                 }
 

@@ -39,6 +39,7 @@ class ImportAnimalsCommand extends Command
         $tabRow = \explode("\r\n", $fileContent);
         $tabColownName = $tabCell = $tabLiv = [];
         $limitBeforeInsert = 50;
+        $countLivingThing = 0;
         
         foreach($tabRow as $key => $value) {
             array_push($tabCell, explode("\t", trim(utf8_encode($value))));
@@ -86,6 +87,7 @@ class ImportAnimalsCommand extends Command
                 $livingThing->setSpecies(str_replace("\"", "", $oneRow[$keySpecies]));
                 $livingThing->setSubSpecies(str_replace("\"", "", $oneRow[$keySubspecies]));
                 $this->manager->persist($livingThing);
+                $countLivingThing++;
     
                 if($key % $limitBeforeInsert === 0) {
                     $this->manager->flush();
@@ -95,7 +97,7 @@ class ImportAnimalsCommand extends Command
             $this->manager->flush();
             $this->manager->clear();
     
-            $io->success('The living thing of this file was successfully inserted into the database.');
+            $io->success("The living thing of this file was successfully inserted into the database. We inserted {$countLivingThing} living thing");
         } else {
             $io->error('An error occurred.');
         }

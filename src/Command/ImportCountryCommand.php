@@ -48,7 +48,7 @@ class ImportCountryCommand extends Command
         foreach($countrys as $key => $oneCountry) {
             $country = new Country();
             $country->setName($oneCountry->name);
-            $country->setTreatedCountryName(strtolower(str_replace(" ", "-", str_replace(",", "", str_replace("(", "", str_replace(")", "", $oneCountry->name))))));
+            $country->setTreatedCountryName(strtolower(str_replace([" "], "-", str_replace([",", "(", ")"], "", $oneCountry->name))));
             $country->setAlpha2Code($oneCountry->alpha2Code);
             $country->setAlpha3Code($oneCountry->alpha3Code);
             $country->setRegion($oneCountry->region);
