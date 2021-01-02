@@ -2,13 +2,14 @@
 
 namespace App\Controller;
 
-use App\Entity\{User, Element, Country, Mineral, LivingThing, ArticleLivingThing};
-use App\Form\{UserLoginType, UserRegisterType};
+use App\Entity\ArticleElement;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use App\Form\{UserLoginType, UserRegisterType};
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use App\Entity\{User, Element, Country, Mineral, LivingThing, ArticleLivingThing};
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class AnonymousController extends AbstractController
@@ -106,6 +107,38 @@ class AnonymousController extends AbstractController
         return $this->render('anonymous/article/living-thing/single.html.twig', [
             "livingThing" => $livingThing,
             "name" => $name
+        ]);
+    }
+
+    /**
+     * @Route("/element", name="articleElement")
+     */
+    public function article_element(Request $request)
+    {
+        $limit = 10;
+        $offset = !empty($request->get('offset')) && preg_match('/^[0-9]*$/', $request->get('offset')) ? $request->get('offset') : 1;
+        $nbrOffset = ceil($this->getDoctrine()->getRepository(ArticleElement::class)->countArticleElements() / $limit);
+
+        return $this->render('anonymous/article/natural-elements/list.html.twig', [
+            "elements" => $this->getDoctrine()->getRepository(ArticleElement::class)->getArticleElements($offset, $limit),
+            "offset" => $offset,
+            "nbrOffset" => $nbrOffset,
+        ]);
+    }
+
+    /**
+     * @Route("/element/{id}", name="articleElementByID")
+     */
+    public function article_element_by_id($id)
+    {
+        $element = $this->getDoctrine()->getRepository(ArticleElement::class)->find($id);
+
+        if(!empty($element)) {
+            return $this->redirectToRoute('404Error');
+        }
+
+        return $this->render('anonymous/article/natural-elements/single.html.twig', [
+            "element" => $element
         ]);
     }
 

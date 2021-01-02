@@ -9,6 +9,9 @@ jQuery(document).ready(function() {
     let $collectionHolderWayOfLife = $('ul.wayOfLife-tags');
     let $collectionHolderDescription = $('ul.description-tags');
     let $collectionHolderOtherData = $('ul.otherData-tags');
+    let $collectionHolderCharacteristics = $('ul.characteristics-tags');
+    let $collectionHolderProperty = $('ul.property-tags');
+    let $collectionHolderUtilization = $('ul.utilization-tags');
 
     let $newLinkLiGeography = $('<li></li>').append($('<button type="button" class="add_tag_link btn btn-primary">Add a tag</button>'));
     let $newLinkLiEcology = $('<li></li>').append($('<button type="button" class="add_tag_link btn btn-primary">Add a tag</button>'));

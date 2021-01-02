@@ -2,16 +2,18 @@
 
 namespace App\Controller;
 
-use App\Entity\{User, Element, SourceLink, LivingThing, MediaGallery, Notification, ArticleLivingThing};
-use App\Form\{UserType, LivingThingType, UserRegisterType, ArticleLivingThingType};
-use App\Manager\{UserManager, LivingThingManager, ArticleLivingThingManager};
+use App\Entity\ArticleElement;
+use App\Form\ArticleElementType;
 use Psr\Container\ContainerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use App\Manager\{UserManager, LivingThingManager, ArticleLivingThingManager};
+use App\Form\{UserType, LivingThingType, UserRegisterType, ArticleLivingThingType};
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use App\Entity\{User, Element, SourceLink, LivingThing, MediaGallery, Notification, ArticleLivingThing};
 
 class AdminController extends AbstractController
 {
@@ -276,7 +278,12 @@ class AdminController extends AbstractController
                 "category" => $category
             ]);
         } elseif($category == "natural-elements") {
-            die("Cette partie n'est pas encore disponible.");
+            return $this->render('admin/article/natural-elements/index.html.twig', [
+                "articles" => $this->em->getRepository(ArticleElement::class)->getArticleElements($offset, $limit),
+                "nbrOffset" => ceil($this->em->getRepository(ArticleElement::class)->countArticleElements() / $limit),
+                "offset" => $offset,
+                "category" => $category
+            ]);
         }
 
         return $this->redirectToRoute("404Error");
@@ -315,7 +322,18 @@ class AdminController extends AbstractController
                 "category" => $category
             ]);
         } elseif($category == "natural-elements") {
-            die("Cette partie n'est pas encore disponible.");
+            $article = new ArticleElement();
+            $formArticle = $this->createForm(ArticleElementType::class, $article);
+            $formArticle->handleRequest($request);
+
+            if($formArticle->isSubmitted() && $formArticle->isValid()) {
+                die("Cette partie n'est pas encore disponible.");
+            }
+
+            return $this->render('admin/article/natural-elements/edit.html.twig', [
+                "formArticle" => $formArticle->createView(),
+                "category" => $category
+            ]);
         }
 
         return $this->redirectToRoute("404Error");
@@ -348,6 +366,7 @@ class AdminController extends AbstractController
             $article = $this->em->getRepository(ArticleLivingThing::class)->findOneBy(["id" => $id]);
         } elseif ($category == "natural-elements") {
             die("Cette partie n'est pas encore disponible.");
+            $article = $this->em->getRepository(ArticleElement::class)->findOneBy(["id" => $id]);
         }
 
         if(empty($article)) {

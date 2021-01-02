@@ -38,7 +38,9 @@
                     </div>
                 {% endif %}
             {% else %}
-                <li>No {{ name }} has been found.</li>
+                <div class="alert alert-danger">
+                    <span>No {{ name }} has been found.</span>
+                </div>
             {% endif %}
         </div>
     </section>

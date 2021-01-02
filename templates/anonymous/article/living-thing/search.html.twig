@@ -28,7 +28,9 @@
                     </li>
                 {% endfor %}
             {% else %}
-                <li>No results found</li>
+                <div class="alert alert-danger">
+                    <span>No results found</span>
+                </div>
             {% endif %}
 
             {# Pagination #}
