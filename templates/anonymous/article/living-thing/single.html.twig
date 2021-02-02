@@ -316,6 +316,17 @@
                                 <li>Sub Species : {{ livingThing.idLivingThing.subSpecies }}</li>
                             {% endif %}
 
+                            {% if countries != [] %}
+                                <li>
+                                    Contries : 
+                                    <ul>
+                                        {% for oneCountries in countries %}
+                                            <li><a href="{{ path('countryArticle', {'country': oneCountries.treatedCountryName}) }}">{{ oneCountries.name }}</a></li>
+                                        {% endfor %}
+                                    </ul>
+                                </li>
+                            {% endif %}
+
                             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                                 {% if is_granted('ROLE_USER') %}
                                     <a class="btn btn-success" href="{{ path('userEditArticle', {'id': livingThing.id}) }}"><i class="far fa-edit"></i></a>

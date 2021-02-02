@@ -40,10 +40,17 @@ class AnonymousController extends AbstractController
         $limit = 10;
         $offset = !empty($request->get('offset')) && preg_match('/^[0-9]*$/', $request->get('offset')) ? $request->get('offset') : 1;
         $oneCountry = $this->getDoctrine()->getRepository(Country::class)->getCountryByName($country);
+        $articles = [];
+
+        foreach($oneCountry->getLivingThing()->getValues() as $oneLivingThing) {
+            if(!empty($oneLivingThing->getArticleLivingThing())) {
+                $articles[] = $oneLivingThing->getArticleLivingThing();
+            }
+        }
 
         return $this->render('anonymous/article/living-thing/country.html.twig', [
             "country" => $country,
-            "articles" => $oneCountry ? $oneCountry->getLivingThing()->getValues() : [],
+            "articles" => $articles,
             "offset" => $offset,
             "nbrOffset" => $offset
         ]);
@@ -110,6 +117,7 @@ class AnonymousController extends AbstractController
             "livingThing" => $livingThing,
             "mediaGallery" => $livingThing->getMediaGallery(),
             "references" => [],
+            "countries" => $livingThing->getIdLivingThing()->getCountries(),
             "name" => $name
         ]);
     }
