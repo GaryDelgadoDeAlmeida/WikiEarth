@@ -19,14 +19,38 @@
                     <div class="subLink">
                         <ul>
                             <li class="title">Contents</li>
-                            <li class="subLink-item"><a href="#geography">Geography</a></li>
-                            <li class="subLink-item"><a href="#ecology">Ecology</a></li>
-                            <li class="subLink-item"><a href="#behaviour">Behaviour</a></li>
-                            <li class="subLink-item"><a href="#wayOfLife">Way of life</a></li>
-                            <li class="subLink-item"><a href="#description">Description</a></li>
-                            <li class="subLink-item"><a href="#otherData">Other Data</a></li>
-                            <li class="subLink-item"><a href="#photo">Photos</a></li>
-                            <li class="subLink-item"><a href="#references">References</a></li>
+
+                            {% if livingThing.geography != null %}
+                                <li class="subLink-item"><a href="#geography">Geography</a></li>
+                            {% endif %}
+
+                            {% if livingThing.ecology != null %}
+                                <li class="subLink-item"><a href="#ecology">Ecology</a></li>
+                            {% endif %}
+
+                            {% if livingThing.behaviour != null %}
+                                <li class="subLink-item"><a href="#behaviour">Behaviour</a></li>
+                            {% endif %}
+
+                            {% if livingThing.wayOfLife != null %}
+                                <li class="subLink-item"><a href="#wayOfLife">Way of life</a></li>
+                            {% endif %}
+
+                            {% if livingThing.description != null %}
+                                <li class="subLink-item"><a href="#description">Description</a></li>
+                            {% endif %}
+
+                            {% if livingThing.otherData != null %}
+                                <li class="subLink-item"><a href="#otherData">Other Data</a></li>
+                            {% endif %}
+
+                            {% if mediaGallery != [] %}
+                                <li class="subLink-item"><a href="#photo">Photos</a></li>
+                            {% endif %}
+
+                            {% if references != [] %}
+                                <li class="subLink-item"><a href="#references">References</a></li>
+                            {% endif %}
                         </ul>
                     </div>
                 </div>
@@ -37,12 +61,12 @@
                         <h1 class="post-title">{{ livingThing.title }}</h1>
 
                         <div class="post-content">
-                            <div class="post-content-geography" id="geography">
-                                <h3 class="post-content-geography-title">Geography</h3>
+                            {% if livingThing.geography != null %}
+                                <div class="post-content-geography" id="geography">
+                                    <h3 class="post-content-geography-title">Geography</h3>
 
-                                {# Geography #}
-                                <div class="post-content-geography-content">
-                                    {% if livingThing.geography != null %}
+                                    {# Geography #}
+                                    <div class="post-content-geography-content">
                                         {% for oneGeography in livingThing.geography %}
                                             <div class="geography-content">
                                                 <div class="title">
@@ -53,16 +77,16 @@
                                                 </div>
                                             </div>
                                         {% endfor %}
-                                    {% endif %}
+                                    </div>
                                 </div>
-                            </div>
+                            {% endif %}
 
                             {# Ecology #}
-                            <div class="post-content-ecology" id="ecology">
-                                <h3 class="post-content-ecology-title">Ecology</h3>
+                            {% if livingThing.ecology != null %}
+                                <div class="post-content-ecology" id="ecology">
+                                    <h3 class="post-content-ecology-title">Ecology</h3>
 
-                                <div class="post-content-ecology-content">
-                                    {% if livingThing.ecology != null %}
+                                    <div class="post-content-ecology-content">
                                         {% for oneEcology in livingThing.ecology %}
                                             <div class="ecology-content">
                                                 <div class="title">
@@ -73,16 +97,16 @@
                                                 </div>
                                             </div>
                                         {% endfor %}
-                                    {% endif %}
+                                    </div>
                                 </div>
-                            </div>
+                            {% endif %}
 
                             {# Behaviour #}
-                            <div class="post-content-behaviour" id="behaviour">
-                                <h3 class="post-content-behaviour-title">Behaviour</h3>
+                            {% if livingThing.behaviour != null %}
+                                <div class="post-content-behaviour" id="behaviour">
+                                    <h3 class="post-content-behaviour-title">Behaviour</h3>
 
-                                <div class="post-content-behaviour-content">
-                                    {% if livingThing.behaviour != null %}
+                                    <div class="post-content-behaviour-content">
                                         {% for oneBehaviour in livingThing.behaviour %}
                                             <div class="behaviour-content">
                                                 <div class="title">
@@ -93,16 +117,16 @@
                                                 </div>
                                             </div>
                                         {% endfor %}
-                                    {% endif %}
+                                    </div>
                                 </div>
-                            </div>
+                            {% endif %}
 
                             {# Way of Life #}
-                            <div class="post-content-wayOfLife" id="wayOfLife">
-                                <h3 class="post-content-wayOfLife-title">Way of Life</h3>
+                            {% if livingThing.wayOfLife != null %}
+                                <div class="post-content-wayOfLife" id="wayOfLife">
+                                    <h3 class="post-content-wayOfLife-title">Way of Life</h3>
 
-                                <div class="post-content-wayOfLife-content">
-                                    {% if livingThing.wayOfLife != null %}
+                                    <div class="post-content-wayOfLife-content">
                                         {% for oneWayOfLife in livingThing.wayOfLife %}
                                             <div class="wayOfLife-content">
                                                 <div class="title">
@@ -113,16 +137,16 @@
                                                 </div>
                                             </div>
                                         {% endfor %}
-                                    {% endif %}
+                                    </div>
                                 </div>
-                            </div>
+                            {% endif %}
 
                             {# Description #}
-                            <div class="post-content-description" id="description">
-                                <h3 class="post-content-description-title">Description</h3>
+                            {% if livingThing.description != null %}
+                                <div class="post-content-description" id="description">
+                                    <h3 class="post-content-description-title">Description</h3>
 
-                                <div class="post-content-description-content">
-                                    {% if livingThing.description != null %}
+                                    <div class="post-content-description-content">
                                         {% for oneDescription in livingThing.description %}
                                             <div class="description-content">
                                                 <div class="title">
@@ -133,16 +157,16 @@
                                                 </div>
                                             </div>
                                         {% endfor %}
-                                    {% endif %}
+                                    </div>
                                 </div>
-                            </div>
+                            {% endif %}
 
                             {# Other Information #}
-                            <div class="post-content-otherData" id="otherData">
-                                <h3 class="post-content-otherData-title">Other Data</h3>
+                            {% if livingThing.otherData != null %}
+                                <div class="post-content-otherData" id="otherData">
+                                    <h3 class="post-content-otherData-title">Other Data</h3>
 
-                                <div class="post-content-otherData-content">
-                                    {% if livingThing.otherData != null %}
+                                    <div class="post-content-otherData-content">
                                         {% for oneOtherData in livingThing.otherData %}
                                             <div class="otherData-content">
                                                 <div class="title">
@@ -153,18 +177,41 @@
                                                 </div>
                                             </div>
                                         {% endfor %}
-                                    {% endif %}
+                                    </div>
                                 </div>
-                            </div>
+                            {% endif %}
 
-                            {# Media Gallery Photo
-                            <div class="post-content-mediaGallery" id="references">
-                                <div class="post-content-mediaGallery-title">
-                                    <h3>Media Gallery Photo</h3>
+                            {# Media Gallery Photo #}
+                            {% if mediaGallery != [] %}
+                                <div class="post-content-photo" id="photo">
+                                    <h3 class="post-content-photo-title">Photos</h3>
+
+                                    <div class="post-content-photo-content">
+                                        {% for oneMedia in mediaGallery %}
+                                            {% if file_exist(oneMedia.path, false) != "" %}
+                                                <div class="photo-content">
+                                                    <img src="{{ asset(oneMedia.path) }}" />
+                                                </div>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
                                 </div>
+                            {% endif %}
 
-                                <div class="post-content-mediaGallery-content"></div>
-                            </div> #}
+                            {# References / Sources #}
+                            {% if references != [] %}
+                                <div class="post-content-references" id="references">
+                                    <div class="post-content-references-title">
+                                        <h3>References</h3>
+                                    </div>
+
+                                    <div class="post-content-references-content">
+                                        {% for oneReferences in references %}
+                                            <li><a href="{{ oneReferences.link }}">{{ oneReferences.name }}</a></li>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -267,6 +314,14 @@
 
                             {% if livingThing.idLivingThing.subSpecies != null %}
                                 <li>Sub Species : {{ livingThing.idLivingThing.subSpecies }}</li>
+                            {% endif %}
+
+                            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                                {% if is_granted('ROLE_USER') %}
+                                    <a class="btn btn-success" href="{{ path('userEditArticle', {'id': livingThing.id}) }}"><i class="far fa-edit"></i></a>
+                                {% else %}
+                                    <a class="btn btn-success" href="{{ path('adminEditArticleByCategory', {'category': 'living-thing', 'id': livingThing.id}) }}"><i class="far fa-edit"></i></a>
+                                {% endif %}
                             {% endif %}
                         </div>
                     </div>

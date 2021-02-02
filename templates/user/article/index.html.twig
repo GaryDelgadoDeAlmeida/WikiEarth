@@ -8,8 +8,8 @@
             </div>
 
             <div class="list-livingThing-search">
-                <form class="form formSearch" method="post" action="{{ path('userArticle') }}">
-                    <input class="formSearch-input" type="search" name="search" placeholder="Search a living thing . . ." required>
+                <form id="formSearch" class="form formSearch" method="post" action="{{ path('userArticle') }}">
+                    <input id="formSearch-input" class="formSearch-input" type="search" name="search" placeholder="Search a living thing . . ." required>
                     <button class="formSearch-button">Search</button>
                 </form>
             </div>
@@ -24,14 +24,13 @@
                 <div class="col-4">
                     <div class="category-by--action">
                         <label>Category By</label>
-                        <select id="category-by-livingThing" name="category-by-livingThing">
-                            <option value="all" selected>All</option>
-                            <option value="animalia">Animals</option>
-                            <option value="plantae">Plants</option>
-                            <option value="insecta">Insecta</option>
-                            <option value="bacteria">Bacteria</option>
-                            <option value="virus">Virus</option>
-                        </select>
+                        <form id="form--category-by-livingThing" method="POST">
+                            <select id="category-by-livingThing" name="category-by-livingThing" value="{{ category_by }}">
+                                {% for choiceKey, choiceValue in categoryChoices %}
+                                    <option value="{{ choiceKey }}" {% if choiceKey == category_by %} selected="selected" {% endif %}>{{ choiceValue }}</option>
+                                {% endfor %}
+                            </select>
+                        </form>
                     </div>
                 </div>
             </div>

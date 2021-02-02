@@ -6,18 +6,23 @@ footer {
 }
 
 .copyright {
+    bottom: 0;
+}
+
+.footer-copyright {
+    display: block;
     height: 75px;
     padding: 1.7rem 2rem;
 }
 
-.left {
+.copyright {
     float: left;
 }
 
-.right {
+.creator {
     float: right;
 }
 
-.right .c-cyanBlue:hover {
+.creator .c-cyanBlue:hover {
     color: rgb(0, 183, 235);
 }

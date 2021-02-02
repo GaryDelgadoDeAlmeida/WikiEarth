@@ -23,28 +23,29 @@
                     </div>
                 </div> #}
 
-                <div class="col-4">
+                <div class="col-6 text-center">
                     <div class="filter-by--action">
                         <label>Filter By</label>
-                        <select id="filter-by-livingThing" name="filter-by-livingThing">
-                            <option value="all" select>All</option>
-                            <option value="have-article">Have an article</option>
-                            <option value="not-have-article">Not have an article</option>
-                        </select>
+                        <form id="form--filter-by-livingThing" method="POST">
+                            <select id="filter-by-livingThing" name="filter-by-livingThing">
+                                {% for key, value in filterChoices %}
+                                    <option value="{{ key }}" {% if key == filter_by %} selected="seleted" {% endif %}>{{ value }}</option>
+                                {% endfor %}
+                            </select>
+                        </form>
                     </div>
                 </div>
 
-                <div class="col-4">
+                <div class="col-6 text-center">
                     <div class="category-by--action">
                         <label>Category By</label>
-                        <select id="category-by-livingThing" name="category-by-livingThing">
-                            <option value="all" selected>All</option>
-                            <option value="animalia">Animals</option>
-                            <option value="plantae">Plants</option>
-                            <option value="insecta">Insecta</option>
-                            <option value="bacteria">Bacteria</option>
-                            <option value="virus">Virus</option>
-                        </select>
+                        <form id="form--category-by-livingThing" method="POST">
+                            <select id="category-by-livingThing" name="category-by-livingThing">
+                                {% for key, value in categoryChoices %}
+                                    <option value="{{ key }}" {% if key == category_by %} selected="seleted" {% endif %}>{{ value }}</option>
+                                {% endfor %}
+                            </select>
+                        </form>
                     </div>
                 </div>
             </div>

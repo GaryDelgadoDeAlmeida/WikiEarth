@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\SourceLink;
+use App\Entity\Reference;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method SourceLink|null find($id, $lockMode = null, $lockVersion = null)
- * @method SourceLink|null findOneBy(array $criteria, array $orderBy = null)
- * @method SourceLink[]    findAll()
- * @method SourceLink[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Reference|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Reference|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Reference[]    findAll()
+ * @method Reference[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class SourceLinkRepository extends ServiceEntityRepository
+class ReferenceRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, SourceLink::class);
+        parent::__construct($registry, Reference::class);
     }
 
     // /**
-    //  * @return SourceLink[] Returns an array of SourceLink objects
+    //  * @return Reference[] Returns an array of Reference objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class SourceLinkRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?SourceLink
+    public function findOneBySomeField($value): ?Reference
     {
         return $this->createQueryBuilder('s')
             ->andWhere('s.exampleField = :val')

@@ -1,0 +1,22 @@
+@media(max-width: 768px) {
+    /* ---------------------------------------- *\
+                        Footer
+    \* ---------------------------------------- */
+    .footer-menu {
+        display: block;
+    }
+
+    .footer-menu-container {
+        margin: .5rem;
+        padding: .5rem;
+    }
+
+    .footer-copyright {
+        height: 100px;
+    }
+
+    .copyright, .creator {
+        float: inherit;
+        text-align: center;
+    }
+}

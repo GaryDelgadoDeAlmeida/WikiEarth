@@ -4,6 +4,7 @@ namespace App\Manager;
 
 use App\Entity\User;
 use Symfony\Component\Form\Form;
+use Intervention\Image\ImageManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
@@ -54,6 +55,9 @@ class UserManager {
                     $project_users_dir . $user->getId(),
                     $newFilename
                 );
+
+                // $manager = new ImageManager(array('driver' => 'imagick'));
+                // $image = $manager->make($project_users_dir . $user->getId() . "/{$newFilename}")->resize(300, 200);
             } catch (FileException $e) {
                 dd($e->getMessage());
             }

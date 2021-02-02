@@ -68,6 +68,11 @@
     width: 180px;
 }
 
+.category-by--action,
+.filter-by--action {
+    display: flex;
+}
+
 .category-by--action label,
 .filter-by--action label {
     font-weight: 600;

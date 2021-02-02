@@ -97,7 +97,8 @@
 .post-content-behaviour,
 .post-content-wayOfLife,
 .post-content-description,
-.post-content-otherData {
+.post-content-otherData,
+.post-content-photo {
     border-bottom: 1px solid #AAAAAA;
     padding: 1.5rem 0;
 }
@@ -107,7 +108,8 @@
 .post-content-behaviour-title,
 .post-content-wayOfLife-title,
 .post-content-description-title,
-.post-content-otherData-title {
+.post-content-otherData-title,
+.post-content-photo-title {
     font-weight: 700;
 }
 
@@ -116,7 +118,8 @@
 .behaviour-content .title,
 .wayOfLife-content .title,
 .description-content .title,
-.otherData-content .title {
+.otherData-content .title,
+.photo-content .title {
     padding: 1rem 0;
     font-weight: 600;
     font-size: 21px;
@@ -127,7 +130,8 @@
 .behaviour-content .content,
 .wayOfLife-content .content,
 .description-content .content,
-.otherData-content .content {
+.otherData-content .content,
+.photo-content .content {
     overflow-wrap: break-word !important;
     padding: 0;
 }

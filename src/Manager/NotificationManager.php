@@ -78,6 +78,19 @@ class NotificationManager extends AbstractController {
         $this->em->clear();
     }
 
+    public function articleIsNowPublic($article)
+    {
+        $notfication = new Notification();
+        $notfication->setUser($article->getUser());
+        $notfication->setType("success");
+        $notfication->setContent("The content of the article {$article->getTitle()} you writed is accurate. This article is now public.");
+        $notfication->setCreatedAt(new \DateTime());
+        $article->setApproved(true);
+        $this->em->persist($article);
+        $this->em->persist($notfication);
+        $this->em->flush();
+    }
+
     /**
      * L'administrateur a apprové la publication d'un article
      */

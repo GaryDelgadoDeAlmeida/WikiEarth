@@ -31,4 +31,4 @@
                     Footer
 \* ---------------------------------------- */
 @import './desktop/_footer.css';
-/* @import './mobile/_footer.css'; */
+@import './mobile/_footer.css';

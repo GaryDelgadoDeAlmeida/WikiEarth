@@ -21,4 +21,29 @@ $('.slider').owlCarousel({
             loop: true
         }
     }
-})
+});
+
+$('#livingThing-menu').click(() => {
+    let livingThingSubmenu = $('#livingThing-submenu');
+    $(this).find('img').css({'transform': 'rotate(0)'});
+    
+    if(livingThingSubmenu.css('display') == "none") {
+        livingThingSubmenu.css({'display': 'block'});
+        $('#naturalElements-submenu').css({'display': 'none'});
+    }
+    else {
+        livingThingSubmenu.css({'display': 'none'});
+    }
+});
+
+$('#naturalElements-menu').click(() => {
+    let naturalElementsSubmenu = $('#naturalElements-submenu');
+    $(this).find('img').css({'transform': 'rotate(0)'});
+
+    if(naturalElementsSubmenu.css('display') == "none") {
+        naturalElementsSubmenu.css({'display': 'block'});
+        $('#livingThing-submenu').css({'display': 'none'});
+    }
+    else 
+        naturalElementsSubmenu.css({'display': 'none'});
+});

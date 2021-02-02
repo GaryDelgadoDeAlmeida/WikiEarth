@@ -3,22 +3,28 @@ var $collectionHolder, $newLinkLi;
 // var $newLinkLi = $('<li></li>').append($addTagButton);
 
 jQuery(document).ready(function() {
+    let addButton = '<button type="button" class="add_tag_link btn btn-primary">Add a tag</button>';
     let $collectionHolderGeography = $('ul.geography-tags');
     let $collectionHolderEcology = $('ul.ecology-tags');
     let $collectionHolderBehaviour = $('ul.behaviour-tags');
     let $collectionHolderWayOfLife = $('ul.wayOfLife-tags');
     let $collectionHolderDescription = $('ul.description-tags');
     let $collectionHolderOtherData = $('ul.otherData-tags');
+    let $collectionHolderGenerality = $('ul.generality-tags');
     let $collectionHolderCharacteristics = $('ul.characteristics-tags');
     let $collectionHolderProperty = $('ul.property-tags');
     let $collectionHolderUtilization = $('ul.utilization-tags');
 
-    let $newLinkLiGeography = $('<li></li>').append($('<button type="button" class="add_tag_link btn btn-primary">Add a tag</button>'));
-    let $newLinkLiEcology = $('<li></li>').append($('<button type="button" class="add_tag_link btn btn-primary">Add a tag</button>'));
-    let $newLinkLiBehaviour = $('<li></li>').append($('<button type="button" class="add_tag_link btn btn-primary">Add a tag</button>'));
-    let $newLinkLiWayOfLife = $('<li></li>').append($('<button type="button" class="add_tag_link btn btn-primary">Add a tag</button>'));
-    let $newLinkLiDescription = $('<li></li>').append($('<button type="button" class="add_tag_link btn btn-primary">Add a tag</button>'));
-    let $newLinkLiOtherData = $('<li></li>').append($('<button type="button" class="add_tag_link btn btn-primary">Add a tag</button>'));
+    let $newLinkLiGeography = $('<li></li>').append($(addButton));
+    let $newLinkLiEcology = $('<li></li>').append($(addButton));
+    let $newLinkLiBehaviour = $('<li></li>').append($(addButton));
+    let $newLinkLiWayOfLife = $('<li></li>').append($(addButton));
+    let $newLinkLiDescription = $('<li></li>').append($(addButton));
+    let $newLinkLiOtherData = $('<li></li>').append($(addButton));
+    let $newLinkLiGenerality = $('<li></li>').append($(addButton));
+    let $newLinkLiCharacteristics = $('<li></li>').append($(addButton));
+    let $newLinkLiProperty = $('<li></li>').append($(addButton));
+    let $newLinkLiUtilization = $('<li></li>').append($(addButton));
     
     
     $collectionHolderGeography.find('li').each(function() { addTagFormDeleteLink($(this)); });
@@ -27,6 +33,10 @@ jQuery(document).ready(function() {
     $collectionHolderWayOfLife.find('li').each(function() { addTagFormDeleteLink($(this)); });
     $collectionHolderDescription.find('li').each(function() { addTagFormDeleteLink($(this)); });
     $collectionHolderOtherData.find('li').each(function() { addTagFormDeleteLink($(this)); });
+    $collectionHolderGenerality.find('li').each(function() { addTagFormDeleteLink($(this)); });
+    $collectionHolderCharacteristics.find('li').each(function() { addTagFormDeleteLink($(this)); });
+    $collectionHolderProperty.find('li').each(function() { addTagFormDeleteLink($(this)); });
+    $collectionHolderUtilization.find('li').each(function() { addTagFormDeleteLink($(this)); });
     
     $collectionHolderGeography.append($newLinkLiGeography);
     $collectionHolderGeography.data('index', $collectionHolderGeography.find('input').length);
@@ -45,27 +55,52 @@ jQuery(document).ready(function() {
 
     $collectionHolderOtherData.append($newLinkLiOtherData);
     $collectionHolderOtherData.data('index', $collectionHolderOtherData.find('input').length);
+
+    $collectionHolderGenerality.append($newLinkLiGenerality);
+    $collectionHolderGenerality.data('index', $collectionHolderGenerality.find('input').length);
+
+    $collectionHolderCharacteristics.append($newLinkLiCharacteristics);
+    $collectionHolderCharacteristics.data('index', $collectionHolderCharacteristics.find('input').length);
+
+    $collectionHolderProperty.append($newLinkLiProperty);
+    $collectionHolderProperty.data('index', $collectionHolderProperty.find('input').length);
+
+    $collectionHolderUtilization.append($newLinkLiUtilization);
+    $collectionHolderUtilization.data('index', $collectionHolderUtilization.find('input').length);
     
     // When we click on the add button
     $('.add_tag_link').on('click', function(e) {
-        if($(this).parent().parent()[0].classList[0] == "otherData-tags") {
+        let classList = $(this).parent().parent()[0].classList[0];
+        if(classList == "otherData-tags") {
             $collectionHolder = $collectionHolderOtherData;
             $newLinkLi = $newLinkLiOtherData;
-        } else if($(this).parent().parent()[0].classList[0] == "description-tags") {
+        } else if(classList == "description-tags") {
             $collectionHolder = $collectionHolderDescription;
             $newLinkLi = $newLinkLiDescription;
-        } else if($(this).parent().parent()[0].classList[0] == "wayOfLife-tags") {
+        } else if(classList == "wayOfLife-tags") {
             $collectionHolder = $collectionHolderWayOfLife;
             $newLinkLi = $newLinkLiWayOfLife;
-        } else if($(this).parent().parent()[0].classList[0] == "behaviour-tags") {
+        } else if(classList == "behaviour-tags") {
             $collectionHolder = $collectionHolderBehaviour;
             $newLinkLi = $newLinkLiBehaviour;
-        } else if($(this).parent().parent()[0].classList[0] == "ecology-tags") {
+        } else if(classList == "ecology-tags") {
             $collectionHolder = $collectionHolderEcology;
             $newLinkLi = $newLinkLiEcology;
-        } else if($(this).parent().parent()[0].classList[0] == "geography-tags") {
+        } else if(classList == "geography-tags") {
             $collectionHolder = $collectionHolderGeography;
             $newLinkLi = $newLinkLiGeography;
+        } else if(classList == "generality-tags") {
+            $collectionHolder = $collectionHolderGenerality;
+            $newLinkLi = $newLinkLiGenerality;
+        } else if(classList == "characteristics-tags") {
+            $collectionHolder = $collectionHolderCharacteristics;
+            $newLinkLi = $newLinkLiCharacteristics;
+        } else if(classList == "property-tags") {
+            $collectionHolder = $collectionHolderProperty;
+            $newLinkLi = $newLinkLiProperty;
+        } else if(classList == "utilization-tags") {
+            $collectionHolder = $collectionHolderUtilization;
+            $newLinkLi = $newLinkLiUtilization;
         }
 
         if($collectionHolder !== undefined) {

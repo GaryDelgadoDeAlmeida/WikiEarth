@@ -2,24 +2,24 @@
 
 namespace App\Controller;
 
-use App\Entity\ArticleElement;
-use App\Form\ArticleElementType;
 use Psr\Container\ContainerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use App\Manager\{UserManager, LivingThingManager, ArticleLivingThingManager};
-use App\Form\{UserType, LivingThingType, UserRegisterType, ArticleLivingThingType};
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use App\Entity\{User, Element, SourceLink, LivingThing, MediaGallery, Notification, ArticleLivingThing};
+use App\Manager\{UserManager, LivingThingManager, ElementManager, ArticleLivingThingManager, ArticleElementManager};
+use App\Form\{UserType, LivingThingType, UserRegisterType, ArticleLivingThingType, ArticleElementType};
+use App\Entity\{User, Element, SourceLink, LivingThing, MediaGallery, Notification, ArticleLivingThing, ArticleElement};
 
 class AdminController extends AbstractController
 {
     private $current_logged_user;
     private $livingThingManager;
+    private $elementManager;
     private $articleLivingThingManager;
+    private $articleElementManager;
     private $userManager;
     private $em;
 
@@ -27,7 +27,9 @@ class AdminController extends AbstractController
     {
         $this->current_logged_user = $tokenStorage->getToken()->getUser();
         $this->livingThingManager = new LivingThingManager($container);
+        $this->elementManager = new ElementManager($container);
         $this->articleLivingThingManager = new ArticleLivingThingManager();
+        $this->articleElementManager = new ArticleElementManager();
         $this->userManager = new UserManager();
         $this->em = $em;
     }
@@ -75,11 +77,13 @@ class AdminController extends AbstractController
     {
         $limit = 15;
         $offset = !empty($request->get('offset')) && preg_match('/^[0-9]*$/', $request->get('offset')) ? $request->get('offset') : 1;
+        $nbrUsers = $this->em->getRepository(User::class)->countUsers($this->current_logged_user->getId());
+        $nbrOffset = $nbrUsers > $limit ? ceil($nbrUsers / $limit) : 1;
 
         return $this->render('admin/users/index.html.twig', [
             "users" => $this->em->getRepository(User::class)->getUsers($offset - 1, $limit, $this->current_logged_user->getId()),
             "offset" => $offset,
-            "total_page" => ceil($this->em->getRepository(User::class)->countUsers($this->current_logged_user->getId()) / $limit)
+            "total_page" => $nbrOffset
         ]);
     }
 
@@ -127,11 +131,13 @@ class AdminController extends AbstractController
     {
         $limit = 10;
         $offset = !empty($request->get('offset')) && preg_match('/^[0-9]*$/', $request->get('offset')) ? $request->get('offset') : 1;
+        $nbrLivingThing = $this->em->getRepository(LivingThing::class)->countLivingThings();
+        $nbrOffset = $nbrLivingThing > $limit ? ceil($nbrLivingThing / $limit) : 1;
 
         return $this->render('admin/living_thing/index.html.twig', [
             "livingThings" => $this->em->getRepository(LivingThing::class)->getLivingThings($offset, $limit),
             "offset" => $offset,
-            "nbrOffset" => ceil($this->em->getRepository(LivingThing::class)->countLivingThings() / $limit)
+            "nbrOffset" => $nbrOffset
         ]);
     }
 
@@ -269,18 +275,25 @@ class AdminController extends AbstractController
     {
         $offset = !empty($request->get('offset')) && preg_match('/^[0-9]*$/', $request->get('offset')) ? $request->get('offset') : 1;
         $limit = 10;
+        $nbrOffset = 1;
 
         if($category == "living-thing") {
+            $nbrLivingThing = $this->em->getRepository(ArticleLivingThing::class)->countArticleLivingThings();
+            $nbrOffset = $nbrLivingThing > $limit ? ceil($nbrLivingThing / $limit) : $nbrOffset;
+
             return $this->render('admin/article/living-thing/index.html.twig', [
                 "articles" => $this->em->getRepository(ArticleLivingThing::class)->getArticleLivingThings($offset, $limit),
-                "nbrOffset" => ceil($this->em->getRepository(ArticleLivingThing::class)->countArticleLivingThings() / $limit),
+                "nbrOffset" => $nbrOffset,
                 "offset" => $offset,
                 "category" => $category
             ]);
         } elseif($category == "natural-elements") {
+            $nbrElements = $this->em->getRepository(ArticleElement::class)->countArticleElements();
+            $nbrOffset = $nbrElements > $limit ? ceil($nbrElements / $limit) : $nbrOffset;
+
             return $this->render('admin/article/natural-elements/index.html.twig', [
                 "articles" => $this->em->getRepository(ArticleElement::class)->getArticleElements($offset, $limit),
-                "nbrOffset" => ceil($this->em->getRepository(ArticleElement::class)->countArticleElements() / $limit),
+                "nbrOffset" => $nbrOffset,
                 "offset" => $offset,
                 "category" => $category
             ]);
@@ -303,9 +316,11 @@ class AdminController extends AbstractController
 
             // Quand le formulaire est soumit et valide celon la config dans l'entity
             if($formArticle->isSubmitted() && $formArticle->isValid()) {
-                $livingThing = $this->livingThingManager->setLivingThing(
+                $livingThing = $formArticle["livingThing"]->getData();
+                
+                $this->livingThingManager->setLivingThing(
                     $formArticle["livingThing"]["imgPath"]->getData(),
-                    $formArticle["livingThing"]->getData(),
+                    $livingThing,
                     $this->em
                 );
 
@@ -327,7 +342,20 @@ class AdminController extends AbstractController
             $formArticle->handleRequest($request);
 
             if($formArticle->isSubmitted() && $formArticle->isValid()) {
-                die("Cette partie n'est pas encore disponible.");
+                $element = $formArticle["element"]->getData();
+
+                $this->elementManager->setElement(
+                    $formArticle["element"]["imgPath"]->getData(),
+                    $element,
+                    $this->em
+                );
+
+                $this->articleElementManager->setArticleElement(
+                    $article,
+                    $element,
+                    $this->em,
+                    $this->current_logged_user
+                );
             }
 
             return $this->render('admin/article/natural-elements/edit.html.twig', [
@@ -351,6 +379,10 @@ class AdminController extends AbstractController
             ]);
         } elseif ($category == "natural-elements") {
             die("Cette partie n'est pas encore disponible.");
+            return $this->render('admin/article/natural-elements/details.html.twig', [
+                "article" => $this->em->getRepository(ArticleElement::class)->findOneBy(["id" => $id]),
+                "category" => $category
+            ]);
         }
 
         return $this->redirectToRoute("404Error");
@@ -419,7 +451,29 @@ class AdminController extends AbstractController
                 "category" => $category
             ]);
         } elseif($category == "natural-elements") {
-            die("Cette partie n'est pas encore disponible.");
+            $articleElement = $this->em->getRepository(ArticleElement::class)->findOneBy(["id" => $id]);
+
+            if(empty($articleElement)) {
+                return $this->redirectToRoute("404Error");
+            }
+
+            $formArticle = $this->createForm(ArticleElementType::class, $articleElement);
+            $formArticle->get('element')->setData($articleElement->getElement());
+            $formArticle->handleRequest($request);
+
+            if($formArticle->isSubmitted() && $formArticle->isValid()) {
+                $this->articleElementManager->setArticleElement(
+                    $formArticle,
+                    $formArticle->getElement(),
+                    $this->em,
+                    $this->current_logged_user
+                );
+            }
+
+            return $this->render('admin/article/natural-elements/edit.html.twig', [
+                "formArticle" => $formArticle->createView(),
+                "category" => $category
+            ]);
         }
 
         return $this->redirectToRoute("404Error");
@@ -439,14 +493,18 @@ class AdminController extends AbstractController
         if($category == "living-thing") {
             $article = $this->em->getRepository(ArticleLivingThing::class)->findOneBy(["id" => $id]);
         } elseif($category == "natural-elements") {
-            die("Cette partie n'est pas encore disponible.");
+            $article = $this->em->getRepository(ArticleElement::class)->findOneBy(["id" => $id]);
         }
 
         if(empty($article)) {
             return $this->redirectToRoute("404Error");
         }
 
-        $article->setIdLivingThing(null);
+        if($category == "living-thing") {
+            $article->setIdLivingThing(null);
+        } else {
+            $article->setElement(null);
+        }
 
         // Envoi d'une notification à l'utilisateur
         $notfication = new Notification();

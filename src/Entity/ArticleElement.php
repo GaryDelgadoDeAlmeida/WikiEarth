@@ -18,10 +18,20 @@ class ArticleElement
     private $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="articleElements")
+     */
+    private $user;
+
+    /**
      * @ORM\OneToOne(targetEntity=Element::class, inversedBy="articleElement", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $element;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $title;
 
     /**
      * @ORM\Column(type="json")
@@ -63,6 +73,18 @@ class ArticleElement
         return $this->id;
     }
 
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
     public function getElement(): ?Element
     {
         return $this->element;
@@ -71,6 +93,18 @@ class ArticleElement
     public function setElement(Element $element): self
     {
         $this->element = $element;
+
+        return $this;
+    }
+
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    public function setTitle(string $title): self
+    {
+        $this->title = $title;
 
         return $this;
     }

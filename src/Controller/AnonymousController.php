@@ -104,8 +104,12 @@ class AnonymousController extends AbstractController
             return $this->redirectToRoute("404Error");
         }
 
+        // dd($livingThing->getMediaGallery());
+
         return $this->render('anonymous/article/living-thing/single.html.twig', [
             "livingThing" => $livingThing,
+            "mediaGallery" => $livingThing->getMediaGallery(),
+            "references" => [],
             "name" => $name
         ]);
     }
@@ -148,6 +152,14 @@ class AnonymousController extends AbstractController
     public function about()
     {
         return $this->render('anonymous/about/index.html.twig');
+    }
+
+    /**
+     * @Route("/policy", name="policy")
+     */
+    public function policy()
+    {
+        return $this->render('anonymous/policy/index.html.twig');
     }
 
     /**

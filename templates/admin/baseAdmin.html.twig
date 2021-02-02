@@ -12,12 +12,12 @@
     <section class="sidebar">
         <div class="top-row pl-4 navbar navbar-dark">
             <a class="navbar-brand" href="{{ path('adminHome') }}">WikiEarth Panel</a>
-            <button class="navbar-toggler" id="btnToggler">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
         </div>
 
-        <div class="navToggler collapse animated wow fadeIn" id="navToggler">
+        <div class="navToggler collapse animated wow fadeIn" id="navbarNavAltMarkup">
             <ul class="nav flex-column">
                 <li class="nav-item px-3">
                     <a class="nav-link" href="{{ path('adminHome') }}">
@@ -41,7 +41,7 @@
                 </li>
                 <li class="nav-item px-3">
                     <a class="nav-link" href="{{ path('adminElement') }}">
-                        <span class="oi" aria-hidden="true"><i class="fas fa-dna"></i></span> Element
+                        <span class="oi" aria-hidden="true"><i class="fas fa-atom"></i></span> Element
                     </a>
                 </li>
                 <li class="nav-item px-3">

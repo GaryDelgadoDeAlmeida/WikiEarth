@@ -91,6 +91,21 @@ class UserController extends AbstractController
         $limit = 10;
         $offset = !empty($request->get('offset')) && preg_match('/^[0-9]*$/', $request->get('offset')) ? $request->get('offset') : 1;
         $search = !empty($request->get("search")) ? $request->get("search") : null;
+        $filterBy = !empty($request->get("filter-by-livingThing")) ? $request->get("filter-by-livingThing") : "all";
+        $categoryBy = !empty($request->get("category-by-livingThing")) ? $request->get("category-by-livingThing") : "all";
+        $categoryChoices = [
+            "all" => "All",
+            "animalia" => "Animals",
+            "plantae" => "Plants",
+            "insecta" => "Insecta",
+            "bacteria" => "Bacteria",
+            "virus" => "Virus"
+        ];
+        $filterChocies = [
+            "all" => "All",
+            "have-article" => "Have an article",
+            "not-have-article" => "Not have an article"
+        ];
         $livingThing = [];
         $nbrPages = 1;
         
@@ -98,6 +113,8 @@ class UserController extends AbstractController
             $livingThing = $this->getDoctrine()->getRepository(LivingThing::class)->getLivingThings($offset, $limit);
             $nbrPages = ceil($this->getDoctrine()->getRepository(LivingThing::class)->countLivingThings() / $limit);
         } else {
+            $categoryBy = "all";
+            $filterBy = "all";
             $livingThing = $this->getDoctrine()->getRepository(LivingThing::class)->searchLivingThing($search, $offset, $limit);
             $nbrPages = ceil($this->getDoctrine()->getRepository(LivingThing::class)->countSearchLivingThing($search) / $limit);
         }
@@ -107,6 +124,10 @@ class UserController extends AbstractController
             "search" => $search,
             "offset" => $offset,
             "total_page" => $nbrPages,
+            "category_by" => $categoryBy,
+            "filter_by" => $filterBy,
+            "categoryChoices" => $categoryChoices,
+            "filterChoices" => $filterChocies
         ]);
     }
 
@@ -234,19 +255,36 @@ class UserController extends AbstractController
         $limit = 10;
         $offset = !empty($request->get('offset')) && preg_match('/^[0-9]*$/', $request->get('offset')) ? $request->get('offset') : 1;
         $search = !empty($request->get('offset')) ? $request->get('offset') : null;
+        $category_by = !empty($request->get('category-by-livingThing')) ? $request->get('category-by-livingThing') : "all";
+        $categoryChoices = [
+            "all" => "All",
+            "animalia" => "Animals",
+            "plantae" => "Plants",
+            "insecta" => "Insecta",
+            "bacteria" => "Bacteria",
+            "virus" => "Virus"
+        ];
         $nbrPages = null;
 
         if(!empty($search)) {
+            $category_by = "all";
             $articleLivingThing = $this->getDoctrine()->getRepository(ArticleLivingThing::class)->searchArticleLivingThings($search);
             $nbrPages = ceil($this->getDoctrine()->getRepository(ArticleLivingThing::class)->countSearchArticleLivingThings() / $limit);
         } else {
-            $articleLivingThing = $this->getDoctrine()->getRepository(ArticleLivingThing::class)->getArticleLivingThingsApproved($offset, $limit);
-            $nbrPages = ceil($this->getDoctrine()->getRepository(ArticleLivingThing::class)->countArticleLivingThingsApproved() / $limit);
+            if($category_by == "all") {
+                $articleLivingThing = $this->getDoctrine()->getRepository(ArticleLivingThing::class)->getArticleLivingThingsApproved($offset, $limit);
+                $nbrPages = ceil($this->getDoctrine()->getRepository(ArticleLivingThing::class)->countArticleLivingThingsApproved() / $limit);
+            } else {
+                $articleLivingThing = $this->getDoctrine()->getRepository(ArticleLivingThing::class)->getArticleLivingThingsByLivingThingKingdom($category_by, $offset, $limit);
+                $nbrPages = ceil($this->getDoctrine()->getRepository(ArticleLivingThing::class)->countArticleLivingThingsByKingdom($category_by, $limit));
+            }
         }
 
         return $this->render('user/article/index.html.twig', [
             "articles" => $articleLivingThing,
             "search" => $search,
+            "category_by" => $category_by,
+            "categoryChoices" => $categoryChoices,
             "offset" => $offset,
             "total_page" => $nbrPages
         ]);
