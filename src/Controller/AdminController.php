@@ -11,7 +11,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use App\Manager\{UserManager, LivingThingManager, ElementManager, MineralManager, ArticleLivingThingManager, ArticleElementManager, ArticleMineralManager};
 use App\Form\{UserType, LivingThingType, UserRegisterType, ArticleLivingThingType, ArticleElementType, ArticleMineralType};
-use App\Entity\{User, Element, SourceLink, LivingThing, MediaGallery, Notification, ArticleLivingThing, ArticleElement, ArticleMineral};
+use App\Entity\{User, Element, Mineral, SourceLink, LivingThing, MediaGallery, Notification, ArticleLivingThing, ArticleElement, ArticleMineral};
 
 class AdminController extends AbstractController
 {
@@ -258,6 +258,21 @@ class AdminController extends AbstractController
             "offset" => $offset,
             "nbrOffset" => ceil($this->getDoctrine()->getRepository(Element::class)->countElements() / $limit),
             "elements" => $this->getDoctrine()->getRepository(Element::class)->getElements($offset, $limit),
+        ]);
+    }
+
+    /**
+     * @Route("/admin/mineral", name="adminMineral")
+     */
+    public function admin_mineral(Request $request)
+    {
+        $offset = !empty($request->get('offset')) && preg_match('/^[0-9]*$/', $request->get('offset')) ? $request->get('offset') : 1;
+        $limit = 10;
+
+        return $this->render('admin/natural_element/mineral/index.html.twig', [
+            "offset" => $offset,
+            "nbrOffset" => ceil($this->getDoctrine()->getRepository(Mineral::class)->countMinerals() / $limit),
+            "minerals" => $this->getDoctrine()->getRepository(Mineral::class)->getMinerals($offset, $limit),
         ]);
     }
 

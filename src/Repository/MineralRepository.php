@@ -19,6 +19,16 @@ class MineralRepository extends ServiceEntityRepository
         parent::__construct($registry, Mineral::class);
     }
 
+    public function getMinerals($offset, $limit)
+    {
+        return $this->createQueryBuilder('m')
+        ->orderBy('m.name', 'ASC')
+        ->setFirstResult(($offset - 1) * $limit)
+        ->setMaxResults($limit)
+        ->getQuery()
+        ->getResult();
+    }
+
     public function countMinerals()
     {
         return $this->createQueryBuilder('m')
