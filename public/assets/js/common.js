@@ -14,6 +14,7 @@ jQuery(document).ready(function() {
     let $collectionHolderCharacteristics = $('ul.characteristics-tags');
     let $collectionHolderProperty = $('ul.property-tags');
     let $collectionHolderUtilization = $('ul.utilization-tags');
+    let $collectionHolderReferences = $('ul.references-tags');
 
     let $newLinkLiGeography = $('<li></li>').append($(addButton));
     let $newLinkLiEcology = $('<li></li>').append($(addButton));
@@ -25,6 +26,7 @@ jQuery(document).ready(function() {
     let $newLinkLiCharacteristics = $('<li></li>').append($(addButton));
     let $newLinkLiProperty = $('<li></li>').append($(addButton));
     let $newLinkLiUtilization = $('<li></li>').append($(addButton));
+    let $newLinkLiReferences = $('<li></li>').append($(addButton));
     
     
     $collectionHolderGeography.find('li').each(function() { addTagFormDeleteLink($(this)); });
@@ -37,6 +39,7 @@ jQuery(document).ready(function() {
     $collectionHolderCharacteristics.find('li').each(function() { addTagFormDeleteLink($(this)); });
     $collectionHolderProperty.find('li').each(function() { addTagFormDeleteLink($(this)); });
     $collectionHolderUtilization.find('li').each(function() { addTagFormDeleteLink($(this)); });
+    $collectionHolderReferences.find('li').each(function() { addTagFormDeleteLink($(this)); });
     
     $collectionHolderGeography.append($newLinkLiGeography);
     $collectionHolderGeography.data('index', $collectionHolderGeography.find('input').length);
@@ -67,6 +70,9 @@ jQuery(document).ready(function() {
 
     $collectionHolderUtilization.append($newLinkLiUtilization);
     $collectionHolderUtilization.data('index', $collectionHolderUtilization.find('input').length);
+
+    $collectionHolderReferences.append($newLinkLiReferences);
+    $collectionHolderReferences.data('index', $collectionHolderReferences.find('input').length);
     
     // When we click on the add button
     $('.add_tag_link').on('click', function(e) {
@@ -101,6 +107,9 @@ jQuery(document).ready(function() {
         } else if(classList == "utilization-tags") {
             $collectionHolder = $collectionHolderUtilization;
             $newLinkLi = $newLinkLiUtilization;
+        } else if(classList == "references-tags") {
+            $collectionHolder = $collectionHolderReferences;
+            $newLinkLi = $newLinkLiReferences;
         }
 
         if($collectionHolder !== undefined) {

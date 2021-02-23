@@ -20,6 +20,16 @@ class Mineral
     private $id;
 
     /**
+     * @ORM\OneToOne(targetEntity=ArticleMineral::class, mappedBy="mineral", cascade={"persist", "remove"})
+     */
+    private $articleMineral;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Country::class, inversedBy="minerals")
+     */
+    private $country;
+
+    /**
      * @ORM\Column(type="string", length=255)
      */
     private $name;
@@ -43,11 +53,6 @@ class Mineral
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $imaNumber;
-
-    /**
-     * @ORM\ManyToMany(targetEntity=Country::class, inversedBy="minerals")
-     */
-    private $country;
 
     /**
      * @ORM\Column(type="json")
@@ -74,6 +79,11 @@ class Mineral
      */
     private $imgPath;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $createdAt;
+
     public function __construct()
     {
         $this->country = new ArrayCollection();
@@ -82,6 +92,54 @@ class Mineral
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getArticleMineral(): ?ArticleMineral
+    {
+        return $this->articleMineral;
+    }
+
+    public function setArticleMineral(?ArticleMineral $articleMineral): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($articleMineral === null && $this->articleMineral !== null) {
+            $this->articleMineral->setMineral(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($articleMineral !== null && $articleMineral->getMineral() !== $this) {
+            $articleMineral->setMineral($this);
+        }
+
+        $this->articleMineral = $articleMineral;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Country[]
+     */
+    public function getCountry(): Collection
+    {
+        return $this->country;
+    }
+
+    public function addCountry(Country $country): self
+    {
+        if (!$this->country->contains($country)) {
+            $this->country[] = $country;
+        }
+
+        return $this;
+    }
+
+    public function removeCountry(Country $country): self
+    {
+        if ($this->country->contains($country)) {
+            $this->country->removeElement($country);
+        }
+
+        return $this;
     }
 
     public function getName(): ?string
@@ -144,32 +202,6 @@ class Mineral
         return $this;
     }
 
-    /**
-     * @return Collection|Country[]
-     */
-    public function getCountry(): Collection
-    {
-        return $this->country;
-    }
-
-    public function addCountry(Country $country): self
-    {
-        if (!$this->country->contains($country)) {
-            $this->country[] = $country;
-        }
-
-        return $this;
-    }
-
-    public function removeCountry(Country $country): self
-    {
-        if ($this->country->contains($country)) {
-            $this->country->removeElement($country);
-        }
-
-        return $this;
-    }
-
     public function getImaStatus(): ?array
     {
         return $this->imaStatus;
@@ -226,6 +258,18 @@ class Mineral
     public function setImgPath(?string $imgPath): self
     {
         $this->imgPath = $imgPath;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
 
         return $this;
     }

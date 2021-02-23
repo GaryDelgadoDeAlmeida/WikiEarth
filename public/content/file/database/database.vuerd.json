@@ -2,7 +2,7 @@
   "canvas": {
     "width": 2000,
     "height": 2000,
-    "scrollTop": 184.8000030517578,
+    "scrollTop": 0,
     "scrollLeft": 0,
     "show": {
       "tableComment": true,
@@ -1179,7 +1179,7 @@
           "active": false,
           "left": 578.4666769319101,
           "top": 84.73333359029543,
-          "zIndex": 837,
+          "zIndex": 857,
           "widthName": 112,
           "widthComment": 60
         },

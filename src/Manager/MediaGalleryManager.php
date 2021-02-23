@@ -2,7 +2,7 @@
 
 namespace App\Manager;
 
-use App\Entity\{LivingThing, MediaGallery, ArticleLivingThing};
+use App\Entity\{MediaGallery, ArticleLivingThing};
 use Psr\Container\ContainerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,7 +15,7 @@ class MediaGalleryManager extends AbstractController {
     }
 
     /**
-     * Insertion ou mise à jour des medias en base de données.
+     * Insertion ou mise à jour des medias en base de données pour les articles "living thing".
      */
     public function setMediaGalleryLivingThing(array $files, ArticleLivingThing &$articleLivingThing, EntityManagerInterface $manager)
     {

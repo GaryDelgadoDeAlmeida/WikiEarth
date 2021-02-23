@@ -87,10 +87,16 @@ class ArticleLivingThing
      */
     private $createdAt;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Reference::class, mappedBy="articleLivingThing")
+     */
+    private $reference;
+
     public function __construct()
     {
         $this->countries = new ArrayCollection();
         $this->mediaGallery = new ArrayCollection();
+        $this->reference = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -257,6 +263,36 @@ class ArticleLivingThing
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Reference[]
+     */
+    public function getReference(): Collection
+    {
+        return $this->reference;
+    }
+
+    public function addReference(Reference $reference): self
+    {
+        if (!$this->reference->contains($reference)) {
+            $this->reference[] = $reference;
+            $reference->setArticleLivingThing($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReference(Reference $reference): self
+    {
+        if ($this->reference->removeElement($reference)) {
+            // set the owning side to null (unless already changed)
+            if ($reference->getArticleLivingThing() === $this) {
+                $reference->setArticleLivingThing(null);
+            }
+        }
 
         return $this;
     }

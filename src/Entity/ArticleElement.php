@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ArticleElementRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -67,6 +69,16 @@ class ArticleElement
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Reference::class, mappedBy="articleElement")
+     */
+    private $reference;
+
+    public function __construct()
+    {
+        $this->reference = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -189,6 +201,36 @@ class ArticleElement
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Reference[]
+     */
+    public function getReference(): Collection
+    {
+        return $this->reference;
+    }
+
+    public function addReference(Reference $reference): self
+    {
+        if (!$this->reference->contains($reference)) {
+            $this->reference[] = $reference;
+            $reference->setArticleElement($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReference(Reference $reference): self
+    {
+        if ($this->reference->removeElement($reference)) {
+            // set the owning side to null (unless already changed)
+            if ($reference->getArticleElement() === $this) {
+                $reference->setArticleElement(null);
+            }
+        }
 
         return $this;
     }

@@ -3,8 +3,51 @@
 {% block body %}
     <section class="livingThing">
         <div class="container">
-            <a class="btn btn-custom-green" href="{{ path('adminArticleByCategory', {'category': "living-thing"}) }}">Living Things</a>
-            <a class="btn btn-custom-midnight" href="{{ path('adminArticleByCategory', {'category': "natural-elements"}) }}">Natural Elements</a>
+            <div class="row slider">
+                {# <div class="col-md-4">
+                    <div class="card">
+                        <div class="img">
+                            <img class="img-fluid" height="250" src="{{ asset('content/img/Animalia.jpg') }}" alt="living-thing" />
+                        </div>
+                        <div class="content txt-center">
+                            <a class="btn btn-custom-midnight" href="{{ path('adminArticleByCategory', {'category': "living-thing"}) }}">Living Thing</a>
+                        </div>
+                    </div>
+                </div> #}
+
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="img">
+                            <img class="img-fluid" height="250" src="{{ asset('content/img/Atome.jpg') }}" alt="natural-elements" />
+                        </div>
+                        <div class="content txt-center">
+                            <a class="btn btn-custom-midnight" href="{{ path('adminArticleByCategory', {'category': "natural-elements"}) }}">Elements</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="img">
+                            <img class="img-fluid" height="250" src="{{ asset('content/img/Minerals.jpg') }}" alt="minerals" />
+                        </div>
+                        <div class="content txt-center">
+                            <a class="btn btn-custom-midnight" href="{{ path('adminArticleByCategory', {'category': "minerals"}) }}">Minerals</a>
+                        </div>
+                    </div>
+                </div>
+
+                {# <div class="col-md-4">
+                    <div class="card">
+                        <div class="img">
+                            <img class="img-fluid" height="250" src="{{ asset('content/img/Rocks.jpg') }}" alt="rocks" />
+                        </div>
+                        <div class="content txt-center">
+                            <a class="btn btn-custom-midnight" href="{{ path('adminArticleByCategory', {'category': "rocks"}) }}">Rocks</a>
+                        </div>
+                    </div>
+                </div> #}
+            </div>
         </div>
     </section>
 {% endblock %}

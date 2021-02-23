@@ -11,7 +11,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use App\Manager\{UserManager, LivingThingManager, ElementManager, ArticleLivingThingManager, ArticleElementManager};
 use App\Form\{UserType, LivingThingType, UserRegisterType, ArticleLivingThingType, ArticleElementType};
-use App\Entity\{User, Element, SourceLink, LivingThing, MediaGallery, Notification, ArticleLivingThing, ArticleElement};
+use App\Entity\{User, Element, SourceLink, LivingThing, MediaGallery, Notification, ArticleLivingThing, ArticleElement, ArticleMineral};
 
 class AdminController extends AbstractController
 {
@@ -297,6 +297,16 @@ class AdminController extends AbstractController
                 "offset" => $offset,
                 "category" => $category
             ]);
+        } elseif($category == "minerals") {
+            $nbrMinerals = $this->em->getRepository(ArticleMineral::class)->countArticleMinerals();
+            $nbrOffset = $nbrMinerals > $limit ? ceil($nbrMinerals / $limit) : $nbrOffset;
+
+            return $this->render('admin/article/minerals/index.html.twig', [
+                "articles" => $this->em->getRepository(ArticleMineral::class)->getArticleMinerals($offset, $limit),
+                "nbrOffset" => $nbrOffset,
+                "offset" => $offset,
+                "category" => $category
+            ]);
         }
 
         return $this->redirectToRoute("404Error");
@@ -378,7 +388,6 @@ class AdminController extends AbstractController
                 "category" => $category
             ]);
         } elseif ($category == "natural-elements") {
-            die("Cette partie n'est pas encore disponible.");
             return $this->render('admin/article/natural-elements/details.html.twig', [
                 "article" => $this->em->getRepository(ArticleElement::class)->findOneBy(["id" => $id]),
                 "category" => $category
@@ -397,7 +406,6 @@ class AdminController extends AbstractController
         if($category == "living-thing") {
             $article = $this->em->getRepository(ArticleLivingThing::class)->findOneBy(["id" => $id]);
         } elseif ($category == "natural-elements") {
-            die("Cette partie n'est pas encore disponible.");
             $article = $this->em->getRepository(ArticleElement::class)->findOneBy(["id" => $id]);
         }
 

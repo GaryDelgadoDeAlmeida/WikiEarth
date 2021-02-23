@@ -187,6 +187,23 @@ class AnonymousController extends AbstractController
     }
 
     /**
+     * @Route("/contact", name="contact")
+     */
+    public function contact(Request $request)
+    {
+        $formContact = $this->createForm(ArticleLivingThingType::class, null);
+        $formContact->handleRequest($request);
+
+        if($formContact->isSubmitted() && $formContact->isValid()) {
+            // 
+        }
+        
+        return $this->render('anonymous/contact/index.html.twig', [
+            "formContact" => $formContact->createView()
+        ]);
+    }
+
+    /**
      * @Route("/login", name="login")
      */
     public function login(Request $request)

@@ -1,0 +1,29 @@
+{% extends 'admin/baseAdmin.html.twig' %}
+
+{% block body %}
+    <section class="livingThing">
+        <div class="container">
+            <a class="btn btn-primary" href="{{ path('adminArticle') }}"><i class="fas fa-arrow-left"></i> Retour</a>
+            <a class="btn btn-custom-green" href="{{ path("adminAddArticleByCategory", {"category": category}) }}">Add</a>
+            
+            {% if articles != [] %}
+                {% for article in articles %}
+                    <li class="media">
+                        <div class="media-header">
+                            <img class="img-fluid" src="{{ asset(file_exist(article.mineral.imgPath)) }}" alt="{{ article.mineral.name }}">
+                        </div>
+                        <div class="media-body">
+                            <h5 class="media-body-title">{{ article.title }}</h5>
+                            <p class="{{ article.approved ? "c-green" : "c-red" }}">{{ article.approved ? "Approved" : "Not Approved" }}</p>
+                            <a class="btn btn-success" href="{{ path('adminSingleArticleByCategory', {"id": article.id, "category": category}) }}"><i class="fas fa-eye"></i></a>
+                        </div>
+                    </li>
+                {% endfor %}
+            {% else %}
+                <li class="media">
+                    <div class="media-body">Aucun article n'a été trouvé</div>
+                </li>
+            {% endif %}
+        </div>
+    </section>
+{% endblock %}

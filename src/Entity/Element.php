@@ -18,6 +18,11 @@ class Element
     private $id;
 
     /**
+     * @ORM\OneToOne(targetEntity=ArticleElement::class, mappedBy="element", cascade={"persist", "remove"})
+     */
+    private $articleElement;
+
+    /**
      * @ORM\Column(type="string", length=255)
      */
     private $name;
@@ -127,14 +132,26 @@ class Element
      */
     private $imgPath;
 
-    /**
-     * @ORM\OneToOne(targetEntity=ArticleElement::class, mappedBy="element", cascade={"persist", "remove"})
-     */
-    private $articleElement;
-
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getArticleElement(): ?ArticleElement
+    {
+        return $this->articleElement;
+    }
+
+    public function setArticleElement(ArticleElement $articleElement): self
+    {
+        $this->articleElement = $articleElement;
+
+        // set the owning side of the relation if necessary
+        if ($articleElement->getElement() !== $this) {
+            $articleElement->setElement($this);
+        }
+
+        return $this;
     }
 
     public function getName(): ?string
@@ -397,23 +414,6 @@ class Element
     public function setImgPath(?string $imgPath): self
     {
         $this->imgPath = $imgPath;
-
-        return $this;
-    }
-
-    public function getArticleElement(): ?ArticleElement
-    {
-        return $this->articleElement;
-    }
-
-    public function setArticleElement(ArticleElement $articleElement): self
-    {
-        $this->articleElement = $articleElement;
-
-        // set the owning side of the relation if necessary
-        if ($articleElement->getElement() !== $this) {
-            $articleElement->setElement($this);
-        }
 
         return $this;
     }

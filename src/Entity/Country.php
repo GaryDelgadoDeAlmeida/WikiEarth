@@ -20,6 +20,16 @@ class Country
     private $id;
 
     /**
+     * @ORM\ManyToMany(targetEntity=LivingThing::class, inversedBy="countries")
+     */
+    private $livingThing;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Mineral::class, mappedBy="country")
+     */
+    private $minerals;
+
+    /**
      * @ORM\Column(type="string", length=255)
      */
     private $name;
@@ -54,16 +64,6 @@ class Country
      */
     private $nativeName;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=LivingThing::class, inversedBy="countries")
-     */
-    private $livingThing;
-
-    /**
-     * @ORM\ManyToMany(targetEntity=Mineral::class, mappedBy="country")
-     */
-    private $minerals;
-
     public function __construct()
     {
         $this->articleLivingThing = new ArrayCollection();
@@ -74,6 +74,60 @@ class Country
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    /**
+     * @return Collection|LivingThing[]
+     */
+    public function getLivingThing(): Collection
+    {
+        return $this->livingThing;
+    }
+
+    public function addLivingThing(LivingThing $livingThing): self
+    {
+        if (!$this->livingThing->contains($livingThing)) {
+            $this->livingThing[] = $livingThing;
+        }
+
+        return $this;
+    }
+
+    public function removeLivingThing(LivingThing $livingThing): self
+    {
+        if ($this->livingThing->contains($livingThing)) {
+            $this->livingThing->removeElement($livingThing);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Mineral[]
+     */
+    public function getMinerals(): Collection
+    {
+        return $this->minerals;
+    }
+
+    public function addMineral(Mineral $mineral): self
+    {
+        if (!$this->minerals->contains($mineral)) {
+            $this->minerals[] = $mineral;
+            $mineral->addCountry($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMineral(Mineral $mineral): self
+    {
+        if ($this->minerals->contains($mineral)) {
+            $this->minerals->removeElement($mineral);
+            $mineral->removeCountry($this);
+        }
+
+        return $this;
     }
 
     public function getName(): ?string
@@ -156,60 +210,6 @@ class Country
     public function setNativeName(?string $nativeName): self
     {
         $this->nativeName = $nativeName;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|LivingThing[]
-     */
-    public function getLivingThing(): Collection
-    {
-        return $this->livingThing;
-    }
-
-    public function addLivingThing(LivingThing $livingThing): self
-    {
-        if (!$this->livingThing->contains($livingThing)) {
-            $this->livingThing[] = $livingThing;
-        }
-
-        return $this;
-    }
-
-    public function removeLivingThing(LivingThing $livingThing): self
-    {
-        if ($this->livingThing->contains($livingThing)) {
-            $this->livingThing->removeElement($livingThing);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Mineral[]
-     */
-    public function getMinerals(): Collection
-    {
-        return $this->minerals;
-    }
-
-    public function addMineral(Mineral $mineral): self
-    {
-        if (!$this->minerals->contains($mineral)) {
-            $this->minerals[] = $mineral;
-            $mineral->addCountry($this);
-        }
-
-        return $this;
-    }
-
-    public function removeMineral(Mineral $mineral): self
-    {
-        if ($this->minerals->contains($mineral)) {
-            $this->minerals->removeElement($mineral);
-            $mineral->removeCountry($this);
-        }
 
         return $this;
     }

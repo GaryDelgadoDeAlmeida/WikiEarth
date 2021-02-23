@@ -9,6 +9,9 @@ html, body {
 
 :root {
     --navHeight: 90px;
+    --c-white: #ffffff;
+    --c-red: #ff0000;
+    --c-green: #188038;
 }
 
 
@@ -83,6 +86,10 @@ a, a:hover {
     font-size: 1.3rem !important;
 }
 
+.txt-center {
+    text-align: center;
+}
+
 
 /* ---------------------------------------- *\
                 Border Radius
@@ -108,7 +115,7 @@ a, a:hover {
 }
 
 .bg-midnight {
-    background-color: #01043F;
+    background-color: #011740;
 }
 
 /* ---------------------------------------- *\

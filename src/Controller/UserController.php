@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Form\{UserType, LivingThingType, ArticleLivingThingType};
 use App\Entity\{LivingThing, Notification, ArticleLivingThing};
-use App\Manager\{UserManager, LivingThingManager, MediaGalleryManager, NotificationManager, ArticleLivingThingManager};
+use App\Manager\{UserManager, LivingThingManager, ReferenceManager, MediaGalleryManager, NotificationManager, ArticleLivingThingManager};
 use Psr\Container\ContainerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,6 +22,7 @@ class UserController extends AbstractController
     private $userManager;
     private $livingThingManager;
     private $articleLivingThingManager;
+    private $referenceManager;
     private $mediaGalleryManager;
     private $notificationManager;
 
@@ -31,6 +32,7 @@ class UserController extends AbstractController
         $this->userManager = new UserManager();
         $this->livingThingManager = new LivingThingManager($container);
         $this->articleLivingThingManager = new ArticleLivingThingManager();
+        $this->referenceManager = new ReferenceManager();
         $this->mediaGalleryManager = new MediaGalleryManager($container);
         $this->notificationManager = new NotificationManager($manager);
         $this->manager = $manager;
@@ -366,6 +368,13 @@ class UserController extends AbstractController
                 $articleLivingThing,
                 $this->manager
             );
+
+            // TODO : vérifier le bon fonctionnement de cette méthode
+            // $this->referenceManager->setReferences(
+            //     $formArticle["references"]->getData(),
+            //     $articleLivingThing,
+            //     $this->manager
+            // );
 
             // On envoie une notification à l'utilisateur l'avertissant de la demande de mise à jour de l'article
             $this->notificationManager->userUpdateArticle($this->current_logged_user);

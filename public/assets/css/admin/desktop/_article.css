@@ -4,3 +4,65 @@
 .article-details {
     width: 100%;
 }
+
+/* ---------------------------------------- *\
+                Card Article
+\* ---------------------------------------- */
+/* .home-article {
+    display: grid;
+    height: 100%;
+    place-items: center;
+    text-align: center;
+    padding: 50px 50px;
+} */
+.slider {
+    max-width: 900px;
+    overflow: hidden;
+    display: flex;
+}
+
+.slider .card {
+    background: #ffffff;
+    flex: 1;
+    margin: 0 10px;
+}
+
+.slider .card .img {
+    height: 200px;
+    width: 100%;
+}
+
+.slider .card .img img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.slider .card .content {
+    padding: 10px 20px;
+}
+
+.card .content .title {
+    font-size: 25px;
+    font-weight: 600;
+}
+
+.card .content p {
+    text-align: justify center;
+    margin: 10px 0;
+}
+
+.card .content .btn {
+    width: 150px;
+    margin: 10px 0;
+    border-radius: 15px;
+    border: 2px solid #868686;
+    outline: none;
+    transition: .5s;
+}
+
+.card .content .btn:hover {
+    background-color: #868686;
+    transition: .5s;
+    color: #ffffff;
+}

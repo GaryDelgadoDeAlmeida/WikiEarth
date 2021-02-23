@@ -11,7 +11,7 @@
 <app>
     <section class="sidebar">
         <div class="top-row pl-4 navbar navbar-dark">
-            <a class="navbar-brand" href="{{ path('adminHome') }}">WikiEarth Panel</a>
+            <a class="navbar-brand" href="{{ path('adminHome') }}">GeoEarth Panel</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -34,14 +34,19 @@
                         <span class="oi" aria-hidden="true"><i class="fas fa-users"></i></span> Users
                     </a>
                 </li>
-                <li class="nav-item px-3">
+                {# <li class="nav-item px-3">
                     <a class="nav-link" href="{{ path('adminLivingThing') }}">
                         <span class="oi" aria-hidden="true"><i class="fas fa-dna"></i></span> Living Being
+                    </a>
+                </li> #}
+                <li class="nav-item px-3">
+                    <a class="nav-link" href="{{ path('adminElement') }}">
+                        <span class="oi" aria-hidden="true"><i class="fas fa-atom"></i></span> Element
                     </a>
                 </li>
                 <li class="nav-item px-3">
                     <a class="nav-link" href="{{ path('adminElement') }}">
-                        <span class="oi" aria-hidden="true"><i class="fas fa-atom"></i></span> Element
+                        <span class="oi" aria-hidden="true"><i class="fas fa-atom"></i></span> Mineral
                     </a>
                 </li>
                 <li class="nav-item px-3">
@@ -54,11 +59,11 @@
                         <span class="oi" aria-hidden="true"><i class="fas fa-photo-video"></i></span> Media
                     </a>
                 </li>
-                <li class="nav-item px-3">
+                {# <li class="nav-item px-3">
                     <a class="nav-link" href="">
                         <span class="oi" aria-hidden="true"><i class="fas fa-comments"></i></span> Chat
                     </a>
-                </li>
+                </li> #}
                 <li class="nav-item px-3">
                     <a class="nav-link" href="{{ path('logout') }}">
                         <span class="oi" aria-hidden="true"><i class="fas fa-sign-out-alt"></i></span> Logout
