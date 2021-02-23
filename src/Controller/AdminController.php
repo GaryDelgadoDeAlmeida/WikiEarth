@@ -9,8 +9,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use App\Manager\{UserManager, LivingThingManager, ElementManager, ArticleLivingThingManager, ArticleElementManager};
-use App\Form\{UserType, LivingThingType, UserRegisterType, ArticleLivingThingType, ArticleElementType};
+use App\Manager\{UserManager, LivingThingManager, ElementManager, MineralManager, ArticleLivingThingManager, ArticleElementManager, ArticleMineralManager};
+use App\Form\{UserType, LivingThingType, UserRegisterType, ArticleLivingThingType, ArticleElementType, ArticleMineralType};
 use App\Entity\{User, Element, SourceLink, LivingThing, MediaGallery, Notification, ArticleLivingThing, ArticleElement, ArticleMineral};
 
 class AdminController extends AbstractController
@@ -18,8 +18,10 @@ class AdminController extends AbstractController
     private $current_logged_user;
     private $livingThingManager;
     private $elementManager;
+    private $mineralManager;
     private $articleLivingThingManager;
     private $articleElementManager;
+    private $articleMineralManager;
     private $userManager;
     private $em;
 
@@ -28,8 +30,10 @@ class AdminController extends AbstractController
         $this->current_logged_user = $tokenStorage->getToken()->getUser();
         $this->livingThingManager = new LivingThingManager($container);
         $this->elementManager = new ElementManager($container);
+        $this->mineralManager = new MineralManager($container);
         $this->articleLivingThingManager = new ArticleLivingThingManager();
         $this->articleElementManager = new ArticleElementManager();
+        $this->articleMineralManager = new ArticleMineralManager();
         $this->userManager = new UserManager();
         $this->em = $em;
     }
@@ -372,6 +376,32 @@ class AdminController extends AbstractController
                 "formArticle" => $formArticle->createView(),
                 "category" => $category
             ]);
+        } elseif($category == "minerals") {
+            $article = new ArticleMineral();
+            $formArticle = $this->createForm(ArticleMineralType::class, $article);
+            $formArticle->handleRequest($request);
+
+            if($formArticle->isSubmitted() && $formArticle->isValid()) {
+                $mineral = $formArticle["mineral"]->getData();
+
+                $this->mineralManager->setMineral(
+                    $formArticle["mineral"]["imgPath"]->getData(),
+                    $mineral,
+                    $this->em
+                );
+
+                $this->articleMineralManager->setArticleMineral(
+                    $article,
+                    $mineral,
+                    $this->em,
+                    $this->current_logged_user
+                );
+            }
+
+            return $this->render('admin/article/minerals/edit.html.twig', [
+                "formArticle" => $formArticle->createView(),
+                "category" => $category
+            ]);
         }
 
         return $this->redirectToRoute("404Error");
@@ -387,9 +417,14 @@ class AdminController extends AbstractController
                 "article" => $this->em->getRepository(ArticleLivingThing::class)->findOneBy(["id" => $id]),
                 "category" => $category
             ]);
-        } elseif ($category == "natural-elements") {
+        } elseif($category == "natural-elements") {
             return $this->render('admin/article/natural-elements/details.html.twig', [
                 "article" => $this->em->getRepository(ArticleElement::class)->findOneBy(["id" => $id]),
+                "category" => $category
+            ]);
+        } elseif($category == "minerals") {
+            return $this->render('admin/article/minerals/details.html.twig', [
+                "article" => $this->em->getRepository(ArticleMineral::class)->findOneBy(["id" => $id]),
                 "category" => $category
             ]);
         }
@@ -407,6 +442,8 @@ class AdminController extends AbstractController
             $article = $this->em->getRepository(ArticleLivingThing::class)->findOneBy(["id" => $id]);
         } elseif ($category == "natural-elements") {
             $article = $this->em->getRepository(ArticleElement::class)->findOneBy(["id" => $id]);
+        } elseif($categoy == "minerals") {
+            $article = $this->em->getRepository(ArticleMineral::class)->findOneBy(["id" => $id]);
         }
 
         if(empty($article)) {
@@ -482,6 +519,30 @@ class AdminController extends AbstractController
                 "formArticle" => $formArticle->createView(),
                 "category" => $category
             ]);
+        } elseif($category == "minerals") {
+            $articleMineral = $this->em->getRepository(ArticleMineral::class)->findOneBy(["id" => $id]);
+
+            if(empty($articleMineral)) {
+                return $this->redirectToRoute("404Error");
+            }
+
+            $formArticle = $this->createForm(ArticleMineralType::class, $articleMineral);
+            $formArticle->get('mineral')->setData($articleMineral->getMineral());
+            $formArticle->handleRequest($request);
+
+            if($formArticle->isSubmitted() && $formArticle->isValid()) {
+                $this->articleElementManager->setArticleMineral(
+                    $formArticle,
+                    $formArticle->getMineral(),
+                    $this->em,
+                    $this->current_logged_user
+                );
+            }
+
+            return $this->render('admin/article/minerals/edit.html.twig', [
+                "formArticle" => $formArticle->createView(),
+                "category" => $category
+            ]);
         }
 
         return $this->redirectToRoute("404Error");
@@ -502,6 +563,8 @@ class AdminController extends AbstractController
             $article = $this->em->getRepository(ArticleLivingThing::class)->findOneBy(["id" => $id]);
         } elseif($category == "natural-elements") {
             $article = $this->em->getRepository(ArticleElement::class)->findOneBy(["id" => $id]);
+        } elseif($categoty == "minerals") {
+            $article = $this->em->getRepository(ArticleMineral::class)->findOneBy(["id" => $id]);
         }
 
         if(empty($article)) {
@@ -510,8 +573,10 @@ class AdminController extends AbstractController
 
         if($category == "living-thing") {
             $article->setIdLivingThing(null);
-        } else {
+        } elseif($category == "natural-elements") {
             $article->setElement(null);
+        } elseif($category == "minerals") {
+            $article->setMineral(null);
         }
 
         // Envoi d'une notification à l'utilisateur
