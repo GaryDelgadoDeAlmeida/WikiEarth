@@ -19,14 +19,25 @@ class MineralRepository extends ServiceEntityRepository
         parent::__construct($registry, Mineral::class);
     }
 
-    public function getMinerals($offset, $limit)
+    public function getMinerals(int $offset, int $limit)
     {
         return $this->createQueryBuilder('m')
-        ->orderBy('m.name', 'ASC')
-        ->setFirstResult(($offset - 1) * $limit)
-        ->setMaxResults($limit)
-        ->getQuery()
-        ->getResult();
+            ->orderBy('m.name', 'ASC')
+            ->setFirstResult(($offset - 1) * $limit)
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function getMineralByName(string $mineral_name)
+    {
+        return $this->createQueryBuilder('m')
+            ->where('m.name = :mineral_name')
+            ->setParameter('mineral_name', $mineral_name)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
     }
 
     public function countMinerals()
@@ -37,33 +48,4 @@ class MineralRepository extends ServiceEntityRepository
             ->getSingleResult()['nbrMinerals']
         ;
     }
-
-    // /**
-    //  * @return Mineral[] Returns an array of Mineral objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('m')
-            ->andWhere('m.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('m.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Mineral
-    {
-        return $this->createQueryBuilder('m')
-            ->andWhere('m.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

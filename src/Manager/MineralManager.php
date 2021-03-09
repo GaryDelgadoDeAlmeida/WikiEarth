@@ -21,6 +21,7 @@ class MineralManager extends AbstractController {
             // TODO : traitement logique métier du système de upload du média
         }
 
+        $mineral->setImaStatus(explode(",", $mineral->getImaStatus()));
         $manager->persist($mineral);
         $manager->flush();
         $manager->clear();

@@ -63,7 +63,7 @@ class Element
     private $atomeBlock;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="json", nullable=true)
      */
     private $volumicMass;
 
@@ -131,6 +131,11 @@ class Element
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $imgPath;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $createdAt;
 
     public function getId(): ?int
     {
@@ -250,12 +255,12 @@ class Element
         return $this;
     }
 
-    public function getVolumicMass(): ?string
+    public function getVolumicMass(): ?array
     {
         return $this->volumicMass;
     }
 
-    public function setVolumicMass(?string $volumicMass): self
+    public function setVolumicMass(?array $volumicMass): self
     {
         $this->volumicMass = $volumicMass;
 
@@ -414,6 +419,18 @@ class Element
     public function setImgPath(?string $imgPath): self
     {
         $this->imgPath = $imgPath;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
 
         return $this;
     }

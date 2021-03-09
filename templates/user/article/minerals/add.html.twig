@@ -1,0 +1,180 @@
+{% extends 'user/baseUser.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        {{ form_start(formArticle, {"method":"POST"}) }}
+            <div class="row">
+                <div class="form-group col-12 wow fadeInUp animated">
+                    <h3>Mineral</h3>
+                    
+                    <div class="row">
+                        <div class="form-group col-12 wow fadeInUp animated">
+                            {{ form_widget(formArticle.mineral) }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group col-12 wow fadeInUp animated">
+                    <h3>Generality</h3>
+                    
+                    <div class="row">
+                        <div class="form-group col-12 wow fadeInUp animated">
+                            <ul class="generality-tags" data-prototype="{{ form_widget(formArticle.generality.vars.prototype)|e }}">
+                                {% for generality in formArticle.generality %}
+                                    <li class="form-group col-12 wow fadeInUp animated">
+                                        <div class="row">
+                                            <div class="form-group col-12 wow fadeInUp animated">
+                                                {{ form_row(generality.sub_title) }}
+                                            </div>
+                                            <div class="form-group col-12 wow fadeInUp animated">
+                                                {{ form_row(generality.sub_content) }}
+                                            </div>
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group col-12 wow fadeInUp animated">
+                    <h3>Etymology</h3>
+                    
+                    <div class="row">
+                        <div class="form-group col-12 wow fadeInUp animated">
+                            <ul class="etymology-tags" data-prototype="{{ form_widget(formArticle.etymology.vars.prototype)|e }}">
+                                {% for etymology in formArticle.etymology %}
+                                    <li class="form-group col-12 wow fadeInUp animated">
+                                        <div class="row">
+                                            <div class="form-group col-12 wow fadeInUp animated">
+                                                {{ form_row(etymology.sub_title) }}
+                                            </div>
+                                            <div class="form-group col-12 wow fadeInUp animated">
+                                                {{ form_row(etymology.sub_content) }}
+                                            </div>
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group col-12 wow fadeInUp animated">
+                    <h3>Properties</h3>
+                    
+                    <div class="row">
+                        <div class="form-group col-12 wow fadeInUp animated">
+                            <ul class="properties-tags" data-prototype="{{ form_widget(formArticle.properties.vars.prototype)|e }}">
+                                {% for properties in formArticle.properties %}
+                                    <li class="form-group col-12 wow fadeInUp animated">
+                                        <div class="row">
+                                            <div class="form-group col-12 wow fadeInUp animated">
+                                                {{ form_row(properties.sub_title) }}
+                                            </div>
+                                            <div class="form-group col-12 wow fadeInUp animated">
+                                                {{ form_row(properties.sub_content) }}
+                                            </div>
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group col-12 wow fadeInUp animated">
+                    <h3>Geology</h3>
+                    
+                    <div class="row">
+                        <div class="form-group col-12 wow fadeInUp animated">
+                            <ul class="geology-tags" data-prototype="{{ form_widget(formArticle.geology.vars.prototype)|e }}">
+                                {% for geology in formArticle.geology %}
+                                    <li class="form-group col-12 wow fadeInUp animated">
+                                        <div class="row">
+                                            <div class="form-group col-12 wow fadeInUp animated">
+                                                {{ form_row(geology.sub_title) }}
+                                            </div>
+                                            <div class="form-group col-12 wow fadeInUp animated">
+                                                {{ form_row(geology.sub_content) }}
+                                            </div>
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group col-12 wow fadeInUp animated">
+                    <h3>Mining</h3>
+                    
+                    <div class="row">
+                        <div class="form-group col-12 wow fadeInUp animated">
+                            <ul class="mining-tags" data-prototype="{{ form_widget(formArticle.mining.vars.prototype)|e }}">
+                                {% for mining in formArticle.mining %}
+                                    <li class="form-group col-12 wow fadeInUp animated">
+                                        <div class="row">
+                                            <div class="form-group col-12 wow fadeInUp animated">
+                                                {{ form_row(mining.sub_title) }}
+                                            </div>
+                                            <div class="form-group col-12 wow fadeInUp animated">
+                                                {{ form_row(mining.sub_content) }}
+                                            </div>
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                {# <div class="form-group col-12 wow fadeInUp animated">
+                    <h3>Other Data</h3>
+                    
+                    <div class="row">
+                        <div class="form-group col-12 wow fadeInUp animated">
+                            <ul class="otherData-tags" data-prototype="{{ form_widget(formArticle.otherData.vars.prototype)|e }}">
+                                {% for otherData in formArticle.otherData %}
+                                    <li class="form-group col-12 wow fadeInUp animated">
+                                        <div class="row">
+                                            <div class="form-group col-6 wow fadeInUp animated">
+                                                {{ form_row(otherData.sub_title) }}
+                                            </div>
+                                            <div class="form-group col-6 wow fadeInUp animated">
+                                                {{ form_row(otherData.sub_content) }}
+                                            </div>
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div> #}
+
+                <div class="form-group col-12 wow fadeInUp animated">
+                    <h3>References</h3>
+                    
+                    <div class="row">
+                        <div class="form-group col-12 wow fadeInUp animated">
+                            <ul class="references-tags" data-prototype="{{ form_widget(formArticle.references.vars.prototype)|e }}">
+                                {% for reference in formArticle.references %}
+                                    <li class="form-group col-12 wow fadeInUp animated">
+                                        <div class="row">
+                                            <div class="form-group col-6 wow fadeInUp animated">
+                                                {{ form_row(reference.name) }}
+                                            </div>
+                                            <div class="form-group col-6 wow fadeInUp animated">
+                                                {{ form_row(reference.link) }}
+                                            </div>
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {{ form_end(formArticle, {"method":"POST"}) }}
+    </div>
+{% endblock %}

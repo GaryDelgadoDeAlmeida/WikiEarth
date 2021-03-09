@@ -27,12 +27,60 @@ class NotificationManager extends AbstractController {
         $this->em->clear();
     }
 
+    public function elementNotFound($user)
+    {
+        $notification = new Notification();
+        $notification->setUser($user);
+        $notification->setType("info");
+        $notification->setContent("The element you tried to edit don't exist");
+        $notification->setCreatedAt(new \DateTime());
+        $this->em->merge($notification);
+        $this->em->flush();
+        $this->em->clear();
+    }
+
+    public function mineralNotFound($user)
+    {
+        $notification = new Notification();
+        $notification->setUser($user);
+        $notification->setType("info");
+        $notification->setContent("The mineral you tried to edit don't exist");
+        $notification->setCreatedAt(new \DateTime());
+        $this->em->merge($notification);
+        $this->em->flush();
+        $this->em->clear();
+    }
+
     public function livingThingAlreadyExist($user)
     {
         $notification = new Notification();
         $notification->setUser($user);
         $notification->setType("info");
         $notification->setContent("The living thing you tried to add already exist");
+        $notification->setCreatedAt(new \DateTime());
+        $this->em->merge($notification);
+        $this->em->flush();
+        $this->em->clear();
+    }
+
+    public function elementAlreadyExist($user)
+    {
+        $notification = new Notification();
+        $notification->setUser($user);
+        $notification->setType("info");
+        $notification->setContent("The element you tried to add already exist");
+        $notification->setCreatedAt(new \DateTime());
+        $this->em->merge($notification);
+        $this->em->flush();
+        $this->em->clear();
+    }
+
+    public function mineralAlreadyExist($user)
+    {
+        $notification = new Notification();
+        $notification->setUser($user);
+        $notification->setType("info");
+        $notification->setContent("The mineral you tried to add already exist");
         $notification->setCreatedAt(new \DateTime());
         $this->em->merge($notification);
         $this->em->flush();

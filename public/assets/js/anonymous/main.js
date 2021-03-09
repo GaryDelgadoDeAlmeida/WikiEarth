@@ -1,5 +1,7 @@
+const loopStatus = false;
+
 $('.slider').owlCarousel({
-    loop:true,
+    loop: loopStatus,
     autoplay: true,
     autoplayTimeout: 3000,
     autoplayHoverPause: true,
@@ -8,17 +10,17 @@ $('.slider').owlCarousel({
         0:{
             items: 1,
             nav: false,
-            loop: true
+            loop: loopStatus
         },
         600:{
             items: 2,
             nav: false,
-            loop: true
+            loop: loopStatus
         },
         1000:{
             items: 3,
             nav: false,
-            loop: true
+            loop: loopStatus
         }
     }
 });

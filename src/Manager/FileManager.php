@@ -15,7 +15,7 @@ class FileManager {
         $fileData = [];
 
         foreach($fileRow as $row) {
-            array_push($fileData, explode(",", $row));
+            array_push($fileData, str_getcsv($row, ","));
         }
 
         if(empty($fileData[count($fileData) - 1])) {

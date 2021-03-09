@@ -2,9 +2,9 @@
 
 namespace App\Controller;
 
-use App\Form\{UserType, LivingThingType, ArticleLivingThingType};
-use App\Entity\{LivingThing, Notification, ArticleLivingThing};
-use App\Manager\{UserManager, LivingThingManager, ReferenceManager, MediaGalleryManager, NotificationManager, ArticleLivingThingManager};
+use App\Form\{UserType, LivingThingType, ElementType, MineralType, ArticleLivingThingType, ArticleElementType, ArticleMineralType};
+use App\Entity\{LivingThing, Element, Mineral, Notification, ArticleLivingThing, ArticleElement, ArticleMineral};
+use App\Manager\{UserManager, LivingThingManager, ElementManager, MineralManager, ReferenceManager, MediaGalleryManager, NotificationManager, ArticleLivingThingManager, ArticleElementManager, ArticleMineralManager};
 use Psr\Container\ContainerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,20 +21,28 @@ class UserController extends AbstractController
     // Manager
     private $userManager;
     private $livingThingManager;
-    private $articleLivingThingManager;
+    private $elementManager;
+    private $mineralManager;
     private $referenceManager;
-    private $mediaGalleryManager;
     private $notificationManager;
+    private $articleLivingThingManager;
+    private $articleElementManager;
+    private $articleMineralManager;
+    private $mediaGalleryManager;
 
     public function __construct(TokenStorageInterface $tokenStorage, EntityManagerInterface $manager, ContainerInterface $container)
     {
         $this->current_logged_user = $tokenStorage->getToken()->getUser();
         $this->userManager = new UserManager();
         $this->livingThingManager = new LivingThingManager($container);
-        $this->articleLivingThingManager = new ArticleLivingThingManager();
+        $this->elementManager = new ElementManager($container);
+        $this->mineralManager = new MineralManager($container);
         $this->referenceManager = new ReferenceManager();
-        $this->mediaGalleryManager = new MediaGalleryManager($container);
         $this->notificationManager = new NotificationManager($manager);
+        $this->articleLivingThingManager = new ArticleLivingThingManager();
+        $this->articleElementManager = new ArticleElementManager();
+        $this->articleMineralManager = new ArticleMineralManager();
+        $this->mediaGalleryManager = new MediaGalleryManager($container);
         $this->manager = $manager;
     }
 
@@ -45,14 +53,19 @@ class UserController extends AbstractController
     {
         $offset = 1;
         $limit = 4;
+
+        $em = $this->getDoctrine();
+        // $livingThingRepo = $em->getRepository(LivingThing::class);
         
         return $this->render('user/home/index.html.twig', [
-            "nbrAnimalia" => $this->getDoctrine()->getRepository(LivingThing::class)->countLivingThingKingdom('Animalia'),
-            "nbrPlantae" => $this->getDoctrine()->getRepository(LivingThing::class)->countLivingThingKingdom('Plantae'),
-            "nbrInsecta" => $this->getDoctrine()->getRepository(LivingThing::class)->countLivingThingKingdom('Insecta'),
-            "nbrBacteria" => $this->getDoctrine()->getRepository(LivingThing::class)->countLivingThingKingdom('Bacteria'),
-            "recent_posts" => $this->getDoctrine()->getRepository(ArticleLivingThing::class)->getArticleLivingThingsDesc($offset, $limit),
-            "notifications" => $this->getDoctrine()->getRepository(Notification::class)->getLatestNotifications($this->current_logged_user->getId(), $offset, $limit),
+            // "nbrAnimalia" => $livingThingRepo->countLivingThingKingdom('Animalia'),
+            // "nbrPlantae" => $livingThingRepo->countLivingThingKingdom('Plantae'),
+            // "nbrInsecta" => $livingThingRepo->countLivingThingKingdom('Insecta'),
+            // "nbrBacteria" => $livingThingRepo->countLivingThingKingdom('Bacteria'),
+            "nbrElement" => $em->getRepository(Element::class)->countElements(),
+            "nbrMineral" => $em->getRepository(Mineral::class)->countMinerals(),
+            "recent_posts" => $em->getRepository(ArticleLivingThing::class)->getArticleLivingThingsDesc($offset, $limit),
+            "notifications" => $em->getRepository(Notification::class)->getLatestNotifications($this->current_logged_user->getId(), $offset, $limit),
             "recent_conversation" => [],
         ]);
     }
@@ -221,7 +234,7 @@ class UserController extends AbstractController
             return $this->redirectToRoute("403Error");
         }
 
-        return $this->render('user/article/add.html.twig', [
+        return $this->render('user/article/living-things/add.html.twig', [
             "formArticle" => $formArticle->createView()
         ]);
     }
@@ -246,6 +259,166 @@ class UserController extends AbstractController
 
         return $this->render('user/living_thing/edit.html.twig', [
             "formLivingThing" => $formLivingThing->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/user/mineral", name="userMineral")
+     */
+    public function user_mineral(Request $request)
+    {
+        $limit = 10;
+        $offset = !empty($request->get('offset')) && preg_match('/^[0-9]*$/', $request->get('offset')) ? $request->get('offset') : 1;
+        $search = !empty($request->get("search")) ? $request->get("search") : null;
+        $filterBy = !empty($request->get("filter-by-mineral")) ? $request->get("filter-by-mineral") : "all";
+        $filterChocies = [
+            "all" => "All",
+            "have-article" => "Have an article",
+            "not-have-article" => "Not have an article"
+        ];
+        $minerals = [];
+        $nbrPages = 1;
+        
+        if(empty($search)) {
+            $minerals = $this->getDoctrine()->getRepository(Mineral::class)->getMinerals($offset, $limit);
+            $nbrPages = ceil($this->getDoctrine()->getRepository(Mineral::class)->countMinerals() / $limit);
+        } else {
+            $filterBy = "all";
+            $minerals = $this->getDoctrine()->getRepository(Mineral::class)->searchMineral($search, $offset, $limit);
+            $nbrPages = ceil($this->getDoctrine()->getRepository(Mineral::class)->countSearchMineral($search) / $limit);
+        }
+
+        return $this->render('user/minerals/index.html.twig', [
+            "minerals" => $minerals,
+            "search" => $search,
+            "offset" => $offset,
+            "total_page" => $nbrPages,
+            "filter_by" => $filterBy,
+            "filterChoices" => $filterChocies
+        ]);
+    }
+
+    /**
+     * @Route("/user/mineral/add", name="userAddMineral")
+     */
+    public function user_add_mineral(Request $request)
+    {
+        $mineral = new Mineral();
+        $formMineral = $this->createForm(MineralType::class, $mineral);
+        $formMineral->handleRequest($request);
+
+        if($formMineral->isSubmitted() && $formMineral->isValid()) {
+            if(empty($this->manager->getRepository(Mineral::class)->getMineralByName($mineral->getName()))) {
+                $mineral->setImaStatus(explode(", ", $formArticle["mineral"]['imaStatus']));
+
+                $this->mineralManager->setMineral(
+                    $formMineral["imgPath"]->getData(), 
+                    $mineral, 
+                    $this->manager
+                );
+
+                // TODO : On envoi une notification / un email aux admins du site
+                $this->notificationManager->userCreateArticle($this->current_logged_user);
+                return $this->redirectToRoute("userMineral");
+            } else {
+                // On envoi une notif à l'utilisateur l'avertissant que le living thing qu'il a tenté d'ajouté existe déjà
+                $this->notificationManager->mineralAlreadyExist($this->current_logged_user);
+                return $this->redirectToRoute("userMineral");
+            }
+        }
+
+        return $this->render('user/minerals/edit.html.twig', [
+            "formMineral" => $formMineral->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/user/mineral/{id}/article", name="userMineralCreateArticle")
+     */
+    public function user_mineral_create_article($id, Request $request)
+    {
+        $articleMineral = $this->getDoctrine()->getRepository(ArticleMineral::class)->findOneBy(["mineral" => $id]);
+
+        if(empty($articleMineral)) {
+            $mineral = $this->getDoctrine()->getRepository(Mineral::class)->find($id);
+
+            if(!empty($mineral)) {
+                $articleMineral = new ArticleMineral();
+                $formArticle = $this->createForm(ArticleMineralType::class, $articleMineral);
+                $formArticle->get('mineral')->setData($mineral);
+                $formArticle->get('mineral')->get('imaStatus')->setData(implode(", ", $mineral->getImaStatus()));
+                $formArticle->handleRequest($request);
+
+                if($formArticle->isSubmitted() && $formArticle->isValid()) {
+
+                    $mineral->setImaStatus(explode(", ", $formArticle["mineral"]['imaStatus']));
+
+                    // On effectue en premier le traitement sur le living thing
+                    $this->mineralManager->setMineral(
+                        $formArticle["mineral"]["imgPath"]->getData(),
+                        $mineral,
+                        $this->manager
+                    );
+
+                    // On traite maintenant l'article (pour cause ces liaisons avec les autres tables)
+                    $this->articleMineralManager->setArticleMineral(
+                        $articleMineral,
+                        $mineral,
+                        $this->manager,
+                        $this->current_logged_user
+                    );
+
+                    // Une fois le traitement du living thing et de l'article, on traite les médias (qui seront liée à l'article)
+                    $this->mediaGalleryManager->setMediaGalleryMinerals(
+                        $formArticle["mediaGallery"]->getData(),
+                        $articleMineral,
+                        $this->manager
+                    );
+
+                    // On envoie une notification à l'utilisateur
+                    $this->notificationManager->userCreateArticle($this->current_logged_user);
+                    return $this->redirectToRoute("userMineral");
+                }
+
+                return $this->render('user/article/minerals/add.html.twig', [
+                    "formArticle" => $formArticle->createView()
+                ]);
+            } else {
+                // On envoi une notif à l'utilisateur l'avertissant que le living thing qu'il a tenté d'ajouté n'existe pas
+                $this->notificationManager->mineralNotFound($this->current_logged_user);
+
+                return $this->redirectToRoute("404Error");
+            }
+        } else {
+            // On envoi une notif à l'utilisateur l'avertissant que le living thing possède déjà un article
+            $this->notificationManager->articleAlreadyExist($this->current_logged_user);
+
+            return $this->redirectToRoute("403Error");
+        }
+    }
+
+    /**
+     * @Route("/user/mineral/{id}/edit", name="userEditArticleMineral")
+     */
+    public function user_edit_mineral(Mineral $mineral, Request $request)
+    {
+        $formMineral = $this->createForm(MineralType::class, $mineral);
+        $formMineral->handleRequest($request);
+
+        if($formMineral->isSubmitted() && $formMineral->isValid()) {
+
+            $mineral->setImaStatus(explode(", ", $formArticle['imaStatus']));
+
+            // On effectue en premier le traitement sur le living thing
+            $this->livingThingManager->setLivingThing(
+                $formMineral["imgPath"]->getData(), 
+                $mineral, 
+                $this->manager
+            );
+        }
+
+        return $this->render('user/minerals/edit.html.twig', [
+            "formMineral" => $formMineral->createView()
         ]);
     }
 
@@ -282,7 +455,7 @@ class UserController extends AbstractController
             }
         }
 
-        return $this->render('user/article/index.html.twig', [
+        return $this->render('user/article/living-things/index.html.twig', [
             "articles" => $articleLivingThing,
             "search" => $search,
             "category_by" => $category_by,
@@ -330,7 +503,7 @@ class UserController extends AbstractController
             $this->notificationManager->userCreateArticle($this->current_logged_user);
         }
 
-        return $this->render('user/article/add.html.twig', [
+        return $this->render('user/article/living-things/add.html.twig', [
             "formArticle" => $formArticle->createView()
         ]);
     }
@@ -380,7 +553,7 @@ class UserController extends AbstractController
             $this->notificationManager->userUpdateArticle($this->current_logged_user);
         }
 
-        return $this->render('user/article/add.html.twig', [
+        return $this->render('user/article/living-things/add.html.twig', [
             "formArticle" => $formArticle->createView()
         ]);
     }
@@ -400,13 +573,5 @@ class UserController extends AbstractController
             "offset" => $offset,
             "nbrPage" => $totalPage,
         ]);
-    }
-
-    /**
-     * @Route("/user/chat", name="userChat")
-     */
-    public function user_chat()
-    {
-        return $this->render('user/chat/index.html.twig');
     }
 }

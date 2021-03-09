@@ -2,18 +2,27 @@
 
 namespace App\Controller;
 
-use App\Entity\ArticleElement;
+use Dompdf\{Dompdf, Options};
+use App\Manager\PdfGeneratorManager;
+use Psr\Container\ContainerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use App\Form\{UserLoginType, UserRegisterType};
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use App\Entity\{User, Element, Country, Mineral, LivingThing, ArticleLivingThing};
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use App\Entity\{User, Element, Country, Mineral, LivingThing, ArticleLivingThing, ArticleElement, ArticleMineral};
 
 class AnonymousController extends AbstractController
 {
+    private $pdfGeneratorManager;
+    
+    public function __construct(ContainerInterface $container)
+    {
+        $this->pdfGeneratorManager = new PdfGeneratorManager($container);
+    }
     /**
      * @Route("/", name="home")
      */
@@ -123,6 +132,36 @@ class AnonymousController extends AbstractController
     }
 
     /**
+     * @Route("/living-thing/{name}/{id}/pdf", name="exportArticleLivingThingById")
+     */
+    public function export_to_pdf_article_living_thing_by_id($name, $id)
+    {
+        $livingThing = [];
+        $kingdom = "";
+
+        if($name == "animals") {
+            $kingdom = 'Animalia';
+        } elseif($name == "insects") {
+            $kingdom = 'Insecta';
+        } elseif($name == "plants") {
+            $kingdom = 'Plantae';
+        } elseif($name == "bacteria") {
+            $kingdom = 'Bacteria';
+        }
+
+        $livingThing = $this->getDoctrine()->getRepository(ArticleLivingThing::class)->getArticleLivingThingsByLivingThingKingdomByID($kingdom, $id);
+
+        // S'il est vide (soit il n'existe pas, soit l'article n'est pas encore approuver) alors ...
+        if(empty($livingThing)) {
+            return $this->redirectToRoute("404Error");
+        }
+
+        return new Response($this->pdfGeneratorManager->generatePdf($livingThing, "living-thing"), 200, [
+            'Content-Type' => 'application/pdf',
+        ]);
+    }
+
+    /**
      * @Route("/element", name="articleElement")
      */
     public function article_element(Request $request)
@@ -151,6 +190,70 @@ class AnonymousController extends AbstractController
 
         return $this->render('anonymous/article/natural-elements/single.html.twig', [
             "element" => $element
+        ]);
+    }
+
+    /**
+     * @Route("/element/{id}/pdf", name="exportArticleElementByID")
+     */
+    public function export_to_pdf_article_element_by_id($id)
+    {
+        $element = $this->getDoctrine()->getRepository(ArticleElement::class)->find($id);
+
+        if(!empty($element)) {
+            return $this->redirectToRoute('404Error');
+        }
+
+        return new Response($this->pdfGeneratorManager->generatePdf($element, "natural-element"), 200, [
+            'Content-Type' => 'application/pdf',
+        ]);
+    }
+
+    /**
+     * @Route("/mineral", name="articleMineral")
+     */
+    public function article_mineral(Request $request)
+    {
+        $limit = 10;
+        $offset = !empty($request->get('offset')) && preg_match('/^[0-9]*$/', $request->get('offset')) ? $request->get('offset') : 1;
+        $nbrOffset = ceil($this->getDoctrine()->getRepository(ArticleMineral::class)->countArticleMinerals() / $limit);
+
+        return $this->render('anonymous/article/minerals/list.html.twig', [
+            "minerals" => $this->getDoctrine()->getRepository(ArticleMineral::class)->getArticleMinerals($offset, $limit),
+            "offset" => $offset,
+            "nbrOffset" => $nbrOffset,
+        ]);
+    }
+
+    /**
+     * @Route("/mineral/{id}", name="articleMineralByID")
+     */
+    public function article_mineral_by_id($id)
+    {
+        $mineral = $this->getDoctrine()->getRepository(ArticleMineral::class)->find($id);
+
+        if(!empty($mineral)) {
+            return $this->redirectToRoute('404Error');
+        }
+
+        return $this->render('anonymous/article/minerals/single.html.twig', [
+            "mineral" => $mineral
+        ]);
+    }
+
+    /**
+     * @Route("/mineral/{id}/pdf", name="exportArticleMineralByID")
+     */
+    public function export_to_pdf_article_mineral_by_id($id)
+    {
+        $mineral = $this->getDoctrine()->getRepository(ArticleMineral::class)->find($id);
+
+        if(!empty($mineral)) {
+            return $this->redirectToRoute('404Error');
+        }
+
+        return new Response($this->pdfGeneratorManager->generatePdf($mineral, "mineral"), 200, [
+            'Content-Type' => 'application/pdf',
         ]);
     }
 
@@ -228,6 +331,7 @@ class AnonymousController extends AbstractController
         }
 
         return $this->redirectToRoute("home");
+        // throw $this->createNotFoundException("This role don't exist");
     }
 
     /**

@@ -48,6 +48,7 @@ class ImportMineralsCommand extends Command
         $mineralsFileContaint = file_get_contents($mineralsFilePath);
         $mineralsFileData = $this->fileManager->explodeFileToArray($mineralsFileContaint);
         $mineralsFileColownName = array_shift($mineralsFileData);
+        $current_date = new \DateTime();
         $imgFileName = null;
         $nbrInsertedMinerals = 0;
 
@@ -65,18 +66,20 @@ class ImportMineralsCommand extends Command
                 $mineral->setImaChemistry($oneMineralData[3]);
                 $mineral->setChemistryElements($oneMineralData[4]);
                 $mineral->setImaNumber($oneMineralData[5]);
-                $mineral->setImaStatus($oneMineralData[8]);
+                $mineral->setImaStatus(\explode("|", $oneMineralData[8]));
                 $mineral->setStructuralGroupname($oneMineralData[9]);
+                // $mineral->setCrystalSystem(explode("|", $oneMineralData[10]));
                 $mineral->setCrystalSystem($oneMineralData[10]);
                 $mineral->setValenceElements($oneMineralData[11]);
+                $mineral->setCreatedAt($current_date);
 
-                if(!empty($country->findOneBy(["alpha3_code" => $oneMineralData[7]]))) {
-                    $mineral->addCountry($oneMineralData[7]);
-                }
+                // if(!empty($country->findOneBy(["alpha3_code" => $oneMineralData[7]]))) {
+                //     $mineral->addCountry($oneMineralData[7]);
+                // }
 
-                if($oneMineralData[12] == 1) {
-                    $mineral->setImgPath($oneMineralData[12]);
-                }
+                // if($oneMineralData[12] == 1) {
+                //     $mineral->setImgPath($oneMineralData[12]);
+                // }
 
                 $this->manager->persist($mineral);
                 $nbrInsertedMinerals++;

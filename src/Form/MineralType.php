@@ -35,14 +35,33 @@ class MineralType extends AbstractType
                 "required" => false,
                 'mapped' => false
             ])
-            ->add('rruffChemistry')
-            ->add('imaChemistry')
-            ->add('chemistryElements')
-            ->add('imaNumber')
-            ->add('imaStatus')
-            ->add('structuralGroupname')
-            ->add('crystalSystem')
-            ->add('valenceElements')
+            ->add('rruffChemistry', null, [
+                "label" => "RRUFF Chemistry",
+                "required" => true
+            ])
+            ->add('imaChemistry', null, [
+                "label" => "IMA Chemistry",
+                "required" => true,
+                "mapped" => false,
+            ])
+            ->add('chemistryElements', null, [
+                "label" => "Chemistry Elements"
+            ])
+            ->add('imaNumber', null, [
+                "label" => "IMA Number"
+            ])
+            ->add('imaStatus', null, [
+                "label" => "IMA Status"
+            ])
+            ->add('structuralGroupname', null, [
+                "label" => "Structural Groupname"
+            ])
+            ->add('crystalSystem', null, [
+                "label" => "Crystal System"
+            ])
+            ->add('valenceElements', null, [
+                "label" => "Valence Elements"
+            ])
             ->add('country', EntityType::class, [
                 'label' => "Countrys",
                 "class" => Country::class,

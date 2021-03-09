@@ -13,7 +13,7 @@
     <h2 class="logo">
         <a href="{{ path('home') }}">
             <img src="{{ asset('content/img/logo/world.png') }}" width="45" height="45" alt="logo_wikiearth">
-            <span>Geo<em class="c-cyanBlue">Earth</em></span>
+            <span>Gem<em class="c-cyanBlue">Earth</em></span>
         </a>
     </h2>
 
@@ -42,7 +42,7 @@
                 <span id="naturalElements-menu">Natural Elements <img style="margin-left:5px; transform: rotate(180deg);" height="12" width="12" src="{{ asset('content/img/white-triangle.png') }}" /></span>
                 <ul class="submenu" id="naturalElements-submenu">
                     <li><a href="{{ path("articleElement") }}">Elements</a></li>    
-                    <li><a href="">Minerals</a></li>
+                    <li><a href="{{ path("articleMineral") }}">Minerals</a></li>
                     <li><a href="">Rocks</a></li>
                     {# <li><a href="">Chimical Reaction</a></li> #}
                 </ul>
@@ -98,7 +98,7 @@
             <hr>
             <ul class="footer-menu-items">
                 <li><a href="{{ path("articleElement") }}">Elements</a></li>
-                <li><a href="">Minerals</a></li>
+                <li><a href="{{ path("articleMineral") }}">Minerals</a></li>
                 <li><a href="">Rocks</a></li>
                 {# <li><a href="">Chimical Reaction</a></li> #}
             </ul>
@@ -106,7 +106,7 @@
     </div>
     <div class="footer-copyright bg-night">
         <div class="copyright">
-            <span>Copyright &copy; {{ "now"|date("Y") }} &minus; <a href="{{ path('home') }}"><span class="c-white">Geo<em class="c-cyanBlue">Earth</em></span></a></span>
+            <span>Copyright &copy; {{ "now"|date("Y") }} &minus; <a href="{{ path('home') }}"><span class="c-white">Gem<em class="c-cyanBlue">Earth</em></span></a></span>
         </div>
         <div class="creator">
             {# <span>Realised by <a class="c-cyanBlue txt-bold" href="http://gary-delgado-de-almeida.000webhostapp.com" target="__blank">Garry Almeida</a></span> #}
