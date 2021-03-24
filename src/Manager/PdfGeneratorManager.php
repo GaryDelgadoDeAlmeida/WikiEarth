@@ -27,11 +27,12 @@ class PdfGeneratorManager extends AbstractController {
         // Retrieve the HTML generated in our twig file
         if($articleType == "living-thing") {
             $html = $this->renderView('pdf/living-thing.html.twig', [
-                'living-thing' => $article
+                'livingThing' => $article,
+                'references' => []
             ]);
         } elseif($articleType == "natural-element") {
             $html = $this->renderView('pdf/natural-element.html.twig', [
-                'natural-element' => $article
+                'naturalElement' => $article
             ]);
         } elseif($articleType == "mineral") {
             $html = $this->renderView('pdf/mineral.html.twig', [

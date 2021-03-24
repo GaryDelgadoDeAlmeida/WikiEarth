@@ -153,9 +153,10 @@ class AdminController extends AbstractController
         $livingThing = new LivingThing();
         $formLivingThing = $this->createForm(LivingThingType::class, $livingThing);
         $formLivingThing->handleRequest($request);
+        $message = "";
 
         if($formLivingThing->isSubmitted() && $formLivingThing->isValid()) {
-            $this->livingThingManager->setLivingThing(
+            $message = $this->livingThingManager->setLivingThing(
                 $formLivingThing["imgPath"]->getData(), 
                 $livingThing, 
                 $this->em
@@ -163,7 +164,8 @@ class AdminController extends AbstractController
         }
 
         return $this->render('admin/living_thing/edit.html.twig', [
-            "formLivingThing" => $formLivingThing->createView()
+            "formLivingThing" => $formLivingThing->createView(),
+            "response" => $message
         ]);
     }
 
@@ -173,6 +175,7 @@ class AdminController extends AbstractController
     public function admin_living_thing_create_article($id, Request $request)
     {
         $articleLivingThing = $this->em->getRepository(ArticleLivingThing::class)->findOneBy(["id" => $id]);
+        $message = [];
 
         if(empty($articleLivingThing)) {
             $articleLivingThing = new ArticleLivingThing();
@@ -184,7 +187,7 @@ class AdminController extends AbstractController
                 $formArticle->handleRequest($request);
 
                 if($formArticle->isSubmitted() && $formArticle->isValid()) {
-                    $this->articleLivingThingManager->setArticleLivingThing(
+                    $message = $this->articleLivingThingManager->setArticleLivingThing(
                         $articleLivingThing,
                         $livingThing,
                         $this->em,
@@ -195,12 +198,12 @@ class AdminController extends AbstractController
                 return $this->redirectToRoute("404Error");
             }
         } else {
-            // dd("Il existe déjà un article sur cette être vivant.");
             return $this->redirectToRoute("404Error");
         }
 
         return $this->render('admin/article/living-thing/new.html.twig', [
-            "formArticle" => $formArticle->createView()
+            "formArticle" => $formArticle->createView(),
+            "response" => $message
         ]);
     }
 
@@ -211,9 +214,10 @@ class AdminController extends AbstractController
     {
         $formLivingThing = $this->createForm(LivingThingType::class, $livingThing);
         $formLivingThing->handleRequest($request);
+        $message = [];
 
         if($formLivingThing->isSubmitted() && $formLivingThing->isValid()) {
-            $this->livingThingManager->setLivingThing(
+            $message = $this->livingThingManager->setLivingThing(
                 $formLivingThing, 
                 $livingThing, 
                 $this->em
@@ -221,7 +225,8 @@ class AdminController extends AbstractController
         }
 
         return $this->render('admin/living_thing/edit.html.twig', [
-            "formLivingThing" => $formLivingThing->createView()
+            "formLivingThing" => $formLivingThing->createView(),
+            "response" => $message
         ]);
     }
 
@@ -256,8 +261,8 @@ class AdminController extends AbstractController
 
         return $this->render('admin/natural_element/element/index.html.twig', [
             "offset" => $offset,
-            "nbrOffset" => ceil($this->getDoctrine()->getRepository(Element::class)->countElements() / $limit),
-            "elements" => $this->getDoctrine()->getRepository(Element::class)->getElements($offset, $limit),
+            "nbrOffset" => ceil($this->em->getRepository(Element::class)->countElements() / $limit),
+            "elements" => $this->em->getRepository(Element::class)->getElements($offset, $limit),
         ]);
     }
 
@@ -271,8 +276,8 @@ class AdminController extends AbstractController
 
         return $this->render('admin/natural_element/mineral/index.html.twig', [
             "offset" => $offset,
-            "nbrOffset" => ceil($this->getDoctrine()->getRepository(Mineral::class)->countMinerals() / $limit),
-            "minerals" => $this->getDoctrine()->getRepository(Mineral::class)->getMinerals($offset, $limit),
+            "nbrOffset" => ceil($this->em->getRepository(Mineral::class)->countMinerals() / $limit),
+            "minerals" => $this->em->getRepository(Mineral::class)->getMinerals($offset, $limit),
         ]);
     }
 
@@ -338,6 +343,8 @@ class AdminController extends AbstractController
      */
     public function admin_add_article_by_category(string $category, Request $request)
     {
+        $message = [];
+
         if($category == "living-thing") {
             $article = new ArticleLivingThing();
             $formArticle = $this->createForm(ArticleLivingThingType::class, $article);
@@ -347,23 +354,27 @@ class AdminController extends AbstractController
             if($formArticle->isSubmitted() && $formArticle->isValid()) {
                 $livingThing = $formArticle["livingThing"]->getData();
                 
-                $this->livingThingManager->setLivingThing(
+                $message = $this->livingThingManager->setLivingThing(
                     $formArticle["livingThing"]["imgPath"]->getData(),
                     $livingThing,
                     $this->em
                 );
 
-                $this->articleLivingThingManager->setArticleLivingThing(
-                    $article,
-                    $livingThing,
-                    $this->em,
-                    $this->current_logged_user
-                );
+                // S'il n'y a pas eu d'erreur, alors ...
+                if($message["error"] == false) {
+                    $message = $this->articleLivingThingManager->setArticleLivingThing(
+                        $article,
+                        $livingThing,
+                        $this->em,
+                        $this->current_logged_user
+                    );
+                }
             }
 
             return $this->render('admin/article/living-thing/edit.html.twig', [
                 "formArticle" => $formArticle->createView(),
-                "category" => $category
+                "category" => $category,
+                "response" => $message
             ]);
         } elseif($category == "natural-elements") {
             $article = new ArticleElement();
@@ -373,23 +384,41 @@ class AdminController extends AbstractController
             if($formArticle->isSubmitted() && $formArticle->isValid()) {
                 $element = $formArticle["element"]->getData();
 
-                $this->elementManager->setElement(
-                    $formArticle["element"]["imgPath"]->getData(),
-                    $element,
-                    $this->em
-                );
+                $existingElement = $this->em->getRepository(Element::class)->getElementByName($element->getScientificName());
+                
+                if(empty($existingElement)) {
+                    $message = $this->elementManager->setElement(
+                        $formArticle["element"]["imgPath"]->getData(),
+                        $element,
+                        $this->em
+                    );
+                } else {
+                    $element = $existingElement;
+                }
 
-                $this->articleElementManager->setArticleElement(
-                    $article,
-                    $element,
-                    $this->em,
-                    $this->current_logged_user
-                );
+                // S'il n'y a pas eu d'erreur rencontrée avec l'insertion de l'élément naturel
+                if($message["error"] == false) {
+                    if(\is_null($element->getArticleElement())) {
+                        $message = $this->articleElementManager->setArticleElement(
+                            $article,
+                            $element,
+                            $this->em,
+                            $this->current_logged_user
+                        );
+                    } else {
+                        $message = [
+                            "error" => true,
+                            "class" => "danger",
+                            "message" => "L'élément {$mineral->getName()} possède déjà un article. L'ajout du nouvel article est été annulé."
+                        ];
+                    }
+                }
             }
 
             return $this->render('admin/article/natural-elements/edit.html.twig', [
                 "formArticle" => $formArticle->createView(),
-                "category" => $category
+                "category" => $category,
+                "response" => $message
             ]);
         } elseif($category == "minerals") {
             $article = new ArticleMineral();
@@ -399,23 +428,40 @@ class AdminController extends AbstractController
             if($formArticle->isSubmitted() && $formArticle->isValid()) {
                 $mineral = $formArticle["mineral"]->getData();
 
-                $this->mineralManager->setMineral(
-                    $formArticle["mineral"]["imgPath"]->getData(),
-                    $mineral,
-                    $this->em
-                );
+                $existingMineral = $this->em->getRepository(Mineral::class)->getMineralByName($mineral->getName());
+                if(empty($existingMineral)) {
+                    $message = $this->mineralManager->setMineral(
+                        $formArticle["mineral"]["imgPath"]->getData(),
+                        $mineral,
+                        $formArticle["mineral"],
+                        $this->em
+                    );
+                } else {
+                    $mineral = $existingMineral;
+                }
 
-                $this->articleMineralManager->setArticleMineral(
-                    $article,
-                    $mineral,
-                    $this->em,
-                    $this->current_logged_user
-                );
+                if(empty($message) || $message["error"] == false) {
+                    if(\is_null($mineral->getArticleMineral())) {
+                        $message = $this->articleMineralManager->setArticleMineral(
+                            $article,
+                            $mineral,
+                            $this->em,
+                            $this->current_logged_user
+                        );
+                    } else {
+                        $message = [
+                            "error" => true,
+                            "class" => "danger",
+                            "message" => "Le mineral {$mineral->getName()} possède déjà un article. L'ajout du nouvel article est annulé."
+                        ];
+                    }
+                }
             }
 
             return $this->render('admin/article/minerals/edit.html.twig', [
                 "formArticle" => $formArticle->createView(),
-                "category" => $category
+                "category" => $category,
+                "response" => $message
             ]);
         }
 

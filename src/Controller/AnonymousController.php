@@ -2,26 +2,29 @@
 
 namespace App\Controller;
 
+use App\Manager\{PdfGeneratorManager, ContactManager};
+use App\Form\{UserLoginType, UserRegisterType, ContactType};
+use App\Entity\{User, Element, Country, Mineral, LivingThing, Contact, ArticleLivingThing, ArticleElement, ArticleMineral};
 use Dompdf\{Dompdf, Options};
-use App\Manager\PdfGeneratorManager;
 use Psr\Container\ContainerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use App\Form\{UserLoginType, UserRegisterType};
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use App\Entity\{User, Element, Country, Mineral, LivingThing, ArticleLivingThing, ArticleElement, ArticleMineral};
 
 class AnonymousController extends AbstractController
 {
     private $pdfGeneratorManager;
+    private $contactManager;
     
     public function __construct(ContainerInterface $container)
     {
         $this->pdfGeneratorManager = new PdfGeneratorManager($container);
+        $this->contactManager = new ContactManager();
     }
     /**
      * @Route("/", name="home")
@@ -156,6 +159,10 @@ class AnonymousController extends AbstractController
             return $this->redirectToRoute("404Error");
         }
 
+        dd($this->pdfGeneratorManager->generatePdf($livingThing, "living-thing"), 200, [
+            'Content-Type' => 'application/pdf',
+        ]);
+
         return new Response($this->pdfGeneratorManager->generatePdf($livingThing, "living-thing"), 200, [
             'Content-Type' => 'application/pdf',
         ]);
@@ -171,7 +178,7 @@ class AnonymousController extends AbstractController
         $nbrOffset = ceil($this->getDoctrine()->getRepository(ArticleElement::class)->countArticleElements() / $limit);
 
         return $this->render('anonymous/article/natural-elements/list.html.twig', [
-            "elements" => $this->getDoctrine()->getRepository(ArticleElement::class)->getArticleElements($offset, $limit),
+            "elements" => $this->getDoctrine()->getRepository(ArticleElement::class)->getArticleElementsApprouved($offset, $limit),
             "offset" => $offset,
             "nbrOffset" => $nbrOffset,
         ]);
@@ -219,7 +226,7 @@ class AnonymousController extends AbstractController
         $nbrOffset = ceil($this->getDoctrine()->getRepository(ArticleMineral::class)->countArticleMinerals() / $limit);
 
         return $this->render('anonymous/article/minerals/list.html.twig', [
-            "minerals" => $this->getDoctrine()->getRepository(ArticleMineral::class)->getArticleMinerals($offset, $limit),
+            "minerals" => $this->getDoctrine()->getRepository(ArticleMineral::class)->getArticleMineralsApprouved($offset, $limit),
             "offset" => $offset,
             "nbrOffset" => $nbrOffset,
         ]);
@@ -292,30 +299,54 @@ class AnonymousController extends AbstractController
     /**
      * @Route("/contact", name="contact")
      */
-    public function contact(Request $request)
+    public function contact(Request $request, EntityManagerInterface $manager)
     {
-        $formContact = $this->createForm(ArticleLivingThingType::class, null);
+        $contact = new Contact();
+        $formContact = $this->createForm(ContactType::class, $contact);
         $formContact->handleRequest($request);
+        $response = [];
 
         if($formContact->isSubmitted() && $formContact->isValid()) {
-            // 
+            $contact->setCreatedAt(new \DateTime());
+            $manager->persist($contact);
+            $manager->commit();
+            $manager->flush();
+
+            if($this->contactManager->sendEmail($contact->getEmail(), $contact->getSubject(), $contact->getContent())) {
+                $response = [
+                    "error" => false,
+                    "class" => "success",
+                    "message" => "Votre message a été envoyé avec succès"
+                ];
+            } else {
+                $response = [
+                    "error" => true,
+                    "class" => "danger",
+                    "message" => "Votre message n'a pu être envoyer. Veuillez réessayer plus tard."
+                ];
+            }
         }
         
         return $this->render('anonymous/contact/index.html.twig', [
-            "formContact" => $formContact->createView()
+            "formContact" => $formContact->createView(),
+            "response" => $response
         ]);
     }
 
     /**
      * @Route("/login", name="login")
      */
-    public function login(Request $request)
+    public function login(Request $request, AuthenticationUtils $authenticationUtils)
     {
+        // Retourne l'erreur d'authentification rencontrée
+        $error = $authenticationUtils->getLastAuthenticationError();
+        
         $formUserLogin = $this->createForm(UserLoginType::class, new User());
         $formUserLogin->handleRequest($request);
 
         return $this->render('anonymous/user/login.html.twig', [
-            "userLoginForm" => $formUserLogin->createView()
+            "userLoginForm" => $formUserLogin->createView(),
+            "error" => $error,
         ]);
     }
 

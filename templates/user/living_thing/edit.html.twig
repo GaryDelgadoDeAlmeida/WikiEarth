@@ -2,6 +2,12 @@
 
 {% block body %}
     <div class="container">
+        {% if response != [] %}
+            <div class="alert alert-{{ response.class }} txt-center">
+                <span>{{ response.message }}</span>
+            </div>
+        {% endif %}
+        
         <div>&nbsp;</div>
 
         <h2>Living Thing</h2>

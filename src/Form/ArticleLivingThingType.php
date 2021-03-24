@@ -24,9 +24,6 @@ class ArticleLivingThingType extends AbstractType
                 'label' => 'Living Thing',
                 'mapped' => false
             ])
-            ->add('title', null, [
-                'label' => 'Title'
-            ])
             ->add('geography', CollectionType::class, [
                 "entry_type" => ArticleContentType::class,
                 'entry_options' => ['label' => false],

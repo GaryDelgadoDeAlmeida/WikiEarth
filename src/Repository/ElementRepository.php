@@ -29,6 +29,16 @@ class ElementRepository extends ServiceEntityRepository
         ;
     }
 
+    public function getScientificName($name)
+    {
+        return $this->createQueryBuilder('a')
+        ->where('a.scientific_name = :name')
+        ->setParameter("name", $name)
+        ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+
     public function countElements()
     {
         return $this->createQueryBuilder('a')
@@ -37,33 +47,4 @@ class ElementRepository extends ServiceEntityRepository
             ->getSingleResult()["nbrElements"];
         ;
     }
-
-    // /**
-    //  * @return Element[] Returns an array of Element objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('a.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Element
-    {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

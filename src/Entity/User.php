@@ -107,11 +107,17 @@ class User implements UserInterface
      */
     private $articleElements;
 
+    /**
+     * @ORM\OneToMany(targetEntity=ArticleMineral::class, mappedBy="user")
+     */
+    private $articleMinerals;
+
     public function __construct()
     {
         $this->articleLivingThings = new ArrayCollection();
         $this->notifications = new ArrayCollection();
         $this->articleElements = new ArrayCollection();
+        $this->articleMinerals = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -316,6 +322,36 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($articleElement->getUser() === $this) {
                 $articleElement->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ArticleMineral[]
+     */
+    public function getArticleMinerals(): Collection
+    {
+        return $this->articleMinerals;
+    }
+
+    public function addArticleMineral(ArticleMineral $articleMineral): self
+    {
+        if (!$this->articleMinerals->contains($articleMineral)) {
+            $this->articleMinerals[] = $articleMineral;
+            $articleMineral->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeArticleMineral(ArticleMineral $articleMineral): self
+    {
+        if ($this->articleMinerals->removeElement($articleMineral)) {
+            // set the owning side to null (unless already changed)
+            if ($articleMineral->getUser() === $this) {
+                $articleMineral->setUser(null);
             }
         }
 

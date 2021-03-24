@@ -5,7 +5,7 @@
         <div class="profile-content">
             <div class="profile-left">
                 <div class="profile-img">
-                    <label for="user_imgPath"><img class="img-fluid" src="{{ asset(userImg) }}" alt="{{ user.firstname }} {{ user.lastname }}"></label>
+                    <label for="user_imgPath"><img class="img-fluid" src="{{ asset(file_exist(userImg)) }}" alt="{{ user.firstname }} {{ user.lastname }}"></label>
                 </div>
                 {# <div class="profile-user-identity">
                     <span>{{ user.firstname }}</span>
@@ -24,11 +24,11 @@
                     </div>
                     <div class="form-group">
                         {{ form_label(formUser.email) }}
-                        {{ form_widget(formUser.email) }}
+                        {{ form_widget(formUser.email, {"attr": {"readonly": "true"}}) }}
                     </div>
                     <div class="form-group">
                         {{ form_label(formUser.login) }}
-                        {{ form_widget(formUser.login) }}
+                        {{ form_widget(formUser.login, {"attr": {"readonly": "true"}}) }}
                     </div>
                     <div class="form-group">
                         {{ form_label(formUser.password) }}

@@ -24,6 +24,17 @@ class ArticleElementRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('a')
             ->innerJoin('App\Entity\Element', 'e', Join::WITH, 'e.id = a.element')
+            ->setFirstResult(($offset - 1) * $limit)
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function getArticleElementsApprouved($offset, $limit)
+    {
+        return $this->createQueryBuilder('a')
+            ->innerJoin('App\Entity\Element', 'e', Join::WITH, 'e.id = a.element')
             ->where('a.approved = 1')
             ->setFirstResult(($offset - 1) * $limit)
             ->setMaxResults($limit)

@@ -1,0 +1,63 @@
+{% extends 'user/baseUser.html.twig' %}
+
+{% block body %}
+    <div class="list-livingThing bg-lightGrey">
+        <div class="list-livingThing-content">
+            <div class="list-livingThing-header">
+                <div class="list-livingThing-title">Element</div>
+            </div>
+
+            <div class="list-livingThing-wrapper">
+                {% if elements != [] %}
+                    {% for element in elements %}
+                        <div class="list-livingThing-box">
+                            <div class="box-livingThing-img">
+                                <img class="img-fluid" src="{{ asset(file_exist(element.imgPath)) }}" alt="{{ element.name }}">
+                            </div>
+                            <div class="box-livingThing-text">
+                                <h4 class="title">{{ element.name }}</h4>
+
+                                <div class="box-livingThing-action">
+                                    {% if element.articleElement != null %}
+                                        <span class="c-red">Have an article</span>
+                                        <a class="btn btn-custom-midnight" href="{{ path('articleElementById', {'id': element.id}) }}">See Article</a>
+                                    {% else %}
+                                        <span class="c-green">No article found</span>
+                                        <a class="btn btn-custom-midnight" href="{{ path('userElementCreateArticle', {'id': element.id}) }}">Create article</a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+
+                    {# Pagination #}
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item {% if offset == 1 %} disabled {% endif %}">
+                                <a class="page-link" href="{{ path("userElement", {'search': search}) }}" tabindex="-1" aria-disabled="true"><i class="fas fa-angle-double-left"></i></a>
+                            </li>
+                            
+                            {% if offset - 1 >= 1  %}
+                                <li class="page-item"><a class="page-link" href="{{ path("userElement", {'offset': (offset - 1), 'search': search}) }}">{{ offset - 1 }}</a></li>
+                            {% endif %}
+
+                            <li class="page-item"><a class="page-link" >{{ offset }}</a></li>
+
+                            {% if offset + 1 <= total_page  %}
+                                <li class="page-item"><a class="page-link" href="{{ path("userElement", {'offset': (offset + 1), 'search': search}) }}">{{ offset + 1 }}</a></li>
+                            {% endif %}
+
+                            <li class="page-item {% if offset == total_page %} disabled {% endif %}">
+                                <a class="page-link" href="{{ path("userElement", {'offset': (total_page), 'search': search}) }}"><i class="fas fa-angle-double-right"></i></a>
+                            </li>
+                        </ul>
+                    </nav>
+                {% else %}
+                    <div class="alert alert-info">
+                        <span>No elements has been found.</span>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

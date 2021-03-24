@@ -42,7 +42,6 @@ class MineralType extends AbstractType
             ->add('imaChemistry', null, [
                 "label" => "IMA Chemistry",
                 "required" => true,
-                "mapped" => false,
             ])
             ->add('chemistryElements', null, [
                 "label" => "Chemistry Elements"
@@ -51,7 +50,8 @@ class MineralType extends AbstractType
                 "label" => "IMA Number"
             ])
             ->add('imaStatus', null, [
-                "label" => "IMA Status"
+                "label" => "IMA Status",
+                "mapped" => false,
             ])
             ->add('structuralGroupname', null, [
                 "label" => "Structural Groupname"

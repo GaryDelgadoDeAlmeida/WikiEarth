@@ -48,6 +48,18 @@ class LivingThingRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
+    public function getLivingThingArticle($offset, $limit)
+    {
+        return $this->createQueryBuilder('l')
+            ->innerJoin('App\Entity\ArticleLivingThing', 'a', Join::WITH, 'a.idLivingThing = l.id')
+            ->where("a.idLivingThing != :status")
+            ->setParameter(":status", '')
+            ->setFirstResult(($offset - 1) * $limit)
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
     public function searchLivingThing($search, $offset, $limit)
     {
         return $this->createQueryBuilder('l')

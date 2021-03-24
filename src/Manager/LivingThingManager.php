@@ -17,39 +17,58 @@ class LivingThingManager extends AbstractController {
 
     public function setLivingThing(UploadedFile $mediaFile = null, LivingThing &$livingThing, EntityManagerInterface $manager)
     {
-        if($mediaFile) {
-            $originalFilename = pathinfo($mediaFile->getClientOriginalName(), PATHINFO_FILENAME);
-            $newFilename = $livingThing->getName() . '.' . $mediaFile->guessExtension();
-            $kingdomDirectory = $this->getKingdomDirectory(ucfirst(strtolower($livingThing->getKingdom())));
-
-            if(!file_exists($kingdomDirectory)) {
-                mkdir($kingdomDirectory, 0777, true);
-            }
-
-            try {
-                if(
-                    array_search(
-                        $kingdomDirectory . $newFilename, 
-                        glob($kingdomDirectory . "*." . $mediaFile->guessExtension())
-                    )
-                ) {
-                    unlink($kingdomDirectory . $newFilename);
+        try {
+            if($mediaFile) {
+                $originalFilename = pathinfo($mediaFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $newFilename = $livingThing->getName() . '.' . $mediaFile->guessExtension();
+                $kingdomDirectory = $this->getKingdomDirectory(ucfirst(strtolower($livingThing->getKingdom())));
+    
+                // Si la classification n'est pas une classification valide alors ...
+                if(empty($kingdomDirectory)) {
+                    throw new \Exception("La classification {$livingThing->getKingdom()} n'est pas autorisée.");
                 }
-                
-                $mediaFile->move(
-                    $kingdomDirectory,
-                    $newFilename
-                );
-            } catch (FileException $e) {
-                dd($e->getMessage());
+    
+                if(!file_exists($kingdomDirectory)) {
+                    mkdir($kingdomDirectory, 0777, true);
+                }
+    
+                try {
+                    if(
+                        array_search(
+                            $kingdomDirectory . $newFilename, 
+                            glob($kingdomDirectory . "*." . $mediaFile->guessExtension())
+                        )
+                    ) {
+                        unlink($kingdomDirectory . $newFilename);
+                    }
+                    
+                    $mediaFile->move(
+                        $kingdomDirectory,
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    throw new $e->getMessage();
+                }
+    
+                $livingThing->setImgPath("content/wikiearth/living-thing/" . $this->convertKingdomClassification(ucfirst(strtolower($livingThing->getKingdom()))) . "/{$newFilename}");
             }
+    
+            $manager->persist($livingThing);
+            $manager->flush();
+            $manager->clear();
+            return [
+                "error" => false,
+                "class" => "success",
+                "message" => "L'ajout de l'être vivant {$livingThing->getName()} a correctement ajouté"
+            ];
 
-            $livingThing->setImgPath("content/wikiearth/living-thing/" . $this->convertKingdomClassification(ucfirst(strtolower($livingThing->getKingdom()))) . "/{$newFilename}");
+        } catch(\Exception $e) {
+            return [
+                "error" => true,
+                "class" => "danger",
+                "message" => $e->getMessage()
+            ];
         }
-
-        $manager->persist($livingThing);
-        $manager->flush();
-        $manager->clear();
     }
 
     public function getKingdomDirectory($kingdomClassification)

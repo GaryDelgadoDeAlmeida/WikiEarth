@@ -1,5 +1,14 @@
 {% extends 'anonymous/baseAnonymous.html.twig' %}
 
 {% block body %}
-    <section class="contact"></section>
+    <section class="contact">
+    {% if response != [] %}
+    <div class="alert alert-{{ response.class }} txt-center">
+    <span>{{ response.message }}</span>
+    </div>
+    {% endif %}
+
+    {{ form_start(formContact, {"method": "POST"}) }}
+    {{ form_end(formContact, {"method": "POST"}) }}
+    </section>
 {% endblock %}

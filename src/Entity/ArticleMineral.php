@@ -18,6 +18,11 @@ class ArticleMineral
     private $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="articleMinerals")
+     */
+    private $user;
+
+    /**
      * @ORM\Column(type="string", length=255)
      */
     private $title;
@@ -65,6 +70,18 @@ class ArticleMineral
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
     }
 
     public function getTitle(): ?string

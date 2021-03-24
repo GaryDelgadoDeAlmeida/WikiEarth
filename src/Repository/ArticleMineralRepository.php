@@ -24,6 +24,17 @@ class ArticleMineralRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('a')
             ->innerJoin('App\Entity\Mineral', 'e', Join::WITH, 'e.id = a.mineral')
+            ->setFirstResult(($offset - 1) * $limit)
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function getArticleMineralsApprouved($offset, $limit)
+    {
+        return $this->createQueryBuilder('a')
+            ->innerJoin('App\Entity\Mineral', 'e', Join::WITH, 'e.id = a.mineral')
             ->where('a.approved = 1')
             ->setFirstResult(($offset - 1) * $limit)
             ->setMaxResults($limit)
