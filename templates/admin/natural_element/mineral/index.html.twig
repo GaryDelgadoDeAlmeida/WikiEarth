@@ -3,7 +3,7 @@
 {% block body %}
     <section class="natural-elements">
         <div class="mineral">
-            
+            <a class="btn btn-custom-green" href="{{ path('adminAddMineral') }}">ADD</a>
             {% if minerals != [] %}
                 {% for mineral in minerals %}
                     <li class="media">
@@ -12,8 +12,8 @@
                         </div>
                         <div class="media-body">
                             <h5 class="media-body-title">{{ mineral.name }}</h5>
-                            {# <a class="btn btn-success" href="{{ path('adminEditMineral', {'id':mineral.id}) }}"><i class="far fa-edit"></i></a> #}
-                            {# <a class="btn btn-danger" href="{{ path('adminDeleteMineral', {'id':mineral.id}) }}"><i class="far fa-trash-alt"></i></a> #}
+                            <a class="btn btn-success" href="{{ path('adminEditMineral', {'id':mineral.id}) }}"><i class="far fa-edit"></i></a>
+                            <a class="btn btn-danger" href="{{ path('adminDeleteMineral', {'id':mineral.id}) }}"><i class="far fa-trash-alt"></i></a>
                         </div>
                     </li>
                 {% endfor %}

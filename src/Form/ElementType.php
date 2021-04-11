@@ -48,21 +48,26 @@ class ElementType extends AbstractType
                 "required" => true
             ])
             ->add('atomeGroup', null, [
+                "label" => "Group",
                 "required" => true
             ])
             ->add('atomePeriod', null, [
+                "label" => "Period",
                 "required" => true
             ])
             ->add('atomeBlock', null, [
+                "label" => "Block",
                 "required" => true
             ])
             ->add('volumicMass', null, [
                 "required" => true
             ])
             ->add('numCAS', null, [
+                "label" => "Num CAS",
                 "required" => true
             ])
             ->add('numCE', null, [
+                "label" => "Num CE",
                 "required" => true
             ])
             ->add('atomicMass', null, [

@@ -23,6 +23,10 @@
                         {{ form_widget(userRegisterForm.password) }}
                     </div>
                     <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                        {{ form_label(userRegisterForm.confirmPassword) }}
+                        {{ form_widget(userRegisterForm.confirmPassword) }}
+                    </div>
+                    <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
                         <input type="checkbox" id="agreeTerm" name="agreeTerm" value="agree" required/>
                         <label for="agreeTerm">I agree to the <a class="c-cyanBlue" href="{{ path('policy') }}" target="__blank">Terms of Service and Privacy policy</a></label>
                     </div>

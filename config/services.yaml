@@ -22,7 +22,7 @@ parameters:
 
     # Natural Elements Directory
     project_natural_elements_dir: '%kernel.project_dir%/public/content/wikiearth/natural-elements/'
-    project_natural_elements_atomes_dir: '%kernel.project_dir%/public/content/wikiearth/natural-elements/atomes/'
+    project_natural_elements_elements_dir: '%kernel.project_dir%/public/content/wikiearth/natural-elements/elements/'
     project_natural_elements_minerals_dir: '%kernel.project_dir%/public/content/wikiearth/natural-elements/minerals/'
 
 services:

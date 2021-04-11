@@ -4,16 +4,18 @@
     <section class="natural-elements">
         <div class="element">
             
+            <a class="btn btn-custom-green" href="{{ path('adminAddElement') }}">ADD</a>
+
             {% if elements != [] %}
                 {% for element in elements %}
                     <li class="media">
                         <div class="media-header">
-                            <img class="img-fluid" src="{{ asset(livingThing.imgPath != null ? livingThing.imgPath : "content/wikiearth/thumbnail.jpg") }}" alt="{{ element.name }}">
+                            <img class="img-fluid" src="{{ asset(element.imgPath != null ? element.imgPath : "content/wikiearth/thumbnail.jpg") }}" alt="{{ element.name }}">
                         </div>
                         <div class="media-body">
                             <h5 class="media-body-title">{{ element.name }}</h5>
-                            <a class="btn btn-success" href="{{ path('adminEditLivingThing', {'id':livingThing.id}) }}"><i class="far fa-edit"></i></a>
-                            <a class="btn btn-danger" href="{{ path('adminDeleteLivingThing', {'id':livingThing.id}) }}"><i class="far fa-trash-alt"></i></a>
+                            {# <a class="btn btn-success" href="{{ path('adminEditElement', {'id': element.id}) }}"><i class="far fa-edit"></i></a> #}
+                            {# <a class="btn btn-danger" href="{{ path('adminDeleteElement', {'id': element.id}) }}"><i class="far fa-trash-alt"></i></a> #}
                         </div>
                     </li>
                 {% endfor %}

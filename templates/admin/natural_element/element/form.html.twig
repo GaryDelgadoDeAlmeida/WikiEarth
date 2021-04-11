@@ -1,0 +1,111 @@
+{% extends 'admin/baseAdmin.html.twig' %}
+
+{% block body %}
+    <section>
+        {% if response != [] %}
+            <div class="alert alert-{{ response.class }} txt-center">
+                <span>{{ response.message }}</span>
+            </div>
+        {% endif %}
+        
+        <div>&nbsp;</div>
+
+        <h2>Element</h2>
+        
+        {{ form_start(formElement, {"method": "POST"}) }}
+            <div class="row">
+                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                    {{ form_row(formElement.name) }}
+                </div>
+
+                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                    {{ form_row(formElement.scientificName) }}
+                </div>
+
+                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                    {{ form_row(formElement.imgPath) }}
+                </div>
+
+                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                    {{ form_row(formElement.radioisotope) }}
+                </div>
+
+                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                    {{ form_row(formElement.atomicNumber) }}
+                </div>
+
+                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                    {{ form_row(formElement.symbole) }}
+                </div>
+
+                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                    {{ form_row(formElement.atomeGroup) }}
+                </div>
+
+                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                    {{ form_row(formElement.atomePeriod) }}
+                </div>
+
+                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                    {{ form_row(formElement.atomeBlock) }}
+                </div>
+
+                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                    {{ form_row(formElement.volumicMass) }}
+                </div>
+
+                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                    {{ form_row(formElement.numCAS) }}
+                </div>
+
+                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                    {{ form_row(formElement.numCE) }}
+                </div>
+
+                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                    {{ form_row(formElement.atomicMass) }}
+                </div>
+
+                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                    {{ form_row(formElement.atomicRadius) }}
+                </div>
+
+                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                    {{ form_row(formElement.covalentRadius) }}
+                </div>
+
+                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                    {{ form_row(formElement.vanDerWaalsRadius) }}
+                </div>
+
+                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                    {{ form_row(formElement.electroniqueConfiguration) }}
+                </div>
+
+                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                    {{ form_row(formElement.oxidationState) }}
+                </div>
+
+                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                    {{ form_row(formElement.electronegativity) }}
+                </div>
+
+                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                    {{ form_row(formElement.fusionPoint) }}
+                </div>
+
+                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                    {{ form_row(formElement.boilingPoint) }}
+                </div>
+
+                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                    {{ form_row(formElement.radioactivity) }}
+                </div>
+
+                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                    <button class="btn btn-custom-blue" type="submit">Submit</button>
+                </div>
+            </div>
+        {{ form_end(formElement, {"method": "POST"}) }}
+    </section>
+{% endblock %}

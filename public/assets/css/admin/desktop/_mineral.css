@@ -1,0 +1,65 @@
+/* ---------------------------------------- *\
+                Living Thing
+\* ---------------------------------------- */
+.mineral {
+    padding: 2rem;
+    /* background-color: #f2f2f2; */
+}
+
+.mineral .media {
+    background-color: #ffffff;
+    box-shadow: 2.5px 5px 5px #aaa;
+    margin: 1rem 0;
+    /* height: 130px; */
+}
+
+.mineral .media .media-header {
+    height: 100%;
+    width: 200px;
+}
+
+.mineral .media .media-header img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.mineral .media .media-body {
+    padding: 1rem 1rem;
+    height: 100%;
+}
+
+.mineral .media .media-body .media-body-title {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.mineral .pagination {
+    margin-top: 1rem;
+    background-color: #ffffff;
+    box-shadow: 2.5px 5px 5px #aaa;
+    justify-content: center;
+}
+
+.mineral .pagination .pagination-links {
+    width: 100%;
+    text-align: center;
+    margin: .4rem;
+    padding: .4rem 0;
+}
+
+.mineral .pagination .pagination-links > a {
+    margin: 0 .5rem;
+    border: 2px solid #000000;
+    text-align: center;
+    display: inline-block;
+    padding: 0 10px;
+}
+
+.mineral .pagination .pagination-links > a.active {
+    border: none;
+    color: #0000F6;
+    border-bottom-color: #0000F6;
+    border-bottom-style: solid;
+    border-bottom-width: 3px;
+}

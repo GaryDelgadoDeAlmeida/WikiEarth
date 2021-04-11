@@ -44,16 +44,39 @@ class LivingThingRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('l')
             ->where('l.name = :name OR l.commonName = :name')
             ->setParameter('name', $name)
+            ->setFirstResult(($offset - 1) * $limit)
+            ->setMaxResults($limit)
             ->getQuery()
-            ->getOneOrNullResult();
+            ->getResult();
     }
 
-    public function getLivingThingArticle($offset, $limit)
+    public function getLivingThingKingdom($kingdom, $offset, $limit)
     {
         return $this->createQueryBuilder('l')
-            ->innerJoin('App\Entity\ArticleLivingThing', 'a', Join::WITH, 'a.idLivingThing = l.id')
-            ->where("a.idLivingThing != :status")
-            ->setParameter(":status", '')
+            ->where('l.kingdom = :kingdom')
+            ->setParameter('kingdom', $kingdom)
+            ->setFirstResult(($offset - 1) * $limit)
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function getLivingThingWithArticle($offset, $limit)
+    {
+        return $this->createQueryBuilder('l')
+            ->leftJoin('l.articleLivingThing', 'aL')
+            ->where("aL.id IS NOT NULL")
+            ->setFirstResult(($offset - 1) * $limit)
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function getLivingThingWithoutArticle($offset, $limit)
+    {
+        return $this->createQueryBuilder('l')
+            ->leftJoin('l.articleLivingThing', 'aL')
+            ->where("aL.id IS NULL")
             ->setFirstResult(($offset - 1) * $limit)
             ->setMaxResults($limit)
             ->getQuery()
@@ -98,5 +121,27 @@ class LivingThingRepository extends ServiceEntityRepository
             ->setParameter('search', "%" . $search . "%")
             ->getQuery()
             ->getSingleResult()["nbrSearchLivingThing"];
+    }
+
+    public function countLivingThingWithArticle()
+    {
+        return $this->createQueryBuilder('l')
+            ->select('count(l.id) as nbrLivingThing')
+            ->leftJoin('l.articleLivingThing', 'aL')
+            ->where("aL.id IS NOT NULL")
+            ->getQuery()
+            ->getSingleResult()["nbrLivingThing"]
+        ;
+    }
+
+    public function countLivingThingWithoutArticle()
+    {
+        return $this->createQueryBuilder('l')
+            ->select('count(l.id) as nbrLivingThing')
+            ->leftJoin('l.articleLivingThing', 'aL')
+            ->where("aL.id IS NULL")
+            ->getQuery()
+            ->getSingleResult()["nbrLivingThing"]
+        ;
     }
 }

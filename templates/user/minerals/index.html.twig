@@ -20,8 +20,8 @@
                 <div class="col-6 text-center">
                     <div class="filter-by--action">
                         <label>Filter By</label>
-                        <form id="form--filter-by-livingThing" method="POST">
-                            <select id="filter-by-livingThing" name="filter-by-livingThing">
+                        <form id="form--filter-by-mineral" method="POST">
+                            <select id="filter-by-mineral" name="filter-by-mineral">
                                 {% for key, value in filterChoices %}
                                     <option value="{{ key }}" {% if key == filter_by %} selected="seleted" {% endif %}>{{ value }}</option>
                                 {% endfor %}

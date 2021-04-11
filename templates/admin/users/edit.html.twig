@@ -18,13 +18,16 @@
                             {{ form_row(userForm.lastname) }}
                         </div>
                         <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
-                            {{ form_row(userForm.email, {"attr": {"readonly": "true"}}) }}
+                            {{ form_row(userForm.email) }}
                         </div>
                         <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
                             {{ form_row(userForm.login, {"attr": {"readonly": "true"}}) }}
                         </div>
                         <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
                             {{ form_row(userForm.password) }}
+                        </div>
+                        <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                            {{ form_row(userForm.confirmPassword) }}
                         </div>
                         <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated" hidden>
                             {{ form_row(userForm.imgPath) }}

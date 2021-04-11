@@ -40,10 +40,58 @@ class MineralRepository extends ServiceEntityRepository
         ;
     }
 
+    public function getMineralsWithArticle(int $offset, int $limit)
+    {
+        return $this->createQueryBuilder('m')
+            ->leftJoin("m.articleMineral", "aM")
+            ->where('aM.id IS NOT NULL')
+            ->orderBy('m.name', 'ASC')
+            ->setFirstResult(($offset - 1) * $limit)
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function getMineralsWithoutArticle(int $offset, int $limit)
+    {
+        return $this->createQueryBuilder('m')
+            ->leftJoin("m.articleMineral", "aM")
+            ->where('aM.id IS NULL')
+            ->orderBy('m.name', 'ASC')
+            ->setFirstResult(($offset - 1) * $limit)
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     public function countMinerals()
     {
         return $this->createQueryBuilder('m')
             ->select('count(m.id) as nbrMinerals')
+            ->getQuery()
+            ->getSingleResult()['nbrMinerals']
+        ;
+    }
+
+    public function countMineralsWithArticle()
+    {
+        return $this->createQueryBuilder('m')
+            ->select('count(m.id) as nbrMinerals')
+            ->leftJoin("m.articleMineral", "aM")
+            ->where('aM.id IS NOT NULL')
+            ->getQuery()
+            ->getSingleResult()['nbrMinerals']
+        ;
+    }
+
+    public function countMineralsWithoutArticle()
+    {
+        return $this->createQueryBuilder('m')
+            ->select('count(m.id) as nbrMinerals')
+            ->leftJoin("m.articleMineral", "aM")
+            ->where('aM.id IS NULL')
             ->getQuery()
             ->getSingleResult()['nbrMinerals']
         ;

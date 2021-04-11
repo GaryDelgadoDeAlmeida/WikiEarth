@@ -127,17 +127,21 @@ class UserController extends AbstractController
         $nbrPages = 1;
         
         if(empty($search)) {
-            if($filterBy != "all") {
+            if($filterBy != "all" && array_key_exists($filterBy, $filterChocies)) {
+                $request->attributes->set("category-by-livingThing", "all");
+
                 if($filterBy == "have-article") {
-                    $offset = 1;
-                    $livingThing = $this->getDoctrine()->getRepository(LivingThing::class)->getLivingThingArticle($offset, $limit);
-                    dd($livingThing);
-                    // $nbrPages = $this->getDoctrine()->getRepository(LivingThing::class)->countLivingThingArticle();
+                    $livingThing = $this->getDoctrine()->getRepository(LivingThing::class)->getLivingThingWithArticle($offset, $limit);
+                    $nbrPages = $this->getDoctrine()->getRepository(LivingThing::class)->countLivingThingWithArticle();
                 } else {
-                    // 
+                    $livingThing = $this->getDoctrine()->getRepository(LivingThing::class)->getLivingThingWithoutArticle($offset, $limit);
+                    $nbrPages = $this->getDoctrine()->getRepository(LivingThing::class)->countLivingThingWithoutArticle();
                 }
-            } elseif($categoryBy != "all") {
-                // 
+            } elseif($categoryBy != "all" && array_key_exists($categoryBy, $categoryChoices)) {
+                $request->attributes->set("filter-by-livingThing", "all");
+
+                $livingThing = $this->getDoctrine()->getRepository(LivingThing::class)->getLivingThingKingdom(\ucfirst($categoryBy), $offset, $limit);
+                $nbrPages = $this->getDoctrine()->getRepository(LivingThing::class)->countLivingThingKingdom(\ucfirst($categoryBy));
             } else {
                 $livingThing = $this->getDoctrine()->getRepository(LivingThing::class)->getLivingThings($offset, $limit);
                 $nbrPages = ceil($this->getDoctrine()->getRepository(LivingThing::class)->countLivingThings() / $limit);
@@ -316,9 +320,14 @@ class UserController extends AbstractController
         $nbrPages = 1;
         
         if(empty($search)) {
-            if($filterBy !== "all") {
-                $minerals = [];
-                $nbrPages = 0;
+            if($filterBy !== "all" && array_key_exists($filterBy, $filterChocies)) {
+                if($filterBy == "have-article") {
+                    $minerals = $this->getDoctrine()->getRepository(Mineral::class)->getMineralsWithArticle($offset, $limit);
+                    $nbrPages = ceil($this->getDoctrine()->getRepository(Mineral::class)->countMineralsWithArticle() / $limit);
+                } elseif($filterBy == "not-have-article") {
+                    $minerals = $this->getDoctrine()->getRepository(Mineral::class)->getMineralsWithoutArticle($offset, $limit);
+                    $nbrPages = ceil($this->getDoctrine()->getRepository(Mineral::class)->countMineralsWithoutArticle() / $limit);
+                }
             } else {
                 $minerals = $this->getDoctrine()->getRepository(Mineral::class)->getMinerals($offset, $limit);
                 $nbrPages = ceil($this->getDoctrine()->getRepository(Mineral::class)->countMinerals() / $limit);
@@ -392,12 +401,13 @@ class UserController extends AbstractController
 
                 if($formArticle->isSubmitted() && $formArticle->isValid()) {
 
-                    $mineral->setImaStatus(explode(", ", $formArticle["mineral"]['imaStatus']));
+                    $mineral->setImaStatus(explode(", ", $formArticle["mineral"]['imaStatus']->getData()));
 
                     // On effectue en premier le traitement sur le living thing
                     $this->mineralManager->setMineral(
                         $formArticle["mineral"]["imgPath"]->getData(),
                         $mineral,
+                        $formArticle["mineral"],
                         $this->manager
                     );
 
@@ -427,7 +437,6 @@ class UserController extends AbstractController
             } else {
                 // On envoi une notif à l'utilisateur l'avertissant que le living thing qu'il a tenté d'ajouté n'existe pas
                 $this->notificationManager->mineralNotFound($this->current_logged_user);
-
                 return $this->redirectToRoute("404Error");
             }
         } else {
@@ -444,21 +453,22 @@ class UserController extends AbstractController
     public function user_edit_mineral(Mineral $mineral, Request $request)
     {
         $formMineral = $this->createForm(MineralType::class, $mineral);
+        $formMineral->get('imaStatus')->setData(implode(", ", $mineral->getImaStatus()));
         $formMineral->handleRequest($request);
+        $response = [];
 
         if($formMineral->isSubmitted() && $formMineral->isValid()) {
-
-            // On effectue en premier le traitement sur le living thing
-            $this->mineralManager->setMineral(
+            $response = $this->mineralManager->setMineral(
                 $formMineral["imgPath"]->getData(), 
                 $mineral,
-                $formArticle,
+                $formMineral,
                 $this->manager
             );
         }
 
         return $this->render('user/minerals/edit.html.twig', [
-            "formMineral" => $formMineral->createView()
+            "formMineral" => $formMineral->createView(),
+            "response" => $response
         ]);
     }
 
@@ -470,12 +480,28 @@ class UserController extends AbstractController
         $limit = 10;
         $offset = !empty($request->get('offset')) && preg_match('/^[0-9]*$/', $request->get('offset')) ? $request->get('offset') : 1;
         $search = !empty($request->get("search")) ? $request->get("search") : null;
+        $filterBy = !empty($request->get("filter-by-mineral")) ? $request->get("filter-by-mineral") : "all";
+        $filterChocies = [
+            "all" => "All",
+            "have-article" => "Have an article",
+            "not-have-article" => "Not have an article"
+        ];
         $elements = [];
         $nbrPages = 1;
         
         if(empty($search)) {
-            $minerals = $this->getDoctrine()->getRepository(Element::class)->getElements($offset, $limit);
-            $nbrPages = ceil($this->getDoctrine()->getRepository(Element::class)->countElements() / $limit);
+            if($filterBy != "all" && array_key_exists($filterBy, $filterChocies)) {
+                if($filterBy == "have-article") {
+                    $minerals = $this->getDoctrine()->getRepository(Element::class)->getElementsWithArticle($offset, $limit);
+                    $nbrPages = ceil($this->getDoctrine()->getRepository(Element::class)->countElementsWithArticle() / $limit);
+                } elseif($filterBy == "not-have-article") {
+                    $minerals = $this->getDoctrine()->getRepository(Element::class)->getElementsWithoutArticle($offset, $limit);
+                    $nbrPages = ceil($this->getDoctrine()->getRepository(Element::class)->countElementsWithoutArticle() / $limit);
+                }
+            } else {
+                $minerals = $this->getDoctrine()->getRepository(Element::class)->getElements($offset, $limit);
+                $nbrPages = ceil($this->getDoctrine()->getRepository(Element::class)->countElements() / $limit);
+            }
         } else {
             $filterBy = "all";
             $elements = $this->getDoctrine()->getRepository(Element::class)->searchElement($search, $offset, $limit);

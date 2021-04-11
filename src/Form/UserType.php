@@ -21,12 +21,28 @@ class UserType extends AbstractType
                 'required' => false,
                 "mapped" => false
             ])
-            ->add('firstname', null, ['label' => 'Firstname'])
-            ->add('lastname', null, ['label' => 'Lastname'])
-            ->add('email', EmailType::class, ['label' => 'Email'])
-            ->add('login', null, ['label' => 'Login'])
+            ->add('firstname', null, [
+                'label' => 'Firstname'
+            ])
+            ->add('lastname', null, [
+                'label' => 'Lastname'
+            ])
+            ->add('email', EmailType::class, [
+                'label' => 'Email'
+            ])
+            ->add('login', null, [
+                'label' => 'Login',
+                "attr" => [
+                    "readonly" => true
+                ]
+            ])
             ->add('password', PasswordType::class, [
                 'label' => 'Password',
+                'required' => false,
+                "mapped" => false
+            ])
+            ->add('confirmPassword', PasswordType::class, [
+                'label' => 'Confirm password',
                 'required' => false,
                 "mapped" => false
             ])

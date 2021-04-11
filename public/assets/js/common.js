@@ -12,9 +12,12 @@ jQuery(document).ready(function() {
     let $collectionHolderOtherData = $('ul.otherData-tags');
     let $collectionHolderGenerality = $('ul.generality-tags');
     let $collectionHolderCharacteristics = $('ul.characteristics-tags');
-    let $collectionHolderProperty = $('ul.property-tags');
+    let $collectionHolderProperty = $('ul.properties-tags');
     let $collectionHolderUtilization = $('ul.utilization-tags');
     let $collectionHolderReferences = $('ul.references-tags');
+    let $collectionHolderEtymology = $('ul.etymology-tags');
+    let $collectionHolderGeology = $('ul.geology-tags');
+    let $collectionHolderMining = $('ul.mining-tags');
 
     let $newLinkLiGeography = $('<li></li>').append($(addButton));
     let $newLinkLiEcology = $('<li></li>').append($(addButton));
@@ -27,6 +30,9 @@ jQuery(document).ready(function() {
     let $newLinkLiProperty = $('<li></li>').append($(addButton));
     let $newLinkLiUtilization = $('<li></li>').append($(addButton));
     let $newLinkLiReferences = $('<li></li>').append($(addButton));
+    let $newLinkLiEtymology = $('<li></li>').append($(addButton));
+    let $newLinkLiGeology = $('<li></li>').append($(addButton));
+    let $newLinkLiMining = $('<li></li>').append($(addButton));
     
     
     $collectionHolderGeography.find('li').each(function() { addTagFormDeleteLink($(this)); });
@@ -40,6 +46,9 @@ jQuery(document).ready(function() {
     $collectionHolderProperty.find('li').each(function() { addTagFormDeleteLink($(this)); });
     $collectionHolderUtilization.find('li').each(function() { addTagFormDeleteLink($(this)); });
     $collectionHolderReferences.find('li').each(function() { addTagFormDeleteLink($(this)); });
+    $collectionHolderEtymology.find('li').each(function() { addTagFormDeleteLink($(this)); });
+    $collectionHolderGeology.find('li').each(function() { addTagFormDeleteLink($(this)); });
+    $collectionHolderMining.find('li').each(function() { addTagFormDeleteLink($(this)); });
     
     $collectionHolderGeography.append($newLinkLiGeography);
     $collectionHolderGeography.data('index', $collectionHolderGeography.find('input').length);
@@ -70,9 +79,18 @@ jQuery(document).ready(function() {
 
     $collectionHolderUtilization.append($newLinkLiUtilization);
     $collectionHolderUtilization.data('index', $collectionHolderUtilization.find('input').length);
+    
+    $collectionHolderEtymology.append($newLinkLiReferences);
+    $collectionHolderEtymology.data('index', $collectionHolderEtymology.find('input').length);
 
-    $collectionHolderReferences.append($newLinkLiReferences);
+    $collectionHolderReferences.append($newLinkLiEtymology);
     $collectionHolderReferences.data('index', $collectionHolderReferences.find('input').length);
+
+    $collectionHolderGeology.append($newLinkLiGeology);
+    $collectionHolderGeology.data('index', $collectionHolderGeology.find('input').length);
+
+    $collectionHolderMining.append($newLinkLiMining);
+    $collectionHolderMining.data('index', $collectionHolderMining.find('input').length);
     
     // When we click on the add button
     $('.add_tag_link').on('click', function(e) {
@@ -101,7 +119,7 @@ jQuery(document).ready(function() {
         } else if(classList == "characteristics-tags") {
             $collectionHolder = $collectionHolderCharacteristics;
             $newLinkLi = $newLinkLiCharacteristics;
-        } else if(classList == "property-tags") {
+        } else if(classList == "properties-tags") {
             $collectionHolder = $collectionHolderProperty;
             $newLinkLi = $newLinkLiProperty;
         } else if(classList == "utilization-tags") {

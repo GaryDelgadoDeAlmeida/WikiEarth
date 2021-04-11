@@ -33,10 +33,23 @@ class UserRegisterType extends AbstractType
                     "class" => "inputField"
                 ]
             ])
+            ->add('login', null, [
+                'label' => 'Login',
+                "attr" => [
+                    "class" => "inputField"
+                ]
+            ])
             ->add('password', PasswordType::class, [
                 "attr" => [
                     "class" => "inputField"
                 ]
+            ])
+            ->add('confirmPassword', PasswordType::class, [
+                "label" => "Confirm password",
+                "attr" => [
+                    "class" => "inputField"
+                ],
+                "mapped" => false
             ])
             ->add("submit", SubmitType::class, [
                 "label" => "Register",

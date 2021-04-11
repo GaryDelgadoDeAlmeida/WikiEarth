@@ -21,30 +21,80 @@ class ElementRepository extends ServiceEntityRepository
 
     public function getElements($offset, $limit)
     {
-        return $this->createQueryBuilder('a')
+        return $this->createQueryBuilder('e')
             ->setFirstResult(($offset - 1) * $limit)
             ->setMaxResults($limit)
             ->getQuery()
-            ->getResult();
+            ->getResult()
         ;
     }
 
-    public function getScientificName($name)
+    public function getElementByScientificName($name)
     {
-        return $this->createQueryBuilder('a')
-        ->where('a.scientific_name = :name')
-        ->setParameter("name", $name)
-        ->getQuery()
+        return $this->createQueryBuilder('e')
+            ->where('e.scientific_name = :name')
+            ->setParameter("name", $name)
+            ->getQuery()
             ->getOneOrNullResult()
+        ;
+    }
+
+    public function getElementsWithArticle($offset, $limit)
+    {
+        return $this->createQueryBuilder('e')
+            ->leftJoin('e.articleElement', 'aE')
+            ->where('aE.id IS NOT NULL')
+            ->setFirstResult(($offset - 1) * $limit)
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function getElementsWithoutArticle($offset, $limit)
+    {
+        return $this->createQueryBuilder('e')
+            ->leftJoin('e.articleElement', 'aE')
+            ->where('aE.id IS NULL')
+            ->setFirstResult(($offset - 1) * $limit)
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult()
         ;
     }
 
     public function countElements()
     {
-        return $this->createQueryBuilder('a')
-            ->select('count(a.id) as nbrElements')
+        return $this->createQueryBuilder('e')
+            ->select('count(e.id) as nbrElements')
             ->getQuery()
-            ->getSingleResult()["nbrElements"];
+            ->getSingleResult()["nbrElements"]
+        ;
+    }
+
+    public function countElementsWithArticle($offset, $limit)
+    {
+        return $this->createQueryBuilder('e')
+            ->select('count(e.id) as nbrElements')
+            ->leftJoin('e.articleElement', 'aE')
+            ->where('aE.id IS NOT NULL')
+            ->setFirstResult(($offset - 1) * $limit)
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getSingleResult()["nbrElements"]
+        ;
+    }
+
+    public function countElementsWithoutArticle($offset, $limit)
+    {
+        return $this->createQueryBuilder('e')
+            ->select('count(e.id) as nbrElements')
+            ->leftJoin('e.articleElement', 'aE')
+            ->where('aE.id IS NULL')
+            ->setFirstResult(($offset - 1) * $limit)
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getSingleResult()["nbrElements"]
         ;
     }
 }

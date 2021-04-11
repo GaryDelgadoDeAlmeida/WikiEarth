@@ -50,7 +50,7 @@ class LivingThingManager extends AbstractController {
                     throw new $e->getMessage();
                 }
     
-                $livingThing->setImgPath("content/wikiearth/living-thing/" . $this->convertKingdomClassification(ucfirst(strtolower($livingThing->getKingdom()))) . "/{$newFilename}");
+                $livingThing->setImgPath("content/wikiearth/living-thing/{$this->convertKingdomClassification(ucfirst(strtolower($livingThing->getKingdom())))}/{$newFilename}");
             }
     
             $manager->persist($livingThing);

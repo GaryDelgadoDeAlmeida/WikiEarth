@@ -10,7 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use App\Manager\{UserManager, LivingThingManager, ElementManager, MineralManager, ArticleLivingThingManager, ArticleElementManager, ArticleMineralManager};
-use App\Form\{UserType, LivingThingType, UserRegisterType, ArticleLivingThingType, ArticleElementType, ArticleMineralType};
+use App\Form\{UserType, LivingThingType0, MineralType, ElementType, UserRegisterType, ArticleLivingThingType, ArticleElementType, ArticleMineralType};
 use App\Entity\{User, Element, Mineral, SourceLink, LivingThing, MediaGallery, Notification, ArticleLivingThing, ArticleElement, ArticleMineral};
 
 class AdminController extends AbstractController
@@ -231,7 +231,7 @@ class AdminController extends AbstractController
     }
 
     /**
-     * Possibilité d'en faire une response API
+     * Possibilité d'en faire une retour API
      * 
      * Attention : supprimer un living thing possèdant une liaison avec une autre table,
      * la donnée dans l'autre table et le living thing seront supprimés de la base de données.
@@ -240,11 +240,14 @@ class AdminController extends AbstractController
      */
     public function admin_delete_living_thing(LivingThing $livingThing)
     {
-        $imgPath = $this->getParameter('project_public_dir') . $livingThing->getImgPath();
+        if(!empty($livingThing->getImgPath())) {
+            unlink($this->getParameter('project_public_dir') . $livingThing->getImgPath());
+        }
+
         foreach($livingThing->getCountries() as $oneCountry) {
             $livingThing->removeCountry($oneCountry);
         }
-        unset($imgPath);
+
         $this->em->remove($livingThing);
         $this->em->flush();
 
@@ -267,6 +270,38 @@ class AdminController extends AbstractController
     }
 
     /**
+     * @Route("/admin/element/add", name="adminAddElement")
+     */
+    public function admin_add_element(Request $request)
+    {
+        $element = new Element();
+        $formElement = $this->createForm(ElementType::class, $element);
+        $formElement->handleRequest($request);
+        $response = [];
+
+        if($formElement->isSubmitted() && $formElement->isValid()) {
+            
+            // On vérifie qu'il n'existe pas déjà un element du tableau périodique portant le même nom dans la base de données
+            if(empty($this->em->getRepository(Element::class)->getElementByScientificName($element->getScientificName()))) {
+                $response = $this->elementManager->setElement(
+                    $formElement["imgPath"]->getData(), 
+                    $element,
+                    $this->em
+                );
+            } else {
+                $response = [
+                    "class" => "danger",
+                    "message" => "The element {$element->getScientificName()} already exist in the databse."
+                ];
+            }
+        }
+        return $this->render('admin/natural_element/element/form.html.twig', [
+            "formElement" => $formElement->createView(),
+            "response" => $response
+        ]);
+    }
+
+    /**
      * @Route("/admin/mineral", name="adminMineral")
      */
     public function admin_mineral(Request $request)
@@ -279,6 +314,100 @@ class AdminController extends AbstractController
             "nbrOffset" => ceil($this->em->getRepository(Mineral::class)->countMinerals() / $limit),
             "minerals" => $this->em->getRepository(Mineral::class)->getMinerals($offset, $limit),
         ]);
+    }
+
+    /**
+     * @Route("/admin/mineral/add", name="adminAddMineral")
+     */
+    public function admin_add_mineral(Request $request)
+    {
+        $mineral = new Mineral();
+        $formMineral = $this->createForm(MineralType::class, $mineral);
+        $formMineral->handleRequest($request);
+        $response = [];
+
+        if($formMineral->isSubmitted() && $formMineral->isValid()) {
+            // On vérifie qu'il n'existe pas déjà un mineral portant le même nom dans la base de données
+            if(empty($this->em->getRepository(Mineral::class)->getMineralByName($mineral->getName()))) {
+                $response = $this->mineralManager->setMineral(
+                    $formMineral["imgPath"]->getData(), 
+                    $mineral,
+                    $formMineral,
+                    $this->em
+                );
+            } else {
+                $response = [
+                    "class" => "danger",
+                    "message" => "The mineral {$mineral->getName()} already exist in the databse."
+                ];
+            }
+        }
+        return $this->render('admin/natural_element/mineral/form.html.twig', [
+            "formMineral" => $formMineral->createView(),
+            "response" => $response
+        ]);
+    }
+
+    /**
+     * @Route("/admin/mineral/{id}/edit", name="adminEditMineral")
+     */
+    public function admin_mineral_edit_by_id(int $id, Request $request)
+    {
+        $mineral = $this->em->getRepository(Mineral::class)->findOneBy(["id" => $id]);
+
+        if(empty($mineral)) {
+            throw new \Exception("The mineral with the id {$id} wasn't found.");
+        }
+
+        $formMineral = $this->createForm(MineralType::class, $mineral);
+        $formMineral->get('imaStatus')->setData(implode(", ", $mineral->getImaStatus()));
+        $formMineral->handleRequest($request);
+        $response = [];
+
+        if($formMineral->isSubmitted() && $formMineral->isValid()) {
+            $response = $this->mineralManager->setMineral(
+                $formMineral["imgPath"]->getData(), 
+                $mineral,
+                $formMineral,
+                $this->em
+            );
+        }
+
+        return $this->render('admin/natural_element/mineral/form.html.twig', [
+            "formMineral" => $formMineral->createView(),
+            "response" => $response
+        ]);
+    }
+
+    /**
+     * Possibilité d'en faire une retour API
+     * 
+     * Attention : supprimer un living thing possèdant une liaison avec une autre table,
+     * la donnée dans l'autre table et le living thing seront supprimés de la base de données.
+     * 
+     * @Route("/admin/mineral/{id}/delete", name="adminDeleteMineral")
+     */
+    public function admin_mineral_delete_by_id(int $id, Request $request)
+    {
+        $mineral = $this->em->getRepository(Mineral::class)->findOneBy(["id" => $id]);
+
+        if(empty($mineral)) {
+            throw new \Exception("The mineral with the id {$id} wasn't found.");
+        }
+
+        // Si le mineral possède une image
+        if(!empty($mineral->getImgPath())) {
+            unlink($this->getParameter('project_public_dir') . $mineral->getImgPath());
+        }
+
+        foreach($mineral->getCountries() as $oneCountry) {
+            $mineral->removeCountry($oneCountry);
+        }
+        
+        $this->em->remove($mineral);
+        $this->em->flush();
+
+        return $this->redirectToRoute('adminLivingThing');
     }
 
     /**
