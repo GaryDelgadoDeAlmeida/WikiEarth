@@ -16,7 +16,7 @@ class UserLoginType extends AbstractType
     {
         $builder
             ->add('login', null, [
-                "label" => "Email",
+                "label" => "Username",
                 "attr" => [
                     "class" => "inputField"
                 ]

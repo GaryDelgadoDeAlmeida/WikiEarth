@@ -31,6 +31,15 @@ class UserRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function getUserByLogin($login)
+    {
+        return $this->createQueryBuilder('u')
+            ->where('u.login LIKE :login')
+            ->setParameter('login', $login)
+            ->getQuery()
+            ->getSingleResult();
+    }
+
     public function countUsers($current_admin_id)
     {
         return $this->createQueryBuilder('u')

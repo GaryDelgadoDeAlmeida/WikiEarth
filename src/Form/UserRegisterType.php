@@ -34,7 +34,7 @@ class UserRegisterType extends AbstractType
                 ]
             ])
             ->add('login', null, [
-                'label' => 'Login',
+                'label' => 'Username',
                 "attr" => [
                     "class" => "inputField"
                 ]

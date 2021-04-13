@@ -31,7 +31,7 @@ class UserType extends AbstractType
                 'label' => 'Email'
             ])
             ->add('login', null, [
-                'label' => 'Login',
+                'label' => 'Username',
                 "attr" => [
                     "readonly" => true
                 ]

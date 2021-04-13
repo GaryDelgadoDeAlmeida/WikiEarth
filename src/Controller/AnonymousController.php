@@ -373,20 +373,29 @@ class AnonymousController extends AbstractController
         $userRegister = new User();
         $formUserRegister = $this->createForm(UserRegisterType::class, $userRegister);
         $formUserRegister->handleRequest($request);
+        $response = [];
 
         if($formUserRegister->isSubmitted() && $formUserRegister->isValid()) {
-            $userRegister->setLogin($userRegister->getEmail());
-            $userRegister->setPassword($encoder->encodePassword($userRegister, $userRegister->getPassword()));
-            $userRegister->setRoles(['ROLE_USER']);
-            $userRegister->setCreatedAt(new \DateTime());
-            $manager->persist($userRegister);
-            $manager->flush();
+            // If not occurence then there is no user with the chosen login
+            if(empty($manager->getRepository(User::class)->getUserByLogin($userRegister->getLogin()))) {
+                $userRegister->setPassword($encoder->encodePassword($userRegister, $userRegister->getPassword()));
+                $userRegister->setRoles(['ROLE_USER']);
+                $userRegister->setCreatedAt(new \DateTime());
+                $manager->persist($userRegister);
+                $manager->flush();
 
-            $this->redirectToRoute('login');
+                return $this->redirectToRoute('login');
+            } else {
+                $response = [
+                    "class" => "warning",
+                    "message" => "An user with the pseudo \"{$userRegister->getLogin()}\" already exist."
+                ];
+            }
         }
 
         return $this->render('anonymous/user/register.html.twig', [
-            "userRegisterForm" => $formUserRegister->createView()
+            "userRegisterForm" => $formUserRegister->createView(),
+            "response" => $response
         ]);
     }
 
@@ -400,14 +409,13 @@ class AnonymousController extends AbstractController
     //     $formUserRegister->handleRequest($request);
 
     //     if($formUserRegister->isSubmitted() && $formUserRegister->isValid()) {
-    //         $userRegister->setLogin($userRegister->getEmail());
     //         $userRegister->setPassword($encoder->encodePassword($userRegister, $userRegister->getPassword()));
     //         $userRegister->setRoles(['ROLE_ADMIN']);
     //         $userRegister->setCreatedAt(new \DateTime());
     //         $manager->persist($userRegister);
     //         $manager->flush();
 
-    //         $this->redirectToRoute('login');
+    //         return $this->redirectToRoute('login');
     //     }
 
     //     return $this->render('anonymous/user/register.html.twig', [
