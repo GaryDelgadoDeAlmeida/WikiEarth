@@ -28,6 +28,15 @@ class MediaGalleryRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function getMediaGalleryByID(int $id)
+    {
+        return $this->createQueryBuilder('m')
+            ->where("m.id = :media")
+            ->setParameter('media', $id)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
     public function getMediaGalleryByType($type, $offset, $limit)
     {
         return $this->createQueryBuilder('m')

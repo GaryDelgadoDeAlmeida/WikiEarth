@@ -805,4 +805,15 @@ class AdminController extends AbstractController
             "medias" => $this->em->getRepository(MediaGallery::class)->getMediaGalleryByType($type, $offset, $limit)
         ]);
     }
+
+    /**
+     * @Route("/admin/media/{id}", name="adminDeleteMediaByID")
+     */
+    public function admin_delete_media_by_id(int $id)
+    {
+        return $this->render('admin/media/list.html.twig', [
+            "mediaType" => $type,
+            "medias" => $this->em->getRepository(MediaGallery::class)->getMediaGalleryByID($id)
+        ]);
+    }
 }

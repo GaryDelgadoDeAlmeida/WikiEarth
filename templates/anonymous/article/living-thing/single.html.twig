@@ -224,108 +224,180 @@
                         </div>
 
                         <div class="livingThing-content">
-                            {% if livingThing.idLivingThing.domain != null %}
-                                <li>Domain : {{ livingThing.idLivingThing.domain }}</li>
-                            {% endif %}
+                            <div>&nbsp;<div>
+                            <table>
+                                {% if livingThing.idLivingThing.domain != null %}
+                                    <tr>
+                                        <td>Domain :</td>
+                                        <td>{{ livingThing.idLivingThing.domain }}</td>
+                                    </tr>
+                                {% endif %}
 
-                            {% if livingThing.idLivingThing.kingdom != null %}
-                                <li>Kingdom : {{ livingThing.idLivingThing.kingdom }}</li>
-                            {% endif %}
+                                {% if livingThing.idLivingThing.kingdom != null %}
+                                    <tr>
+                                        <td>Kingdom :</td>
+                                        <td>{{ livingThing.idLivingThing.kingdom }}</td>
+                                    </tr>
+                                {% endif %}
 
-                            {% if livingThing.idLivingThing.subKingdom != null %}
-                                <li>Sub Kingdom : {{ livingThing.idLivingThing.subKingdom }}</li>
-                            {% endif %}
+                                {% if livingThing.idLivingThing.subKingdom != null %}
+                                    <tr>
+                                        <td>Sub Kingdom :</td>
+                                        <td>{{ livingThing.idLivingThing.subKingdom }}</td>
+                                    </tr>
+                                {% endif %}
 
-                            {% if livingThing.idLivingThing.branch != null %}
-                                <li>Branch : {{ livingThing.idLivingThing.branch }}</li>
-                            {% endif %}
-                            
-                            {% if livingThing.idLivingThing.subBranch != null %}
-                                <li>Sub Branch : {{ livingThing.idLivingThing.subBranch }}</li>
-                            {% endif %}
+                                {% if livingThing.idLivingThing.branch != null %}
+                                    <tr>
+                                        <td>Branch :</td>
+                                        <td>{{ livingThing.idLivingThing.branch }}</td>
+                                    </tr>
+                                {% endif %}
 
-                            {% if livingThing.idLivingThing.infraBranch != null %}
-                                <li>Infra Branch : {{ livingThing.idLivingThing.infraBranch }}</li>
-                            {% endif %}
+                                {% if livingThing.idLivingThing.subBranch != null %}
+                                    <tr>
+                                        <td>Sub Branch :</td>
+                                        <td>{{ livingThing.idLivingThing.subBranch }}</td>
+                                    </tr>
+                                {% endif %}
+
+                                {% if livingThing.idLivingThing.infraBranch != null %}
+                                    <tr>
+                                        <td>Infra Branch :</td>
+                                        <td>{{ livingThing.idLivingThing.infraBranch }}</td>
+                                    </tr>
+                                {% endif %}
+
+                                {% if livingThing.idLivingThing.division != null %}
+                                    <tr>
+                                        <td>Division :</td>
+                                        <td>{{ livingThing.idLivingThing.division }}</td>
+                                    </tr>
+                                {% endif %}
+
+                                {% if livingThing.idLivingThing.superClass != null %}
+                                    <tr>
+                                        <td>Super Class :</td>
+                                        <td>{{ livingThing.idLivingThing.superClass }}</td>
+                                    </tr>
+                                {% endif %}
+
+                                {% if livingThing.idLivingThing.class != null %}
+                                    <tr>
+                                        <td>Class :</td>
+                                        <td>{{ livingThing.idLivingThing.class }}</td>
+                                    </tr>
+                                {% endif %}
                                 
-                            {% if livingThing.idLivingThing.division != null %}
-                                <li>Division : {{ livingThing.idLivingThing.division }}</li>
-                            {% endif %}
+                                {% if livingThing.idLivingThing.subClass != null %}
+                                    <tr>
+                                        <td>Sub Class :</td>
+                                        <td>{{ livingThing.idLivingThing.subClass }}</td>
+                                    </tr>
+                                {% endif %}
 
-                            {% if livingThing.idLivingThing.superClass != null %}
-                                <li>Super Class : {{ livingThing.idLivingThing.superClass }}</li>
-                            {% endif %}
+                                {% if livingThing.idLivingThing.infraClass != null %}
+                                    <tr>
+                                        <td>Infra Class :</td>
+                                        <td>{{ livingThing.idLivingThing.infraClass }}</td>
+                                    </tr>
+                                {% endif %}
 
-                            {% if livingThing.idLivingThing.class != null %}
-                                <li>Class : {{ livingThing.idLivingThing.class }}</li>
-                            {% endif %}
+                                {% if livingThing.idLivingThing.superOrder != null %}
+                                    <tr>
+                                        <td>Super Order :</td>
+                                        <td>{{ livingThing.idLivingThing.superOrder }}</td>
+                                    </tr>
+                                {% endif %}
 
-                            {% if livingThing.idLivingThing.subClass != null %}
-                                <li>Sub Class : {{ livingThing.idLivingThing.subClass }}</li>
-                            {% endif %}
+                                {% if livingThing.idLivingThing.normalOrder != null %}
+                                    <tr>
+                                        <td>Order :</td>
+                                        <td>{{ livingThing.idLivingThing.normalOrder }}</td>
+                                    </tr>
+                                {% endif %}
 
-                            {% if livingThing.idLivingThing.infraClass != null %}
-                                <li>Infra Class : {{ livingThing.idLivingThing.infraClass }}</li>
-                            {% endif %}
-
-                            {% if livingThing.idLivingThing.superOrder != null %}
-                                <li>Super Order : {{ livingThing.idLivingThing.superOrder }}</li>
-                            {% endif %}
-
-                            {% if livingThing.idLivingThing.normalOrder != null %}
-                                <li>Order : {{ livingThing.idLivingThing.normalOrder }}</li>
-                            {% endif %}
-
-                            {% if livingThing.idLivingThing.subOrder != null %}
-                                <li>Sub Order : {{ livingThing.idLivingThing.subOrder }}</li>
-                            {% endif %}
+                                {% if livingThing.idLivingThing.subOrder != null %}
+                                    <tr>
+                                        <td>Sub Order :</td>
+                                        <td>{{ livingThing.idLivingThing.subOrder }}</td>
+                                    </tr>
+                                {% endif %}
                             
-                            {% if livingThing.idLivingThing.infraOrder != null %}
-                                <li>Infra Order : {{ livingThing.idLivingThing.infraOrder }}</li>
-                            {% endif %}
+                                {% if livingThing.idLivingThing.infraOrder != null %}
+                                    <tr>
+                                        <td>Infra Order :</td>
+                                        <td>{{ livingThing.idLivingThing.infraOrder }}</td>
+                                    </tr>
+                                {% endif %}
 
-                            {% if livingThing.idLivingThing.microOrder != null %}
-                                <li>Micro Order : {{ livingThing.idLivingThing.microOrder }}</li>
-                            {% endif %}
+                                {% if livingThing.idLivingThing.microOrder != null %}
+                                    <tr>
+                                        <td>Micro Order :</td>
+                                        <td>{{ livingThing.idLivingThing.microOrder }}</td>
+                                    </tr>
+                                {% endif %}
 
-                            {% if livingThing.idLivingThing.superFamily != null %}
-                                <li>Super Family : {{ livingThing.idLivingThing.superFamily }}</li>
-                            {% endif %}
+                                {% if livingThing.idLivingThing.superFamily != null %}
+                                    <tr>
+                                        <td>Super Family :</td>
+                                        <td>{{ livingThing.idLivingThing.superFamily }}</td>
+                                    </tr>
+                                {% endif %}
 
-                            {% if livingThing.idLivingThing.family != null %}
-                                <li>Family : {{ livingThing.idLivingThing.family }}</li>
-                            {% endif %}
+                                {% if livingThing.idLivingThing.family != null %}
+                                    <tr>
+                                        <td>Family :</td>
+                                        <td>{{ livingThing.idLivingThing.family }}</td>
+                                    </tr>
+                                {% endif %}
 
-                            {% if livingThing.idLivingThing.subFamily != null %}
-                                <li>Sub Family : {{ livingThing.idLivingThing.subFamily }}</li>
-                            {% endif %}
+                                {% if livingThing.idLivingThing.subFamily != null %}
+                                    <tr>
+                                        <td>Sub Family :</td>
+                                        <td>{{ livingThing.idLivingThing.subFamily }}</td>
+                                    </tr>
+                                {% endif %}
 
-                            {% if livingThing.idLivingThing.genus != null %}
-                                <li>Genus : {{ livingThing.idLivingThing.genus }}</li>
-                            {% endif %}
+                                {% if livingThing.idLivingThing.genus != null %}
+                                    <tr>
+                                        <td>Genus :</td>
+                                        <td>{{ livingThing.idLivingThing.genus }}</td>
+                                    </tr>
+                                {% endif %}
 
-                            {% if livingThing.idLivingThing.subGenus != null %}
-                                <li>Sub Genus : {{ livingThing.idLivingThing.subGenus }}</li>
-                            {% endif %}
+                                {% if livingThing.idLivingThing.subGenus != null %}
+                                    <tr>
+                                        <td>Sub Genus :</td>
+                                        <td>{{ livingThing.idLivingThing.subGenus }}</td>
+                                    </tr>
+                                {% endif %}
 
-                            {% if livingThing.idLivingThing.species != null %}
-                                <li>Species : {{ livingThing.idLivingThing.species }}</li>
-                            {% endif %}
-
-                            {% if livingThing.idLivingThing.subSpecies != null %}
-                                <li>Sub Species : {{ livingThing.idLivingThing.subSpecies }}</li>
-                            {% endif %}
-
-                            {% if countries != [] %}
-                                <li>
-                                    Contries : 
-                                    <ul>
-                                        {% for oneCountries in countries %}
-                                            <li><a href="{{ path('countryArticle', {'country': oneCountries.treatedCountryName}) }}">{{ oneCountries.name }}</a></li>
-                                        {% endfor %}
-                                    </ul>
-                                </li>
-                            {% endif %}
+                                {% if livingThing.idLivingThing.species != null %}
+                                    <tr>
+                                        <td>Species :</td>
+                                        <td>{{ livingThing.idLivingThing.species }}</td>
+                                    </tr>
+                                {% endif %}
+                                
+                                {% if livingThing.idLivingThing.subSpecies != null %}
+                                    <tr>
+                                        <td>Sub Species :</td>
+                                        <td>{{ livingThing.idLivingThing.subSpecies }}</td>
+                                    </tr>
+                                {% endif %}
+                                
+                                {% if countries != [] %}
+                                    <tr>
+                                        <td style="vertical-align: top;">Contries :</td>
+                                        <td>
+                                            {% for oneCountries in countries %}
+                                                <li><a href="{{ path('countryArticle', {'country': oneCountries.treatedCountryName}) }}">{{ oneCountries.name }}</a></li>
+                                            {% endfor %}
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                            </table>
 
                             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                                 {% if is_granted('ROLE_USER') %}

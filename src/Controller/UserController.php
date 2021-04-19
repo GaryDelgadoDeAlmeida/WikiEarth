@@ -608,7 +608,9 @@ class UserController extends AbstractController
     public function user_edit_article(ArticleLivingThing $article, Request $request)
     {
         $formArticle = $this->createForm(ArticleLivingThingType::class, $article);
+        $formArticle->get('livingThing')->setData($article->getIdLivingThing());
         $formArticle->handleRequest($request);
+        $response = [];
 
         if($formArticle->isSubmitted() && $formArticle->isValid()) {
 
@@ -648,7 +650,8 @@ class UserController extends AbstractController
         }
 
         return $this->render('user/article/living-things/add.html.twig', [
-            "formArticle" => $formArticle->createView()
+            "formArticle" => $formArticle->createView(),
+            "response" => $response
         ]);
     }
 
