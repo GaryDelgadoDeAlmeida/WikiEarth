@@ -43,42 +43,36 @@ class ArticleMineralRepository extends ServiceEntityRepository
         ;
     }
 
+    public function getArticleMineral(int $articleId)
+    {
+        return $this->createQueryBuilder('a')
+            ->leftJoin('a.mineral', 'm')
+            ->where('a.id = :articleId')
+            ->setParameter('articleId', $articleId)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+
     public function countArticleMinerals()
     {
         return $this->createQueryBuilder('a')
             ->select('count(a.id) as nbrMinerals')
             ->where('a.approved = 1')
             ->getQuery()
-            ->getSingleResult()["nbrMinerals"];
+            ->getSingleResult()["nbrMinerals"]
         ;
     }
 
-    // /**
-    //  * @return ArticleMineral[] Returns an array of ArticleMineral objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function countArticleMineralsApprouved()
     {
         return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('a.id', 'ASC')
-            ->setMaxResults(10)
+            ->select('count(a.id) as nbrMinerals')
+            ->leftJoin('a.mineral', 'm')
+            ->where('a.approved = 1')
+            ->andWhere('m.name IS NOT NULL')
             ->getQuery()
-            ->getResult()
+            ->getSingleResult()["nbrMinerals"]
         ;
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?ArticleMineral
-    {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

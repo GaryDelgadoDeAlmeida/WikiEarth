@@ -49,36 +49,19 @@ class ArticleElementRepository extends ServiceEntityRepository
             ->select('count(a.id) as nbrElements')
             ->where('a.approved = 1')
             ->getQuery()
-            ->getSingleResult()["nbrElements"];
+            ->getSingleResult()["nbrElements"]
         ;
     }
 
-    // /**
-    //  * @return ArticleElement[] Returns an array of ArticleElement objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function countArticleElementsApprouved()
     {
         return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('a.id', 'ASC')
-            ->setMaxResults(10)
+            ->select('count(a.id) as nbrElements')
+            ->leftJoin("a.element", "e")
+            ->where('a.approved = 1')
+            ->andWhere("e.name IS NOT NULL")
             ->getQuery()
-            ->getResult()
+            ->getSingleResult()["nbrElements"]
         ;
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?ArticleElement
-    {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

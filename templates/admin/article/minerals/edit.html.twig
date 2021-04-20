@@ -2,6 +2,9 @@
 
 {% block body %}
     <div class="container">
+        <a class="btn btn-primary" href="{{ path('adminArticleByCategory', {'category': category}) }}"><i class="fa fa-arrow-left"></i> Retour</a>
+        <div>&nbsp;</div>
+
         {% if response != [] %}
             <div class="alert alert-{{ response.class }} txt-center">
                 <span>{{ response.message }}</span>

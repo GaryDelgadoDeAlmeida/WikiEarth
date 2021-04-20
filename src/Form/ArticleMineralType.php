@@ -73,6 +73,7 @@ class ArticleMineralType extends AbstractType
                     'multiple' => 'multiple'
                 ],
                 'mapped' => false,
+                'required' => false,
             ])
             ->add('submit', SubmitType::class, [
                 "attr" => [

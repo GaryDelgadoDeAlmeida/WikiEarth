@@ -14,7 +14,11 @@ class ArticleMineralManager extends AbstractController {
         $articleMineral->setTitle($mineral->getName());
         $articleMineral->setApproved(false);
         $articleMineral->setCreatedAt(new \DateTime());
-        $manager->persist($articleMineral);
+        if($articleMineral->getId() != null) {
+            $manager->merge($articleMineral);
+        } else {
+            $manager->persist($articleMineral);
+        }
         $manager->flush();
         $manager->clear();
 

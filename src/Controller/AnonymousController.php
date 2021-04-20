@@ -20,27 +20,34 @@ class AnonymousController extends AbstractController
 {
     private $pdfGeneratorManager;
     private $contactManager;
+    private $em;
     
-    public function __construct(ContainerInterface $container)
+    public function __construct(ContainerInterface $container, EntityManagerInterface $manager)
     {
         $this->pdfGeneratorManager = new PdfGeneratorManager($container);
         $this->contactManager = new ContactManager();
+        $this->em = $manager;
     }
     /**
      * @Route("/", name="home")
      */
     public function home()
     {
-        $countrys = $this->getDoctrine()->getRepository(Country::class)->findAll();
+        $countrys = $this->em->getRepository(Country::class)->findAll();
         $nbrCountryPerColown = ceil(count($countrys) / 4);
+        $nbrArticles = 
+            $this->em->getRepository(ArticleLivingThing::class)->countArticleLivingThingsApproved() + 
+            $this->em->getRepository(ArticleElement::class)->countArticleElementsApprouved() +
+            $this->em->getRepository(ArticleMineral::class)->countArticleMineralsApprouved()
+        ;
 
         return $this->render('anonymous/home/index.html.twig', [
-            "countrys" => array_chunk($countrys, $nbrCountryPerColown, true),
-            "nbrCountryPerColown" => $nbrCountryPerColown,
-            "nbrArticles" => $this->getDoctrine()->getRepository(ArticleLivingThing::class)->countArticleLivingThingsApproved(),
-            "nbrLivingThings" => $this->getDoctrine()->getRepository(LivingThing::class)->countLivingThings(),
-            "nbrElements" => $this->getDoctrine()->getRepository(Element::class)->countElements(),
-            "nbrMinerals" => $this->getDoctrine()->getRepository(Mineral::class)->countMinerals(),
+            // "countrys" => array_chunk($countrys, $nbrCountryPerColown, true),
+            // "nbrCountryPerColown" => $nbrCountryPerColown,
+            "nbrArticles" => $nbrArticles,
+            // "nbrLivingThings" => $this->em->getRepository(LivingThing::class)->countLivingThings(),
+            "nbrElements" => $this->em->getRepository(Element::class)->countElements(),
+            "nbrMinerals" => $this->em->getRepository(Mineral::class)->countMinerals(),
         ]);
     }
 
@@ -51,7 +58,7 @@ class AnonymousController extends AbstractController
     {
         $limit = 10;
         $offset = !empty($request->get('offset')) && preg_match('/^[0-9]*$/', $request->get('offset')) ? $request->get('offset') : 1;
-        $oneCountry = $this->getDoctrine()->getRepository(Country::class)->getCountryByName($country);
+        $oneCountry = $this->em->getRepository(Country::class)->getCountryByName($country);
         $articles = [];
 
         foreach($oneCountry->getLivingThing()->getValues() as $oneLivingThing) {
@@ -87,8 +94,8 @@ class AnonymousController extends AbstractController
             $kingdom = 'Bacteria';
         }
 
-        $livingThing = $this->getDoctrine()->getRepository(ArticleLivingThing::class)->getArticleLivingThingsByLivingThingKingdom($kingdom, $offset, $limit);
-        $totalOffset = ceil( $this->getDoctrine()->getRepository(ArticleLivingThing::class)->countArticleLivingThingsByKingdom($kingdom, $limit)['nbrOffset']);
+        $livingThing = $this->em->getRepository(ArticleLivingThing::class)->getArticleLivingThingsByLivingThingKingdom($kingdom, $offset, $limit);
+        $totalOffset = ceil( $this->em->getRepository(ArticleLivingThing::class)->countArticleLivingThingsByKingdom($kingdom, $limit)['nbrOffset']);
 
         return $this->render('anonymous/article/living-thing/list.html.twig', [
             "livingThing" => $livingThing,
@@ -116,7 +123,7 @@ class AnonymousController extends AbstractController
             $kingdom = 'Bacteria';
         }
 
-        $livingThing = $this->getDoctrine()->getRepository(ArticleLivingThing::class)->getArticleLivingThingsByLivingThingKingdomByID($kingdom, $id);
+        $livingThing = $this->em->getRepository(ArticleLivingThing::class)->getArticleLivingThingsByLivingThingKingdomByID($kingdom, $id);
 
         // S'il est vide (soit il n'existe pas, soit l'article n'est pas encore approuver) alors ...
         if(empty($livingThing)) {
@@ -152,7 +159,7 @@ class AnonymousController extends AbstractController
             $kingdom = 'Bacteria';
         }
 
-        $livingThing = $this->getDoctrine()->getRepository(ArticleLivingThing::class)->getArticleLivingThingsByLivingThingKingdomByID($kingdom, $id);
+        $livingThing = $this->em->getRepository(ArticleLivingThing::class)->getArticleLivingThingsByLivingThingKingdomByID($kingdom, $id);
 
         // S'il est vide (soit il n'existe pas, soit l'article n'est pas encore approuver) alors ...
         if(empty($livingThing)) {
@@ -175,10 +182,10 @@ class AnonymousController extends AbstractController
     {
         $limit = 10;
         $offset = !empty($request->get('offset')) && preg_match('/^[0-9]*$/', $request->get('offset')) ? $request->get('offset') : 1;
-        $nbrOffset = ceil($this->getDoctrine()->getRepository(ArticleElement::class)->countArticleElements() / $limit);
+        $nbrOffset = ceil($this->em->getRepository(ArticleElement::class)->countArticleElements() / $limit);
 
         return $this->render('anonymous/article/natural-elements/list.html.twig', [
-            "elements" => $this->getDoctrine()->getRepository(ArticleElement::class)->getArticleElementsApprouved($offset, $limit),
+            "elements" => $this->em->getRepository(ArticleElement::class)->getArticleElementsApprouved($offset, $limit),
             "offset" => $offset,
             "nbrOffset" => $nbrOffset,
         ]);
@@ -189,7 +196,7 @@ class AnonymousController extends AbstractController
      */
     public function article_element_by_id($id)
     {
-        $element = $this->getDoctrine()->getRepository(ArticleElement::class)->find($id);
+        $element = $this->em->getRepository(ArticleElement::class)->find($id);
 
         if(!empty($element)) {
             return $this->redirectToRoute('404Error');
@@ -205,7 +212,7 @@ class AnonymousController extends AbstractController
      */
     public function export_to_pdf_article_element_by_id($id)
     {
-        $element = $this->getDoctrine()->getRepository(ArticleElement::class)->find($id);
+        $element = $this->em->getRepository(ArticleElement::class)->find($id);
 
         if(!empty($element)) {
             return $this->redirectToRoute('404Error');
@@ -223,10 +230,10 @@ class AnonymousController extends AbstractController
     {
         $limit = 10;
         $offset = !empty($request->get('offset')) && preg_match('/^[0-9]*$/', $request->get('offset')) ? $request->get('offset') : 1;
-        $nbrOffset = ceil($this->getDoctrine()->getRepository(ArticleMineral::class)->countArticleMinerals() / $limit);
+        $nbrOffset = ceil($this->em->getRepository(ArticleMineral::class)->countArticleMinerals() / $limit);
 
         return $this->render('anonymous/article/minerals/list.html.twig', [
-            "minerals" => $this->getDoctrine()->getRepository(ArticleMineral::class)->getArticleMineralsApprouved($offset, $limit),
+            "minerals" => $this->em->getRepository(ArticleMineral::class)->getArticleMineralsApprouved($offset, $limit),
             "offset" => $offset,
             "nbrOffset" => $nbrOffset,
         ]);
@@ -237,7 +244,7 @@ class AnonymousController extends AbstractController
      */
     public function article_mineral_by_id($id)
     {
-        $mineral = $this->getDoctrine()->getRepository(ArticleMineral::class)->find($id);
+        $mineral = $this->em->getRepository(ArticleMineral::class)->find($id);
 
         if(!empty($mineral)) {
             return $this->redirectToRoute('404Error');
@@ -253,7 +260,7 @@ class AnonymousController extends AbstractController
      */
     public function export_to_pdf_article_mineral_by_id($id)
     {
-        $mineral = $this->getDoctrine()->getRepository(ArticleMineral::class)->find($id);
+        $mineral = $this->em->getRepository(ArticleMineral::class)->find($id);
 
         if(!empty($mineral)) {
             return $this->redirectToRoute('404Error');
@@ -288,7 +295,7 @@ class AnonymousController extends AbstractController
         $search = $request->get('searchInput');
         $limit = 10;
         $offset = !empty($request->get('offset')) && preg_match('/^[0-9]*$/', $request->get('offset')) ? $request->get('offset') : 1;
-        $livingThing = $this->getDoctrine()->getRepository(ArticleLivingThing::class)->searchArticleLivingThings($search);
+        $livingThing = $this->em->getRepository(ArticleLivingThing::class)->searchArticleLivingThings($search);
         
         return $this->render('anonymous/article/living-thing/search.html.twig', [
             "livingThing" => $livingThing,

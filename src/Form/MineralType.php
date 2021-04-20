@@ -47,14 +47,16 @@ class MineralType extends AbstractType
                 "label" => "Chemistry Elements"
             ])
             ->add('imaNumber', null, [
-                "label" => "IMA Number"
+                "label" => "IMA Number",
+                "required" => false
             ])
             ->add('imaStatus', null, [
                 "label" => "IMA Status",
                 "mapped" => false,
             ])
             ->add('structuralGroupname', null, [
-                "label" => "Structural Groupname"
+                "label" => "Structural Groupname",
+                "required" => false
             ])
             ->add('crystalSystem', null, [
                 "label" => "Crystal System"

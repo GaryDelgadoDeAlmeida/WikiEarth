@@ -1,5 +1,5 @@
 /* ---------------------------------------- *\
-                Living Thing
+                    Minerals
 \* ---------------------------------------- */
 .mineral {
     padding: 2rem;
@@ -62,4 +62,13 @@
     border-bottom-color: #0000F6;
     border-bottom-style: solid;
     border-bottom-width: 3px;
+}
+
+
+/* ---------------------------------------- *\
+                Mineral Detail
+\* ---------------------------------------- */
+.minerals {
+    margin: 0;
+    padding: 0;
 }

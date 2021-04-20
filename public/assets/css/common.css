@@ -37,6 +37,11 @@ a, a:hover {
     margin-bottom: 10px;
 }
 
+.w-350px {
+    width: 350px;
+    margin-bottom: 10px;
+}
+
 
 /* ---------------------------------------- *\
                     Height
@@ -195,6 +200,10 @@ fieldset.form-group {
 /* ---------------------------------------- *\
                     Margin
 \* ---------------------------------------- */
+.m-auto {
+    margin: auto;
+}
+
 .m-middle {
     display: block;
     margin: auto;

@@ -50,7 +50,7 @@ class Mineral
     private $chemistryElements;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255)
      */
     private $imaNumber;
 
@@ -195,7 +195,7 @@ class Mineral
         return $this->imaNumber;
     }
 
-    public function setImaNumber(string $imaNumber): self
+    public function setImaNumber(?string $imaNumber): self
     {
         $this->imaNumber = $imaNumber;
 

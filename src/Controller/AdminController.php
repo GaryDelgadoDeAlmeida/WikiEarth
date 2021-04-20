@@ -662,6 +662,8 @@ class AdminController extends AbstractController
      */
     public function admin_edit_article_by_category(int $id, string $category, Request $request)
     {
+        $response = [];
+
         if($category == "living-thing") {
             $articleLivingThing = $this->em->getRepository(ArticleLivingThing::class)->findOneBy(["id" => $id]);
             
@@ -674,7 +676,7 @@ class AdminController extends AbstractController
             $formArticle->handleRequest($request);
 
             if($formArticle->isSubmitted() && $formArticle->isValid()) {
-                $this->articleLivingThingManager->setArticleLivingThing(
+                $response = $this->articleLivingThingManager->setArticleLivingThing(
                     $articleLivingThing,
                     $articleLivingThing->getIdLivingThing(),
                     $this->em
@@ -683,7 +685,8 @@ class AdminController extends AbstractController
 
             return $this->render('admin/article/living-thing/edit.html.twig', [
                 "formArticle" => $formArticle->createView(),
-                "category" => $category
+                "category" => $category,
+                "response" => $response
             ]);
         } elseif($category == "natural-elements") {
             $articleElement = $this->em->getRepository(ArticleElement::class)->findOneBy(["id" => $id]);
@@ -697,7 +700,7 @@ class AdminController extends AbstractController
             $formArticle->handleRequest($request);
 
             if($formArticle->isSubmitted() && $formArticle->isValid()) {
-                $this->articleElementManager->setArticleElement(
+                $response = $this->articleElementManager->setArticleElement(
                     $formArticle,
                     $formArticle->getElement(),
                     $this->em,
@@ -707,7 +710,8 @@ class AdminController extends AbstractController
 
             return $this->render('admin/article/natural-elements/edit.html.twig', [
                 "formArticle" => $formArticle->createView(),
-                "category" => $category
+                "category" => $category,
+                "response" => $response
             ]);
         } elseif($category == "minerals") {
             $articleMineral = $this->em->getRepository(ArticleMineral::class)->findOneBy(["id" => $id]);
@@ -716,22 +720,34 @@ class AdminController extends AbstractController
                 return $this->redirectToRoute("404Error");
             }
 
+            $mineral = $articleMineral->getMineral();
             $formArticle = $this->createForm(ArticleMineralType::class, $articleMineral);
-            $formArticle->get('mineral')->setData($articleMineral->getMineral());
+            $formArticle->get('mineral')->setData($mineral);
+            $formArticle->get('mineral')->get("imaStatus")->setData(implode(", ", $mineral->getImaStatus()));
             $formArticle->handleRequest($request);
 
             if($formArticle->isSubmitted() && $formArticle->isValid()) {
-                $this->articleElementManager->setArticleMineral(
-                    $formArticle,
-                    $formArticle->getMineral(),
-                    $this->em,
-                    $this->current_logged_user
+                $response = $this->mineralManager->setMineral(
+                    $formArticle["mineral"]["imgPath"]->getData(),
+                    $mineral,
+                    $formArticle["mineral"],
+                    $this->em
                 );
+                
+                if(!empty($response) && $response["error"] == false) {
+                    $response = $this->articleMineralManager->setArticleMineral(
+                        $articleMineral,
+                        $formArticle["mineral"]->getData(),
+                        $this->em,
+                        $this->current_logged_user
+                    );
+                }
             }
 
             return $this->render('admin/article/minerals/edit.html.twig', [
                 "formArticle" => $formArticle->createView(),
-                "category" => $category
+                "category" => $category,
+                "response" => $response
             ]);
         }
 
