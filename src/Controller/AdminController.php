@@ -623,41 +623,6 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/admin/article/{category}/{id}/approve", name="adminApproveArticleByCategory")
-     */
-    public function admin_approve_single_article_by_category(int $id, string $category)
-    {
-        $article = null;
-        if($category == "living-thing") {
-            $article = $this->em->getRepository(ArticleLivingThing::class)->findOneBy(["id" => $id]);
-        } elseif ($category == "natural-elements") {
-            $article = $this->em->getRepository(ArticleElement::class)->findOneBy(["id" => $id]);
-        } elseif($categoy == "minerals") {
-            $article = $this->em->getRepository(ArticleMineral::class)->findOneBy(["id" => $id]);
-        }
-
-        if(empty($article)) {
-            return $this->redirectToRoute("404Error");
-        }
-
-        if(!$article->getApproved()) {
-            $notfication = new Notification();
-            $notfication->setUser($article->getUser());
-            $notfication->setType("success");
-            $notfication->setContent("The content of the article {$article->getTitle()} you writed is accurate. This article is now public.");
-            $notfication->setCreatedAt(new \DateTime());
-            $article->setApproved(true);
-            $this->em->persist($article);
-            $this->em->persist($notfication);
-            $this->em->flush();
-        }
-
-        return $this->redirectToRoute("adminArticleByCategory", [
-            "category" => $category
-        ]);
-    }
-
-    /**
      * @Route("/admin/article/{category}/{id}/edit", name="adminEditArticleByCategory")
      */
     public function admin_edit_article_by_category(int $id, string $category, Request $request)
@@ -755,6 +720,41 @@ class AdminController extends AbstractController
     }
 
     /**
+     * @Route("/admin/article/{category}/{id}/approve", name="adminApproveArticleByCategory")
+     */
+    public function admin_approve_single_article_by_category(int $id, string $category)
+    {
+        $article = null;
+        if($category == "living-thing") {
+            $article = $this->em->getRepository(ArticleLivingThing::class)->findOneBy(["id" => $id]);
+        } elseif ($category == "natural-elements") {
+            $article = $this->em->getRepository(ArticleElement::class)->findOneBy(["id" => $id]);
+        } elseif($category == "minerals") {
+            $article = $this->em->getRepository(ArticleMineral::class)->findOneBy(["id" => $id]);
+        }
+
+        if(empty($article)) {
+            return $this->redirectToRoute("404Error");
+        }
+
+        if(!$article->getApproved()) {
+            $notfication = new Notification();
+            $notfication->setUser($article->getUser());
+            $notfication->setType("success");
+            $notfication->setContent("The content of the article {$article->getTitle()} you writed is accurate. This article is now public.");
+            $notfication->setCreatedAt(new \DateTime());
+            $article->setApproved(true);
+            $this->em->persist($article);
+            $this->em->persist($notfication);
+            $this->em->flush();
+        }
+
+        return $this->redirectToRoute("adminArticleByCategory", [
+            "category" => $category
+        ]);
+    }
+
+    /**
      * Possibilité d'en faire une response API
      * 
      * Supprimer un article uniquement. La liaison 1-1 avec un living thing que l'article possède
@@ -769,7 +769,7 @@ class AdminController extends AbstractController
             $article = $this->em->getRepository(ArticleLivingThing::class)->findOneBy(["id" => $id]);
         } elseif($category == "natural-elements") {
             $article = $this->em->getRepository(ArticleElement::class)->findOneBy(["id" => $id]);
-        } elseif($categoty == "minerals") {
+        } elseif($category == "minerals") {
             $article = $this->em->getRepository(ArticleMineral::class)->findOneBy(["id" => $id]);
         }
 
@@ -823,13 +823,40 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/admin/media/{id}", name="adminDeleteMediaByID")
+     * @Route("/admin/media/{id}/delete", name="adminDeleteMediaByID", methods="DELETE")
      */
     public function admin_delete_media_by_id(int $id)
     {
-        return $this->render('admin/media/list.html.twig', [
-            "mediaType" => $type,
-            "medias" => $this->em->getRepository(MediaGallery::class)->getMediaGalleryByID($id)
+        $media = $this->em->getRepository(MediaGallery::class)->getMediaGalleryByID($id);
+
+        if(empty($media)) {
+            return $this->json([
+                "error" => true,
+                "message" => "This media hasn't been found."
+            ]);
+        }
+
+        // Suppression de la liaison existante avec le living thing
+        if(!empty($media->getArticleLivingThing())) {
+            $media->setArticleLivingThing(null);
+        }
+
+        // Suppression de la liaison existante avec le mineral
+        // if(!empty($media->getArticleMineral())) {
+        //     $media->setArticleMineral(null);
+        // }
+
+        // Suppression de la liaison existante avec l'élément chimique
+        // if(!empty($media->getArticleElement())) {
+        //     $media->setArticleElement(null);
+        // }
+
+        $this->em->remove($media);
+        $this->em->flush();
+        
+        return $this->json([
+            "error" => false,
+            "message" => "The media has been successfully deleted"
         ]);
     }
 }

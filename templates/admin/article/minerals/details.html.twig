@@ -110,6 +110,8 @@
             </div>
 
             <a class="btn btn-success" href="{{ path('adminApproveArticleByCategory', {'category': category, 'id': article.id}) }}">Approve</a>
+            <a class="btn btn-danger" href="{{ path('adminDeleteArticleByCategory', {'category': category, 'id': article.id}) }}" onClick="return confirm('Are you sure you want to delete this article (and the living thing) ?');"><i class="far fa-trash-alt"></i></a>
+            {# <button id="deleteArticle" class="btn btn-danger" data-category="{{ category }}" data-articleId="{{ article.id }}"><i class="far fa-trash-alt"></i></button> #}
         </div>
     </section>
 {% endblock %}

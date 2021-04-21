@@ -244,14 +244,17 @@ class AnonymousController extends AbstractController
      */
     public function article_mineral_by_id($id)
     {
-        $mineral = $this->em->getRepository(ArticleMineral::class)->find($id);
+        $articleMineral = $this->em->getRepository(ArticleMineral::class)->find($id);
 
-        if(!empty($mineral)) {
+        if(empty($articleMineral)) {
             return $this->redirectToRoute('404Error');
         }
 
         return $this->render('anonymous/article/minerals/single.html.twig', [
-            "mineral" => $mineral
+            "articleMineral" => $articleMineral,
+            "mediaGallery" => [],
+            "references" => [],
+            "countries" => $articleMineral->getMineral()->getCountry()
         ]);
     }
 
@@ -319,7 +322,7 @@ class AnonymousController extends AbstractController
             $manager->commit();
             $manager->flush();
 
-            if($this->contactManager->sendEmail($contact->getEmail(), $contact->getSubject(), $contact->getContent())) {
+            if($this->contactManager->sendEmailToAdmin($contact->getEmail(), $contact->getSubject(), $contact->getContent())) {
                 $response = [
                     "error" => false,
                     "class" => "success",
@@ -390,6 +393,9 @@ class AnonymousController extends AbstractController
                 $userRegister->setCreatedAt(new \DateTime());
                 $manager->persist($userRegister);
                 $manager->flush();
+
+                $this->contactManager->sendEmailToAdmin($userRegister->getEmail(), "A new GemEarth user", "The user {$userRegister->getFirstname()} {$userRegister->getLastname()} ({$userRegister->getEmail()}) created an account on GemEarth.");
+                $this->contactManager->sendEmailToUser($userRegister->getEmail(), "Welcome to GemEarth", "You account {$userRegister->getLogin()} has been created.\n\n");
 
                 return $this->redirectToRoute('login');
             } else {

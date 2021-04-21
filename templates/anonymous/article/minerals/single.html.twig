@@ -1,9 +1,289 @@
 {% extends 'anonymous/baseAnonymous.html.twig' %}
 
 {% block body %}
-    <section class="livingThing">
-        <div class="container">
-            {#  #}
-        </div>
+    <section class="articleLivingThing">
+        {# <div class="container"> #}
+            <div class="articleLivingThing-single">
+
+                {# Left Content #}
+                <div class="articleLivingThing-single-left">
+                    <div class="wikiearth-header">
+                        <div class="wikiearth-header-logo">
+                            <img class="img-fluid" src="{{ asset('content/img/logo/world.png') }}" alt="WikiEarth">
+                        </div>
+                        <div class="wikiearth-header-content">
+                            <span class="wikiearth-header-title">GemEarth</span>
+                            <p class="wikiearth-header-text">The encyclopedia on the Earth</p>
+                        </div>
+                    </div>
+                    <div class="subLink">
+                        <ul>
+                            <li class="title">Contents</li>
+
+                            {% if articleMineral.generality != null %}
+                                <li class="subLink-item"><a href="#generality">Generalities</a></li>
+                            {% endif %}
+
+                            {% if articleMineral.etymology != null %}
+                                <li class="subLink-item"><a href="#etymology">Etymology</a></li>
+                            {% endif %}
+
+                            {% if articleMineral.properties != null %}
+                                <li class="subLink-item"><a href="#properties">Properties</a></li>
+                            {% endif %}
+
+                            {% if articleMineral.geology != null %}
+                                <li class="subLink-item"><a href="#geology">Geology</a></li>
+                            {% endif %}
+
+                            {% if articleMineral.mining != null %}
+                                <li class="subLink-item"><a href="#mining">Mining</a></li>
+                            {% endif %}
+
+                            {% if mediaGallery != [] %}
+                                <li class="subLink-item"><a href="#photo">Photos</a></li>
+                            {% endif %}
+
+                            {% if references != [] %}
+                                <li class="subLink-item"><a href="#references">References</a></li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+
+                {# Center Content #}
+                <div class="articleLivingThing-single-center">
+                    <div class="post">
+                        <h1 class="post-title">{{ articleMineral.title }}</h1>
+
+                        <div class="post-content">
+                            {# Generalities #}
+                            {% if articleMineral.generality != null %}
+                                <div class="post-content-generality" id="generality">
+                                    <h3 class="post-content-generality-title">Generalities</h3>
+
+                                    {# Generality #}
+                                    <div class="post-content-generality-content">
+                                        {% for oneGenerality in articleMineral.generality %}
+                                            <div class="generality-content">
+                                                <div class="title">
+                                                    <span>{{ oneGenerality.sub_title }}</span>
+                                                </div>
+                                                <div class="content">
+                                                    <p>{{ oneGenerality.sub_content }}</p>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                            {# Etymologies #}
+                            {% if articleMineral.etymology != null %}
+                                <div class="post-content-etymology" id="etymology">
+                                    <h3 class="post-content-etymology-title">Etymology</h3>
+
+                                    <div class="post-content-etymology-content">
+                                        {% for oneEtymology in articleMineral.etymology %}
+                                            <div class="etymology-content">
+                                                <div class="title">
+                                                    <span>{{ oneEtymology.sub_title }}</span>
+                                                </div>
+                                                <div class="content">
+                                                    <span>{{ oneEtymology.sub_content }}</span>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                            {# Properties #}
+                            {% if articleMineral.properties != null %}
+                                <div class="post-content-properties" id="properties">
+                                    <h3 class="post-content-properties-title">Properties</h3>
+
+                                    <div class="post-content-properties-content">
+                                        {% for oneProperty in articleMineral.properties %}
+                                            <div class="properties-content">
+                                                <div class="title">
+                                                    <span>{{ oneProperty.sub_title }}</span>
+                                                </div>
+                                                <div class="content">
+                                                    <p>{{ oneProperty.sub_content }}</p>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                            {# Geologies #}
+                            {% if articleMineral.geology != null %}
+                                <div class="post-content-geology" id="geology">
+                                    <h3 class="post-content-geology-title">Geologies</h3>
+
+                                    <div class="post-content-geology-content">
+                                        {% for oneGeology in articleMineral.geology %}
+                                            <div class="geology-content">
+                                                <div class="title">
+                                                    <span>{{ oneGeology.sub_title }}</span>
+                                                </div>
+                                                <div class="content">
+                                                    <p>{{ oneGeology.sub_content }}</p>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                            {# Mining #}
+                            {% if articleMineral.mining != null %}
+                                <div class="post-content-mining" id="mining">
+                                    <h3 class="post-content-mining-title">Mining</h3>
+
+                                    <div class="post-content-mining-content">
+                                        {% for oneMining in articleMineral.mining %}
+                                            <div class="mining-content">
+                                                <div class="title">
+                                                    <span>{{ oneMining.sub_title }}</span>
+                                                </div>
+                                                <div class="content">
+                                                    <p>{{ oneMining.sub_content }}</p>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                            {# Media Gallery Photo #}
+                            {% if mediaGallery != [] %}
+                                <div class="post-content-photo" id="photo">
+                                    <h3 class="post-content-photo-title">Photos</h3>
+
+                                    <div class="post-content-photo-content">
+                                        {% for oneMedia in mediaGallery %}
+                                            {% if file_exist(oneMedia.path, false) != "" %}
+                                                <div class="photo-content">
+                                                    <img src="{{ asset(oneMedia.path) }}" />
+                                                </div>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                            {# References / Sources #}
+                            {% if references != [] %}
+                                <div class="post-content-references" id="references">
+                                    <div class="post-content-references-title">
+                                        <h3>References</h3>
+                                    </div>
+
+                                    <div class="post-content-references-content">
+                                        {% for oneReferences in references %}
+                                            <li><a href="{{ oneReferences.link }}">{{ oneReferences.name }}</a></li>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                {# Right Content #}
+                <div class="articleLivingThing-single-right">
+                    <div class="articleLivingThing-livingThing">
+                        <div class="livingThing-img">
+                            <img class="img-fluid" src="{{ asset(file_exist(articleMineral.mineral.imgPath)) }}" alt="{{ articleMineral.mineral.name }}">
+                        </div>
+
+                        <div class="livingThing-content">
+                            <div>&nbsp;<div>
+                            <table>
+                                {% if articleMineral.mineral.rruffChemistry != null %}
+                                    <tr>
+                                        <td>RRUFF Chemistry :</td>
+                                        <td>{{ articleMineral.mineral.rruffChemistry }}</td>
+                                    </tr>
+                                {% endif %}
+
+                                {% if articleMineral.mineral.imaChemistry != null %}
+                                    <tr>
+                                        <td>IMA Chemistry :</td>
+                                        <td>{{ articleMineral.mineral.imaChemistry }}</td>
+                                    </tr>
+                                {% endif %}
+
+                                {% if articleMineral.mineral.chemistryElements != null %}
+                                    <tr>
+                                        <td>Cchemistry Elements :</td>
+                                        <td>{{ articleMineral.mineral.chemistryElements }}</td>
+                                    </tr>
+                                {% endif %}
+
+                                {% if articleMineral.mineral.imaNumber != null %}
+                                    <tr>
+                                        <td>IMA Number :</td>
+                                        <td>{{ articleMineral.mineral.imaNumber }}</td>
+                                    </tr>
+                                {% endif %}
+
+                                {% if articleMineral.mineral.imaStatus != null %}
+                                    <tr>
+                                        <td>IMA Status :</td>
+                                        <td>{{ articleMineral.mineral.imaStatus|join(", ") }}</td>
+                                    </tr>
+                                {% endif %}
+
+                                {% if articleMineral.mineral.structuralGroupname != null %}
+                                    <tr>
+                                        <td>Structural Groupname :</td>
+                                        <td>{{ articleMineral.mineral.structuralGroupname }}</td>
+                                    </tr>
+                                {% endif %}
+
+                                {% if articleMineral.mineral.crystalSystem != null %}
+                                    <tr>
+                                        <td>Crystal System :</td>
+                                        <td>{{ articleMineral.mineral.crystalSystem }}</td>
+                                    </tr>
+                                {% endif %}
+
+                                {% if articleMineral.mineral.valenceElements != null %}
+                                    <tr>
+                                        <td>Valence Elements :</td>
+                                        <td>{{ articleMineral.mineral.valenceElements }}</td>
+                                    </tr>
+                                {% endif %}
+                                
+                                {% if countries != [] %}
+                                    <tr>
+                                        <td style="vertical-align: top;">Countries :</td>
+                                        <td>
+                                            {% for oneCountries in countries %}
+                                                <li><a href="{{ path('countryArticle', {'country': oneCountries.treatedCountryName}) }}">{{ oneCountries.name }}</a></li>
+                                            {% endfor %}
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                            </table>
+
+                            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                                {% if is_granted('ROLE_USER') %}
+                                    <a class="btn btn-success" href="{{ path('userEditArticle', {'id': articleMineral.id}) }}"><i class="far fa-edit"></i></a>
+                                {% else %}
+                                    <a class="btn btn-success" href="{{ path('adminEditArticleByCategory', {'category': 'minerals', 'id': articleMineral.id}) }}"><i class="far fa-edit"></i></a>
+                                {% endif %}
+                            {% endif %}
+
+                            {# <a class="btn btn-primary" href="{{ path('exportArticleMineralByID', {'id': articleMineral.id}) }}"><i class="fas fa-download"></i></a> #}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {# </div> #}
     </section>
 {% endblock %}

@@ -389,7 +389,7 @@
                                 
                                 {% if countries != [] %}
                                     <tr>
-                                        <td style="vertical-align: top;">Contries :</td>
+                                        <td style="vertical-align: top;">Countries :</td>
                                         <td>
                                             {% for oneCountries in countries %}
                                                 <li><a href="{{ path('countryArticle', {'country': oneCountries.treatedCountryName}) }}">{{ oneCountries.name }}</a></li>

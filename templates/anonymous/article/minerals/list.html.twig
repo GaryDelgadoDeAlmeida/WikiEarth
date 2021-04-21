@@ -4,6 +4,17 @@
     <section class="livingThing">
         <div class="container">
             {% if minerals != [] %}
+                {% for articleMineral in minerals %}
+                    <li class="media">
+                        <div class="media-header">
+                            <img class="img-fuild" src="{{ asset(file_exist(articleMineral.mineral.imgPath)) }}" alt="{{ articleMineral.title }}">
+                        </div>
+                        <div class="media-body">
+                            <h5 class="media-body-title">{{ articleMineral.title }}</h5>
+                            <a class="btn btn-outline-secondary" href="{{ path("articleMineralByID", {"id": articleMineral.id }) }}">See Article</a>
+                        </div>
+                    </li>
+                {% endfor %}
 
                 {# Pagination #}
                 {% if offset > 1 and offset <= nbrOffset %}

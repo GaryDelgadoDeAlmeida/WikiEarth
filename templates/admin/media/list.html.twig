@@ -4,18 +4,21 @@
     <div class="container">
         <a class="btn btn-primary" href="{{ path('adminMedia') }}"><i class="fa fa-arrow-left"></i> Retour</a>
 
-        <div>
+        <div class="media">
             {% if medias != [] %}
                 {% for media in medias %}
                     <li style="list-style: none; display: inline-block;">
                         <div style="width:150px; height: 200px;">
                             <span>{{ media.name }}</span>
                             <img class="img-fluid" src="{{ asset(file_exist(media.path)) }}" alt="{{ media.name }}">
+                            <button id="deleteMedia" class="btn btn-danger" data-mediaId="{{ media.id }}"><i class="far fa-trash-alt"></i></button>
                         </div>
                     </li>
                 {% endfor %}
             {% else %}
-                <li>Aucun média du type "{{ mediaType }}" n'a été trouvé.</li>
+                <li class="media">
+                    <div class="media-body">Aucun média du type "{{ mediaType }}" n'a été trouvé.</div>
+                </li>
             {% endif %}
         </div>
     </div>
