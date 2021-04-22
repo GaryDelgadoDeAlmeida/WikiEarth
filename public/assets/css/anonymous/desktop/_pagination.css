@@ -1,0 +1,31 @@
+/* ---------------------------------------- *\
+                    Pagination
+\* ---------------------------------------- */
+.pagination {
+    margin-top: 1rem;
+    background-color: #ffffff;
+    box-shadow: 2.5px 5px 5px #aaa;
+    justify-content: center;
+}
+
+.pagination .pagination-links {
+    width: 100%;
+    text-align: center;
+    margin: .2rem;
+}
+
+.pagination .pagination-links > a {
+    margin: 0 .5rem;
+    padding: 0 10px;
+    border: 2px solid #000000;
+    text-align: center;
+    display: inline-block;
+}
+
+.pagination .pagination-links > a.active {
+    border: none;
+    color: #0000F6;
+    border-bottom-color: #0000F6;
+    border-bottom-style: solid;
+    border-bottom-width: 3px;
+}

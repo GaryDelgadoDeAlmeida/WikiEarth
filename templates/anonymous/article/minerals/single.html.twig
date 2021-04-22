@@ -59,13 +59,13 @@
                         <div class="post-content">
                             {# Generalities #}
                             {% if articleMineral.generality != null %}
-                                <div class="post-content-generality" id="generality">
-                                    <h3 class="post-content-generality-title">Generalities</h3>
+                                <div class="post-content-section" id="generality">
+                                    <h3 class="post-content-section-title">Generalities</h3>
 
                                     {# Generality #}
-                                    <div class="post-content-generality-content">
+                                    <div class="post-content-section-content">
                                         {% for oneGenerality in articleMineral.generality %}
-                                            <div class="generality-content">
+                                            <div class="section-content">
                                                 <div class="title">
                                                     <span>{{ oneGenerality.sub_title }}</span>
                                                 </div>
@@ -80,12 +80,12 @@
 
                             {# Etymologies #}
                             {% if articleMineral.etymology != null %}
-                                <div class="post-content-etymology" id="etymology">
-                                    <h3 class="post-content-etymology-title">Etymology</h3>
+                                <div class="post-content-section" id="etymology">
+                                    <h3 class="post-content-section-title">Etymology</h3>
 
-                                    <div class="post-content-etymology-content">
+                                    <div class="post-content-section-content">
                                         {% for oneEtymology in articleMineral.etymology %}
-                                            <div class="etymology-content">
+                                            <div class="section-content">
                                                 <div class="title">
                                                     <span>{{ oneEtymology.sub_title }}</span>
                                                 </div>
@@ -100,12 +100,12 @@
 
                             {# Properties #}
                             {% if articleMineral.properties != null %}
-                                <div class="post-content-properties" id="properties">
-                                    <h3 class="post-content-properties-title">Properties</h3>
+                                <div class="post-content-section" id="properties">
+                                    <h3 class="post-content-section-title">Properties</h3>
 
-                                    <div class="post-content-properties-content">
+                                    <div class="post-content-section-content">
                                         {% for oneProperty in articleMineral.properties %}
-                                            <div class="properties-content">
+                                            <div class="section-content">
                                                 <div class="title">
                                                     <span>{{ oneProperty.sub_title }}</span>
                                                 </div>
@@ -120,12 +120,12 @@
 
                             {# Geologies #}
                             {% if articleMineral.geology != null %}
-                                <div class="post-content-geology" id="geology">
-                                    <h3 class="post-content-geology-title">Geologies</h3>
+                                <div class="post-content-section" id="geology">
+                                    <h3 class="post-content-section-title">Geologies</h3>
 
-                                    <div class="post-content-geology-content">
+                                    <div class="post-content-section-content">
                                         {% for oneGeology in articleMineral.geology %}
-                                            <div class="geology-content">
+                                            <div class="section-content">
                                                 <div class="title">
                                                     <span>{{ oneGeology.sub_title }}</span>
                                                 </div>
@@ -140,12 +140,12 @@
 
                             {# Mining #}
                             {% if articleMineral.mining != null %}
-                                <div class="post-content-mining" id="mining">
-                                    <h3 class="post-content-mining-title">Mining</h3>
+                                <div class="post-content-section" id="mining">
+                                    <h3 class="post-content-section-title">Mining</h3>
 
-                                    <div class="post-content-mining-content">
+                                    <div class="post-content-section-content">
                                         {% for oneMining in articleMineral.mining %}
-                                            <div class="mining-content">
+                                            <div class="section-content">
                                                 <div class="title">
                                                     <span>{{ oneMining.sub_title }}</span>
                                                 </div>
@@ -160,13 +160,13 @@
 
                             {# Media Gallery Photo #}
                             {% if mediaGallery != [] %}
-                                <div class="post-content-photo" id="photo">
-                                    <h3 class="post-content-photo-title">Photos</h3>
+                                <div class="post-content-section" id="photo">
+                                    <h3 class="post-content-section-title">Photos</h3>
 
-                                    <div class="post-content-photo-content">
+                                    <div class="post-content-section-content">
                                         {% for oneMedia in mediaGallery %}
                                             {% if file_exist(oneMedia.path, false) != "" %}
-                                                <div class="photo-content">
+                                                <div class="section-content">
                                                     <img src="{{ asset(oneMedia.path) }}" />
                                                 </div>
                                             {% endif %}
@@ -177,12 +177,12 @@
 
                             {# References / Sources #}
                             {% if references != [] %}
-                                <div class="post-content-references" id="references">
-                                    <div class="post-content-references-title">
+                                <div class="post-content-section" id="references">
+                                    <div class="post-content-section-title">
                                         <h3>References</h3>
                                     </div>
 
-                                    <div class="post-content-references-content">
+                                    <div class="post-content-section-content">
                                         {% for oneReferences in references %}
                                             <li><a href="{{ oneReferences.link }}">{{ oneReferences.name }}</a></li>
                                         {% endfor %}

@@ -1,6 +1,10 @@
 /* ---------------------------------------- *\
-            Article Living Thing
+                    Article
 \* ---------------------------------------- */
+.wikiearth-article {
+    padding: 2rem;
+}
+
 .article-details {
     width: 100%;
 }
@@ -8,13 +12,6 @@
 /* ---------------------------------------- *\
                 Card Article
 \* ---------------------------------------- */
-/* .home-article {
-    display: grid;
-    height: 100%;
-    place-items: center;
-    text-align: center;
-    padding: 50px 50px;
-} */
 .slider {
     max-width: 900px;
     overflow: hidden;

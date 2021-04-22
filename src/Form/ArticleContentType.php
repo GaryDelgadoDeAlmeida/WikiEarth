@@ -19,7 +19,7 @@ class ArticleContentType extends AbstractType
             ->add('sub_content', TextareaType::class, [
                 'label' => "Content",
                 'attr' => [
-                    'class' => "h-250px"
+                    'class' => "h-250px mb-10px"
                 ]
             ])
         ;

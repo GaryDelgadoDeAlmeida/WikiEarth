@@ -1,22 +1,36 @@
 /* ---------------------------------------- *\
-                NavBar
+                    NavBar
 \* ---------------------------------------- */
 @import './desktop/_nav.css';
 
 /* ---------------------------------------- *\
-                Home
+                    Home
 \* ---------------------------------------- */
 @import './desktop/_home.css';
 @import './tablet/_home.css';
 /* @import './mobile/_home.css'; */
 
 /* ---------------------------------------- *\
+                    Article
+\* ---------------------------------------- */
+@import './desktop/_article.css';
+/* @import './desktop/_article_single.css'; */
+
+/* ---------------------------------------- *\
                 Living Thing
 \* ---------------------------------------- */
-@import './desktop/_livingThing.css';
 @import './desktop/_single_livingThing.css';
-/* @import './mobile/_livingThing.css'; */
 /* @import './mobile/_single_livingThing.css'; */
+
+/* ---------------------------------------- *\
+                    Media
+\* ---------------------------------------- */
+@import './desktop/_media.css';
+
+/* ---------------------------------------- *\
+                Pagination
+\* ---------------------------------------- */
+@import './desktop/_pagination.css';
 
 /* ---------------------------------------- *\
                     Policy
@@ -32,7 +46,7 @@
 /* @import './mobile/_signUp.css'; */
 
 /* ---------------------------------------- *\
-                Footer
+                    Footer
 \* ---------------------------------------- */
 @import './desktop/_footer.css';
 @import './tablet/_footer.css';

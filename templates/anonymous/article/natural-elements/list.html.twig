@@ -1,9 +1,23 @@
 {% extends 'anonymous/baseAnonymous.html.twig' %}
 
 {% block body %}
-    <section class="livingThing">
+    <section class="wikiearth-article">
         <div class="container">
+            <div class="wikiearth-article-header">
+                <h2 class="wikiearth-article-header-title">Natural Elements</h2>
+            </div>
             {% if elements != [] %}
+                {% for articleElement in elements %}
+                    <li class="media h-150px">
+                        <div class="media-header">
+                            <img class="img-fuild" src="{{ asset(file_exist(articleElement.mineral.imgPath)) }}" alt="{{ articleElement.title }}">
+                        </div>
+                        <div class="media-body">
+                            <h5 class="media-body-title">{{ articleElement.title }}</h5>
+                            <a class="btn btn-outline-secondary" href="{{ path("articleElementByID", {"id": articleElement.id }) }}">See Article</a>
+                        </div>
+                    </li>
+                {% endfor %}
 
                 {# Pagination #}
                 {% if offset > 1 and offset <= nbrOffset %}

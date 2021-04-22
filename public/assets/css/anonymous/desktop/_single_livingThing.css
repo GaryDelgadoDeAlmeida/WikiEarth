@@ -92,46 +92,22 @@
     font-weight: 700;
 }
 
-.post-content-geography,
-.post-content-ecology,
-.post-content-behaviour,
-.post-content-wayOfLife,
-.post-content-description,
-.post-content-otherData,
-.post-content-photo {
+.post-content-section {
     border-bottom: 1px solid #AAAAAA;
     padding: 1.5rem 0;
 }
 
-.post-content-geography-title,
-.post-content-ecology-title,
-.post-content-behaviour-title,
-.post-content-wayOfLife-title,
-.post-content-description-title,
-.post-content-otherData-title,
-.post-content-photo-title {
+.post-content-section-title {
     font-weight: 700;
 }
 
-.geography-content .title,
-.ecology-content .title,
-.behaviour-content .title,
-.wayOfLife-content .title,
-.description-content .title,
-.otherData-content .title,
-.photo-content .title {
+.section-content .title {
     padding: 1rem 0;
     font-weight: 600;
     font-size: 21px;
 }
 
-.geography-content .content,
-.ecology-content .content,
-.behaviour-content .content,
-.wayOfLife-content .content,
-.description-content .content,
-.otherData-content .content,
-.photo-content .content {
+.section-content .content {
     overflow-wrap: break-word !important;
     padding: 0;
 }

@@ -62,13 +62,13 @@
 
                         <div class="post-content">
                             {% if livingThing.geography != null %}
-                                <div class="post-content-geography" id="geography">
-                                    <h3 class="post-content-geography-title">Geography</h3>
+                                <div class="post-content-section" id="geography">
+                                    <h3 class="post-content-section-title">Geography</h3>
 
                                     {# Geography #}
-                                    <div class="post-content-geography-content">
+                                    <div class="post-content-section-content">
                                         {% for oneGeography in livingThing.geography %}
-                                            <div class="geography-content">
+                                            <div class="section-content">
                                                 <div class="title">
                                                     <span>{{ oneGeography.sub_title }}</span>
                                                 </div>
@@ -83,12 +83,12 @@
 
                             {# Ecology #}
                             {% if livingThing.ecology != null %}
-                                <div class="post-content-ecology" id="ecology">
-                                    <h3 class="post-content-ecology-title">Ecology</h3>
+                                <div class="post-content-section" id="ecology">
+                                    <h3 class="post-content-section-title">Ecology</h3>
 
-                                    <div class="post-content-ecology-content">
+                                    <div class="post-content-section-content">
                                         {% for oneEcology in livingThing.ecology %}
-                                            <div class="ecology-content">
+                                            <div class="section-content">
                                                 <div class="title">
                                                     <span>{{ oneEcology.sub_title }}</span>
                                                 </div>
@@ -103,12 +103,12 @@
 
                             {# Behaviour #}
                             {% if livingThing.behaviour != null %}
-                                <div class="post-content-behaviour" id="behaviour">
-                                    <h3 class="post-content-behaviour-title">Behaviour</h3>
+                                <div class="post-content-section" id="behaviour">
+                                    <h3 class="post-content-section-title">Behaviour</h3>
 
-                                    <div class="post-content-behaviour-content">
+                                    <div class="post-content-section-content">
                                         {% for oneBehaviour in livingThing.behaviour %}
-                                            <div class="behaviour-content">
+                                            <div class="section-content">
                                                 <div class="title">
                                                     <span>{{ oneBehaviour.sub_title }}</span>
                                                 </div>
@@ -123,12 +123,12 @@
 
                             {# Way of Life #}
                             {% if livingThing.wayOfLife != null %}
-                                <div class="post-content-wayOfLife" id="wayOfLife">
-                                    <h3 class="post-content-wayOfLife-title">Way of Life</h3>
+                                <div class="post-content-section" id="wayOfLife">
+                                    <h3 class="post-content-section-title">Way of Life</h3>
 
-                                    <div class="post-content-wayOfLife-content">
+                                    <div class="post-content-section-content">
                                         {% for oneWayOfLife in livingThing.wayOfLife %}
-                                            <div class="wayOfLife-content">
+                                            <div class="section-content">
                                                 <div class="title">
                                                     <span>{{ oneWayOfLife.sub_title }}</span>
                                                 </div>
@@ -143,12 +143,12 @@
 
                             {# Description #}
                             {% if livingThing.description != null %}
-                                <div class="post-content-description" id="description">
-                                    <h3 class="post-content-description-title">Description</h3>
+                                <div class="post-content-section" id="description">
+                                    <h3 class="post-content-section-title">Description</h3>
 
-                                    <div class="post-content-description-content">
+                                    <div class="post-content-section-content">
                                         {% for oneDescription in livingThing.description %}
-                                            <div class="description-content">
+                                            <div class="section-content">
                                                 <div class="title">
                                                     <span>{{ oneDescription.sub_title }}</span>
                                                 </div>
@@ -163,12 +163,12 @@
 
                             {# Other Information #}
                             {% if livingThing.otherData != null %}
-                                <div class="post-content-otherData" id="otherData">
-                                    <h3 class="post-content-otherData-title">Other Data</h3>
+                                <div class="post-content-section" id="otherData">
+                                    <h3 class="post-content-section-title">Other Data</h3>
 
-                                    <div class="post-content-otherData-content">
+                                    <div class="post-content-section-content">
                                         {% for oneOtherData in livingThing.otherData %}
-                                            <div class="otherData-content">
+                                            <div class="section-content">
                                                 <div class="title">
                                                     <span>{{ oneOtherData.sub_title }}</span>
                                                 </div>
@@ -183,13 +183,13 @@
 
                             {# Media Gallery Photo #}
                             {% if mediaGallery != [] %}
-                                <div class="post-content-photo" id="photo">
-                                    <h3 class="post-content-photo-title">Photos</h3>
+                                <div class="post-content-section" id="photo">
+                                    <h3 class="post-content-section-title">Photos</h3>
 
-                                    <div class="post-content-photo-content">
+                                    <div class="post-content-section-content">
                                         {% for oneMedia in mediaGallery %}
                                             {% if file_exist(oneMedia.path, false) != "" %}
-                                                <div class="photo-content">
+                                                <div class="section-content">
                                                     <img src="{{ asset(oneMedia.path) }}" />
                                                 </div>
                                             {% endif %}
@@ -200,12 +200,12 @@
 
                             {# References / Sources #}
                             {% if references != [] %}
-                                <div class="post-content-references" id="references">
-                                    <div class="post-content-references-title">
+                                <div class="post-content-section" id="references">
+                                    <div class="post-content-section-title">
                                         <h3>References</h3>
                                     </div>
 
-                                    <div class="post-content-references-content">
+                                    <div class="post-content-section-content">
                                         {% for oneReferences in references %}
                                             <li><a href="{{ oneReferences.link }}">{{ oneReferences.name }}</a></li>
                                         {% endfor %}

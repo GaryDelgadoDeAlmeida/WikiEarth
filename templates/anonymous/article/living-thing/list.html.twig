@@ -1,11 +1,15 @@
 {% extends 'anonymous/baseAnonymous.html.twig' %}
 
 {% block body %}
-    <section class="livingThing">
+    <section class="wikiearth-article">
         <div class="container">
+            <div class="wikiearth-article-header">
+                <h2 class="wikiearth-article-header-title">Living Things</h2>
+            </div>
+
             {% if livingThing != [] %}
                 {% for oneLivingThing in livingThing %}
-                    <li class="media">
+                    <li class="media h-150px">
                         <div class="media-header">
                             <img class="img-fuild" src="{{ asset(file_exist(oneLivingThing.idLivingThing.imgPath)) }}" alt="{{ oneLivingThing.title }}">
                         </div>
