@@ -7,7 +7,7 @@
             {# <div>&nbsp;</div> #}
             {% if livingThings != [] %}
                 {% for livingThing in livingThings %}
-                    <li class="media">
+                    <li class="media h-150px">
                         <div class="media-header">
                             <img class="img-fluid" src="{{ asset(file_exist(livingThing.imgPath)) }}" alt="{{ livingThing.name }}">
                         </div>

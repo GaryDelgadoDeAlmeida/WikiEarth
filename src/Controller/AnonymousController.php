@@ -24,7 +24,7 @@ class AnonymousController extends AbstractController
     
     public function __construct(ContainerInterface $container, EntityManagerInterface $manager)
     {
-        $this->pdfGeneratorManager = new PdfGeneratorManager($container);
+        // $this->pdfGeneratorManager = new PdfGeneratorManager($container);
         $this->contactManager = new ContactManager();
         $this->em = $manager;
     }
@@ -142,40 +142,6 @@ class AnonymousController extends AbstractController
     }
 
     /**
-     * @Route("/living-thing/{name}/{id}/pdf", name="exportArticleLivingThingById")
-     */
-    public function export_to_pdf_article_living_thing_by_id($name, $id)
-    {
-        $livingThing = [];
-        $kingdom = "";
-
-        if($name == "animals") {
-            $kingdom = 'Animalia';
-        } elseif($name == "insects") {
-            $kingdom = 'Insecta';
-        } elseif($name == "plants") {
-            $kingdom = 'Plantae';
-        } elseif($name == "bacteria") {
-            $kingdom = 'Bacteria';
-        }
-
-        $livingThing = $this->em->getRepository(ArticleLivingThing::class)->getArticleLivingThingsByLivingThingKingdomByID($kingdom, $id);
-
-        // S'il est vide (soit il n'existe pas, soit l'article n'est pas encore approuver) alors ...
-        if(empty($livingThing)) {
-            return $this->redirectToRoute("404Error");
-        }
-
-        dd($this->pdfGeneratorManager->generatePdf($livingThing, "living-thing"), 200, [
-            'Content-Type' => 'application/pdf',
-        ]);
-
-        return new Response($this->pdfGeneratorManager->generatePdf($livingThing, "living-thing"), 200, [
-            'Content-Type' => 'application/pdf',
-        ]);
-    }
-
-    /**
      * @Route("/element", name="articleElement")
      */
     public function article_element(Request $request)
@@ -204,22 +170,6 @@ class AnonymousController extends AbstractController
 
         return $this->render('anonymous/article/natural-elements/single.html.twig', [
             "element" => $element
-        ]);
-    }
-
-    /**
-     * @Route("/element/{id}/pdf", name="exportArticleElementByID")
-     */
-    public function export_to_pdf_article_element_by_id($id)
-    {
-        $element = $this->em->getRepository(ArticleElement::class)->find($id);
-
-        if(!empty($element)) {
-            return $this->redirectToRoute('404Error');
-        }
-
-        return new Response($this->pdfGeneratorManager->generatePdf($element, "natural-element"), 200, [
-            'Content-Type' => 'application/pdf',
         ]);
     }
 
@@ -255,22 +205,6 @@ class AnonymousController extends AbstractController
             "mediaGallery" => [],
             "references" => [],
             "countries" => $articleMineral->getMineral()->getCountry()
-        ]);
-    }
-
-    /**
-     * @Route("/mineral/{id}/pdf", name="exportArticleMineralByID")
-     */
-    public function export_to_pdf_article_mineral_by_id($id)
-    {
-        $mineral = $this->em->getRepository(ArticleMineral::class)->find($id);
-
-        if(!empty($mineral)) {
-            return $this->redirectToRoute('404Error');
-        }
-
-        return new Response($this->pdfGeneratorManager->generatePdf($mineral, "mineral"), 200, [
-            'Content-Type' => 'application/pdf',
         ]);
     }
 

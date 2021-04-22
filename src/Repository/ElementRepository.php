@@ -22,6 +22,7 @@ class ElementRepository extends ServiceEntityRepository
     public function getElements($offset, $limit)
     {
         return $this->createQueryBuilder('e')
+            ->orderBy('e.name', 'ASC')
             ->setFirstResult(($offset - 1) * $limit)
             ->setMaxResults($limit)
             ->getQuery()
@@ -32,7 +33,7 @@ class ElementRepository extends ServiceEntityRepository
     public function getElementByScientificName($name)
     {
         return $this->createQueryBuilder('e')
-            ->where('e.scientific_name = :name')
+            ->where('e.scientificName = :name')
             ->setParameter("name", $name)
             ->getQuery()
             ->getOneOrNullResult()
@@ -44,6 +45,7 @@ class ElementRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('e')
             ->leftJoin('e.articleElement', 'aE')
             ->where('aE.id IS NOT NULL')
+            ->orderBy('e.name', 'ASC')
             ->setFirstResult(($offset - 1) * $limit)
             ->setMaxResults($limit)
             ->getQuery()
@@ -56,6 +58,7 @@ class ElementRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('e')
             ->leftJoin('e.articleElement', 'aE')
             ->where('aE.id IS NULL')
+            ->orderBy('e.name', 'ASC')
             ->setFirstResult(($offset - 1) * $limit)
             ->setMaxResults($limit)
             ->getQuery()

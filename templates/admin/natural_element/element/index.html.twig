@@ -8,14 +8,14 @@
 
             {% if elements != [] %}
                 {% for element in elements %}
-                    <li class="media">
+                    <li class="media h-150px">
                         <div class="media-header">
                             <img class="img-fluid" src="{{ asset(element.imgPath != null ? element.imgPath : "content/wikiearth/thumbnail.jpg") }}" alt="{{ element.name }}">
                         </div>
                         <div class="media-body">
                             <h5 class="media-body-title">{{ element.name }}</h5>
-                            {# <a class="btn btn-success" href="{{ path('adminEditElement', {'id': element.id}) }}"><i class="far fa-edit"></i></a> #}
-                            {# <a class="btn btn-danger" href="{{ path('adminDeleteElement', {'id': element.id}) }}"><i class="far fa-trash-alt"></i></a> #}
+                            <a class="btn btn-success" href="{{ path('adminEditElement', {'id': element.id}) }}"><i class="far fa-edit"></i></a>
+                            <a class="btn btn-danger" href="{{ path('adminDeleteElement', {'id': element.id}) }}"><i class="far fa-trash-alt"></i></a>
                         </div>
                     </li>
                 {% endfor %}

@@ -302,6 +302,57 @@ class AdminController extends AbstractController
     }
 
     /**
+     * @Route("/admin/element/{id}/edit", name="adminEditElement")
+     */
+    public function admin_edit_element(int $id, Request $request)
+    {
+        $element = $this->em->getRepository(Element::class)->find($id);
+        
+        if(empty($element)) {
+            throw new Exception("This element hasn't been found");
+        }
+
+        $formElement = $this->createForm(ElementType::class, $element);
+        $formElement->get("volumicMass")->setData(implode(" || ", $element->getVolumicMass()));
+        $formElement->handleRequest($request);
+        $response = [];
+
+        if($formElement->isSubmitted() && $formElement->isValid()) {
+            $response = $this->elementManager->setElement(
+                $formElement["imgPath"]->getData(), 
+                $element,
+                $formElement,
+                $this->em
+            );
+        }
+        return $this->render('admin/natural_element/element/form.html.twig', [
+            "formElement" => $formElement->createView(),
+            "response" => $response
+        ]);
+    }
+
+    /**
+     * @Route("/admin/element/{id}/delete", name="adminDeleteElement")
+     */
+    public function admin_delete_element(int $id, Request $request)
+    {
+        $element = $this->em->getRepository(Element::class)->find($id);
+        
+        if(empty($element)) {
+            throw new Exception("This element hasn't been found");
+        }
+
+        $this->em->remove($element);
+        $this->em->flush();
+
+        return $this->json([
+            "error" => false,
+            "class" => "success",
+            "message" => "The element {$element->getName()} has been deleted"
+        ]);
+    }
+
+    /**
      * @Route("/admin/mineral", name="adminMineral")
      */
     public function admin_mineral(Request $request)
@@ -427,6 +478,9 @@ class AdminController extends AbstractController
     public function admin_article_by_category(string $category, Request $request)
     {
         $offset = !empty($request->get('offset')) && preg_match('/^[0-9]*$/', $request->get('offset')) ? $request->get('offset') : 1;
+        $search = !empty($request->get('search')) ? $request->get('search') : null;
+        $filterBy = !empty($request->get('filterBy')) ? $request->get('filterBy') : "all";
+        $filterByChoices = ["all" => "All", "approved-article" => "Approved", "not-approuved-article" => "To Approuve"];
         $limit = 10;
         $nbrOffset = 1;
 
@@ -725,6 +779,7 @@ class AdminController extends AbstractController
     public function admin_approve_single_article_by_category(int $id, string $category)
     {
         $article = null;
+        $response = [];
         if($category == "living-thing") {
             $article = $this->em->getRepository(ArticleLivingThing::class)->findOneBy(["id" => $id]);
         } elseif ($category == "natural-elements") {
@@ -747,6 +802,12 @@ class AdminController extends AbstractController
             $this->em->persist($article);
             $this->em->persist($notfication);
             $this->em->flush();
+        } else {
+            $response = [
+                "error" => true,
+                "class" => "warning",
+                "message" => "L'article {$article->getTitle()} a déjà été approuvé"
+            ];
         }
 
         return $this->redirectToRoute("adminArticleByCategory", [
@@ -856,6 +917,7 @@ class AdminController extends AbstractController
         
         return $this->json([
             "error" => false,
+            "class" => "success",
             "message" => "The media has been successfully deleted"
         ]);
     }

@@ -6,7 +6,7 @@
             <a class="btn btn-custom-green" href="{{ path('adminAddMineral') }}">ADD</a>
             {% if minerals != [] %}
                 {% for mineral in minerals %}
-                    <li class="media">
+                    <li class="media h-150px">
                         <div class="media-header">
                             <img class="img-fluid" src="{{ asset(mineral.imgPath != null ? mineral.imgPath : "content/wikiearth/thumbnail.jpg") }}" alt="{{ mineral.name }}">
                         </div>

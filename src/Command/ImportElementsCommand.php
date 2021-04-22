@@ -42,7 +42,7 @@ class ImportElementsCommand extends Command
         ini_set("memory_limit", "-1");
         $io = new SymfonyStyle($input, $output);
         // $country = $this->manager->getRepository(Country::class);
-        $wikiearthElementsDir = $this->params->get("project_natural_elements_atomes_dir");
+        $wikiearthElementsDir = $this->params->get("project_natural_elements_elements_dir");
         $elementsFilePath = $this->params->get("project_import_dir") . "natural-elements/atomes/atomes.csv";
         $elementsImgDir = scandir($this->params->get("project_import_dir") . "natural-elements/atomes/image/");
         $elementsFileContaint = file_get_contents($elementsFilePath);
@@ -50,18 +50,29 @@ class ImportElementsCommand extends Command
         $elementsFileColownName = array_flip(array_shift($elementsFileData));
         $current_date = new \DateTime();
         $imgFileName = null;
-        $nbrInsertedElements = 0;
+        $nbrInsertedElements = $nbrAlreadyExistElements = 0;
 
-        dd($elementsFileData);
-
+        // Si le répertoire de destination n'existe pas alors on le crée.
         if(!file_exists($wikiearthElementsDir) || !is_dir($wikiearthElementsDir)) {
             mkdir($wikiearthElementsDir, 0777, true);
         }
 
-        foreach($elementsFileData as $key => $oneElementData) {
-            $foundedElement = $this->manager->getRepository(Element::class)->findOneBy(["name" => $oneElementData[1]]);
+        // Si le dernier élément chimique du tableau est vide, on le supprime
+        if(empty($elementsFileData[count($elementsFileData)])) {
+            array_pop($elementsFileData);
+        }
 
+        foreach($elementsFileData as $key => $oneElementData) {
+
+            // On vérifie de l'élément chimique possède bien un nom.
+            if(empty($oneElementData[1])) {
+                continue;
+            }
+
+            // On vérifie qu'il n'existe pas déjà un élément chimique du même nom
+            $foundedElement = $this->manager->getRepository(Element::class)->findOneBy(["name" => $oneElementData[1]]);
             if(!empty($foundedElement)) {
+                $nbrAlreadyExistElements++;
                 continue;
             }
 
@@ -86,7 +97,7 @@ class ImportElementsCommand extends Command
             $element->setElectronegativity($oneElementData[$elementsFileColownName["electronegativity"]]);
             $element->setFusionPoint($oneElementData[$elementsFileColownName["fusionPoint"]]);
             $element->setBoilingPoint($oneElementData[$elementsFileColownName["boilingPoint"]]);
-            // $element->setRadioactivity($oneElementData[$elementsFileColownName["radioactivity"]]);
+            $element->setRadioactivity($oneElementData[$elementsFileColownName["radioactivity"]]);
             $element->setCreatedAt($current_date);
 
             $this->manager->persist($element);
@@ -102,7 +113,7 @@ class ImportElementsCommand extends Command
         $this->manager->flush();
         $this->manager->clear();
 
-        $io->success("All the insertion terminated ! {$nbrInsertedElements} / " . count($elementsFileData) ." elements inserted.");
+        $io->success("All the insertion terminated ! {$nbrInsertedElements} / " . count($elementsFileData) ." element(s) inserted and {$nbrAlreadyExistElements} element(s) already exist.");
 
         return 0;
     }

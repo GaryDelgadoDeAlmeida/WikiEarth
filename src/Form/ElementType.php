@@ -49,7 +49,7 @@ class ElementType extends AbstractType
             ])
             ->add('atomeGroup', null, [
                 "label" => "Group",
-                "required" => true
+                "required" => false
             ])
             ->add('atomePeriod', null, [
                 "label" => "Period",
@@ -60,7 +60,8 @@ class ElementType extends AbstractType
                 "required" => true
             ])
             ->add('volumicMass', null, [
-                "required" => true
+                "required" => false,
+                "mapped" => false,
             ])
             ->add('numCAS', null, [
                 "label" => "Num CAS",
@@ -68,37 +69,37 @@ class ElementType extends AbstractType
             ])
             ->add('numCE', null, [
                 "label" => "Num CE",
-                "required" => true
+                "required" => false,
             ])
             ->add('atomicMass', null, [
                 "required" => true
             ])
             ->add('atomicRadius', null, [
-                "required" => true
+                "required" => false
             ])
             ->add('covalentRadius', null, [
-                "required" => true
+                "required" => false
             ])
             ->add('vanDerWaalsRadius', null, [
-                "required" => true
+                "required" => false
             ])
             ->add('electroniqueConfiguration', null, [
-                "required" => true
+                "required" => false
             ])
             ->add('oxidationState', null, [
-                "required" => true
+                "required" => false
             ])
             ->add('electronegativity', null, [
-                "required" => true
+                "required" => false
             ])
             ->add('fusionPoint', null, [
-                "required" => true
+                "required" => false
             ])
             ->add('boilingPoint', null, [
-                "required" => true
+                "required" => false
             ])
             ->add('radioactivity', null, [
-                "required" => true
+                "required" => false
             ])
         ;
     }

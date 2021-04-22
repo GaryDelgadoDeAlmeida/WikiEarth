@@ -8,7 +8,7 @@
             
             {% if articles != [] %}
                 {% for article in articles %}
-                    <li class="media">
+                    <li class="media h-150px">
                         <div class="media-header">
                             <img class="img-fluid" src="{{ asset(file_exist(article.element.imgPath)) }}" alt="{{ article.element.name }}">
                         </div>
