@@ -1,7 +1,7 @@
 {% extends 'user/baseUser.html.twig' %}
 
 {% block body %}
-    <section>
+    <section class="container">
         {% if response != [] %}
             <div class="alert alert-{{ response.class }} txt-center">
                 <span>{{ response.message }}</span>

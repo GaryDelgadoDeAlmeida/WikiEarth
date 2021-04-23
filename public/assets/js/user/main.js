@@ -10,8 +10,14 @@ if(document.getElementById('filter-by-livingThing') != undefined) {
     });
 }
 
-if(document.getElementById('filter-by-mineral').length > 0) {
+if(document.getElementById('filter-by-mineral') != undefined) {
     document.getElementById('filter-by-mineral').addEventListener('change', () => {
         document.getElementById('form--filter-by-mineral').submit();
+    });
+}
+
+if(document.getElementById('filter-by-element') != undefined) {
+    document.getElementById('filter-by-element').addEventListener('change', () => {
+        document.getElementById('form--filter-by-element').submit();
     });
 }

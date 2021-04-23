@@ -4,30 +4,24 @@
     <div class="list-livingThing bg-lightGrey">
         <div class="list-livingThing-content">
             <div class="list-livingThing-header">
-                <div class="list-livingThing-title">Living Thing</div>
+                <div class="list-livingThing-title">Mineral</div>
             </div>
 
             <div class="list-livingThing-search">
-                <form class="form" method="get" action="{{ path('userLivingThing') }}">
+                <form class="form" method="get" action="{{ path('userMineral') }}">
                     <div class="formSearch">
-                        <input class="formSearch-input" type="search" name="search" placeholder="Search a living thing . . ." required>
+                        <input class="formSearch-input" type="search" name="search" placeholder="Search a mineral . . ." required>
                         <button class="formSearch-button">Search</button>
                     </div>
                 </form>
             </div>
 
             <div class="list-livingThing-options row">
-                <div class="col-4 text-center">
-                    <div class="add--action">
-                        <a class="btn btn-custom-green" href="{{ path('userAddLivingThing') }}">ADD</a>
-                    </div>
-                </div>
-
-                <div class="col-4 text-center">
+                <div class="col-6 text-center">
                     <div class="filter-by--action">
                         <label>Filter By</label>
-                        <form id="form--filter-by-livingThing" method="POST">
-                            <select id="filter-by-livingThing" name="filter-by-livingThing">
+                        <form id="form--filter-by-mineral" method="POST">
+                            <select id="filter-by-mineral" name="filter-by-mineral">
                                 {% for key, value in filterChoices %}
                                     <option value="{{ key }}" {% if key == filter_by %} selected="seleted" {% endif %}>{{ value }}</option>
                                 {% endfor %}
@@ -36,8 +30,8 @@
                     </div>
                 </div>
 
-                <div class="col-4 text-center">
-                    <div class="category-by--action">
+                <div class="col-6 text-center">
+                    {# <div class="category-by--action">
                         <label>Category By</label>
                         <form id="form--category-by-livingThing" method="POST">
                             <select id="category-by-livingThing" name="category-by-livingThing">
@@ -46,31 +40,27 @@
                                 {% endfor %}
                             </select>
                         </form>
-                    </div>
+                    </div> #}
                 </div>
             </div>
 
             <div class="list-livingThing-wrapper">
-                {% if livingThings != [] %}
-                    {% for livingThing in livingThings %}
-                        <div class="list-livingThing-box">
+                {% if minerals != [] %}
+                    {% for mineral in minerals %}
+                        <div class="list-livingThing-box h-150px">
                             <div class="box-livingThing-img">
-                                <img class="img-fluid" src="{{ asset(file_exist(livingThing.imgPath)) }}" alt="{{ livingThing.name }}">
+                                <img class="img-fluid" src="{{ asset(file_exist(mineral.imgPath)) }}" alt="{{ mineral.name }}">
                             </div>
                             <div class="box-livingThing-text">
-                                <h4 class="title">{{ livingThing.name }}</h4>
+                                <h4 class="title">{{ mineral.name }}</h4>
 
                                 <div class="box-livingThing-action">
-                                    {% if livingThing.articleLivingThing != null %}
-                                        {% if livingThing.articleLivingThing.approved == true %}
-                                            <span class="c-red">Have an article</span>
-                                            <a class="btn btn-custom-midnight" href="{{ path('articleLivingThingById', {'name': livingThing.kingdom|kingdom, 'id': livingThing.id}) }}">See Article</a>
-                                        {% else %}
-                                            <span class="c-orange">Pending approval</span>
-                                        {% endif %}
+                                    {% if mineral.articleMineral != null %}
+                                        <span class="c-red">Have an article</span>
+                                        <a class="btn btn-custom-midnight" href="{{ path('articleMineralByID', {'id': mineral.articleMineral.id}) }}">See Article</a>
                                     {% else %}
                                         <span class="c-green">No article found</span>
-                                        <a class="btn btn-custom-midnight" href="{{ path('userLivingThingCreateArticle', {'id': livingThing.id}) }}">Create article</a>
+                                        <a class="btn btn-custom-midnight" href="{{ path('userMineralCreateArticle', {'id': mineral.id}) }}">Create article</a>
                                     {% endif %}
                                 </div>
                             </div>
@@ -81,27 +71,27 @@
                     <nav aria-label="Page navigation example">
                         <ul class="pagination justify-content-center">
                             <li class="page-item {% if offset == 1 %} disabled {% endif %}">
-                                <a class="page-link" href="{{ path("userLivingThing", {'search': search}) }}" tabindex="-1" aria-disabled="true"><i class="fas fa-angle-double-left"></i></a>
+                                <a class="page-link" href="{{ path("userMineral", {'search': search}) }}" tabindex="-1" aria-disabled="true"><i class="fas fa-angle-double-left"></i></a>
                             </li>
                             
                             {% if offset - 1 >= 1  %}
-                                <li class="page-item"><a class="page-link" href="{{ path("userLivingThing", {'offset': (offset - 1), 'search': search}) }}">{{ offset - 1 }}</a></li>
+                                <li class="page-item"><a class="page-link" href="{{ path("userMineral", {'offset': (offset - 1), 'search': search}) }}">{{ offset - 1 }}</a></li>
                             {% endif %}
 
                             <li class="page-item"><a class="page-link" >{{ offset }}</a></li>
 
                             {% if offset + 1 <= total_page  %}
-                                <li class="page-item"><a class="page-link" href="{{ path("userLivingThing", {'offset': (offset + 1), 'search': search}) }}">{{ offset + 1 }}</a></li>
+                                <li class="page-item"><a class="page-link" href="{{ path("userMineral", {'offset': (offset + 1), 'search': search}) }}">{{ offset + 1 }}</a></li>
                             {% endif %}
 
                             <li class="page-item {% if offset == total_page %} disabled {% endif %}">
-                                <a class="page-link" href="{{ path("userLivingThing", {'offset': (total_page), 'search': search}) }}"><i class="fas fa-angle-double-right"></i></a>
+                                <a class="page-link" href="{{ path("userMineral", {'offset': total_page, 'search': search}) }}"><i class="fas fa-angle-double-right"></i></a>
                             </li>
                         </ul>
                     </nav>
                 {% else %}
                     <div class="alert alert-info">
-                        <span>No living thing has been found.</span>
+                        <span>No minerals has been found.</span>
                     </div>
                 {% endif %}
             </div>

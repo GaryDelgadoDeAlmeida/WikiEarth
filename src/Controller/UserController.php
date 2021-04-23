@@ -55,19 +55,17 @@ class UserController extends AbstractController
     {
         $offset = 1;
         $limit = 4;
-
-        $em = $this->manager;
-        // $livingThingRepo = $em->getRepository(LivingThing::class);
+        // $livingThingRepo = $this->manager->getRepository(LivingThing::class);
         
         return $this->render('user/home/index.html.twig', [
             // "nbrAnimalia" => $livingThingRepo->countLivingThingKingdom('Animalia'),
             // "nbrPlantae" => $livingThingRepo->countLivingThingKingdom('Plantae'),
             // "nbrInsecta" => $livingThingRepo->countLivingThingKingdom('Insecta'),
             // "nbrBacteria" => $livingThingRepo->countLivingThingKingdom('Bacteria'),
-            "nbrElement" => $em->getRepository(Element::class)->countElements(),
-            "nbrMineral" => $em->getRepository(Mineral::class)->countMinerals(),
-            "recent_posts" => $em->getRepository(ArticleLivingThing::class)->getArticleLivingThingsDesc($offset, $limit),
-            "notifications" => $em->getRepository(Notification::class)->getLatestNotifications($this->currentLoggedUser->getId(), $offset, $limit),
+            "nbrElement" => $this->manager->getRepository(Element::class)->countElements(),
+            "nbrMineral" => $this->manager->getRepository(Mineral::class)->countMinerals(),
+            "recent_posts" => $this->manager->getRepository(ArticleLivingThing::class)->getArticleLivingThingsDesc($offset, $limit),
+            "notifications" => $this->manager->getRepository(Notification::class)->getLatestNotifications($this->currentLoggedUser->getId(), $offset, $limit),
             "recent_conversation" => [],
         ]);
     }
@@ -153,7 +151,7 @@ class UserController extends AbstractController
             $nbrPages = ceil($this->manager->getRepository(LivingThing::class)->countSearchLivingThing($search) / $limit);
         }
 
-        return $this->render('user/living_thing/index.html.twig', [
+        return $this->render('user/article/living-things/listLivingThing.html.twig', [
             "livingThings" => $livingThing,
             "search" => $search,
             "offset" => $offset,
@@ -194,7 +192,7 @@ class UserController extends AbstractController
             }
         }
 
-        return $this->render('user/living_thing/edit.html.twig', [
+        return $this->render('user/article/living-things/formLivingThing.html.twig', [
             "formLivingThing" => $formLivingThing->createView(),
             "response" => $message
         ]);
@@ -273,7 +271,7 @@ class UserController extends AbstractController
             return $this->redirectToRoute("403Error");
         }
 
-        return $this->render('user/article/living-things/add.html.twig', [
+        return $this->render('user/article/living-things/formArticle.html.twig', [
             "formArticle" => $formArticle->createView(),
             "response" => $message
         ]);
@@ -286,19 +284,21 @@ class UserController extends AbstractController
     {
         $formLivingThing = $this->createForm(LivingThingType::class, $livingThing);
         $formLivingThing->handleRequest($request);
+        $response = [];
 
         if($formLivingThing->isSubmitted() && $formLivingThing->isValid()) {
 
             // On effectue en premier le traitement sur le living thing
-            $this->livingThingManager->setLivingThing(
+            $response = $this->livingThingManager->setLivingThing(
                 $formLivingThing["imgPath"]->getData(), 
                 $livingThing, 
                 $this->manager
             );
         }
 
-        return $this->render('user/living_thing/edit.html.twig', [
-            "formLivingThing" => $formLivingThing->createView()
+        return $this->render('user/article/living-things/formLivingThing.html.twig', [
+            "formLivingThing" => $formLivingThing->createView(),
+            "response" => $response
         ]);
     }
 
@@ -338,7 +338,7 @@ class UserController extends AbstractController
             $nbrPages = ceil($this->manager->getRepository(Mineral::class)->countSearchMineral($search) / $limit);
         }
 
-        return $this->render('user/minerals/index.html.twig', [
+        return $this->render('user/article/minerals/listMineral.html.twig', [
             "minerals" => $minerals,
             "search" => $search,
             "offset" => $offset,
@@ -356,12 +356,13 @@ class UserController extends AbstractController
         $mineral = new Mineral();
         $formMineral = $this->createForm(MineralType::class, $mineral);
         $formMineral->handleRequest($request);
+        $response = [];
 
         if($formMineral->isSubmitted() && $formMineral->isValid()) {
             if(empty($this->manager->getRepository(Mineral::class)->getMineralByName($mineral->getName()))) {
                 $mineral->setImaStatus(explode(", ", $formArticle["mineral"]['imaStatus']));
 
-                $this->mineralManager->setMineral(
+                $response = $this->mineralManager->setMineral(
                     $formMineral["imgPath"]->getData(), 
                     $mineral, 
                     $this->manager
@@ -377,8 +378,9 @@ class UserController extends AbstractController
             }
         }
 
-        return $this->render('user/minerals/edit.html.twig', [
-            "formMineral" => $formMineral->createView()
+        return $this->render('user/article/minerals/formMineral.html.twig', [
+            "formMineral" => $formMineral->createView(),
+            "response" => $response
         ]);
     }
 
@@ -398,13 +400,14 @@ class UserController extends AbstractController
                 $formArticle->get('mineral')->setData($mineral);
                 $formArticle->get('mineral')->get('imaStatus')->setData(implode(", ", $mineral->getImaStatus()));
                 $formArticle->handleRequest($request);
+                $response = [];
 
                 if($formArticle->isSubmitted() && $formArticle->isValid()) {
 
                     $mineral->setImaStatus(explode(", ", $formArticle["mineral"]['imaStatus']->getData()));
 
                     // On effectue en premier le traitement sur le living thing
-                    $this->mineralManager->setMineral(
+                    $response = $this->mineralManager->setMineral(
                         $formArticle["mineral"]["imgPath"]->getData(),
                         $mineral,
                         $formArticle["mineral"],
@@ -412,7 +415,7 @@ class UserController extends AbstractController
                     );
 
                     // On traite maintenant l'article (pour cause ces liaisons avec les autres tables)
-                    $this->articleMineralManager->setArticleMineral(
+                    $response = $this->articleMineralManager->setArticleMineral(
                         $articleMineral,
                         $mineral,
                         $this->manager,
@@ -420,7 +423,7 @@ class UserController extends AbstractController
                     );
 
                     // Une fois le traitement du living thing et de l'article, on traite les médias (qui seront liée à l'article)
-                    $this->mediaGalleryManager->setMediaGalleryMinerals(
+                    $response = $this->mediaGalleryManager->setMediaGalleryMinerals(
                         $formArticle["mediaGallery"]->getData(),
                         $articleMineral,
                         $this->manager
@@ -431,8 +434,9 @@ class UserController extends AbstractController
                     return $this->redirectToRoute("userMineral");
                 }
 
-                return $this->render('user/article/minerals/add.html.twig', [
-                    "formArticle" => $formArticle->createView()
+                return $this->render('user/article/minerals/formArticle.html.twig', [
+                    "formArticle" => $formArticle->createView(),
+                    "response" => $response
                 ]);
             } else {
                 // On envoi une notif à l'utilisateur l'avertissant que le living thing qu'il a tenté d'ajouté n'existe pas
@@ -482,7 +486,7 @@ class UserController extends AbstractController
             $elements = $this->manager->getRepository(Element::class)->searchElement($search, $offset, $limit);
             $nbrPages = ceil($this->manager->getRepository(Element::class)->countSearchElement($search) / $limit);
         }
-        return $this->render('user/elements/index.html.twig', [
+        return $this->render('user/article/elements/listElement.html.twig', [
             "elements" => $elements,
             "search" => $search,
             "offset" => $offset,
@@ -586,7 +590,7 @@ class UserController extends AbstractController
             }
         }
 
-        return $this->render('user/article/living-things/index.html.twig', [
+        return $this->render('user/article/living-things/listArticle.html.twig', [
             "articles" => $articleLivingThing,
             "search" => $search,
             "category_by" => $category_by,
@@ -604,19 +608,20 @@ class UserController extends AbstractController
         $article = new ArticleLivingThing();
         $formArticle = $this->createForm(ArticleLivingThingType::class, $article);
         $formArticle->handleRequest($request);
+        $response = [];
 
         if($formArticle->isSubmitted() && $formArticle->isValid()) {
             $livingThing = $formArticle["livingThing"]->getData();
             
             // On effectue en premier le traitement sur le living thing
-            $this->livingThingManager->setLivingThing(
+            $response = $this->livingThingManager->setLivingThing(
                 $formArticle["livingThing"]['imgPath']->getData(),
                 $livingThing,
                 $this->manager
             );
 
             // On traite maintenant l'article (pour cause ces liaisons avec les autres tables)
-            $this->articleLivingThingManager->setArticleLivingThing(
+            $response = $this->articleLivingThingManager->setArticleLivingThing(
                 $article, 
                 $livingThing,
                 $this->manager, 
@@ -624,7 +629,7 @@ class UserController extends AbstractController
             );
 
             // Une fois le traitement du living thing et de l'article, on traite les médias (qui seront liée à l'article)
-            $this->mediaGalleryManager->setMediaGalleryLivingThing(
+            $response = $this->mediaGalleryManager->setMediaGalleryLivingThing(
                 $formArticle["mediaGallery"]->getData(),
                 $articleLivingThing,
                 $this->manager
@@ -634,8 +639,9 @@ class UserController extends AbstractController
             $this->notificationManager->userCreateArticle($this->currentLoggedUser);
         }
 
-        return $this->render('user/article/living-things/add.html.twig', [
-            "formArticle" => $formArticle->createView()
+        return $this->render('user/article/living-things/formArticle.html.twig', [
+            "formArticle" => $formArticle->createView(),
+            "response" => $response
         ]);
     }
 
@@ -644,12 +650,13 @@ class UserController extends AbstractController
      */
     public function user_edit_article(string $category, int $id, Request $request)
     {
+        $response = [];
+
         if($category == "living-thing") {
             $article = $this->manager->getRepository(ArticleLivingThing::class)->find($id);
             $formArticle = $this->createForm(ArticleLivingThingType::class, $article);
             $formArticle->get('livingThing')->setData($article->getIdLivingThing());
             $formArticle->handleRequest($request);
-            $response = [];
 
             if($formArticle->isSubmitted() && $formArticle->isValid()) {
 
@@ -688,7 +695,7 @@ class UserController extends AbstractController
                 $this->notificationManager->userUpdateArticle($this->currentLoggedUser);
             }
 
-            return $this->render('user/article/living-things/add.html.twig', [
+            return $this->render('user/article/living-things/formArticle.html.twig', [
                 "formArticle" => $formArticle->createView(),
                 "response" => $response
             ]);
@@ -700,7 +707,6 @@ class UserController extends AbstractController
             $formMineral->get("mineral")->setData($article->getMineral());
             $formMineral->get("mineral")->get('imaStatus')->setData(implode(", ", $article->getMineral()->getImaStatus()));
             $formMineral->handleRequest($request);
-            $response = [];
 
             if($formMineral->isSubmitted() && $formMineral->isValid()) {
                 $response = $this->mineralManager->setMineral(
@@ -711,7 +717,7 @@ class UserController extends AbstractController
                 );
             }
 
-            return $this->render('user/article/minerals/add.html.twig', [
+            return $this->render('user/article/minerals/formArticle.html.twig', [
                 "formArticle" => $formMineral->createView(),
                 "response" => $response
             ]);

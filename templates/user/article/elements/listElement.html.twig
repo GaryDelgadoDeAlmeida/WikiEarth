@@ -10,7 +10,7 @@
             <div class="list-livingThing-wrapper">
                 {% if elements != [] %}
                     {% for element in elements %}
-                        <div class="list-livingThing-box">
+                        <div class="list-livingThing-box h-150px">
                             <div class="box-livingThing-img">
                                 <img class="img-fluid" src="{{ asset(file_exist(element.imgPath)) }}" alt="{{ element.name }}">
                             </div>
