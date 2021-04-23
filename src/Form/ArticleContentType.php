@@ -15,6 +15,7 @@ class ArticleContentType extends AbstractType
         $builder
             ->add('sub_title', TextType::class, [
                 'label' => "Sub Title",
+                "required" => false
             ])
             ->add('sub_content', TextareaType::class, [
                 'label' => "Content",

@@ -57,7 +57,7 @@
                                 <div class="box-livingThing-action">
                                     {% if mineral.articleMineral != null %}
                                         <span class="c-red">Have an article</span>
-                                        <a class="btn btn-custom-midnight" href="{{ path('articleMineralByID', {'id': mineral.id}) }}">See Article</a>
+                                        <a class="btn btn-custom-midnight" href="{{ path('articleMineralByID', {'id': mineral.articleMineral.id}) }}">See Article</a>
                                     {% else %}
                                         <span class="c-green">No article found</span>
                                         <a class="btn btn-custom-midnight" href="{{ path('userMineralCreateArticle', {'id': mineral.id}) }}">Create article</a>
@@ -85,7 +85,7 @@
                             {% endif %}
 
                             <li class="page-item {% if offset == total_page %} disabled {% endif %}">
-                                <a class="page-link" href="{{ path("userMineral", {'offset': (total_page), 'search': search}) }}"><i class="fas fa-angle-double-right"></i></a>
+                                <a class="page-link" href="{{ path("userMineral", {'offset': total_page, 'search': search}) }}"><i class="fas fa-angle-double-right"></i></a>
                             </li>
                         </ul>
                     </nav>

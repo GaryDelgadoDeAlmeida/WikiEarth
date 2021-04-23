@@ -401,7 +401,7 @@
 
                             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                                 {% if is_granted('ROLE_USER') %}
-                                    <a class="btn btn-success" href="{{ path('userEditArticle', {'id': livingThing.id}) }}"><i class="far fa-edit"></i></a>
+                                    <a class="btn btn-success" href="{{ path('userEditArticle', {('category': 'living-thing', 'id': livingThing.id}) }}"><i class="far fa-edit"></i></a>
                                 {% else %}
                                     <a class="btn btn-success" href="{{ path('adminEditArticleByCategory', {'category': 'living-thing', 'id': livingThing.id}) }}"><i class="far fa-edit"></i></a>
                                 {% endif %}

@@ -20,7 +20,7 @@
                                 <div class="box-livingThing-action">
                                     {% if element.articleElement != null %}
                                         <span class="c-red">Have an article</span>
-                                        <a class="btn btn-custom-midnight" href="{{ path('articleElementById', {'id': element.id}) }}">See Article</a>
+                                        <a class="btn btn-custom-midnight" href="{{ path('articleElementByID', {'id': element.id}) }}">See Article</a>
                                     {% else %}
                                         <span class="c-green">No article found</span>
                                         <a class="btn btn-custom-midnight" href="{{ path('userElementCreateArticle', {'id': element.id}) }}">Create article</a>

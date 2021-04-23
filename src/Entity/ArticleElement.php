@@ -26,7 +26,6 @@ class ArticleElement
 
     /**
      * @ORM\OneToOne(targetEntity=Element::class, inversedBy="articleElement", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
      */
     private $element;
 
@@ -102,7 +101,7 @@ class ArticleElement
         return $this->element;
     }
 
-    public function setElement(Element $element): self
+    public function setElement(?Element $element): self
     {
         $this->element = $element;
 

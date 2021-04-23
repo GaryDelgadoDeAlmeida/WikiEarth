@@ -22,8 +22,14 @@ class ArticleElementManager extends AbstractController {
             $articleElement->setUser($user);
         }
 
-        $setArticleElement->setElement($articleElement);
+        $articleElement->setElement($element);
         $manager->merge($articleElement);
         $manager->flush();
+
+        return [
+            "error" => false,
+            "class" => "success",
+            "message" => "The article {$element->getName()} has been registed"
+        ];
     }
 }

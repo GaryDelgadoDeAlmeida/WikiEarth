@@ -147,7 +147,7 @@ class Element
         return $this->articleElement;
     }
 
-    public function setArticleElement(ArticleElement $articleElement): self
+    public function setArticleElement(?ArticleElement $articleElement): self
     {
         $this->articleElement = $articleElement;
 

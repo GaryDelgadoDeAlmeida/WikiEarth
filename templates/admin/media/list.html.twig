@@ -4,8 +4,8 @@
     <div class="container">
         <a class="btn btn-primary" href="{{ path('adminMedia') }}"><i class="fa fa-arrow-left"></i> Retour</a>
 
-        <div class="media">
-            {% if medias != [] %}
+        {% if medias != [] %}
+            <div class="media h-150px">
                 {% for media in medias %}
                     <li style="list-style: none; display: inline-block;">
                         <div style="width:150px; height: 200px;">
@@ -15,11 +15,11 @@
                         </div>
                     </li>
                 {% endfor %}
-            {% else %}
-                <li class="media">
-                    <div class="media-body">Aucun média du type "{{ mediaType }}" n'a été trouvé.</div>
-                </li>
-            {% endif %}
-        </div>
+            </div>
+        {% else %}
+            <li class="media">
+                <div class="media-body">Aucun média du type "{{ mediaType }}" n'a été trouvé.</div>
+            </li>
+        {% endif %}
     </div>
 {% endblock %}

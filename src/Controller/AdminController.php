@@ -309,7 +309,7 @@ class AdminController extends AbstractController
         $element = $this->em->getRepository(Element::class)->find($id);
         
         if(empty($element)) {
-            throw new Exception("This element hasn't been found");
+            throw new \Exception("This element hasn't been found");
         }
 
         $formElement = $this->createForm(ElementType::class, $element);
@@ -339,7 +339,7 @@ class AdminController extends AbstractController
         $element = $this->em->getRepository(Element::class)->find($id);
         
         if(empty($element)) {
-            throw new Exception("This element hasn't been found");
+            throw new \Exception("This element hasn't been found");
         }
 
         $this->em->remove($element);

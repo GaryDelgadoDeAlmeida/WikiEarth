@@ -63,6 +63,13 @@ Sauvegarder les modifications dans la database :
     symfony console doctrine:migrations:migrate
 ```
 
+Mise à jour forcée de la base de données
+```bash
+    symfony console doctrine:schema:update --force
+```
+
+
+
 ### Imports
 
 Il existe un répertoire nommé "imports" dans "public/content/file". Ce répertoire servira exclusivement à importé son contenu (le contenu dans ce répertoire) dans la base de données comme "données initiales" (les données de base qu'elle (le site) contiendra au tout début du lancement). Dans ce répertoire, il y existe, pour le moment, 2 grands répertoires (types) contenant différents répertoires : 

@@ -55,6 +55,14 @@ class ArticleElementType extends AbstractType
                 'allow_delete' => true,
                 'required' => false
             ])
+            ->add('references', CollectionType::class, [
+                "entry_type" => ReferenceType::class,
+                'entry_options' => ['label' => false],
+                'allow_add' => true,
+                'allow_delete' => true,
+                'required' => true,
+                'mapped' => false
+            ])
             ->add('submit', SubmitType::class, [
                 "attr" => [
                     "class" => "btn btn-custom-blue"

@@ -7,6 +7,7 @@
         <table class="table text-center">
             <thead>
                 <tr>
+                    {# <th>Username</th> #}
                     <th>FullName</th>
                     <th>Email</th>
                     <th>Created At</th>
@@ -18,6 +19,7 @@
                 {% if users != null %}
                     {% for user in users %}
                         <tr>
+                            {# <td>{{ user.login }}</td> #}
                             <td>{{ user.firstname }} {{ user.lastname }}</td>
                             <td>{{ user.email }}</td>
                             <td>{{ user.createdAt|date("m/d/Y") }}</td>
