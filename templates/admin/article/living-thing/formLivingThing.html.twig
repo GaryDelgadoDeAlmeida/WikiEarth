@@ -1,12 +1,18 @@
 {% extends 'admin/baseAdmin.html.twig' %}
 
 {% block body %}
-    <div class="container">
+    <div class="livingThing-form-section">
+        <a class="btn btn-primary" href="{{ path('adminLivingThing') }}"><i class="fas fa-arrow-left"></i> Retour</a>
+
         {% if response != [] %}
             <div class="alert alert-{{ response.class }} txt-center">
                 <span>{{ response.message }}</span>
             </div>
         {% endif %}
+
+        <div>&nbsp;</div>
+
+        <h2>Mineral</h2>
 
         {{ form_start(formLivingThing, {"method": "POST"}) }}
             <div class="row">

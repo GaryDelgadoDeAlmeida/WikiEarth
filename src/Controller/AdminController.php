@@ -10,7 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use App\Manager\{UserManager, LivingThingManager, ElementManager, MineralManager, ArticleLivingThingManager, ArticleElementManager, ArticleMineralManager};
-use App\Form\{UserType, LivingThingType0, MineralType, ElementType, UserRegisterType, ArticleLivingThingType, ArticleElementType, ArticleMineralType};
+use App\Form\{UserType, LivingThingType, MineralType, ElementType, UserRegisterType, ArticleLivingThingType, ArticleElementType, ArticleMineralType};
 use App\Entity\{User, Element, Mineral, SourceLink, LivingThing, MediaGallery, Notification, ArticleLivingThing, ArticleElement, ArticleMineral};
 
 class AdminController extends AbstractController
@@ -68,7 +68,7 @@ class AdminController extends AbstractController
             );
         }
 
-        return $this->render('admin/profile/index.html.twig', [
+        return $this->render('admin/user/profile.html.twig', [
             "userForm" => $formUser->createView(),
             "userImg" => $this->current_logged_user->getImgPath() ? $this->current_logged_user->getImgPath() : "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/1024px-User_icon_2.svg.png"
         ]);
@@ -84,7 +84,7 @@ class AdminController extends AbstractController
         $nbrUsers = $this->em->getRepository(User::class)->countUsers($this->current_logged_user->getId());
         $nbrOffset = $nbrUsers > $limit ? ceil($nbrUsers / $limit) : 1;
 
-        return $this->render('admin/users/index.html.twig', [
+        return $this->render('admin/user/listUsers.html.twig', [
             "users" => $this->em->getRepository(User::class)->getUsers($offset - 1, $limit, $this->current_logged_user->getId()),
             "offset" => $offset,
             "total_page" => $nbrOffset
@@ -111,7 +111,7 @@ class AdminController extends AbstractController
             $this->redirectToRoute('adminUsersListing');
         }
 
-        return $this->render('admin/users/edit.html.twig', [
+        return $this->render('admin/users/profile.html.twig', [
             "userForm" => $formUser->createView(),
             "userImg" => $user->getImgPath() ? $user->getImgPath() : "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/1024px-User_icon_2.svg.png"
         ]);
@@ -122,10 +122,18 @@ class AdminController extends AbstractController
      */
     public function admin_user_delete(User $user)
     {
+        foreach($user->getNotifications() as $oneNotification) {
+            $this->em->remove($oneNotification);
+        }
         $this->em->remove($user);
         $this->em->flush();
 
-        return $this->redirectToRoute('adminUsersListing');
+        return $this->redirectToRoute('adminUsersListing', [
+            "response" => [
+                "class" => "success",
+                "content" => "L'utilisateur {$user->getFirstname()} {$user->getLastname()} a bien été supprimé."
+            ]
+        ]);
     }
 
     /**
@@ -138,7 +146,7 @@ class AdminController extends AbstractController
         $nbrLivingThing = $this->em->getRepository(LivingThing::class)->countLivingThings();
         $nbrOffset = $nbrLivingThing > $limit ? ceil($nbrLivingThing / $limit) : 1;
 
-        return $this->render('admin/living_thing/index.html.twig', [
+        return $this->render('admin/article/living-thing/listLivingThing.html.twig', [
             "livingThings" => $this->em->getRepository(LivingThing::class)->getLivingThings($offset, $limit),
             "offset" => $offset,
             "nbrOffset" => $nbrOffset
@@ -153,7 +161,7 @@ class AdminController extends AbstractController
         $livingThing = new LivingThing();
         $formLivingThing = $this->createForm(LivingThingType::class, $livingThing);
         $formLivingThing->handleRequest($request);
-        $message = "";
+        $message = [];
 
         if($formLivingThing->isSubmitted() && $formLivingThing->isValid()) {
             $message = $this->livingThingManager->setLivingThing(
@@ -163,7 +171,7 @@ class AdminController extends AbstractController
             );
         }
 
-        return $this->render('admin/living_thing/edit.html.twig', [
+        return $this->render('admin/article/living-thing/formLivingThing.html.twig', [
             "formLivingThing" => $formLivingThing->createView(),
             "response" => $message
         ]);
@@ -195,13 +203,16 @@ class AdminController extends AbstractController
                     );
                 }
             } else {
-                return $this->redirectToRoute("404Error");
+                return $this->redirectToRoute("adminLivingThing", [], 307);
             }
         } else {
-            return $this->redirectToRoute("404Error");
+            return $this->redirectToRoute("adminLivingThing", [
+                "class" => "danger",
+                "message" => "Result not found"
+            ], 307);
         }
 
-        return $this->render('admin/article/living-thing/new.html.twig', [
+        return $this->render('admin/article/living-thing/formArticle.html.twig', [
             "formArticle" => $formArticle->createView(),
             "response" => $message
         ]);
@@ -224,7 +235,7 @@ class AdminController extends AbstractController
             );
         }
 
-        return $this->render('admin/living_thing/edit.html.twig', [
+        return $this->render('admin/article/living-thing/formLivingThing.html.twig', [
             "formLivingThing" => $formLivingThing->createView(),
             "response" => $message
         ]);
@@ -262,7 +273,7 @@ class AdminController extends AbstractController
         $offset = !empty($request->get('offset')) && preg_match('/^[0-9]*$/', $request->get('offset')) ? $request->get('offset') : 1;
         $limit = 10;
 
-        return $this->render('admin/natural_element/element/index.html.twig', [
+        return $this->render('admin/article/natural-elements/listElement.html.twig', [
             "offset" => $offset,
             "nbrOffset" => ceil($this->em->getRepository(Element::class)->countElements() / $limit),
             "elements" => $this->em->getRepository(Element::class)->getElements($offset, $limit),
@@ -295,7 +306,7 @@ class AdminController extends AbstractController
                 ];
             }
         }
-        return $this->render('admin/natural_element/element/form.html.twig', [
+        return $this->render('admin/article/natural-elements/formElement.html.twig', [
             "formElement" => $formElement->createView(),
             "response" => $response
         ]);
@@ -325,7 +336,7 @@ class AdminController extends AbstractController
                 $this->em
             );
         }
-        return $this->render('admin/natural_element/element/form.html.twig', [
+        return $this->render('admin/article/natural-elements/formElement.html.twig', [
             "formElement" => $formElement->createView(),
             "response" => $response
         ]);
@@ -360,7 +371,7 @@ class AdminController extends AbstractController
         $offset = !empty($request->get('offset')) && preg_match('/^[0-9]*$/', $request->get('offset')) ? $request->get('offset') : 1;
         $limit = 10;
 
-        return $this->render('admin/natural_element/mineral/index.html.twig', [
+        return $this->render('admin/article/minerals/listMineral.html.twig', [
             "offset" => $offset,
             "nbrOffset" => ceil($this->em->getRepository(Mineral::class)->countMinerals() / $limit),
             "minerals" => $this->em->getRepository(Mineral::class)->getMinerals($offset, $limit),
@@ -393,7 +404,7 @@ class AdminController extends AbstractController
                 ];
             }
         }
-        return $this->render('admin/natural_element/mineral/form.html.twig', [
+        return $this->render('admin/article/minerals/formMineral.html.twig', [
             "formMineral" => $formMineral->createView(),
             "response" => $response
         ]);
@@ -424,7 +435,7 @@ class AdminController extends AbstractController
             );
         }
 
-        return $this->render('admin/natural_element/mineral/form.html.twig', [
+        return $this->render('admin/article/minerals/formMineral.html.twig', [
             "formMineral" => $formMineral->createView(),
             "response" => $response
         ]);
@@ -488,7 +499,7 @@ class AdminController extends AbstractController
             $nbrLivingThing = $this->em->getRepository(ArticleLivingThing::class)->countArticleLivingThings();
             $nbrOffset = $nbrLivingThing > $limit ? ceil($nbrLivingThing / $limit) : $nbrOffset;
 
-            return $this->render('admin/article/living-thing/index.html.twig', [
+            return $this->render('admin/article/living-thing/listArticle.html.twig', [
                 "articles" => $this->em->getRepository(ArticleLivingThing::class)->getArticleLivingThings($offset, $limit),
                 "nbrOffset" => $nbrOffset,
                 "offset" => $offset,
@@ -498,7 +509,7 @@ class AdminController extends AbstractController
             $nbrElements = $this->em->getRepository(ArticleElement::class)->countArticleElements();
             $nbrOffset = $nbrElements > $limit ? ceil($nbrElements / $limit) : $nbrOffset;
 
-            return $this->render('admin/article/natural-elements/index.html.twig', [
+            return $this->render('admin/article/natural-elements/listArticle.html.twig', [
                 "articles" => $this->em->getRepository(ArticleElement::class)->getArticleElements($offset, $limit),
                 "nbrOffset" => $nbrOffset,
                 "offset" => $offset,
@@ -508,7 +519,7 @@ class AdminController extends AbstractController
             $nbrMinerals = $this->em->getRepository(ArticleMineral::class)->countArticleMinerals();
             $nbrOffset = $nbrMinerals > $limit ? ceil($nbrMinerals / $limit) : $nbrOffset;
 
-            return $this->render('admin/article/minerals/index.html.twig', [
+            return $this->render('admin/article/minerals/listArticle.html.twig', [
                 "articles" => $this->em->getRepository(ArticleMineral::class)->getArticleMinerals($offset, $limit),
                 "nbrOffset" => $nbrOffset,
                 "offset" => $offset,
@@ -516,7 +527,10 @@ class AdminController extends AbstractController
             ]);
         }
 
-        return $this->redirectToRoute("404Error");
+        return $this->redirectToRoute("adminArticle", [
+            "class" => "danger",
+            "message" => "The category {$category} isn't allowed."
+        ], 307);
     }
 
     /**
@@ -554,7 +568,7 @@ class AdminController extends AbstractController
                 }
             }
 
-            return $this->render('admin/article/living-thing/edit.html.twig', [
+            return $this->render('admin/article/living-thing/formArticle.html.twig', [
                 "formArticle" => $formArticle->createView(),
                 "category" => $category,
                 "response" => $message
@@ -598,7 +612,7 @@ class AdminController extends AbstractController
                 }
             }
 
-            return $this->render('admin/article/natural-elements/edit.html.twig', [
+            return $this->render('admin/article/natural-elements/formArticle.html.twig', [
                 "formArticle" => $formArticle->createView(),
                 "category" => $category,
                 "response" => $message
@@ -641,14 +655,17 @@ class AdminController extends AbstractController
                 }
             }
 
-            return $this->render('admin/article/minerals/edit.html.twig', [
+            return $this->render('admin/article/minerals/formArticle.html.twig', [
                 "formArticle" => $formArticle->createView(),
                 "category" => $category,
                 "response" => $message
             ]);
         }
 
-        return $this->redirectToRoute("404Error");
+        return $this->redirectToRoute("adminArticle", [
+            "class" => "danger",
+            "message" => "The category {$category} isn't allowed."
+        ], 307);
     }
 
     /**
@@ -657,23 +674,26 @@ class AdminController extends AbstractController
     public function admin_single_article_by_category(int $id, string $category)
     {
         if($category == "living-thing") {
-            return $this->render('admin/article/living-thing/details.html.twig', [
+            return $this->render('admin/article/living-thing/detailArticle.html.twig', [
                 "article" => $this->em->getRepository(ArticleLivingThing::class)->findOneBy(["id" => $id]),
                 "category" => $category
             ]);
         } elseif($category == "natural-elements") {
-            return $this->render('admin/article/natural-elements/details.html.twig', [
+            return $this->render('admin/article/natural-elements/detailArticle.html.twig', [
                 "article" => $this->em->getRepository(ArticleElement::class)->findOneBy(["id" => $id]),
                 "category" => $category
             ]);
         } elseif($category == "minerals") {
-            return $this->render('admin/article/minerals/details.html.twig', [
+            return $this->render('admin/article/minerals/detailArticle.html.twig', [
                 "article" => $this->em->getRepository(ArticleMineral::class)->findOneBy(["id" => $id]),
                 "category" => $category
             ]);
         }
 
-        return $this->redirectToRoute("404Error");
+        return $this->redirectToRoute("adminArticle", [
+            "class" => "danger",
+            "message" => "The category {$category} isn't allowed."
+        ], 307);
     }
 
     /**
@@ -687,7 +707,10 @@ class AdminController extends AbstractController
             $articleLivingThing = $this->em->getRepository(ArticleLivingThing::class)->findOneBy(["id" => $id]);
             
             if(empty($articleLivingThing)) {
-                return $this->redirectToRoute("404Error");
+                return $this->redirectToRoute("adminArticle", [
+                    "class" => "danger",
+                    "message" => "This article does not exist."
+                ], 307);
             }
             
             $formArticle = $this->createForm(ArticleLivingThingType::class, $articleLivingThing);
@@ -702,7 +725,7 @@ class AdminController extends AbstractController
                 );
             }
 
-            return $this->render('admin/article/living-thing/edit.html.twig', [
+            return $this->render('admin/article/living-thing/formArticle.html.twig', [
                 "formArticle" => $formArticle->createView(),
                 "category" => $category,
                 "response" => $response
@@ -711,7 +734,10 @@ class AdminController extends AbstractController
             $articleElement = $this->em->getRepository(ArticleElement::class)->findOneBy(["id" => $id]);
 
             if(empty($articleElement)) {
-                return $this->redirectToRoute("404Error");
+                return $this->redirectToRoute("adminArticle", [
+                    "class" => "danger",
+                    "message" => "This article does not exist."
+                ], 307);
             }
 
             $formArticle = $this->createForm(ArticleElementType::class, $articleElement);
@@ -727,7 +753,7 @@ class AdminController extends AbstractController
                 );
             }
 
-            return $this->render('admin/article/natural-elements/edit.html.twig', [
+            return $this->render('admin/article/natural-elements/formArticle.html.twig', [
                 "formArticle" => $formArticle->createView(),
                 "category" => $category,
                 "response" => $response
@@ -736,7 +762,10 @@ class AdminController extends AbstractController
             $articleMineral = $this->em->getRepository(ArticleMineral::class)->findOneBy(["id" => $id]);
 
             if(empty($articleMineral)) {
-                return $this->redirectToRoute("404Error");
+                return $this->redirectToRoute("adminArticle", [
+                    "class" => "danger",
+                    "message" => "This article does not exist."
+                ], 307);
             }
 
             $mineral = $articleMineral->getMineral();
@@ -763,14 +792,17 @@ class AdminController extends AbstractController
                 }
             }
 
-            return $this->render('admin/article/minerals/edit.html.twig', [
+            return $this->render('admin/article/minerals/formArticle.html.twig', [
                 "formArticle" => $formArticle->createView(),
                 "category" => $category,
                 "response" => $response
             ]);
         }
 
-        return $this->redirectToRoute("404Error");
+        return $this->redirectToRoute("adminArticle", [
+            "class" => "danger",
+            "message" => "The category {$category} isn't allowed."
+        ], 307);
     }
 
     /**
@@ -789,7 +821,10 @@ class AdminController extends AbstractController
         }
 
         if(empty($article)) {
-            return $this->redirectToRoute("404Error");
+            return $this->redirectToRoute("adminArticle", [
+                "class" => "danger",
+                "message" => "This article does not exist."
+            ], 307);
         }
 
         if(!$article->getApproved()) {
@@ -835,7 +870,10 @@ class AdminController extends AbstractController
         }
 
         if(empty($article)) {
-            return $this->redirectToRoute("404Error");
+            return $this->redirectToRoute("adminArticle", [
+                "class" => "danger",
+                "message" => "This article does not exist."
+            ], 307);
         }
 
         if($category == "living-thing") {

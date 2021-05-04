@@ -127,7 +127,11 @@ class AnonymousController extends AbstractController
 
         // S'il est vide (soit il n'existe pas, soit l'article n'est pas encore approuver) alors ...
         if(empty($livingThing)) {
-            return $this->redirectToRoute("404Error");
+            return $this->redirectToRoute("articleLivingThing", [
+                "name" => $name,
+                "class" => "danger",
+                "message" => "This living thing does not exist."
+            ], 307);
         }
 
         // dd($livingThing->getMediaGallery());
@@ -346,29 +350,31 @@ class AnonymousController extends AbstractController
         ]);
     }
 
-    // /**
-    //  * @Route("/registerAdmin", name="adminRegister")
-    //  */
-    // public function admin_register(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder)
-    // {
-    //     $userRegister = new User();
-    //     $formUserRegister = $this->createForm(UserRegisterType::class, $userRegister);
-    //     $formUserRegister->handleRequest($request);
+    /**
+     * @Route("/registerAdmin", name="adminRegister")
+     */
+    public function admin_register(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder)
+    {
+        $userRegister = new User();
+        $formUserRegister = $this->createForm(UserRegisterType::class, $userRegister);
+        $formUserRegister->handleRequest($request);
+        $response = [];
 
-    //     if($formUserRegister->isSubmitted() && $formUserRegister->isValid()) {
-    //         $userRegister->setPassword($encoder->encodePassword($userRegister, $userRegister->getPassword()));
-    //         $userRegister->setRoles(['ROLE_ADMIN']);
-    //         $userRegister->setCreatedAt(new \DateTime());
-    //         $manager->persist($userRegister);
-    //         $manager->flush();
+        if($formUserRegister->isSubmitted() && $formUserRegister->isValid()) {
+            $userRegister->setPassword($encoder->encodePassword($userRegister, $userRegister->getPassword()));
+            $userRegister->setRoles(['ROLE_ADMIN']);
+            $userRegister->setCreatedAt(new \DateTime());
+            $manager->persist($userRegister);
+            $manager->flush();
 
-    //         return $this->redirectToRoute('login');
-    //     }
+            return $this->redirectToRoute('login');
+        }
 
-    //     return $this->render('anonymous/user/register.html.twig', [
-    //         "userRegisterForm" => $formUserRegister->createView()
-    //     ]);
-    // }
+        return $this->render('anonymous/user/register.html.twig', [
+            "userRegisterForm" => $formUserRegister->createView(),
+            "response" => $response
+        ]);
+    }
 
     /**
      * @Route("/logout", name="logout")

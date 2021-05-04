@@ -4,7 +4,7 @@
     <section class="wikiearth-article">
         <div class="">
             <a class="btn btn-custom-green" href="{{ path('adminAddLivingThing') }}">ADD</a>
-            {# <div>&nbsp;</div> #}
+            <div>&nbsp;</div>
             {% if livingThings != [] %}
                 {% for livingThing in livingThings %}
                     <li class="media h-150px">
@@ -37,6 +37,10 @@
                         </div>
                     </div>
                 {% endif %}
+            {% else %}
+                <div class="alert alert-danger">
+                    <span>No results has been found</span>
+                </div>
             {% endif %}
         </div>
     </section>

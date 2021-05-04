@@ -262,13 +262,19 @@ class UserController extends AbstractController
                 // On envoi une notif à l'utilisateur l'avertissant que le living thing qu'il a tenté d'ajouté n'existe pas
                 $this->notificationManager->livingThingNotFound($this->currentLoggedUser);
 
-                return $this->redirectToRoute("404Error");
+                return $this->redirectToRoute("userLivingThing", [
+                    "class" => "danger",
+                    "message" => "This living thing does not exist."
+                ], 307);
             }
         } else {
             // On envoi une notif à l'utilisateur l'avertissant que le living thing possède déjà un article
             $this->notificationManager->articleAlreadyExist($this->currentLoggedUser);
 
-            return $this->redirectToRoute("403Error");
+            return $this->redirectToRoute("userLivingThing", [
+                "class" => "danger",
+                "message" => "This living thing already have an article."
+            ], 307);
         }
 
         return $this->render('user/article/living-things/formArticle.html.twig', [
@@ -439,15 +445,21 @@ class UserController extends AbstractController
                     "response" => $response
                 ]);
             } else {
-                // On envoi une notif à l'utilisateur l'avertissant que le living thing qu'il a tenté d'ajouté n'existe pas
+                // On envoi une notif à l'utilisateur l'avertissant que le mineral qu'il a tenté d'ajouté n'existe pas
                 $this->notificationManager->mineralNotFound($this->currentLoggedUser);
-                return $this->redirectToRoute("404Error");
+                return $this->redirectToRoute("userMineral", [
+                    "class" => "danger",
+                    "message" => "This mineral does not exist."
+                ], 307);
             }
         } else {
-            // On envoi une notif à l'utilisateur l'avertissant que le living thing possède déjà un article
+            // On envoi une notif à l'utilisateur l'avertissant que le mineral possède déjà un article
             $this->notificationManager->articleAlreadyExist($this->currentLoggedUser);
 
-            return $this->redirectToRoute("403Error");
+            return $this->redirectToRoute("userMineral", [
+                "class" => "danger",
+                "message" => "This mineral already have an article."
+            ], 307);
         }
     }
 

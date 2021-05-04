@@ -2,7 +2,28 @@
 
 {% block body %}
     <div class="container">
-        <li><a href="{{ path('adminMediaType', {type: 'video'}) }}">Video</a></li>
-        <li><a href="{{ path('adminMediaType', {type: 'image'}) }}">Image</a></li>
+        <div class="row slider">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="img">
+                        <img class="img-fluid" src="{{ asset('content/wikiearth/thumbnail-video.png') }}" alt="video" />
+                    </div>
+                    <div class="content txt-center">
+                        <a class="btn btn-custom-midnight" href="{{ path('adminMediaType', {type: 'video'}) }}">Video</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="img">
+                        <img class="img-fluid" src="{{ asset('content/wikiearth/thumbnail.jpg') }}" alt="image" />
+                    </div>
+                    <div class="content txt-center">
+                        <a class="btn btn-custom-midnight" href="{{ path('adminMediaType', {type: 'image'}) }}">Image</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}
