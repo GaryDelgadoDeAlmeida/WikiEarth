@@ -120,3 +120,17 @@
 .articleLivingThing-livingThing .livingThing-content li {
     padding: .2rem 0;
 }
+
+.articleLivingThing-livingThing .livingThing-content tr {
+    vertical-align: baseline;
+    font-size: small;
+    /* border-bottom: 1px solid #aaaaaa; */
+}
+
+.articleLivingThing-livingThing .livingThing-content tr > td:first-child {
+    font-weight: bold;
+}
+
+.articleLivingThing-livingThing .livingThing-content tr > td:last-child {
+    word-break: break-all;
+}

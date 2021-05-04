@@ -205,63 +205,63 @@
                             <table>
                                 {% if articleMineral.mineral.rruffChemistry != null %}
                                     <tr>
-                                        <td>RRUFF Chemistry :</td>
+                                        <td>RRUFF Chemistry</td>
                                         <td>{{ articleMineral.mineral.rruffChemistry }}</td>
                                     </tr>
                                 {% endif %}
 
                                 {% if articleMineral.mineral.imaChemistry != null %}
                                     <tr>
-                                        <td>IMA Chemistry :</td>
+                                        <td>IMA Chemistry</td>
                                         <td>{{ articleMineral.mineral.imaChemistry }}</td>
                                     </tr>
                                 {% endif %}
 
                                 {% if articleMineral.mineral.chemistryElements != null %}
                                     <tr>
-                                        <td>Cchemistry Elements :</td>
+                                        <td>Cchemistry Elements</td>
                                         <td>{{ articleMineral.mineral.chemistryElements }}</td>
                                     </tr>
                                 {% endif %}
 
                                 {% if articleMineral.mineral.imaNumber != null %}
                                     <tr>
-                                        <td>IMA Number :</td>
+                                        <td>IMA Number</td>
                                         <td>{{ articleMineral.mineral.imaNumber }}</td>
                                     </tr>
                                 {% endif %}
 
                                 {% if articleMineral.mineral.imaStatus != null %}
                                     <tr>
-                                        <td>IMA Status :</td>
+                                        <td>IMA Status</td>
                                         <td>{{ articleMineral.mineral.imaStatus|join(", ") }}</td>
                                     </tr>
                                 {% endif %}
 
                                 {% if articleMineral.mineral.structuralGroupname != null %}
                                     <tr>
-                                        <td>Structural Groupname :</td>
+                                        <td>Structural Groupname</td>
                                         <td>{{ articleMineral.mineral.structuralGroupname }}</td>
                                     </tr>
                                 {% endif %}
 
                                 {% if articleMineral.mineral.crystalSystem != null %}
                                     <tr>
-                                        <td>Crystal System :</td>
+                                        <td>Crystal System</td>
                                         <td>{{ articleMineral.mineral.crystalSystem }}</td>
                                     </tr>
                                 {% endif %}
 
                                 {% if articleMineral.mineral.valenceElements != null %}
                                     <tr>
-                                        <td>Valence Elements :</td>
+                                        <td>Valence Elements</td>
                                         <td>{{ articleMineral.mineral.valenceElements }}</td>
                                     </tr>
                                 {% endif %}
                                 
                                 {% if countries != [] %}
                                     <tr>
-                                        <td style="vertical-align: top;">Countries :</td>
+                                        <td style="vertical-align: top;">Countries</td>
                                         <td>
                                             {% for oneCountries in countries %}
                                                 <li><a href="{{ path('countryArticle', {'country': oneCountries.treatedCountryName}) }}">{{ oneCountries.name }}</a></li>
