@@ -27,7 +27,7 @@ class FileExistExtension extends AbstractExtension
     {
         if(empty($value) || !file_exists($this->container->getParameter("project_public_dir") . $value)) {
             if($alternativePath) {
-                $value = "content/wikiearth/thumbnail.jpg";
+                $value = "content/img/thumbnail.jpg";
             } else {
                 $value = "";
             }

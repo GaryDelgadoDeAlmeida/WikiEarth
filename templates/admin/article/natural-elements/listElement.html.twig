@@ -10,7 +10,7 @@
                 {% for element in elements %}
                     <li class="media h-150px">
                         <div class="media-header">
-                            <img class="img-fluid" src="{{ asset(element.imgPath != null ? element.imgPath : "content/wikiearth/thumbnail.jpg") }}" alt="{{ element.name }}">
+                            <img class="img-fluid" src="{{ asset(file_exist(element.imgPath)) }}" alt="{{ element.name }}">
                         </div>
                         <div class="media-body">
                             <h5 class="media-body-title">{{ element.name }}</h5>

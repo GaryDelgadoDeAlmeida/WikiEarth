@@ -8,7 +8,7 @@
                 {% for mineral in minerals %}
                     <li class="media h-150px">
                         <div class="media-header">
-                            <img class="img-fluid" src="{{ asset(mineral.imgPath != null ? mineral.imgPath : "content/wikiearth/thumbnail.jpg") }}" alt="{{ mineral.name }}">
+                            <img class="img-fluid" src="{{ asset(file_exist(mineral.imgPath)) }}" alt="{{ mineral.name }}">
                         </div>
                         <div class="media-body">
                             <h5 class="media-body-title">{{ mineral.name }}</h5>
