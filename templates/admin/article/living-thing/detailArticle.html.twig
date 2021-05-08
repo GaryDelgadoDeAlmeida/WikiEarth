@@ -3,6 +3,9 @@
 {% block body %}
     <section class="article-details">
         <div class="container">
+            <a class="btn btn-primary" href="{{ path('adminArticleByCategory', {'category': category}) }}"><i class="fa fa-arrow-left"></i> Retour</a>
+            
+            <div>&nbsp;</div>
             <div class="articleLivingThing-single-center">
                 <div class="post">
                     <h1 class="post-title">{{ article.title }}</h1>

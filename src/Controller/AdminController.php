@@ -46,7 +46,7 @@ class AdminController extends AbstractController
         return $this->render('admin/home/index.html.twig', [
             "nbrUsers" => $this->em->getRepository(User::class)->countUsers($this->current_logged_user->getId()),
             "nbrArticles" => $this->em->getRepository(ArticleLivingThing::class)->countArticleLivingThings(),
-            "nbrLivingThings" => $this->em->getRepository(LivingThing::class)->countLivingThings()
+            "nbrLivingThings" => $this->em->getRepository(LivingThing::class)->countLivingThings(),
         ]);
     }
 

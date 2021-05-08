@@ -56,8 +56,12 @@
 
                                 <div class="box-livingThing-action">
                                     {% if mineral.articleMineral != null %}
-                                        <span class="c-red">Have an article</span>
+                                        {% if mineral.articleMineral.approved == true %}
+                                            <span class="c-red">Have an article</span>
                                         <a class="btn btn-custom-midnight" href="{{ path('articleMineralByID', {'id': mineral.articleMineral.id}) }}">See Article</a>
+                                        {% else %}
+                                            <span class="c-orange">Pending approval</span>
+                                        {% endif %}
                                     {% else %}
                                         <span class="c-green">No article found</span>
                                         <a class="btn btn-custom-midnight" href="{{ path('userMineralCreateArticle', {'id': mineral.id}) }}">Create article</a>

@@ -1,9 +1,291 @@
 {% extends 'anonymous/baseAnonymous.html.twig' %}
 
 {% block body %}
-    <section class="livingThing">
-        <div class="container">
-            {#  #}
-        </div>
+    <section class="articleLivingThing">
+        {# <div class="container"> #}
+            <div class="articleLivingThing-single">
+
+                {# Left Content #}
+                <div class="articleLivingThing-single-left">
+                    <div class="wikiearth-header">
+                        <div class="wikiearth-header-logo">
+                            <img class="img-fluid" src="{{ asset('content/img/logo/world.png') }}" alt="WikiEarth">
+                        </div>
+                        <div class="wikiearth-header-content">
+                            <span class="wikiearth-header-title">GemEarth</span>
+                            <p class="wikiearth-header-text">The encyclopedia on the Earth</p>
+                        </div>
+                    </div>
+                    <div class="subLink">
+                        <ul>
+                            <li class="title">Contents</li>
+
+                            {% if articleElement.generality != null %}
+                                <li class="subLink-item"><a href="#generality">Generalities</a></li>
+                            {% endif %}
+
+                            {% if articleElement.description != null %}
+                                <li class="subLink-item"><a href="#description">Description</a></li>
+                            {% endif %}
+
+                            {% if articleElement.characteristics != null %}
+                                <li class="subLink-item"><a href="#characteristics">Characteristics</a></li>
+                            {% endif %}
+
+                            {% if articleElement.property != null %}
+                                <li class="subLink-item"><a href="#properties">Properties</a></li>
+                            {% endif %}
+
+                            {% if articleElement.utilization != null %}
+                                <li class="subLink-item"><a href="#utilizations">Utilizations</a></li>
+                            {% endif %}
+
+                            {% if mediaGallery != [] %}
+                                <li class="subLink-item"><a href="#photo">Photos</a></li>
+                            {% endif %}
+
+                            {% if references != [] %}
+                                <li class="subLink-item"><a href="#references">References</a></li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+
+                {# Center Content #}
+                <div class="articleLivingThing-single-center">
+                    <div class="post">
+                       <div class="post-content">
+                            {# Generalities #}
+                            {% if articleElement.generality != null %}
+                                <div class="post-content-section" id="generality">
+                                    <h3 class="post-content-section-title">Generalities</h3>
+
+                                    {# Generality #}
+                                    <div class="post-content-section-content">
+                                        {% for oneGenerality in articleElement.generality %}
+                                            <div class="section-content">
+                                                <div class="title">
+                                                    <span>{{ oneGenerality.sub_title }}</span>
+                                                </div>
+                                                <div class="content">
+                                                    <p>{{ oneGenerality.sub_content }}</p>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                            {# Description #}
+                            {% if articleElement.description != null %}
+                                <div class="post-content-section" id="description">
+                                    <h3 class="post-content-section-title">description</h3>
+
+                                    <div class="post-content-section-content">
+                                        {% for oneDescription in articleElement.description %}
+                                            <div class="section-content">
+                                                <div class="title">
+                                                    <span>{{ oneDescription.sub_title }}</span>
+                                                </div>
+                                                <div class="content">
+                                                    <span>{{ oneDescription.sub_content }}</span>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                            {# Characteristics #}
+                            {% if articleElement.characteristics != null %}
+                                <div class="post-content-section" id="characteristics">
+                                    <h3 class="post-content-section-title">Characteristics</h3>
+
+                                    <div class="post-content-section-content">
+                                        {% for oneCharacteristics in articleElement.characteristics %}
+                                            <div class="section-content">
+                                                <div class="title">
+                                                    <span>{{ oneCharacteristics.sub_title }}</span>
+                                                </div>
+                                                <div class="content">
+                                                    <p>{{ oneCharacteristics.sub_content }}</p>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                            {# Properties #}
+                            {% if articleElement.property != null %}
+                                <div class="post-content-section" id="properties">
+                                    <h3 class="post-content-section-title">Properties</h3>
+
+                                    <div class="post-content-section-content">
+                                        {% for oneProperty in articleElement.property %}
+                                            <div class="section-content">
+                                                <div class="title">
+                                                    <span>{{ oneProperty.sub_title }}</span>
+                                                </div>
+                                                <div class="content">
+                                                    <p>{{ oneProperty.sub_content }}</p>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                            {# Utilizations #}
+                            {% if articleElement.utilization != null %}
+                                <div class="post-content-section" id="utilizations">
+                                    <h3 class="post-content-section-title">Utilizations</h3>
+
+                                    <div class="post-content-section-content">
+                                        {% for oneUtilization in articleElement.utilization %}
+                                            <div class="section-content">
+                                                <div class="title">
+                                                    <span>{{ oneUtilization.sub_title }}</span>
+                                                </div>
+                                                <div class="content">
+                                                    <p>{{ oneUtilization.sub_content }}</p>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                            {# Media Gallery Photo #}
+                            {% if mediaGallery != [] %}
+                                <div class="post-content-section" id="photo">
+                                    <h3 class="post-content-section-title">Photos</h3>
+
+                                    <div class="post-content-section-content">
+                                        {% for oneMedia in mediaGallery %}
+                                            {% if file_exist(oneMedia.path, false) != "" %}
+                                                <div class="section-content">
+                                                    <img src="{{ asset(oneMedia.path) }}" />
+                                                </div>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                            {# References / Sources #}
+                            {% if references != [] %}
+                                <div class="post-content-section" id="references">
+                                    <div class="post-content-section-title">
+                                        <h3>References</h3>
+                                    </div>
+
+                                    <div class="post-content-section-content">
+                                        {% for oneReferences in references %}
+                                            <li><a href="{{ oneReferences.link }}">{{ oneReferences.name }}</a></li>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                {# Right Content #}
+                <div class="articleLivingThing-single-right">
+                    <div class="articleLivingThing-livingThing">
+                        <div class="livingThing-img">
+                            <img class="img-fluid" src="{{ asset(file_exist(articleElement.element.imgPath)) }}" alt="{{ articleElement.element.name }}">
+                        </div>
+
+                        <div class="livingThing-content">
+                            <div>&nbsp;<div>
+                            <table>
+                                <tr>
+                                    <td>Scientific Name</td>
+                                    <td>{{ articleElement.element.scientificName }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Radioisotope</td>
+                                    <td>{{ articleElement.element.radioisotope }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Number</td>
+                                    <td>{{ articleElement.element.atomicNumber }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Symbole</td>
+                                    <td>{{ articleElement.element.symbole }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Group</td>
+                                    <td>{{ articleElement.element.atomeGroup }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Period</td>
+                                    <td>{{ articleElement.element.atomePeriod }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Block</td>
+                                    <td>{{ articleElement.element.atomeBlock }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Volumic Mass</td>
+                                    <td>{{ articleElement.element.volumicMass|join(", ") }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Num CAS</td>
+                                    <td>{{ articleElement.element.numCAS }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Num CE</td>
+                                    <td>{{ articleElement.element.numCE }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Atomic Mass</td>
+                                    <td>{{ articleElement.element.atomicMass }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Atomic Radius</td>
+                                    <td>{{ articleElement.element.atomicRadius }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Covalent Radius</td>
+                                    <td>{{ articleElement.element.covalentRadius }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Van Der Waals Radius</td>
+                                    <td>{{ articleElement.element.vanDerWaalsRadius }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Electronique Configuration</td>
+                                    <td>{{ articleElement.element.electroniqueConfiguration }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Oxidation State</td>
+                                    <td>{{ articleElement.element.oxidationState }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Electronegativity</td>
+                                    <td>{{ articleElement.element.electronegativity }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Fusion Point</td>
+                                    <td>{{ articleElement.element.fusionPoint }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Boiling Point</td>
+                                    <td>{{ articleElement.element.boilingPoint }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Radioactivity</td>
+                                    <td>{{ articleElement.element.radioactivity ? "Oui" : "Non" }}</td>
+                                </tr>
+                            </table>
+                        </div
+                    </div>
+                </div>
+            </div>
+        {# </div> #}
     </section>
 {% endblock %}

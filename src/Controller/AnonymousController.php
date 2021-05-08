@@ -168,12 +168,14 @@ class AnonymousController extends AbstractController
     {
         $element = $this->em->getRepository(ArticleElement::class)->find($id);
 
-        if(!empty($element)) {
-            return $this->redirectToRoute('404Error');
+        if(empty($element)) {
+            return $this->redirectToRoute('articleElement');
         }
 
         return $this->render('anonymous/article/natural-elements/single.html.twig', [
-            "element" => $element
+            "articleElement" => $element,
+            "mediaGallery" => [],
+            "references" => [],
         ]);
     }
 

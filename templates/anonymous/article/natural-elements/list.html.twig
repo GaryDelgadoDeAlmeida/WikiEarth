@@ -10,7 +10,7 @@
                 {% for articleElement in elements %}
                     <li class="media h-150px">
                         <div class="media-header">
-                            <img class="img-fuild" src="{{ asset(file_exist(articleElement.mineral.imgPath)) }}" alt="{{ articleElement.title }}">
+                            <img class="img-fuild" src="{{ asset(file_exist(articleElement.element.imgPath)) }}" alt="{{ articleElement.title }}">
                         </div>
                         <div class="media-body">
                             <h5 class="media-body-title">{{ articleElement.title }}</h5>
