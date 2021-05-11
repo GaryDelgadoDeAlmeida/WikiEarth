@@ -21,7 +21,7 @@
                                     {% if element.articleElement != null %}
                                         {% if element.articleElement.approved == true %}
                                             <span class="c-red">Have an article</span>
-                                            <a class="btn btn-custom-midnight" href="{{ path('articleElementByID', {'id': element.id}) }}">See Article</a>
+                                            <a class="btn btn-custom-midnight" href="{{ path('articleElementByID', {'id': element.articleElement.id}) }}">See Article</a>
                                         {% else %}
                                             <span class="c-orange">Pending approval</span>
                                         {% endif %}

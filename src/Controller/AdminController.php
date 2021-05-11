@@ -43,10 +43,19 @@ class AdminController extends AbstractController
      */
     public function admin_home()
     {
+        $nbrArticles = 
+            $this->em->getRepository(ArticleLivingThing::class)->countArticleLivingThingsApproved() + 
+            $this->em->getRepository(ArticleElement::class)->countArticleElementsApproved() + 
+            $this->em->getRepository(ArticleMineral::class)->countArticleMineralsApproved()
+        ;
+
         return $this->render('admin/home/index.html.twig', [
             "nbrUsers" => $this->em->getRepository(User::class)->countUsers($this->current_logged_user->getId()),
-            "nbrArticles" => $this->em->getRepository(ArticleLivingThing::class)->countArticleLivingThings(),
+            "nbrArticles" => $nbrArticles,
             "nbrLivingThings" => $this->em->getRepository(LivingThing::class)->countLivingThings(),
+            "nbrElements" => $this->em->getRepository(Element::class)->countElements(),
+            "nbrMinerals" => $this->em->getRepository(Mineral::class)->countMinerals(),
+            "nbrChimicalReaction" => 0,
         ]);
     }
 
@@ -111,7 +120,7 @@ class AdminController extends AbstractController
             $this->redirectToRoute('adminUsersListing');
         }
 
-        return $this->render('admin/users/profile.html.twig', [
+        return $this->render('admin/user/profile.html.twig', [
             "userForm" => $formUser->createView(),
             "userImg" => $user->getImgPath() ? $user->getImgPath() : "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/1024px-User_icon_2.svg.png"
         ]);
@@ -133,7 +142,7 @@ class AdminController extends AbstractController
                 "class" => "success",
                 "content" => "L'utilisateur {$user->getFirstname()} {$user->getLastname()} a bien été supprimé."
             ]
-        ]);
+        ], 302);
     }
 
     /**

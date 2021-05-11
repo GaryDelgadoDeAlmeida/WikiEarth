@@ -36,9 +36,9 @@ class AnonymousController extends AbstractController
         $countrys = $this->em->getRepository(Country::class)->findAll();
         $nbrCountryPerColown = ceil(count($countrys) / 4);
         $nbrArticles = 
-            $this->em->getRepository(ArticleLivingThing::class)->countArticleLivingThingsApproved() + 
-            $this->em->getRepository(ArticleElement::class)->countArticleElementsApprouved() +
-            $this->em->getRepository(ArticleMineral::class)->countArticleMineralsApprouved()
+            // $this->em->getRepository(ArticleLivingThing::class)->countArticleLivingThingsApproved() + 
+            $this->em->getRepository(ArticleElement::class)->countArticleElementsApproved() +
+            $this->em->getRepository(ArticleMineral::class)->countArticleMineralsApproved()
         ;
 
         return $this->render('anonymous/home/index.html.twig', [

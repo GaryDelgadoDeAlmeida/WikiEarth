@@ -64,7 +64,7 @@ class ArticleMineralRepository extends ServiceEntityRepository
         ;
     }
 
-    public function countArticleMineralsApprouved()
+    public function countArticleMineralsApproved()
     {
         return $this->createQueryBuilder('a')
             ->select('count(a.id) as nbrMinerals')

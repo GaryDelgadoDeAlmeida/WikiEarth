@@ -53,7 +53,7 @@ class ArticleElementRepository extends ServiceEntityRepository
         ;
     }
 
-    public function countArticleElementsApprouved()
+    public function countArticleElementsApproved()
     {
         return $this->createQueryBuilder('a')
             ->select('count(a.id) as nbrElements')
