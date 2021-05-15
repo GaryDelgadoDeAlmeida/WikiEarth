@@ -1,256 +1,280 @@
 {% extends 'admin/baseAdmin.html.twig' %}
 
 {% block body %}
-    <section class="article-details">
+    <section class="wikiearth-article">
         <div class="container">
             <a class="btn btn-primary" href="{{ path('adminArticleByCategory', {'category': category}) }}"><i class="fa fa-arrow-left"></i> Retour</a>
             
             <div>&nbsp;</div>
-            <div class="articleLivingThing-single-center">
-                <div class="post">
-                    <h1 class="post-title">{{ article.title }}</h1>
+            <div class="article-mineral">
+                <h1>{{ article.title }}</h1>
 
-                    <div class="post-content">
-                        <div class="post-content-geography" id="geography">
-                            <h3 class="post-content-geography-title">Geography</h3>
+                <div class="mineral-data-section txt-center">
+                    <table class="table w-350px m-auto">
+                        <tr>
+                            <td colspan="2"><img class="img-fluid" src="{{ asset(file_exist(article.idLivingThing.imgPath)) }}" alt="{{ article.idLivingThing.name }}"></td>
+                        </tr>
 
-                            {# Geography #}
-                            <div class="post-content-geography-content">
-                                {% if article.geography != null %}
-                                    {% for oneGeography in article.geography %}
-                                        <div class="geography-content">
-                                            <div class="title">
-                                                <span>{{ oneGeography.sub_title }}</span>
-                                            </div>
-                                            <div class="content">
-                                                <p>{{ oneGeography.sub_content }}</p>
-                                            </div>
-                                        </div>
-                                    {% endfor %}
-                                {% endif %}
-                            </div>
-                        </div>
-
-                        {# Ecology #}
-                        <div class="post-content-ecology" id="ecology">
-                            <h3 class="post-content-ecology-title">Ecology</h3>
-
-                            <div class="post-content-ecology-content">
-                                {% if article.ecology != null %}
-                                    {% for oneEcology in article.ecology %}
-                                        <div class="ecology-content">
-                                            <div class="title">
-                                                <span>{{ oneEcology.sub_title }}</span>
-                                            </div>
-                                            <div class="content">
-                                                <p>{{ oneEcology.sub_content }}</p>
-                                            </div>
-                                        </div>
-                                    {% endfor %}
-                                {% endif %}
-                            </div>
-                        </div>
-
-                        {# Behaviour #}
-                        <div class="post-content-behaviour" id="behaviour">
-                            <h3 class="post-content-behaviour-title">Behaviour</h3>
-
-                            <div class="post-content-behaviour-content">
-                                {% if article.behaviour != null %}
-                                    {% for oneBehaviour in article.behaviour %}
-                                        <div class="behaviour-content">
-                                            <div class="title">
-                                                <span>{{ oneBehaviour.sub_title }}</span>
-                                            </div>
-                                            <div class="content">
-                                                <p>{{ oneBehaviour.sub_content }}</p>
-                                            </div>
-                                        </div>
-                                    {% endfor %}
-                                {% endif %}
-                            </div>
-                        </div>
-
-                        {# Way of Life #}
-                        <div class="post-content-wayOfLife" id="wayOfLife">
-                            <h3 class="post-content-wayOfLife-title">Way of Life</h3>
-
-                            <div class="post-content-wayOfLife-content">
-                                {% if article.wayOfLife != null %}
-                                    {% for oneWayOfLife in article.wayOfLife %}
-                                        <div class="wayOfLife-content">
-                                            <div class="title">
-                                                <span>{{ oneWayOfLife.sub_title }}</span>
-                                            </div>
-                                            <div class="content">
-                                                <p>{{ oneWayOfLife.sub_content }}</p>
-                                            </div>
-                                        </div>
-                                    {% endfor %}
-                                {% endif %}
-                            </div>
-                        </div>
-
-                        {# Description #}
-                        <div class="post-content-description" id="description">
-                            <h3 class="post-content-description-title">Description</h3>
-
-                            <div class="post-content-description-content">
-                                {% if article.description != null %}
-                                    {% for oneDescription in article.description %}
-                                        <div class="description-content">
-                                            <div class="title">
-                                                <span>{{ oneDescription.sub_title }}</span>
-                                            </div>
-                                            <div class="content">
-                                                <p>{{ oneDescription.sub_content }}</p>
-                                            </div>
-                                        </div>
-                                    {% endfor %}
-                                {% endif %}
-                            </div>
-                        </div>
-
-                        {# Other Information #}
-                        <div class="post-content-otherData" id="otherData">
-                            <h3 class="post-content-otherData-title">Other Data</h3>
-
-                            <div class="post-content-otherData-content">
-                                {% if article.otherData != null %}
-                                    {% for oneOtherData in article.otherData %}
-                                        <div class="otherData-content">
-                                            <div class="title">
-                                                <span>{{ oneOtherData.sub_title }}</span>
-                                            </div>
-                                            <div class="content">
-                                                <p>{{ oneOtherData.sub_content }}</p>
-                                            </div>
-                                        </div>
-                                    {% endfor %}
-                                {% endif %}
-                            </div>
-                        </div>
-
-                        {# Media Gallery Photo
-                        <div class="post-content-mediaGallery" id="references">
-                            <div class="post-content-mediaGallery-title">
-                                <h3>Media Gallery Photo</h3>
-                            </div>
-
-                            <div class="post-content-mediaGallery-content"></div>
-                        </div> #}
-                    </div>
-                </div>
-            </div>
-
-            {# Right Content #}
-            <div class="articleLivingThing-single-right">
-                <div class="articleLivingThing-livingThing">
-                    <div class="livingThing-img">
-                        <img class="img-fluid" src="{{ asset(file_exist(article.idLivingThing.imgPath)) }}" alt="{{ article.idLivingThing.name }}">
-                    </div>
-
-                    <div class="livingThing-content">
                         {% if article.idLivingThing.domain != null %}
-                            <li>Domain : {{ article.idLivingThing.domain }}</li>
+                            <tr>
+                                <td>Domain : </td>
+                                <td>{{ article.idLivingThing.domain }}</td>
+                            </tr>
                         {% endif %}
 
                         {% if article.idLivingThing.kingdom != null %}
-                            <li>Kingdom : {{ article.idLivingThing.kingdom }}</li>
+                            <tr>
+                                <td>Kingdom : </td>
+                                <td>{{ article.idLivingThing.kingdom }}</td>
+                            </tr>
                         {% endif %}
 
                         {% if article.idLivingThing.subKingdom != null %}
-                            <li>Sub Kingdom : {{ article.idLivingThing.subKingdom }}</li>
+                            <tr>
+                                <td>Sub Kingdom : </td>
+                                <td>{{ article.idLivingThing.subKingdom }}</td>
+                            </tr>
                         {% endif %}
 
                         {% if article.idLivingThing.branch != null %}
-                            <li>Branch : {{ article.idLivingThing.branch }}</li>
+                            <tr>
+                                <td>Branch : </td>
+                                <td>{{ article.idLivingThing.branch }}</td>
+                            </tr>
                         {% endif %}
                         
                         {% if article.idLivingThing.subBranch != null %}
-                            <li>Sub Branch : {{ article.idLivingThing.subBranch }}</li>
+                            <tr>
+                                <td>Sub Branch : </td>
+                                <td>{{ article.idLivingThing.subBranch }}</td>
+                            </tr>
                         {% endif %}
 
                         {% if article.idLivingThing.infraBranch != null %}
-                            <li>Infra Branch : {{ article.idLivingThing.infraBranch }}</li>
+                            <tr>
+                                <td>Infra Branch : </td>
+                                <td>{{ article.idLivingThing.infraBranch }}</td>
+                            </tr>
                         {% endif %}
                             
                         {% if article.idLivingThing.division != null %}
-                            <li>Division : {{ article.idLivingThing.division }}</li>
+                            <tr>
+                                <td>Division : </td>
+                                <td>{{ article.idLivingThing.division }}</td>
+                            </tr>
                         {% endif %}
 
                         {% if article.idLivingThing.superClass != null %}
-                            <li>Super Class : {{ article.idLivingThing.superClass }}</li>
+                            <tr>
+                                <td>Super Class : </td>
+                                <td>{{ article.idLivingThing.superClass }}</td>
+                            </tr>
                         {% endif %}
 
                         {% if article.idLivingThing.class != null %}
-                            <li>Class : {{ article.idLivingThing.class }}</li>
+                            <tr>
+                                <td>Class : </td>
+                                <td>{{ article.idLivingThing.class }}</td>
+                            </tr>
                         {% endif %}
 
                         {% if article.idLivingThing.subClass != null %}
-                            <li>Sub Class : {{ article.idLivingThing.subClass }}</li>
+                            <tr>
+                                <td>Sub Class : </td>
+                                <td>{{ article.idLivingThing.subClass }}</td>
+                            </tr>
                         {% endif %}
 
                         {% if article.idLivingThing.infraClass != null %}
-                            <li>Infra Class : {{ article.idLivingThing.infraClass }}</li>
+                            <tr>
+                                <td>Infra Class : </td>
+                                <td>{{ article.idLivingThing.infraClass }}</td>
+                            </tr>
                         {% endif %}
 
                         {% if article.idLivingThing.superOrder != null %}
-                            <li>Super Order : {{ article.idLivingThing.superOrder }}</li>
+                            <tr>
+                                <td>Super Order : </td>
+                                <td>{{ article.idLivingThing.superOrder }}</td>
+                            </tr>
                         {% endif %}
 
                         {% if article.idLivingThing.normalOrder != null %}
-                            <li>Order : {{ article.idLivingThing.normalOrder }}</li>
+                            <tr>
+                                <td>Order : </td>
+                                <td>{{ article.idLivingThing.normalOrder }}</td>
+                            </tr>
                         {% endif %}
 
                         {% if article.idLivingThing.subOrder != null %}
-                            <li>Sub Order : {{ article.idLivingThing.subOrder }}</li>
+                            <tr>
+                                <td>Sub Order : </td>
+                                <td>{{ article.idLivingThing.subOrder }}</td>
+                            </tr>
                         {% endif %}
                         
                         {% if article.idLivingThing.infraOrder != null %}
-                            <li>Infra Order : {{ article.idLivingThing.infraOrder }}</li>
+                            <tr>
+                                <td>Infra Order : </td>
+                                <td>{{ article.idLivingThing.infraOrder }}</td>
+                            </tr>
                         {% endif %}
 
                         {% if article.idLivingThing.microOrder != null %}
-                            <li>Micro Order : {{ article.idLivingThing.microOrder }}</li>
+                            <tr>
+                                <td>Micro Order : </td>
+                                <td>{{ article.idLivingThing.microOrder }}</td>
+                            </tr>
                         {% endif %}
 
                         {% if article.idLivingThing.superFamily != null %}
-                            <li>Super Family : {{ article.idLivingThing.superFamily }}</li>
+                            <tr>
+                                <td>Super Family : </td>
+                                <td>{{ article.idLivingThing.superFamily }}</td>
+                            </tr>
                         {% endif %}
 
                         {% if article.idLivingThing.family != null %}
-                            <li>Family : {{ article.idLivingThing.family }}</li>
+                            <tr>
+                                <td>Family : </td>
+                                <td>{{ article.idLivingThing.family }}</td>
+                            </tr>
                         {% endif %}
 
                         {% if article.idLivingThing.subFamily != null %}
-                            <li>Sub Family : {{ article.idLivingThing.subFamily }}</li>
+                            <tr>
+                                <td>Sub Family : </td>
+                                <td>{{ article.idLivingThing.subFamily }}</td>
+                            </tr>
                         {% endif %}
 
                         {% if article.idLivingThing.genus != null %}
-                            <li>Genus : {{ article.idLivingThing.genus }}</li>
+                            <tr>
+                                <td>Genus : </td>
+                                <td>{{ article.idLivingThing.genus }}</td>
+                            </tr>
                         {% endif %}
 
                         {% if article.idLivingThing.subGenus != null %}
-                            <li>Sub Genus : {{ article.idLivingThing.subGenus }}</li>
+                            <tr>
+                                <td>Sub Genus : </td>
+                                <td>{{ article.idLivingThing.subGenus }}</td>
+                            </tr>
                         {% endif %}
 
                         {% if article.idLivingThing.species != null %}
-                            <li>Species : {{ article.idLivingThing.species }}</li>
+                            <tr>
+                                <td>Species : </td>
+                                <td>{{ article.idLivingThing.species }}</td>
+                            </tr>
                         {% endif %}
 
                         {% if article.idLivingThing.subSpecies != null %}
-                            <li>Sub Species : {{ article.idLivingThing.subSpecies }}</li>
+                            <tr>
+                                <td>Sub Species : </td>
+                                <td>{{ article.idLivingThing.subSpecies }}</td>
+                            </tr>
                         {% endif %}
-                        
-                        {% if article.approved != true %}
-                            <a class="btn btn-success" href="{{ path('adminApproveArticleByCategory', {'id': article.id, 'category': category}) }}" onClick="return confirm('Are you sure you want to publish this article ?');"><i class="fas fa-check"></i></a>
-                        {% endif %}
-                        <a class="btn btn-primary" href="{{ path('adminEditArticleByCategory', {'id': article.id, 'category': category}) }}"><i class="far fa-edit"></i></a>
-                        <a class="btn btn-danger" href="{{ path('adminDeleteArticleByCategory', {'id': article.id, 'category': category}) }}" onClick="return confirm('Are you sure you want to delete this article (and the living thing) ?');"><i class="far fa-trash-alt"></i></a>
-                    </div>
+                    </table>
                 </div>
+
+                {# Geography #}
+                {% if article.geography != [] %}
+                    <div class="geography-section">
+                        <h2>Geography</h2>
+                        {% for geography in article.geography %}
+                            <div class="geography">
+                                <h3>{{ geography.sub_title }}</h3>
+                                <p>{{ geography.sub_content }}</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                {# Ecology #}
+                {% if article.ecology != [] %}
+                    <div class="ecologies-section">
+                        <h2>Ecology</h2>
+                        {% for ecology in article.ecology %}
+                            <div class="ecology">
+                                <h3>{{ ecology.sub_title }}</h3>
+                                <p>{{ ecology.sub_content }}</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                {# Behaviour #}
+                {% if article.behaviour != [] %}
+                    <div class="behaviours-section">
+                        <h2>Behaviour</h2>
+                        {% for behaviour in article.behaviour %}
+                            <div class="behaviour">
+                                <h3>{{ behaviour.sub_title }}</h3>
+                                <p>{{ behaviour.sub_content }}</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                {# Way of Life #}
+                {% if article.wayOfLife != [] %}
+                    <div class="wayOfLifes-section">
+                        <h2>Way of life</h2>
+                        {% for wayOfLife in article.wayOfLife %}
+                            <div class="wayOfLife">
+                                <h3>{{ wayOfLife.sub_title }}</h3>
+                                <p>{{ wayOfLife.sub_content }}</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                {# Description #}
+                {% if article.description != [] %}
+                    <div class="descriptions-section">
+                        <h2>Way of life</h2>
+                        {% for description in article.description %}
+                            <div class="description">
+                                <h3>{{ description.sub_title }}</h3>
+                                <p>{{ description.sub_content }}</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                {# Other Informations #}
+                {% if article.otherData != [] %}
+                    <div class="otherDatas-section">
+                        <h2>Way of life</h2>
+                        {% for otherData in article.otherData %}
+                            <div class="otherData">
+                                <h3>{{ otherData.sub_title }}</h3>
+                                <p>{{ otherData.sub_content }}</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                {# Media Gallery Photo #}
+                {% if article.mediaGallery != [] %}
+                    <div class="mediaGalleries-section">
+                        <h2>Media Gallery</h2>
+                        {% for oneMedia in article.mediaGallery %}
+                            <div class="mediaGallery">
+                                <img src="{{ asset(oneMedia) }}" alt="">
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
             </div>
+
+            {# Right Content #}
+            {% if article.approved != true %}
+                <a class="btn btn-success" href="{{ path('adminApproveArticleByCategory', {'id': article.id, 'category': category}) }}" onClick="return confirm('Are you sure you want to publish this article ?');"><i class="fas fa-check"></i> Approve</a>
+            {% endif %}
+            <a class="btn btn-primary" href="{{ path('adminEditArticleByCategory', {'id': article.id, 'category': category}) }}"><i class="far fa-edit"></i> Edit</a>
+            <a class="btn btn-danger" href="{{ path('adminDeleteArticleByCategory', {'id': article.id, 'category': category}) }}" onClick="return confirm('Are you sure you want to delete this article (and the living thing) ?');"><i class="far fa-trash-alt"></i> Delete</a>
         </div>
     </section>
 {% endblock %}
