@@ -3,8 +3,8 @@
 \* ---------------------------------------- */
 .pagination {
     margin-top: 1rem;
-    background-color: #ffffff;
-    box-shadow: 2.5px 5px 5px #aaa;
+    background-color: var(--c-white);
+    box-shadow: 2.5px 5px 5px var(--c-grey);
     justify-content: center;
 }
 
@@ -17,7 +17,7 @@
 .pagination .pagination-links > a {
     margin: 0 .5rem;
     padding: 0 10px;
-    border: 2px solid #000000;
+    border: 2px solid var(--c-black);
     text-align: center;
     display: inline-block;
 }

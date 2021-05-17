@@ -2,7 +2,7 @@
                     Footer
 \* ---------------------------------------- */
 footer {
-    color: #ffffff;
+    color: var(--c-white);
 }
 
 .footer-menu,
@@ -30,7 +30,7 @@ footer {
     margin: -.2rem;
     margin-bottom: .3rem;
     width: 200px;
-    background-color: #ffffff;
+    background-color: var(--c-white);
     height: 2px;
 }
 
@@ -47,7 +47,7 @@ footer {
 .footer-menu-container .footer-menu-items li a {
     margin-left: -2.5rem;
     text-decoration: none;
-    color: #ffffff;
+    color: var(--c-white);
 }
 
 .footer-menu-container .footer-menu-items li a:hover {
@@ -70,5 +70,5 @@ footer {
 }
 
 .creator .c-cyanBlue:hover {
-    color: rgb(0, 183, 235);
+    color: var(--c-cyanBlue);
 }

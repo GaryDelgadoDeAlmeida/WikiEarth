@@ -4,7 +4,7 @@
 header {
 	height: var(--navHeight);
 	padding: 0 20px;
-    color: #ffffff;
+    color: var(--c-white);
 }
 
 .logo {
@@ -14,7 +14,7 @@ header {
 
 .logo a {
     text-decoration: none;
-    color: #ffffff;
+    color: var(--c-white);
 }
 
 .menu {
@@ -41,13 +41,13 @@ header {
 
 .menu li a, .menu li span {
     transition: 0.4s;
-    color: #ffffff;
+    color: var(--c-white);
 	text-decoration: none;
 	cursor: pointer;
 }
 
 .menu li a:hover, .menu li span:hover {
-    color: rgb(0, 183, 235);
+    color: var(--c-cyanBlue);
 }
 
 .submenu {
