@@ -21,3 +21,7 @@
 ###> personnal gitignore ###
 /src/Migrations/
 ###< personnal gitignore ###
+###> phpunit/phpunit ###
+/phpunit.xml
+.phpunit.result.cache
+###< phpunit/phpunit ###

@@ -3,6 +3,7 @@
 namespace App\Manager;
 
 use App\Entity\User;
+use App\Manager\NotificationManager;
 use Symfony\Component\Form\Form;
 use Intervention\Image\ImageManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -12,22 +13,49 @@ class UserManager {
     
     public function insertUser(Form $formUser, User $user, EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder, $project_users_dir)
     {
-        $this->insertUserImg($project_users_dir, $formUser['imgPath']->getData(), $user);
-        $user->setPassword($encoder->encodePassword($user, $user->getPassword()));
-        $manager->persist($user);
-        $manager->flush();
+        try {
+            $this->insertUserImg($project_users_dir, $formUser['imgPath']->getData(), $user);
+            $user->setPassword($encoder->encodePassword($user, $user->getPassword()));
+            $manager->persist($user);
+            $manager->flush();
+
+            return [
+                "class" => "success",
+                "message" => "Your account has been successfully created. Welcome to GemEarth, {$user->getFirstname()}."
+            ];
+        } catch(\Exception $e) {
+            return [
+                "class" => "danger",
+                "message" => "I'm sorry, an error occurred. A notification has been send to the moderator to check what was the problem."
+            ];
+        } finally {}
     }
 
     public function updateUser(Form $formUser, User $user, EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder, $project_users_dir)
     {
-        $this->insertUserImg($project_users_dir, $formUser['imgPath']->getData(), $user);
+        $message = [];
+        try {
+            $this->insertUserImg($project_users_dir, $formUser['imgPath']->getData(), $user);
 
-        if(!empty($formUser->get("password")->getData())) {
-            $user->setPassword($encoder->encodePassword($user, $formUser->get("password")->getData()));
-        }
+            if(!empty($formUser->get("password")->getData())) {
+                $user->setPassword($encoder->encodePassword($user, $formUser->get("password")->getData()));
+            }
 
-        $manager->persist($user);
-        $manager->flush();
+            $manager->persist($user);
+            $manager->flush();
+
+            $message = [
+                "class" => "success",
+                "message" => "Ok, your data has been successfully updated"
+            ];
+        } catch(\Exception $e) {
+            $message = [
+                "class" => "danger",
+                "message" => "I'm sorry, an error occurred. A notification has been send to the moderator to check what was the problem."
+            ];
+        } finally {}
+
+        return $message;
     }
 
     /**

@@ -20,23 +20,23 @@
                         <ul>
                             <li class="title">Contents</li>
 
-                            {% if articleElement.generality != null %}
+                            {% if article.articleElement.generality != null %}
                                 <li class="subLink-item"><a href="#generality">Generalities</a></li>
                             {% endif %}
 
-                            {% if articleElement.description != null %}
+                            {% if article.articleElement.description != null %}
                                 <li class="subLink-item"><a href="#description">Description</a></li>
                             {% endif %}
 
-                            {% if articleElement.characteristics != null %}
+                            {% if article.articleElement.characteristics != null %}
                                 <li class="subLink-item"><a href="#characteristics">Characteristics</a></li>
                             {% endif %}
 
-                            {% if articleElement.property != null %}
+                            {% if article.articleElement.property != null %}
                                 <li class="subLink-item"><a href="#properties">Properties</a></li>
                             {% endif %}
 
-                            {% if articleElement.utilization != null %}
+                            {% if article.articleElement.utilization != null %}
                                 <li class="subLink-item"><a href="#utilizations">Utilizations</a></li>
                             {% endif %}
 
@@ -56,13 +56,13 @@
                     <div class="post">
                        <div class="post-content">
                             {# Generalities #}
-                            {% if articleElement.generality != null %}
+                            {% if article.articleElement.generality != null %}
                                 <div class="post-content-section" id="generality">
                                     <h3 class="post-content-section-title">Generalities</h3>
 
                                     {# Generality #}
                                     <div class="post-content-section-content">
-                                        {% for oneGenerality in articleElement.generality %}
+                                        {% for oneGenerality in article.articleElement.generality %}
                                             <div class="section-content">
                                                 <div class="title">
                                                     <span>{{ oneGenerality.sub_title }}</span>
@@ -77,12 +77,12 @@
                             {% endif %}
 
                             {# Description #}
-                            {% if articleElement.description != null %}
+                            {% if article.articleElement.description != null %}
                                 <div class="post-content-section" id="description">
-                                    <h3 class="post-content-section-title">description</h3>
+                                    <h3 class="post-content-section-title">Description</h3>
 
                                     <div class="post-content-section-content">
-                                        {% for oneDescription in articleElement.description %}
+                                        {% for oneDescription in article.articleElement.description %}
                                             <div class="section-content">
                                                 <div class="title">
                                                     <span>{{ oneDescription.sub_title }}</span>
@@ -97,12 +97,12 @@
                             {% endif %}
 
                             {# Characteristics #}
-                            {% if articleElement.characteristics != null %}
+                            {% if article.articleElement.characteristics != null %}
                                 <div class="post-content-section" id="characteristics">
                                     <h3 class="post-content-section-title">Characteristics</h3>
 
                                     <div class="post-content-section-content">
-                                        {% for oneCharacteristics in articleElement.characteristics %}
+                                        {% for oneCharacteristics in article.articleElement.characteristics %}
                                             <div class="section-content">
                                                 <div class="title">
                                                     <span>{{ oneCharacteristics.sub_title }}</span>
@@ -117,12 +117,12 @@
                             {% endif %}
 
                             {# Properties #}
-                            {% if articleElement.property != null %}
+                            {% if article.articleElement.property != null %}
                                 <div class="post-content-section" id="properties">
                                     <h3 class="post-content-section-title">Properties</h3>
 
                                     <div class="post-content-section-content">
-                                        {% for oneProperty in articleElement.property %}
+                                        {% for oneProperty in article.articleElement.property %}
                                             <div class="section-content">
                                                 <div class="title">
                                                     <span>{{ oneProperty.sub_title }}</span>
@@ -137,12 +137,12 @@
                             {% endif %}
 
                             {# Utilizations #}
-                            {% if articleElement.utilization != null %}
+                            {% if article.articleElement.utilization != null %}
                                 <div class="post-content-section" id="utilizations">
                                     <h3 class="post-content-section-title">Utilizations</h3>
 
                                     <div class="post-content-section-content">
-                                        {% for oneUtilization in articleElement.utilization %}
+                                        {% for oneUtilization in article.articleElement.utilization %}
                                             <div class="section-content">
                                                 <div class="title">
                                                     <span>{{ oneUtilization.sub_title }}</span>
@@ -195,7 +195,7 @@
                 <div class="articleLivingThing-single-right">
                     <div class="articleLivingThing-livingThing">
                         <div class="livingThing-img">
-                            <img class="img-fluid" src="{{ asset(file_exist(articleElement.element.imgPath)) }}" alt="{{ articleElement.element.name }}">
+                            <img class="img-fluid" src="{{ asset(file_exist(article.articleElement.element.imgPath)) }}" alt="{{ article.title }}">
                         </div>
 
                         <div class="livingThing-content">
@@ -203,83 +203,83 @@
                             <table>
                                 <tr>
                                     <td>Scientific Name</td>
-                                    <td>{{ articleElement.element.scientificName }}</td>
+                                    <td>{{ article.articleElement.element.scientificName }}</td>
                                 </tr>
                                 <tr>
                                     <td>Radioisotope</td>
-                                    <td>{{ articleElement.element.radioisotope }}</td>
+                                    <td>{{ article.articleElement.element.radioisotope }}</td>
                                 </tr>
                                 <tr>
                                     <td>Number</td>
-                                    <td>{{ articleElement.element.atomicNumber }}</td>
+                                    <td>{{ article.articleElement.element.atomicNumber }}</td>
                                 </tr>
                                 <tr>
                                     <td>Symbole</td>
-                                    <td>{{ articleElement.element.symbole }}</td>
+                                    <td>{{ article.articleElement.element.symbole }}</td>
                                 </tr>
                                 <tr>
                                     <td>Group</td>
-                                    <td>{{ articleElement.element.atomeGroup }}</td>
+                                    <td>{{ article.articleElement.element.atomeGroup }}</td>
                                 </tr>
                                 <tr>
                                     <td>Period</td>
-                                    <td>{{ articleElement.element.atomePeriod }}</td>
+                                    <td>{{ article.articleElement.element.atomePeriod }}</td>
                                 </tr>
                                 <tr>
                                     <td>Block</td>
-                                    <td>{{ articleElement.element.atomeBlock }}</td>
+                                    <td>{{ article.articleElement.element.atomeBlock }}</td>
                                 </tr>
                                 <tr>
                                     <td>Volumic Mass</td>
-                                    <td>{{ articleElement.element.volumicMass|join(", ") }}</td>
+                                    <td>{{ article.articleElement.element.volumicMass|join(", ") }}</td>
                                 </tr>
                                 <tr>
                                     <td>Num CAS</td>
-                                    <td>{{ articleElement.element.numCAS }}</td>
+                                    <td>{{ article.articleElement.element.numCAS }}</td>
                                 </tr>
                                 <tr>
                                     <td>Num CE</td>
-                                    <td>{{ articleElement.element.numCE }}</td>
+                                    <td>{{ article.articleElement.element.numCE }}</td>
                                 </tr>
                                 <tr>
                                     <td>Atomic Mass</td>
-                                    <td>{{ articleElement.element.atomicMass }}</td>
+                                    <td>{{ article.articleElement.element.atomicMass }}</td>
                                 </tr>
                                 <tr>
                                     <td>Atomic Radius</td>
-                                    <td>{{ articleElement.element.atomicRadius }}</td>
+                                    <td>{{ article.articleElement.element.atomicRadius }}</td>
                                 </tr>
                                 <tr>
                                     <td>Covalent Radius</td>
-                                    <td>{{ articleElement.element.covalentRadius }}</td>
+                                    <td>{{ article.articleElement.element.covalentRadius }}</td>
                                 </tr>
                                 <tr>
                                     <td>Van Der Waals Radius</td>
-                                    <td>{{ articleElement.element.vanDerWaalsRadius }}</td>
+                                    <td>{{ article.articleElement.element.vanDerWaalsRadius }}</td>
                                 </tr>
                                 <tr>
                                     <td>Electronique Configuration</td>
-                                    <td>{{ articleElement.element.electroniqueConfiguration }}</td>
+                                    <td>{{ article.articleElement.element.electroniqueConfiguration }}</td>
                                 </tr>
                                 <tr>
                                     <td>Oxidation State</td>
-                                    <td>{{ articleElement.element.oxidationState }}</td>
+                                    <td>{{ article.articleElement.element.oxidationState }}</td>
                                 </tr>
                                 <tr>
                                     <td>Electronegativity</td>
-                                    <td>{{ articleElement.element.electronegativity }}</td>
+                                    <td>{{ article.articleElement.element.electronegativity }}</td>
                                 </tr>
                                 <tr>
                                     <td>Fusion Point</td>
-                                    <td>{{ articleElement.element.fusionPoint }}</td>
+                                    <td>{{ article.articleElement.element.fusionPoint }}</td>
                                 </tr>
                                 <tr>
                                     <td>Boiling Point</td>
-                                    <td>{{ articleElement.element.boilingPoint }}</td>
+                                    <td>{{ article.articleElement.element.boilingPoint }}</td>
                                 </tr>
                                 <tr>
                                     <td>Radioactivity</td>
-                                    <td>{{ articleElement.element.radioactivity ? "Oui" : "Non" }}</td>
+                                    <td>{{ article.articleElement.element.radioactivity ? "Oui" : "Non" }}</td>
                                 </tr>
                             </table>
                         </div

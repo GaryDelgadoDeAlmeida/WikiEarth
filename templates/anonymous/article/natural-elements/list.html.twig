@@ -7,14 +7,14 @@
                 <h2 class="wikiearth-article-header-title">Natural Elements</h2>
             </div>
             {% if elements != [] %}
-                {% for articleElement in elements %}
+                {% for article in elements %}
                     <li class="media h-150px">
                         <div class="media-header">
-                            <img class="img-fuild" src="{{ asset(file_exist(articleElement.element.imgPath)) }}" alt="{{ articleElement.title }}">
+                            <img class="img-fuild" src="{{ asset(file_exist(article.articleElement.element.imgPath)) }}" alt="{{ article.title }}">
                         </div>
                         <div class="media-body">
-                            <h5 class="media-body-title">{{ articleElement.title }}</h5>
-                            <a class="btn btn-outline-secondary" href="{{ path("articleElementByID", {"id": articleElement.id }) }}">See Article</a>
+                            <h5 class="media-body-title">{{ article.title }}</h5>
+                            <a class="btn btn-outline-secondary" href="{{ path("articleElementByID", {"id": article.id }) }}">See Article</a>
                         </div>
                     </li>
                 {% endfor %}

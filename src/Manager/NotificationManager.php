@@ -162,7 +162,7 @@ class NotificationManager extends AbstractController {
         $notification = new Notification();
         $notification->setUser($user);
         $notification->setType("error");
-        $notification->setContent("Your publication has been rejected by the taff");
+        $notification->setContent("Your publication has been refused by the taff");
         $notification->setCreatedAt(new \DateTime());
         $this->em->merge($notification);
         $this->em->flush();

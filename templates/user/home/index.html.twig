@@ -15,40 +15,10 @@
                                 {# <div class="col-md-3">
                                     <div class="livingThing-box">
                                         <div class="livingThing-box-header">
-                                            <span class="card-title">Animals</span>
+                                            <span class="card-title">Living Being</span>
                                         </div>
                                         <div class="livingThing-box-body">
-                                            <p class="card-text">{{ nbrAnimalia }}</p>
-                                        </div>
-                                    </div>
-                                </div> #}
-                                {# <div class="col-md-3">
-                                    <div class="livingThing-box">
-                                        <div class="livingThing-box-header">
-                                            <span class="card-title">Plants</span>
-                                        </div>
-                                        <div class="livingThing-box-body">
-                                            <p class="card-text">{{ nbrPlantae }}</p>
-                                        </div>
-                                    </div>
-                                </div> #}
-                                {# <div class="col-md-3">
-                                    <div class="livingThing-box">
-                                        <div class="livingThing-box-header">
-                                            <span class="card-title">Insects</span>
-                                        </div>
-                                        <div class="livingThing-box-body">
-                                            <p class="card-text">{{ nbrInsecta }}</p>
-                                        </div>
-                                    </div>
-                                </div> #}
-                                {# <div class="col-md-3">
-                                    <div class="livingThing-box">
-                                        <div class="livingThing-box-header">
-                                            <span class="card-title">Bacteria</span>
-                                        </div>
-                                        <div class="livingThing-box-body">
-                                            <p class="card-text">{{ nbrBacteria }}</p>
+                                            <p class="card-text">{{ nbrLivingBeing }}</p>
                                         </div>
                                     </div>
                                 </div> #}
@@ -77,6 +47,7 @@
                     </div>
                 </div>
 
+                {# Recent Posts Section #}
                 <div class="col-md-6">
                     <div class="recent-activity-card">
                         <div class="recent-activity-card-header">
@@ -88,17 +59,35 @@
                                     <div class="post">
                                         <div class="post-content">
                                             <div class="post-header">
-                                                <span class="post-title"><a href="{{ path('articleLivingThingById', {'name': onePost.idLivingThing.kingdom|kingdom, 'id': onePost.idLivingThing.id}) }}">{{ onePost.title }}</a></span>
+                                                {% if onePost.articleLivingThing != null %}
+                                                    {% if onePost.articleLivingThing.livingThing != null %}
+                                                        <span class="post-title"><a href="{{ path('articleLivingThingByID', {'name': onePost.articleLivingThing.livingThing.kingdom|kingdom, 'id': onePost.id}) }}">{{ onePost.title }}</a></span>
+                                                    {% endif %}
+                                                {% elseif onePost.articleElement != null %}
+                                                    {% if onePost.articleElement.element != null %}
+                                                        <span class="post-title"><a href="{{ path('articleElementByID', {'id': onePost.id}) }}">{{ onePost.title }}</a></span>
+                                                    {% endif %}
+                                                {% elseif onePost.articleMineral != null %}
+                                                    {% if onePost.articleMineral.mineral != null %}
+                                                        <span class="post-title"><a href="{{ path('articleMineralByID', {'id': onePost.id}) }}">{{ onePost.title }}</a></span>
+                                                    {% endif %}
+                                                {% endif %}
                                             </div>
                                             <div class="post-body">
-                                                <span class="post-text">Created at {{ onePost.createdAt|date("Y-m-d H:i:s") }}</span>
+                                                <span class="post-text">
+                                                    {% if onePost.updatedAt is null or date(onePost.createdAt) >= date(onePost.updatedAt) %} 
+                                                        Created at {{ onePost.createdAt|date("Y-m-d H:i:s") }} 
+                                                    {% else %}
+                                                        Updated at {{ onePost.updatedAt|date("Y-m-d H:i:s") }}
+                                                    {% endif %}
+                                                </span>
                                             </div>
                                         </div>
                                     </div>
                                 {% endfor %}
 
                                 <div class="post-button">
-                                    <a class="btn btn-custom-blue" href="{{ path('userArticle') }}"><span>See More</span></a>
+                                    <a class="btn btn-custom-blue" href="{{ path('news') }}"><span>See More</span></a>
                                 </div>
                             {% else %}
                                 <p class="text-center">No article has been found.</p>
@@ -107,6 +96,7 @@
                     </div>
                 </div>
 
+                {# Notifications Section #}
                 <div class="col-md-6">
                     <div class="notification-card">
                         <div class="notification-card-header">
@@ -137,6 +127,7 @@
                     </div>
                 </div>
                 
+                {# Recent Conversation Section #}
                 <div class="col-md-6">
                     <div class="recent-conversation-card">
                         <div class="recent-conversation-card-header">

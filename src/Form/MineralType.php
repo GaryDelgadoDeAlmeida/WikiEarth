@@ -21,6 +21,9 @@ class MineralType extends AbstractType
             ])
             ->add('imgPath', FileType::class, [
                 'label' => "Photo",
+                'label_attr' => [
+                    'id' => 'fileuploadLabel'
+                ],
                 'constraints' => [
                     new File([
                         'maxSize' => '5120k',
@@ -33,7 +36,7 @@ class MineralType extends AbstractType
                     ])
                 ],
                 "required" => false,
-                'mapped' => false
+                'mapped' => false,
             ])
             ->add('rruffChemistry', null, [
                 "label" => "RRUFF Chemistry",

@@ -37,7 +37,7 @@ class UserRepository extends ServiceEntityRepository
             ->where('u.login LIKE :login')
             ->setParameter('login', $login)
             ->getQuery()
-            ->getSingleResult();
+            ->getOneOrNullResult();
     }
 
     public function countUsers($current_admin_id)

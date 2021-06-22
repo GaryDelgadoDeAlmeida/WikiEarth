@@ -1,6 +1,4 @@
 var $collectionHolder, $newLinkLi;
-// var $addTagButton = $('<button type="button" class="add_tag_link">Add a tag</button>');
-// var $newLinkLi = $('<li></li>').append($addTagButton);
 
 jQuery(document).ready(function() {
     let addButton = '<button type="button" class="add_tag_link btn btn-primary">Add a tag</button>';
@@ -168,4 +166,33 @@ function addTagFormDeleteLink($tagFormLi) {
     $removeFormButton.on('click', function(e) {
         $tagFormLi.remove();
     });
+}
+
+// let currentFileuploadInput = document.getElementById("article_mineral_mineral_imgPath");
+// let currentFileuploadInput = document.getElementById("mineral_imgPath");
+// if(currentFileuploadInput !== null && currentFileuploadInput !== undefined) {
+//     currentFileuploadInput.addEventListener("change", function(e) {
+//         var fileName = e.target.files[0].name;
+//         let childNodes_1 = this.parentElement.childNodes[1];
+//         if(childNodes_1 !== null || childNodes_1 !== undefined) {
+//             if(childNodes_1.id === "fileuploadLabel") {
+//                 childNodes_1.innerHTML = fileName;
+//             }
+//         }
+//     });
+// }
+
+function fillFileUploadLabel(idFileInput) {
+    let currentFileuploadInput = document.getElementById(idFileInput);
+    if(currentFileuploadInput !== null && currentFileuploadInput !== undefined) {
+        currentFileuploadInput.addEventListener("change", function(e) {
+            var fileName = e.target.files[0].name;
+            let childNodes_1 = this.parentElement.childNodes[1];
+            if(childNodes_1 !== null || childNodes_1 !== undefined) {
+                if(childNodes_1.id === "fileuploadLabel") {
+                    childNodes_1.innerHTML = fileName;
+                }
+            }
+        });
+    }
 }

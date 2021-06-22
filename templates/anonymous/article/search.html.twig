@@ -1,0 +1,74 @@
+{% extends 'anonymous/baseAnonymous.html.twig' %}
+
+{% block body %}
+    <section class="wikiearth-article">
+        <div class="container">
+            <div class="wikiearth-article-header">
+                <h2 class="wikiearth-article-header-title">Search</h2>
+            </div>
+
+            {% if articles != [] %}
+                {% for oneArticle in articles %}
+                    <li class="media h-150px">
+                        <div class="media-header">
+                            {% if oneArticle.articleLivingThing != null %}
+                                {% if oneArticle.articleLivingThing.livingThing != null %}
+                                    <img class="img-fuild" src="{{ asset(file_exist(oneArticle.articleLivingThing.livingThing.imgPath)) }}" alt="{{ oneArticle.title }}">
+                                {% endif %}
+                            {% elseif oneArticle.articleElement != null %}
+                                {% if oneArticle.articleElement.element != null %}
+                                    <img class="img-fuild" src="{{ asset(file_exist(oneArticle.articleElement.element.imgPath)) }}" alt="{{ oneArticle.title }}">
+                                {% endif %}
+                            {% elseif oneArticle.articleMineral != null %}
+                                {% if oneArticle.articleMineral.mineral != null %}
+                                <img class= "img-fuild" src="{{ asset(file_exist(oneArticle.articleMineral.mineral.imgPath)) }}" alt="{{ oneArticle.title }}">
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                        <div class="media-body">
+                            <h5 class="media-body-title">{{ oneArticle.title }}</h5>
+                            {% if oneArticle.articleLivingThing != null %}
+                                {% if oneArticle.articleLivingThing.livingThing != null %}
+                                    <a class="btn btn-outline-secondary" href="{{ path("articleLivingThingByID", {"name": oneArticle.articleLivingThing.livingThing.kingdom|kingdom, "id": oneArticle.id }) }}">See Article</a>
+                                {% endif %}
+                            {% elseif oneArticle.articleElement != null %}
+                                {% if oneArticle.articleElement.element != null %}
+                                    <a class="btn btn-outline-secondary" href="{{ path("articleElementByID", {"id": oneArticle.id }) }}">See Article</a>
+                                {% endif %}
+                            {% elseif oneArticle.articleMineral != null %}
+                                {% if oneArticle.articleMineral.mineral != null %}
+                                    <a class="btn btn-outline-secondary" href="{{ path("articleMineralByID", {"id": oneArticle.id }) }}">See Article</a>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </li>
+                {% endfor %}
+
+                {# Pagination #}
+                {% if offset > 1 and offset <= nbrOffset %}
+                    <div class="pagination">
+                        <div class="pagination-links">
+                            <a href="{{ path('search', {'searchInput': search, 'offset': 1}) }}"><i class="fas fa-angle-double-left"></i></a>
+                        
+                            {% if offset - 1 >= 1 %}
+                                <a class="" href="{{ path('search', {'searchInput': search, 'offset': offset - 1}) }}">{{ offset - 1 }}</a>
+                            {% endif %}
+
+                            <a class="active" href="{{ path('search', {'searchInput': search, 'offset': offset}) }}"><span>{{ offset }}</span></a>
+                            
+                            {% if offset + 1 <= nbrOffset %}
+                                <a class="" href="{{ path('search', {'searchInput': search, 'offset': offset + 1}) }}">{{ offset + 1 }}</a>
+                            {% endif %}
+                            
+                            <a href="{{ path('search', {'searchInput': search, 'offset': nbrOffset}) }}"><i class="fas fa-angle-double-right"></i></a>
+                        </div>
+                    </div>
+                {% endif %}
+            {% else %}
+                <div class="alert alert-danger">
+                    <span>No living thing in the country {{ country }} has been found.</span>
+                </div>
+            {% endif %}
+        </div>
+    </section>
+{% endblock %}

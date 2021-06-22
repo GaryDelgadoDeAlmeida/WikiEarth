@@ -59,6 +59,7 @@ class ImportMineralsCommand extends Command
         foreach($mineralsFileData as $key => $oneMineralData) {
             $foundedMineral = $this->manager->getRepository(Mineral::class)->findOneBy(["name" => $oneMineralData[1]]);
             
+            // If none has been found
             if(empty($foundedMineral)) {
                 $mineral = new Mineral();
                 $mineral->setName($oneMineralData[1]);

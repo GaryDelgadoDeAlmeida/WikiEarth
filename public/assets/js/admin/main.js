@@ -42,3 +42,11 @@ async function deleteArticle(category, articleLivingThingId) {
         .catch(error => alert(error));
     }
 }
+
+// Fill file input (jquery or bootstrap don't do it)
+fillFileUploadLabel("mineral_imgPath");
+fillFileUploadLabel("article_mineral_mineral_imgPath");
+fillFileUploadLabel("living_thing_imgPath");
+fillFileUploadLabel("article_living_thing_livingThing_imgPath");
+fillFileUploadLabel("element_imgPath");
+fillFileUploadLabel("article_element_element_imgPath");

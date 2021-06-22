@@ -20,27 +20,27 @@
                         <ul>
                             <li class="title">Contents</li>
 
-                            {% if livingThing.geography != null %}
+                            {% if article.articleLivingThing.geography != null %}
                                 <li class="subLink-item"><a href="#geography">Geography</a></li>
                             {% endif %}
 
-                            {% if livingThing.ecology != null %}
+                            {% if article.articleLivingThing.ecology != null %}
                                 <li class="subLink-item"><a href="#ecology">Ecology</a></li>
                             {% endif %}
 
-                            {% if livingThing.behaviour != null %}
+                            {% if article.articleLivingThing.behaviour != null %}
                                 <li class="subLink-item"><a href="#behaviour">Behaviour</a></li>
                             {% endif %}
 
-                            {% if livingThing.wayOfLife != null %}
+                            {% if article.articleLivingThing.wayOfLife != null %}
                                 <li class="subLink-item"><a href="#wayOfLife">Way of life</a></li>
                             {% endif %}
 
-                            {% if livingThing.description != null %}
+                            {% if article.articleLivingThing.description != null %}
                                 <li class="subLink-item"><a href="#description">Description</a></li>
                             {% endif %}
 
-                            {% if livingThing.otherData != null %}
+                            {% if article.articleLivingThing.otherData != null %}
                                 <li class="subLink-item"><a href="#otherData">Other Data</a></li>
                             {% endif %}
 
@@ -58,16 +58,16 @@
                 {# Center Content #}
                 <div class="articleLivingThing-single-center">
                     <div class="post">
-                        <h1 class="post-title">{{ livingThing.title }}</h1>
+                        <h1 class="post-title">{{ article.articleLivingThing.title }}</h1>
 
                         <div class="post-content">
-                            {% if livingThing.geography != null %}
+                            {% if article.articleLivingThing.geography != null %}
                                 <div class="post-content-section" id="geography">
                                     <h3 class="post-content-section-title">Geography</h3>
 
                                     {# Geography #}
                                     <div class="post-content-section-content">
-                                        {% for oneGeography in livingThing.geography %}
+                                        {% for oneGeography in article.articleLivingThing.geography %}
                                             <div class="section-content">
                                                 <div class="title">
                                                     <span>{{ oneGeography.sub_title }}</span>
@@ -82,12 +82,12 @@
                             {% endif %}
 
                             {# Ecology #}
-                            {% if livingThing.ecology != null %}
+                            {% if article.articleLivingThing.ecology != null %}
                                 <div class="post-content-section" id="ecology">
                                     <h3 class="post-content-section-title">Ecology</h3>
 
                                     <div class="post-content-section-content">
-                                        {% for oneEcology in livingThing.ecology %}
+                                        {% for oneEcology in article.articleLivingThing.ecology %}
                                             <div class="section-content">
                                                 <div class="title">
                                                     <span>{{ oneEcology.sub_title }}</span>
@@ -102,12 +102,12 @@
                             {% endif %}
 
                             {# Behaviour #}
-                            {% if livingThing.behaviour != null %}
+                            {% if article.articleLivingThing.behaviour != null %}
                                 <div class="post-content-section" id="behaviour">
                                     <h3 class="post-content-section-title">Behaviour</h3>
 
                                     <div class="post-content-section-content">
-                                        {% for oneBehaviour in livingThing.behaviour %}
+                                        {% for oneBehaviour in article.articleLivingThing.behaviour %}
                                             <div class="section-content">
                                                 <div class="title">
                                                     <span>{{ oneBehaviour.sub_title }}</span>
@@ -122,12 +122,12 @@
                             {% endif %}
 
                             {# Way of Life #}
-                            {% if livingThing.wayOfLife != null %}
+                            {% if article.articleLivingThing.wayOfLife != null %}
                                 <div class="post-content-section" id="wayOfLife">
                                     <h3 class="post-content-section-title">Way of Life</h3>
 
                                     <div class="post-content-section-content">
-                                        {% for oneWayOfLife in livingThing.wayOfLife %}
+                                        {% for oneWayOfLife in article.articleLivingThing.wayOfLife %}
                                             <div class="section-content">
                                                 <div class="title">
                                                     <span>{{ oneWayOfLife.sub_title }}</span>
@@ -142,12 +142,12 @@
                             {% endif %}
 
                             {# Description #}
-                            {% if livingThing.description != null %}
+                            {% if article.articleLivingThing.description != null %}
                                 <div class="post-content-section" id="description">
                                     <h3 class="post-content-section-title">Description</h3>
 
                                     <div class="post-content-section-content">
-                                        {% for oneDescription in livingThing.description %}
+                                        {% for oneDescription in article.articleLivingThing.description %}
                                             <div class="section-content">
                                                 <div class="title">
                                                     <span>{{ oneDescription.sub_title }}</span>
@@ -162,12 +162,12 @@
                             {% endif %}
 
                             {# Other Information #}
-                            {% if livingThing.otherData != null %}
+                            {% if article.articleLivingThing.otherData != null %}
                                 <div class="post-content-section" id="otherData">
                                     <h3 class="post-content-section-title">Other Data</h3>
 
                                     <div class="post-content-section-content">
-                                        {% for oneOtherData in livingThing.otherData %}
+                                        {% for oneOtherData in article.articleLivingThing.otherData %}
                                             <div class="section-content">
                                                 <div class="title">
                                                     <span>{{ oneOtherData.sub_title }}</span>
@@ -220,170 +220,170 @@
                 <div class="articleLivingThing-single-right">
                     <div class="articleLivingThing-livingThing">
                         <div class="livingThing-img">
-                            <img class="img-fluid" src="{{ asset(file_exist(livingThing.idLivingThing.imgPath)) }}" alt="{{ livingThing.idLivingThing.name }}">
+                            <img class="img-fluid" src="{{ asset(file_exist(article.articleLivingThing.livingThing.imgPath)) }}" alt="{{ article.title }}">
                         </div>
 
                         <div class="livingThing-content">
                             <div>&nbsp;<div>
                             <table>
-                                {% if livingThing.idLivingThing.domain != null %}
+                                {% if article.articleLivingThing.livingThing.domain != null %}
                                     <tr>
                                         <td>Domain</td>
-                                        <td>{{ livingThing.idLivingThing.domain }}</td>
+                                        <td>{{ article.articleLivingThing.livingThing.domain }}</td>
                                     </tr>
                                 {% endif %}
 
-                                {% if livingThing.idLivingThing.kingdom != null %}
+                                {% if article.articleLivingThing.livingThing.kingdom != null %}
                                     <tr>
                                         <td>Kingdom</td>
-                                        <td>{{ livingThing.idLivingThing.kingdom }}</td>
+                                        <td>{{ article.articleLivingThing.livingThing.kingdom }}</td>
                                     </tr>
                                 {% endif %}
 
-                                {% if livingThing.idLivingThing.subKingdom != null %}
+                                {% if article.articleLivingThing.livingThing.subKingdom != null %}
                                     <tr>
                                         <td>Sub Kingdom</td>
-                                        <td>{{ livingThing.idLivingThing.subKingdom }}</td>
+                                        <td>{{ article.articleLivingThing.livingThing.subKingdom }}</td>
                                     </tr>
                                 {% endif %}
 
-                                {% if livingThing.idLivingThing.branch != null %}
+                                {% if article.articleLivingThing.livingThing.branch != null %}
                                     <tr>
                                         <td>Branch</td>
-                                        <td>{{ livingThing.idLivingThing.branch }}</td>
+                                        <td>{{ article.articleLivingThing.livingThing.branch }}</td>
                                     </tr>
                                 {% endif %}
 
-                                {% if livingThing.idLivingThing.subBranch != null %}
+                                {% if article.articleLivingThing.livingThing.subBranch != null %}
                                     <tr>
                                         <td>Sub Branch</td>
-                                        <td>{{ livingThing.idLivingThing.subBranch }}</td>
+                                        <td>{{ article.articleLivingThing.livingThing.subBranch }}</td>
                                     </tr>
                                 {% endif %}
 
-                                {% if livingThing.idLivingThing.infraBranch != null %}
+                                {% if article.articleLivingThing.livingThing.infraBranch != null %}
                                     <tr>
                                         <td>Infra Branch</td>
-                                        <td>{{ livingThing.idLivingThing.infraBranch }}</td>
+                                        <td>{{ article.articleLivingThing.livingThing.infraBranch }}</td>
                                     </tr>
                                 {% endif %}
 
-                                {% if livingThing.idLivingThing.division != null %}
+                                {% if article.articleLivingThing.livingThing.division != null %}
                                     <tr>
                                         <td>Division</td>
-                                        <td>{{ livingThing.idLivingThing.division }}</td>
+                                        <td>{{ article.articleLivingThing.livingThing.division }}</td>
                                     </tr>
                                 {% endif %}
 
-                                {% if livingThing.idLivingThing.superClass != null %}
+                                {% if article.articleLivingThing.livingThing.superClass != null %}
                                     <tr>
                                         <td>Super Class</td>
-                                        <td>{{ livingThing.idLivingThing.superClass }}</td>
+                                        <td>{{ article.articleLivingThing.livingThing.superClass }}</td>
                                     </tr>
                                 {% endif %}
 
-                                {% if livingThing.idLivingThing.class != null %}
+                                {% if article.articleLivingThing.livingThing.class != null %}
                                     <tr>
                                         <td>Class</td>
-                                        <td>{{ livingThing.idLivingThing.class }}</td>
+                                        <td>{{ article.articleLivingThing.livingThing.class }}</td>
                                     </tr>
                                 {% endif %}
                                 
-                                {% if livingThing.idLivingThing.subClass != null %}
+                                {% if article.articleLivingThing.livingThing.subClass != null %}
                                     <tr>
                                         <td>Sub Class</td>
-                                        <td>{{ livingThing.idLivingThing.subClass }}</td>
+                                        <td>{{ article.articleLivingThing.livingThing.subClass }}</td>
                                     </tr>
                                 {% endif %}
 
-                                {% if livingThing.idLivingThing.infraClass != null %}
+                                {% if article.articleLivingThing.livingThing.infraClass != null %}
                                     <tr>
                                         <td>Infra Class</td>
-                                        <td>{{ livingThing.idLivingThing.infraClass }}</td>
+                                        <td>{{ article.articleLivingThing.livingThing.infraClass }}</td>
                                     </tr>
                                 {% endif %}
 
-                                {% if livingThing.idLivingThing.superOrder != null %}
+                                {% if article.articleLivingThing.livingThing.superOrder != null %}
                                     <tr>
                                         <td>Super Order</td>
-                                        <td>{{ livingThing.idLivingThing.superOrder }}</td>
+                                        <td>{{ article.articleLivingThing.livingThing.superOrder }}</td>
                                     </tr>
                                 {% endif %}
 
-                                {% if livingThing.idLivingThing.normalOrder != null %}
+                                {% if article.articleLivingThing.livingThing.normalOrder != null %}
                                     <tr>
                                         <td>Order</td>
-                                        <td>{{ livingThing.idLivingThing.normalOrder }}</td>
+                                        <td>{{ article.articleLivingThing.livingThing.normalOrder }}</td>
                                     </tr>
                                 {% endif %}
 
-                                {% if livingThing.idLivingThing.subOrder != null %}
+                                {% if article.articleLivingThing.livingThing.subOrder != null %}
                                     <tr>
                                         <td>Sub Order</td>
-                                        <td>{{ livingThing.idLivingThing.subOrder }}</td>
+                                        <td>{{ article.articleLivingThing.livingThing.subOrder }}</td>
                                     </tr>
                                 {% endif %}
                             
-                                {% if livingThing.idLivingThing.infraOrder != null %}
+                                {% if article.articleLivingThing.livingThing.infraOrder != null %}
                                     <tr>
                                         <td>Infra Order</td>
-                                        <td>{{ livingThing.idLivingThing.infraOrder }}</td>
+                                        <td>{{ article.articleLivingThing.livingThing.infraOrder }}</td>
                                     </tr>
                                 {% endif %}
 
-                                {% if livingThing.idLivingThing.microOrder != null %}
+                                {% if article.articleLivingThing.livingThing.microOrder != null %}
                                     <tr>
                                         <td>Micro Order</td>
-                                        <td>{{ livingThing.idLivingThing.microOrder }}</td>
+                                        <td>{{ article.articleLivingThing.livingThing.microOrder }}</td>
                                     </tr>
                                 {% endif %}
 
-                                {% if livingThing.idLivingThing.superFamily != null %}
+                                {% if article.articleLivingThing.livingThing.superFamily != null %}
                                     <tr>
                                         <td>Super Family</td>
-                                        <td>{{ livingThing.idLivingThing.superFamily }}</td>
+                                        <td>{{ article.articleLivingThing.livingThing.superFamily }}</td>
                                     </tr>
                                 {% endif %}
 
-                                {% if livingThing.idLivingThing.family != null %}
+                                {% if article.articleLivingThing.livingThing.family != null %}
                                     <tr>
                                         <td>Family</td>
-                                        <td>{{ livingThing.idLivingThing.family }}</td>
+                                        <td>{{ article.articleLivingThing.livingThing.family }}</td>
                                     </tr>
                                 {% endif %}
 
-                                {% if livingThing.idLivingThing.subFamily != null %}
+                                {% if article.articleLivingThing.livingThing.subFamily != null %}
                                     <tr>
                                         <td>Sub Family</td>
-                                        <td>{{ livingThing.idLivingThing.subFamily }}</td>
+                                        <td>{{ article.articleLivingThing.livingThing.subFamily }}</td>
                                     </tr>
                                 {% endif %}
 
-                                {% if livingThing.idLivingThing.genus != null %}
+                                {% if article.articleLivingThing.livingThing.genus != null %}
                                     <tr>
                                         <td>Genus</td>
-                                        <td>{{ livingThing.idLivingThing.genus }}</td>
+                                        <td>{{ article.articleLivingThing.livingThing.genus }}</td>
                                     </tr>
                                 {% endif %}
 
-                                {% if livingThing.idLivingThing.subGenus != null %}
+                                {% if article.articleLivingThing.livingThing.subGenus != null %}
                                     <tr>
                                         <td>Sub Genus</td>
-                                        <td>{{ livingThing.idLivingThing.subGenus }}</td>
+                                        <td>{{ article.articleLivingThing.livingThing.subGenus }}</td>
                                     </tr>
                                 {% endif %}
 
-                                {% if livingThing.idLivingThing.species != null %}
+                                {% if article.articleLivingThing.livingThing.species != null %}
                                     <tr>
                                         <td>Species</td>
-                                        <td>{{ livingThing.idLivingThing.species }}</td>
+                                        <td>{{ article.articleLivingThing.livingThing.species }}</td>
                                     </tr>
                                 {% endif %}
                                 
-                                {% if livingThing.idLivingThing.subSpecies != null %}
+                                {% if article.articleLivingThing.livingThing.subSpecies != null %}
                                     <tr>
                                         <td>Sub Species</td>
-                                        <td>{{ livingThing.idLivingThing.subSpecies }}</td>
+                                        <td>{{ article.articleLivingThing.livingThing.subSpecies }}</td>
                                     </tr>
                                 {% endif %}
                                 
@@ -401,9 +401,9 @@
 
                             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                                 {% if is_granted('ROLE_USER') %}
-                                    <a class="btn btn-success" href="{{ path('userEditArticle', {('category': 'living-thing', 'id': livingThing.id}) }}"><i class="far fa-edit"></i></a>
+                                    <a class="btn btn-success" href="{{ path('userEditArticle', {('category': 'living-thing', 'id': article.id}) }}"><i class="far fa-edit"></i></a>
                                 {% else %}
-                                    <a class="btn btn-success" href="{{ path('adminEditArticleByCategory', {'category': 'living-thing', 'id': livingThing.id}) }}"><i class="far fa-edit"></i></a>
+                                    <a class="btn btn-success" href="{{ path('adminEditArticleByCategory', {'category': 'living-thing', 'id': article.id}) }}"><i class="far fa-edit"></i></a>
                                 {% endif %}
                             {% endif %}
                         </div>

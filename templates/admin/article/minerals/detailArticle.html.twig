@@ -12,47 +12,47 @@
                 <div class="mineral-data-section txt-center">
                     <table class="table w-350px m-auto">
                         <tr>
-                            <td colspan="2"><img class="img-fluid" src="{{ asset(file_exist(article.mineral.imgPath)) }}" alt="{{ article.mineral.name }}"></td>
+                            <td colspan="2"><img class="img-fluid" src="{{ asset(file_exist(article.articleMineral.mineral.imgPath)) }}" alt="{{ article.articleMineral.mineral.name }}"></td>
                         </tr>
                         <tr>
                             <td>RRUFF Chemistry</td>
-                            <td>{{ article.mineral.rruffChemistry }}</td>
+                            <td>{{ article.articleMineral.mineral.rruffChemistry }}</td>
                         </tr>
                         <tr>
                             <td>IMA Chemistry</td>
-                            <td>{{ article.mineral.imaChemistry }}</td>
+                            <td>{{ article.articleMineral.mineral.imaChemistry }}</td>
                         </tr>
                         <tr>
                             <td>Chemistry Elements</td>
-                            <td>{{ article.mineral.chemistryElements }}</td>
+                            <td>{{ article.articleMineral.mineral.chemistryElements }}</td>
                         </tr>
                         <tr>
                             <td>IMA Number</td>
-                            <td>{{ article.mineral.imaNumber }}</td>
+                            <td>{{ article.articleMineral.mineral.imaNumber }}</td>
                         </tr>
                         <tr>
                             <td>IMA Status</td>
-                            <td>{{ article.mineral.imaStatus|join(", ") }}</td>
+                            <td>{{ article.articleMineral.mineral.imaStatus|join(", ") }}</td>
                         </tr>
                         <tr>
                             <td>Structural Groupname</td>
-                            <td>{{ article.mineral.structuralGroupname }}</td>
+                            <td>{{ article.articleMineral.mineral.structuralGroupname }}</td>
                         </tr>
                         <tr>
                             <td>Crystal System</td>
-                            <td>{{ article.mineral.crystalSystem }}</td>
+                            <td>{{ article.articleMineral.mineral.crystalSystem }}</td>
                         </tr>
                         <tr>
                             <td>Valence Elements</td>
-                            <td>{{ article.mineral.valenceElements }}</td>
+                            <td>{{ article.articleMineral.mineral.valenceElements }}</td>
                         </tr>
                     </table>
                 </div>
 
-                {% if article.generality != [] %}
+                {% if article.articleMineral.generality != [] %}
                     <div class="generalities-section">
                         <h2>Generalities</h2>
-                        {% for generality in article.generality %}
+                        {% for generality in article.articleMineral.generality %}
                             <div class="generality">
                                 <h3>{{ generality.sub_title }}</h3>
                                 <p>{{ generality.sub_content }}</p>
@@ -61,10 +61,10 @@
                     </div>
                 {% endif %}
 
-                {% if article.etymology != [] %}
+                {% if article.articleMineral.etymology != [] %}
                     <div class="etymologies-section">
                         <h2>Etymologies</h2>
-                        {% for etymology in article.etymology %}
+                        {% for etymology in article.articleMineral.etymology %}
                             <div class="etymology">
                                 <h3>{{ etymology.sub_title }}</h3>
                                 <p>{{ etymology.sub_content }}</p>
@@ -73,10 +73,10 @@
                     </div>
                 {% endif %}
 
-                {% if article.properties != [] %}
+                {% if article.articleMineral.properties != [] %}
                 <div class="properties-section">
                     <h2>Properties</h2>
-                    {% for property in article.properties %}
+                    {% for property in article.articleMineral.properties %}
                         <div class="property">
                             <h3>{{ property.sub_title }}</h3>
                             <p>{{ property.sub_content }}</p>
@@ -85,10 +85,10 @@
                 </div>
                 {% endif %}
 
-                {% if article.geology != [] %}
+                {% if article.articleMineral.geology != [] %}
                     <div class="geologies-section">
                         <h2>Geologies</h2>
-                        {% for geology in article.geology %}
+                        {% for geology in article.articleMineral.geology %}
                             <div class="geology">
                                 <h3>{{ geology.sub_title }}</h3>
                                 <p>{{ geology.sub_content }}</p>
@@ -97,10 +97,10 @@
                     </div>
                 {% endif %}
 
-                {% if article.mining != [] %}
+                {% if article.articleMineral.mining != [] %}
                     <div class="mining-section">
                         <h2>Mining</h2>
-                        {% for mining in article.mining %}
+                        {% for mining in article.articleMineral.mining %}
                             <div class="mining">
                                 <p><b>{{ mining.sub_title }}</b> &minus; {{ mining.sub_content }}</p>
                             </div>

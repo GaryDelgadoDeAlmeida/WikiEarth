@@ -3,6 +3,7 @@
 {% block body %}
     <section class="container">
         {% if response != [] %}
+            <div>&nbsp;</div>
             <div class="alert alert-{{ response.class }} txt-center">
                 <span>{{ response.message }}</span>
             </div>

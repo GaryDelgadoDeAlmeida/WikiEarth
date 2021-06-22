@@ -20,6 +20,11 @@ class ImportPlantsCommand extends Command
     private $params;
     private $manager;
 
+    /**
+     * @param EntityManagerInterface the manager who will interact with the database
+     * @param ParameterBagInterface
+     * @param FileManager
+     */
     public function __construct(EntityManagerInterface $manager, ParameterBagInterface $params, FileManager $fileManager)
     {
         parent::__construct();
@@ -35,6 +40,11 @@ class ImportPlantsCommand extends Command
         ;
     }
 
+    /**
+     * @param InputInterface data inserted using shell
+     * @param OutputInterface data returned to the user
+     * @return int return 0 to kill the process
+     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         set_time_limit(0);
@@ -54,6 +64,8 @@ class ImportPlantsCommand extends Command
         }
 
         foreach($plantsFileData as $key => $onePlant) {
+            
+            // If none has been found
             if(empty($this->manager->getRepository(LivingThing::class)->getLivingThingByName($onePlant[3]))) {
                 foreach($plantsImgDir as $onePlantImg) {
                     if(!in_array($onePlantImg, [".", ".."])) {
@@ -69,35 +81,35 @@ class ImportPlantsCommand extends Command
                 }
 
                 $plant = new LivingThing();
-                $plant->setName($oneDinosaur[3]);
-                $plant->setCommonName(!empty($oneDinosaur[4]) ? $oneDinosaur[4] : $oneDinosaur[3]);
-                // $plant->setDomain($oneDinosaur[2]);
-                $plant->setKingdom($oneDinosaur[17]);
-                $plant->setSubKingdom($oneDinosaur[16]);
-                // $plant->setInfraKingdom($oneDinosaur[5]);
-                // $plant->setSuperBranch($oneDinosaur[6]);
-                // $plant->setBranch($oneDinosaur[7]);
-                // $plant->setSubBranch($oneDinosaur[8]);
-                // $plant->setInfraBranch($oneDinosaur[9]);
-                // $plant->setSuperDivision($oneDinosaur[14]);
-                $plant->setDivision($oneDinosaur[14]);
-                // $plant->setSubDivision($oneDinosaur[13]);
-                // $plant->setSuperClass($oneDinosaur[13]);
-                $plant->setClass($oneDinosaur[12]);
-                $plant->setSubClass($oneDinosaur[11]);
-                // $plant->setInfraClass($oneDinosaur[14]);
-                // $plant->setSuperOrder($oneDinosaur[15]);
-                $plant->setNormalOrder($oneDinosaur[10]);
-                // $plant->setSubOrder($oneDinosaur[17]);
-                // $plant->setInfraOrder($oneDinosaur[18]);
-                // $plant->setMicroOrder($oneDinosaur[19]);
-                // $plant->setSuperFamily($oneDinosaur[20]);
-                $plant->setFamily($oneDinosaur[7]);
-                // $plant->setSubFamily($oneDinosaur[22]);
-                $plant->setGenus($oneDinosaur[6]);
-                // $plant->setSubGenus($oneDinosaur[26]);
-                // $plant->setSpecies($oneDinosaur[27]);
-                // $plant->setSubSpecies($oneDinosaur[28]);
+                $plant->setName($onePlant[3]);
+                $plant->setCommonName(!empty($onePlant[4]) ? $onePlant[4] : $onePlant[3]);
+                // $plant->setDomain($onePlant[2]);
+                $plant->setKingdom($onePlant[17]);
+                $plant->setSubKingdom($onePlant[16]);
+                // $plant->setInfraKingdom($onePlant[5]);
+                // $plant->setSuperBranch($onePlant[6]);
+                // $plant->setBranch($onePlant[7]);
+                // $plant->setSubBranch($onePlant[8]);
+                // $plant->setInfraBranch($onePlant[9]);
+                // $plant->setSuperDivision($onePlant[14]);
+                $plant->setDivision($onePlant[14]);
+                // $plant->setSubDivision($onePlant[13]);
+                // $plant->setSuperClass($onePlant[13]);
+                $plant->setClass($onePlant[12]);
+                $plant->setSubClass($onePlant[11]);
+                // $plant->setInfraClass($onePlant[14]);
+                // $plant->setSuperOrder($onePlant[15]);
+                $plant->setNormalOrder($onePlant[10]);
+                // $plant->setSubOrder($onePlant[17]);
+                // $plant->setInfraOrder($onePlant[18]);
+                // $plant->setMicroOrder($onePlant[19]);
+                // $plant->setSuperFamily($onePlant[20]);
+                $plant->setFamily($onePlant[7]);
+                // $plant->setSubFamily($onePlant[22]);
+                $plant->setGenus($onePlant[6]);
+                // $plant->setSubGenus($onePlant[26]);
+                // $plant->setSpecies($onePlant[27]);
+                // $plant->setSubSpecies($onePlant[28]);
 
                 if(!empty($imgFileName)) {
                     $plant->setImgPath("content/wikiearth/living-thing/dinosaurs/{$imgFileName}");

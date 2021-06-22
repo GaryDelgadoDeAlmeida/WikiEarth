@@ -18,14 +18,9 @@ class ArticleMineral
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="articleMinerals")
+     * @ORM\OneToOne(targetEntity=Article::class, mappedBy="articleMineral", cascade={"persist", "remove"})
      */
-    private $user;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $title;
+    private $article;
 
     /**
      * @ORM\OneToOne(targetEntity=Mineral::class, inversedBy="articleMineral", cascade={"persist", "remove"})
@@ -58,11 +53,6 @@ class ArticleMineral
     private $mining = [];
 
     /**
-     * @ORM\Column(type="boolean")
-     */
-    private $approved;
-
-    /**
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
@@ -72,26 +62,24 @@ class ArticleMineral
         return $this->id;
     }
 
-    public function getUser(): ?User
+    public function getArticle(): ?Article
     {
-        return $this->user;
+        return $this->article;
     }
 
-    public function setUser(?User $user): self
+    public function setArticle(?Article $article): self
     {
-        $this->user = $user;
+        // unset the owning side of the relation if necessary
+        if ($article === null && $this->article !== null) {
+            $this->article->setMineral(null);
+        }
 
-        return $this;
-    }
+        // set the owning side of the relation if necessary
+        if ($article !== null && $article->getMineral() !== $this) {
+            $article->setMineral($this);
+        }
 
-    public function getTitle(): ?string
-    {
-        return $this->title;
-    }
-
-    public function setTitle(string $title): self
-    {
-        $this->title = $title;
+        $this->article = $article;
 
         return $this;
     }
@@ -164,18 +152,6 @@ class ArticleMineral
     public function setMining(?array $mining): self
     {
         $this->mining = $mining;
-
-        return $this;
-    }
-
-    public function getApproved(): ?bool
-    {
-        return $this->approved;
-    }
-
-    public function setApproved(bool $approved): self
-    {
-        $this->approved = $approved;
 
         return $this;
     }

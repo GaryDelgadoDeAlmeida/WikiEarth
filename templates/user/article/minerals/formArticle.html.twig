@@ -2,6 +2,13 @@
 
 {% block body %}
     <div class="container">
+        {% if response != [] %}
+            <div>&nbsp;</div>
+            <div class="alert alert-{{ response.class }} txt-center">
+                <span>{{ response.message }}</span>
+            </div>
+        {% endif %}
+
         {{ form_start(formArticle, {"method":"POST"}) }}
             <div class="form-group col-12 wow fadeInUp animated">
                 <h3>Mineral</h3>

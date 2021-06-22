@@ -12,10 +12,6 @@
         </div>
     </section>
 
-    {# <section class="home-map">
-        {% include "anonymous/home/interactive-maps.html.twig" %}
-    </section> #}
-
     <section class="home-article bg-lightGrey">
         <div class="slider owl-carousel">
             {# <div class="card">
@@ -28,52 +24,48 @@
                     <p>Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                     <a class="btn" href="{{ path('articleLivingThing', {'name': 'animals'}) }}">See More</a>
                 </div>
-            </div> #}
+            </div>
 
-            {# <div class="card">
+            <div class="card">
                 <div class="img">
                     <img src="{{ asset('content/img/Plantae.jpg') }}" alt="Plantae">
                 </div>
                 
                 <div class="content">
                     <h5 class="title">Plantae</h5>
-                    <p class="text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                     <a class="btn" href="{{ path('articleLivingThing', {'name': 'plants'}) }}">See More</a>
                 </div>
-            </div> #}
+            </div>
 
-            {# <div class="card">
+            <div class="card">
                 <div class="img">
                     <img src="{{ asset('content/img/Fungi.jpg') }}" alt="Fungi">
                 </div>
                 
                 <div class="content">
                     <h5 class="title">Fungi</h5>
-                    <p class="text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                     <a class="btn" href="{{ path('articleLivingThing', {'name': 'fungi'}) }}">See More</a>
                 </div>
-            </div> #}
+            </div>
 
-            {# <div class="card">
+            <div class="card">
                 <div class="img">
                     <img src="{{ asset('content/img/Bacteria.jpg') }}" alt="Bacteria">
                 </div>
                 
                 <div class="content">
                     <h5 class="title">Bacteria</h5>
-                    <p class="text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                     <a class="btn" href="{{ path('articleLivingThing', {'name': 'bacteria'}) }}">See More</a>
                 </div>
-            </div> #}
+            </div>
 
-            {# <div class="card">
+            <div class="card">
                 <div class="img">
                     <img src="{{ asset('content/img/Viruses.jpg') }}" alt="Viruses">
                 </div>
                 
                 <div class="content">
                     <h5 class="title">Viruses</h5>
-                    <p class="text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                     <a class="btn" href="{{ path('articleLivingThing', {'name': 'viruses'}) }}">See More</a>
                 </div>
             </div> #}
@@ -85,7 +77,6 @@
                 
                 <div class="content">
                     <h5 class="title">Elements</h5>
-                    <p class="text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                     <a class="btn" href="{{ path("articleElement") }}">See More</a>
                 </div>
             </div>
@@ -97,7 +88,6 @@
                 
                 <div class="content">
                     <h5 class="title">Minerals</h5>
-                    <p class="text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                     <a class="btn" href="{{ path("articleMineral") }}">See More</a>
                 </div>
             </div>
@@ -109,8 +99,7 @@
                 
                 <div class="content">
                     <h5 class="title">Rocks</h5>
-                    <p class="text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a class="btn" href="">See More</a>
+                    <a class="btn" href="{{ path("articleMineral") }}">See More</a>
                 </div>
             </div>
         </div>
@@ -175,7 +164,7 @@
                 </div>
 
                 {# <div class="nbrArticles-content">
-                    <span class="txt-bold">{{ nbrMinerals }}</span>
+                    <span class="txt-bold">{{ nbrChimicalReactions }}</span>
                     <span class="txt-size-middle">Chimical Reactions</span>
                 </div> #}
             </div>

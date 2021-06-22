@@ -62,11 +62,13 @@
 
                                 <div class="box-livingThing-action">
                                     {% if livingThing.articleLivingThing != null %}
-                                        {% if livingThing.articleLivingThing.approved == true %}
-                                            <span class="c-red">Have an article</span>
-                                            <a class="btn btn-custom-midnight" href="{{ path('articleLivingThingById', {'name': livingThing.kingdom|kingdom, 'id': livingThing.id}) }}">See Article</a>
-                                        {% else %}
-                                            <span class="c-orange">Pending approval</span>
+                                        {% if livingThing.articleLivingThing.article != null %}
+                                            {% if livingThing.articleLivingThing.approved == true %}
+                                                <span class="c-red">Have an article</span>
+                                                <a class="btn btn-custom-midnight" href="{{ path('articleLivingThingByID', {'name': livingThing.kingdom|kingdom, 'id': livingThing.id}) }}">See Article</a>
+                                            {% else %}
+                                                <span class="c-orange">Pending approval</span>
+                                            {% endif %}
                                         {% endif %}
                                     {% else %}
                                         <span class="c-green">No article found</span>

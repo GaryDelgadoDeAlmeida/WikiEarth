@@ -8,11 +8,17 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ArticleMineralManager extends AbstractController {
     
-    public function setArticleMineral(ArticleMineral &$articleMineral, Mineral $mineral, EntityManagerInterface $manager, $user = null)
+    /**
+     * Insert the content of the article and mineral into the databse
+     * 
+     * @param ArticleMineral contenu de l'article
+     * @param Mineral the mineral concerned by the creation of the article
+     * @param EntityManagerInterface the manager object used to communicate with the bdd
+     * @return array return the status of the process
+     */
+    public function setArticleMineral(ArticleMineral &$articleMineral, Mineral $mineral, EntityManagerInterface $manager)
     {
         // On effectue d'abord l'insertion
-        $articleMineral->setTitle($mineral->getName());
-        $articleMineral->setApproved(false);
         $articleMineral->setCreatedAt(new \DateTime());
         if($articleMineral->getId() != null) {
             $manager->merge($articleMineral);
@@ -22,10 +28,6 @@ class ArticleMineralManager extends AbstractController {
         $manager->flush();
         $manager->clear();
 
-        if(!empty($user)) {
-            $articleMineral->setUser($user);
-        }
-
         $mineral->setArticleMineral($articleMineral);
         $manager->merge($articleMineral);
         $manager->flush();
@@ -33,7 +35,7 @@ class ArticleMineralManager extends AbstractController {
         return [
             "error" => false,
             "class" => "success",
-            "message" => "Le nouvel article {$articleMineral->getTitle()} a bien été ajouté.",
+            "message" => "Le nouvel article {$mineral->getName()} a bien été ajouté.",
         ];
     }
 }

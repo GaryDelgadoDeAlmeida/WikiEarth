@@ -20,7 +20,7 @@
                 {% endfor %}
 
                 {# Pagination #}
-                {% if offset >= 1 and offset <= nbrOffset %}
+                {% if offset > 1 and offset <= nbrOffset %}
                     <div class="pagination">
                         <div class="pagination-links">
                             {% if offset - 1 >= 1 %}
@@ -38,9 +38,8 @@
                     </div>
                 {% endif %}
             {% else %}
-                <div>&nbsp;</div>
                 <div class="alert alert-danger">
-                    <span>No result has been found</span>
+                    <span>No results has been found</span>
                 </div>
             {% endif %}
         </div>

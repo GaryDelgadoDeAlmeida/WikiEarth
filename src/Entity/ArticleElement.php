@@ -20,19 +20,14 @@ class ArticleElement
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="articleElements")
+     * @ORM\OneToOne(targetEntity=Article::class, mappedBy="articleElement", cascade={"persist", "remove"})
      */
-    private $user;
+    private $article;
 
     /**
      * @ORM\OneToOne(targetEntity=Element::class, inversedBy="articleElement", cascade={"persist", "remove"})
      */
     private $element;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $title;
 
     /**
      * @ORM\Column(type="json")
@@ -60,19 +55,14 @@ class ArticleElement
     private $utilization = [];
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\OneToMany(targetEntity=Reference::class, mappedBy="articleElement")
      */
-    private $approved;
+    private $reference;
 
     /**
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Reference::class, mappedBy="articleElement")
-     */
-    private $reference;
 
     public function __construct()
     {
@@ -84,18 +74,6 @@ class ArticleElement
         return $this->id;
     }
 
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(?User $user): self
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
     public function getElement(): ?Element
     {
         return $this->element;
@@ -104,18 +82,6 @@ class ArticleElement
     public function setElement(?Element $element): self
     {
         $this->element = $element;
-
-        return $this;
-    }
-
-    public function getTitle(): ?string
-    {
-        return $this->title;
-    }
-
-    public function setTitle(string $title): self
-    {
-        $this->title = $title;
 
         return $this;
     }
@@ -180,18 +146,6 @@ class ArticleElement
         return $this;
     }
 
-    public function getApproved(): ?bool
-    {
-        return $this->approved;
-    }
-
-    public function setApproved(bool $approved): self
-    {
-        $this->approved = $approved;
-
-        return $this;
-    }
-
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
@@ -230,6 +184,28 @@ class ArticleElement
                 $reference->setArticleElement(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getArticle(): ?Article
+    {
+        return $this->article;
+    }
+
+    public function setArticle(?Article $article): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($article === null && $this->article !== null) {
+            $this->article->setArticleElement(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($article !== null && $article->getArticleElement() !== $this) {
+            $article->setArticleElement($this);
+        }
+
+        $this->article = $article;
 
         return $this;
     }

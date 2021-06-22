@@ -10,14 +10,14 @@
             <div class="list-livingThing-search">
                 <form class="form" method="get" action="{{ path('userMineral') }}">
                     <div class="formSearch">
-                        <input class="formSearch-input" type="search" name="search" placeholder="Search a mineral . . ." required>
+                        <input class="formSearch-input" type="search" name="search" placeholder="Search a mineral . . .">
                         <button class="formSearch-button">Search</button>
                     </div>
                 </form>
             </div>
 
             <div class="list-livingThing-options row">
-                <div class="col-6 text-center">
+                <div class="col-12 text-center">
                     <div class="filter-by--action">
                         <label>Filter By</label>
                         <form id="form--filter-by-mineral" method="POST">
@@ -28,19 +28,6 @@
                             </select>
                         </form>
                     </div>
-                </div>
-
-                <div class="col-6 text-center">
-                    {# <div class="category-by--action">
-                        <label>Category By</label>
-                        <form id="form--category-by-livingThing" method="POST">
-                            <select id="category-by-livingThing" name="category-by-livingThing">
-                                {% for key, value in categoryChoices %}
-                                    <option value="{{ key }}" {% if key == category_by %} selected="seleted" {% endif %}>{{ value }}</option>
-                                {% endfor %}
-                            </select>
-                        </form>
-                    </div> #}
                 </div>
             </div>
 
@@ -56,11 +43,13 @@
 
                                 <div class="box-livingThing-action">
                                     {% if mineral.articleMineral != null %}
-                                        {% if mineral.articleMineral.approved == true %}
-                                            <span class="c-red">Have an article</span>
-                                        <a class="btn btn-custom-midnight" href="{{ path('articleMineralByID', {'id': mineral.articleMineral.id}) }}">See Article</a>
-                                        {% else %}
-                                            <span class="c-orange">Pending approval</span>
+                                        {% if mineral.articleMineral.article != null %}
+                                            {% if mineral.articleMineral.article.approved == true %}
+                                                <span class="c-red">Have an article</span>
+                                                <a class="btn btn-custom-midnight" href="{{ path('articleMineralByID', {'id': mineral.articleMineral.article.id}) }}">See Article</a>
+                                            {% else %}
+                                                <span class="c-orange">Pending approval</span>
+                                            {% endif %}
                                         {% endif %}
                                     {% else %}
                                         <span class="c-green">No article found</span>
@@ -72,27 +61,29 @@
                     {% endfor %}
 
                     {# Pagination #}
-                    <nav aria-label="Page navigation example">
-                        <ul class="pagination justify-content-center">
-                            <li class="page-item {% if offset == 1 %} disabled {% endif %}">
-                                <a class="page-link" href="{{ path("userMineral", {'search': search}) }}" tabindex="-1" aria-disabled="true"><i class="fas fa-angle-double-left"></i></a>
-                            </li>
-                            
-                            {% if offset - 1 >= 1  %}
-                                <li class="page-item"><a class="page-link" href="{{ path("userMineral", {'offset': (offset - 1), 'search': search}) }}">{{ offset - 1 }}</a></li>
-                            {% endif %}
+                    {% if offset > 1 and offset <= total_page %}
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination justify-content-center">
+                                <li class="page-item {% if offset == 1 %} disabled {% endif %}">
+                                    <a class="page-link" href="{{ path("userMineral", {'search': search}) }}" tabindex="-1" aria-disabled="true"><i class="fas fa-angle-double-left"></i></a>
+                                </li>
+                                
+                                {% if offset - 1 >= 1  %}
+                                    <li class="page-item"><a class="page-link" href="{{ path("userMineral", {'offset': (offset - 1), 'search': search}) }}">{{ offset - 1 }}</a></li>
+                                {% endif %}
 
-                            <li class="page-item"><a class="page-link" >{{ offset }}</a></li>
+                                <li class="page-item"><a class="page-link" >{{ offset }}</a></li>
 
-                            {% if offset + 1 <= total_page  %}
-                                <li class="page-item"><a class="page-link" href="{{ path("userMineral", {'offset': (offset + 1), 'search': search}) }}">{{ offset + 1 }}</a></li>
-                            {% endif %}
+                                {% if offset + 1 <= total_page  %}
+                                    <li class="page-item"><a class="page-link" href="{{ path("userMineral", {'offset': (offset + 1), 'search': search}) }}">{{ offset + 1 }}</a></li>
+                                {% endif %}
 
-                            <li class="page-item {% if offset == total_page %} disabled {% endif %}">
-                                <a class="page-link" href="{{ path("userMineral", {'offset': total_page, 'search': search}) }}"><i class="fas fa-angle-double-right"></i></a>
-                            </li>
-                        </ul>
-                    </nav>
+                                <li class="page-item {% if offset == total_page %} disabled {% endif %}">
+                                    <a class="page-link" href="{{ path("userMineral", {'offset': total_page, 'search': search}) }}"><i class="fas fa-angle-double-right"></i></a>
+                                </li>
+                            </ul>
+                        </nav>
+                    {% endif %}
                 {% else %}
                     <div class="alert alert-info">
                         <span>No minerals has been found.</span>

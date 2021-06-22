@@ -48,6 +48,7 @@ class ElementManager extends AbstractController {
             $element->setImgPath("content/wikiearth/natural-elements/elements/{$newFilename}");
         }
 
+        $element->setCreatedAt(new \DateTime());
         $element->setVolumicMass(explode(" || ", $formElement["volumicMass"]->getData()));
         $manager->persist($element);
         $manager->flush();

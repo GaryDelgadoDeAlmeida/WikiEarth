@@ -1,6 +1,7 @@
 html, body {
     /* font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; */
     font-family: "Gill Sans", sans-serif;
+    /* font-family: "Palatino", sans-serif; */
     font-size: 1rem;
     background-color: var(--c-lightWhite);
     padding: 0;

@@ -93,31 +93,19 @@ class User implements UserInterface
     private $createdAt;
 
     /**
-     * @ORM\OneToMany(targetEntity=ArticleLivingThing::class, mappedBy="user")
-     */
-    private $articleLivingThings;
-
-    /**
      * @ORM\OneToMany(targetEntity=Notification::class, mappedBy="userId")
      */
     private $notifications;
 
     /**
-     * @ORM\OneToMany(targetEntity=ArticleElement::class, mappedBy="user")
+     * @ORM\OneToMany(targetEntity=Article::class, mappedBy="user", cascade={"persist"})
      */
-    private $articleElements;
-
-    /**
-     * @ORM\OneToMany(targetEntity=ArticleMineral::class, mappedBy="user")
-     */
-    private $articleMinerals;
+    private $articles;
 
     public function __construct()
     {
-        $this->articleLivingThings = new ArrayCollection();
         $this->notifications = new ArrayCollection();
-        $this->articleElements = new ArrayCollection();
-        $this->articleMinerals = new ArrayCollection();
+        $this->articles = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -237,37 +225,6 @@ class User implements UserInterface
     }
 
     /**
-     * @return Collection|ArticleLivingThing[]
-     */
-    public function getArticleLivingThings(): Collection
-    {
-        return $this->articleLivingThings;
-    }
-
-    public function addArticleLivingThing(ArticleLivingThing $articleLivingThing): self
-    {
-        if (!$this->articleLivingThings->contains($articleLivingThing)) {
-            $this->articleLivingThings[] = $articleLivingThing;
-            $articleLivingThing->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeArticleLivingThing(ArticleLivingThing $articleLivingThing): self
-    {
-        if ($this->articleLivingThings->contains($articleLivingThing)) {
-            $this->articleLivingThings->removeElement($articleLivingThing);
-            // set the owning side to null (unless already changed)
-            if ($articleLivingThing->getUser() === $this) {
-                $articleLivingThing->setUser(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection|Notification[]
      */
     public function getNotifications(): Collection
@@ -299,59 +256,29 @@ class User implements UserInterface
     }
 
     /**
-     * @return Collection|ArticleElement[]
+     * @return Collection|Article[]
      */
-    public function getArticleElements(): Collection
+    public function getArticles(): Collection
     {
-        return $this->articleElements;
+        return $this->articles;
     }
 
-    public function addArticleElement(ArticleElement $articleElement): self
+    public function addArticle(Article $article): self
     {
-        if (!$this->articleElements->contains($articleElement)) {
-            $this->articleElements[] = $articleElement;
-            $articleElement->setUser($this);
+        if (!$this->articles->contains($article)) {
+            $this->articles[] = $article;
+            $article->setUser($this);
         }
 
         return $this;
     }
 
-    public function removeArticleElement(ArticleElement $articleElement): self
+    public function removeArticle(Article $article): self
     {
-        if ($this->articleElements->removeElement($articleElement)) {
+        if ($this->articles->removeElement($article)) {
             // set the owning side to null (unless already changed)
-            if ($articleElement->getUser() === $this) {
-                $articleElement->setUser(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|ArticleMineral[]
-     */
-    public function getArticleMinerals(): Collection
-    {
-        return $this->articleMinerals;
-    }
-
-    public function addArticleMineral(ArticleMineral $articleMineral): self
-    {
-        if (!$this->articleMinerals->contains($articleMineral)) {
-            $this->articleMinerals[] = $articleMineral;
-            $articleMineral->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeArticleMineral(ArticleMineral $articleMineral): self
-    {
-        if ($this->articleMinerals->removeElement($articleMineral)) {
-            // set the owning side to null (unless already changed)
-            if ($articleMineral->getUser() === $this) {
-                $articleMineral->setUser(null);
+            if ($article->getUser() === $this) {
+                $article->setUser(null);
             }
         }
 

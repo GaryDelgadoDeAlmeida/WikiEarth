@@ -20,23 +20,23 @@
                         <ul>
                             <li class="title">Contents</li>
 
-                            {% if articleMineral.generality != null %}
+                            {% if article.articleMineral.generality != null %}
                                 <li class="subLink-item"><a href="#generality">Generalities</a></li>
                             {% endif %}
 
-                            {% if articleMineral.etymology != null %}
+                            {% if article.articleMineral.etymology != null %}
                                 <li class="subLink-item"><a href="#etymology">Etymology</a></li>
                             {% endif %}
 
-                            {% if articleMineral.properties != null %}
+                            {% if article.articleMineral.properties != null %}
                                 <li class="subLink-item"><a href="#properties">Properties</a></li>
                             {% endif %}
 
-                            {% if articleMineral.geology != null %}
+                            {% if article.articleMineral.geology != null %}
                                 <li class="subLink-item"><a href="#geology">Geology</a></li>
                             {% endif %}
 
-                            {% if articleMineral.mining != null %}
+                            {% if article.articleMineral.mining != null %}
                                 <li class="subLink-item"><a href="#mining">Mining</a></li>
                             {% endif %}
 
@@ -54,17 +54,17 @@
                 {# Center Content #}
                 <div class="articleLivingThing-single-center">
                     <div class="post">
-                        <h1 class="post-title">{{ articleMineral.title }}</h1>
+                        <h1 class="post-title">{{ article.title }}</h1>
 
                         <div class="post-content">
                             {# Generalities #}
-                            {% if articleMineral.generality != null %}
+                            {% if article.articleMineral.generality != null %}
                                 <div class="post-content-section" id="generality">
                                     <h3 class="post-content-section-title">Generalities</h3>
 
                                     {# Generality #}
                                     <div class="post-content-section-content">
-                                        {% for oneGenerality in articleMineral.generality %}
+                                        {% for oneGenerality in article.articleMineral.generality %}
                                             <div class="section-content">
                                                 <div class="title">
                                                     <span>{{ oneGenerality.sub_title }}</span>
@@ -79,12 +79,12 @@
                             {% endif %}
 
                             {# Etymologies #}
-                            {% if articleMineral.etymology != null %}
+                            {% if article.articleMineral.etymology != null %}
                                 <div class="post-content-section" id="etymology">
                                     <h3 class="post-content-section-title">Etymology</h3>
 
                                     <div class="post-content-section-content">
-                                        {% for oneEtymology in articleMineral.etymology %}
+                                        {% for oneEtymology in article.articleMineral.etymology %}
                                             <div class="section-content">
                                                 <div class="title">
                                                     <span>{{ oneEtymology.sub_title }}</span>
@@ -99,12 +99,12 @@
                             {% endif %}
 
                             {# Properties #}
-                            {% if articleMineral.properties != null %}
+                            {% if article.articleMineral.properties != null %}
                                 <div class="post-content-section" id="properties">
                                     <h3 class="post-content-section-title">Properties</h3>
 
                                     <div class="post-content-section-content">
-                                        {% for oneProperty in articleMineral.properties %}
+                                        {% for oneProperty in article.articleMineral.properties %}
                                             <div class="section-content">
                                                 <div class="title">
                                                     <span>{{ oneProperty.sub_title }}</span>
@@ -119,12 +119,12 @@
                             {% endif %}
 
                             {# Geologies #}
-                            {% if articleMineral.geology != null %}
+                            {% if article.articleMineral.geology != null %}
                                 <div class="post-content-section" id="geology">
                                     <h3 class="post-content-section-title">Geologies</h3>
 
                                     <div class="post-content-section-content">
-                                        {% for oneGeology in articleMineral.geology %}
+                                        {% for oneGeology in article.articleMineral.geology %}
                                             <div class="section-content">
                                                 <div class="title">
                                                     <span>{{ oneGeology.sub_title }}</span>
@@ -139,12 +139,12 @@
                             {% endif %}
 
                             {# Mining #}
-                            {% if articleMineral.mining != null %}
+                            {% if article.articleMineral.mining != null %}
                                 <div class="post-content-section" id="mining">
                                     <h3 class="post-content-section-title">Mining</h3>
 
                                     <div class="post-content-section-content">
-                                        {% for oneMining in articleMineral.mining %}
+                                        {% for oneMining in article.articleMineral.mining %}
                                             <div class="section-content">
                                                 <div class="title">
                                                     <span>{{ oneMining.sub_title }}</span>
@@ -197,65 +197,65 @@
                 <div class="articleLivingThing-single-right">
                     <div class="articleLivingThing-livingThing">
                         <div class="livingThing-img">
-                            <img class="img-fluid" src="{{ asset(file_exist(articleMineral.mineral.imgPath)) }}" alt="{{ articleMineral.mineral.name }}">
+                            <img class="img-fluid" src="{{ asset(file_exist(article.articleMineral.mineral.imgPath)) }}" alt="{{ article.articleMineral.mineral.name }}">
                         </div>
 
                         <div class="livingThing-content">
                             <div>&nbsp;<div>
                             <table>
-                                {% if articleMineral.mineral.rruffChemistry != null %}
+                                {% if article.articleMineral.mineral.rruffChemistry != null %}
                                     <tr>
                                         <td>RRUFF Chemistry</td>
-                                        <td>{{ articleMineral.mineral.rruffChemistry }}</td>
+                                        <td>{{ article.articleMineral.mineral.rruffChemistry }}</td>
                                     </tr>
                                 {% endif %}
 
-                                {% if articleMineral.mineral.imaChemistry != null %}
+                                {% if article.articleMineral.mineral.imaChemistry != null %}
                                     <tr>
                                         <td>IMA Chemistry</td>
-                                        <td>{{ articleMineral.mineral.imaChemistry }}</td>
+                                        <td>{{ article.articleMineral.mineral.imaChemistry }}</td>
                                     </tr>
                                 {% endif %}
 
-                                {% if articleMineral.mineral.chemistryElements != null %}
+                                {% if article.articleMineral.mineral.chemistryElements != null %}
                                     <tr>
                                         <td>Cchemistry Elements</td>
-                                        <td>{{ articleMineral.mineral.chemistryElements }}</td>
+                                        <td>{{ article.articleMineral.mineral.chemistryElements }}</td>
                                     </tr>
                                 {% endif %}
 
-                                {% if articleMineral.mineral.imaNumber != null %}
+                                {% if article.articleMineral.mineral.imaNumber != null %}
                                     <tr>
                                         <td>IMA Number</td>
-                                        <td>{{ articleMineral.mineral.imaNumber }}</td>
+                                        <td>{{ article.articleMineral.mineral.imaNumber }}</td>
                                     </tr>
                                 {% endif %}
 
-                                {% if articleMineral.mineral.imaStatus != null %}
+                                {% if article.articleMineral.mineral.imaStatus != null %}
                                     <tr>
                                         <td>IMA Status</td>
-                                        <td>{{ articleMineral.mineral.imaStatus|join(", ") }}</td>
+                                        <td>{{ article.articleMineral.mineral.imaStatus|join(", ") }}</td>
                                     </tr>
                                 {% endif %}
 
-                                {% if articleMineral.mineral.structuralGroupname != null %}
+                                {% if article.articleMineral.mineral.structuralGroupname != null %}
                                     <tr>
                                         <td>Structural Groupname</td>
-                                        <td>{{ articleMineral.mineral.structuralGroupname }}</td>
+                                        <td>{{ article.articleMineral.mineral.structuralGroupname }}</td>
                                     </tr>
                                 {% endif %}
 
-                                {% if articleMineral.mineral.crystalSystem != null %}
+                                {% if article.articleMineral.mineral.crystalSystem != null %}
                                     <tr>
                                         <td>Crystal System</td>
-                                        <td>{{ articleMineral.mineral.crystalSystem }}</td>
+                                        <td>{{ article.articleMineral.mineral.crystalSystem }}</td>
                                     </tr>
                                 {% endif %}
 
-                                {% if articleMineral.mineral.valenceElements != null %}
+                                {% if article.articleMineral.mineral.valenceElements != null %}
                                     <tr>
                                         <td>Valence Elements</td>
-                                        <td>{{ articleMineral.mineral.valenceElements }}</td>
+                                        <td>{{ article.articleMineral.mineral.valenceElements }}</td>
                                     </tr>
                                 {% endif %}
                                 
@@ -273,9 +273,9 @@
 
                             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                                 {% if is_granted('ROLE_USER') %}
-                                    <a class="btn btn-success" href="{{ path('userEditArticle', {'category': 'mineral', 'id': articleMineral.id}) }}"><i class="far fa-edit"></i></a>
+                                    <a class="btn btn-success" href="{{ path('userEditArticle', {'category': 'mineral', 'id': article.articleMineral.id}) }}"><i class="far fa-edit"></i></a>
                                 {% else %}
-                                    <a class="btn btn-success" href="{{ path('adminEditArticleByCategory', {'category': 'minerals', 'id': articleMineral.id}) }}"><i class="far fa-edit"></i></a>
+                                    <a class="btn btn-success" href="{{ path('adminEditArticleByCategory', {'category': 'minerals', 'id': article.articleMineral.id}) }}"><i class="far fa-edit"></i></a>
                                 {% endif %}
                             {% endif %}
                         </div>

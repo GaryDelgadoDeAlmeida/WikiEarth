@@ -5,12 +5,13 @@
         <div class="container">
             <a class="btn btn-primary" href="{{ path('adminArticle') }}"><i class="fas fa-arrow-left"></i> Retour</a>
             <a class="btn btn-custom-green" href="{{ path("adminAddArticleByCategory", {"category": category}) }}">Add</a>
+            <div>&nbsp;</div>
             
             {% if articles != [] %}
                 {% for article in articles %}
                     <li class="media h-150px">
                         <div class="media-header">
-                            <img class="img-fluid" src="{{ asset(file_exist(article.mineral.imgPath)) }}" alt="{{ article.mineral.name }}">
+                            <img class="img-fluid" src="{{ asset(file_exist(article.articleMineral.mineral.imgPath)) }}" alt="{{ article.articleMineral.mineral.name }}">
                         </div>
                         <div class="media-body">
                             <h5 class="media-body-title">{{ article.title }}</h5>
@@ -20,6 +21,25 @@
                         </div>
                     </li>
                 {% endfor %}
+
+                {# Pagination #}
+                {% if offset > 1 and offset <= nbrOffset %}
+                    <div class="pagination">
+                        <div class="pagination-links">
+                            {% if offset - 1 >= 1 %}
+                                <a href="{{ path('adminArticleByCategory', {'category': 'minerals', 'offset': 1}) }}"><i class="fas fa-angle-double-left"></i></a>
+                                <a class="" href="{{ path('adminArticleByCategory', {'category': 'minerals', 'offset': offset - 1}) }}">{{ offset - 1 }}</a>
+                            {% endif %}
+
+                            <a class="active" href="{{ path('adminArticleByCategory', {'category': 'minerals', 'offset': offset}) }}"><span>{{ offset }}</span></a>
+                            
+                            {% if offset + 1 <= nbrOffset %}
+                                <a class="" href="{{ path('adminArticleByCategory', {'category': 'minerals', 'offset': offset + 1}) }}">{{ offset + 1 }}</a>
+                                <a href="{{ path('adminArticleByCategory', {'category': 'minerals', 'offset': nbrOffset}) }}"><i class="fas fa-angle-double-right"></i></a>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endif %}
             {% else %}
                 <li class="media">
                     <div class="media-body">Aucun article n'a été trouvé</div>

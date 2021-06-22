@@ -3,7 +3,15 @@
 {% block body %}
     <section class="signIn">
         <div class="container signIn-content">
+            {% if error != [] %}
+                <div>&nbsp;</div>
+                <div class="alert alert-{{ error.class }} txt-center">
+                    <span>{{ error.content }}</span>
+                </div>
+            {% endif %}
+
             <h3 class="signIn-title">Sign In</h3>
+
             {{ form_start(userLoginForm, {"method": "POST"}) }}
                 <div class="row">
                     <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">

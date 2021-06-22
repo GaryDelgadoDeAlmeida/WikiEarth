@@ -9,9 +9,9 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use App\Manager\{UserManager, LivingThingManager, ElementManager, MineralManager, ArticleLivingThingManager, ArticleElementManager, ArticleMineralManager};
+use App\Manager\{UserManager, ContactManager, LivingThingManager, ElementManager, MineralManager, ArticleLivingThingManager, ArticleElementManager, ArticleMineralManager};
 use App\Form\{UserType, LivingThingType, MineralType, ElementType, UserRegisterType, ArticleLivingThingType, ArticleElementType, ArticleMineralType};
-use App\Entity\{User, Element, Mineral, SourceLink, LivingThing, MediaGallery, Notification, ArticleLivingThing, ArticleElement, ArticleMineral};
+use App\Entity\{User, Element, Mineral, SourceLink, LivingThing, MediaGallery, Notification, Article, ArticleLivingThing, ArticleElement, ArticleMineral};
 
 class AdminController extends AbstractController
 {
@@ -23,6 +23,7 @@ class AdminController extends AbstractController
     private $articleElementManager;
     private $articleMineralManager;
     private $userManager;
+    private $contactManager;
     private $em;
 
     public function __construct(TokenStorageInterface $tokenStorage, EntityManagerInterface $em, ContainerInterface $container)
@@ -35,6 +36,7 @@ class AdminController extends AbstractController
         $this->articleElementManager = new ArticleElementManager();
         $this->articleMineralManager = new ArticleMineralManager();
         $this->userManager = new UserManager();
+        $this->contactManager = new ContactManager();
         $this->em = $em;
     }
     
@@ -43,11 +45,7 @@ class AdminController extends AbstractController
      */
     public function admin_home()
     {
-        $nbrArticles = 
-            $this->em->getRepository(ArticleLivingThing::class)->countArticleLivingThingsApproved() + 
-            $this->em->getRepository(ArticleElement::class)->countArticleElementsApproved() + 
-            $this->em->getRepository(ArticleMineral::class)->countArticleMineralsApproved()
-        ;
+        $nbrArticles = $this->em->getRepository(Article::class)->countArticlesApproved();
 
         return $this->render('admin/home/index.html.twig', [
             "nbrUsers" => $this->em->getRepository(User::class)->countUsers($this->current_logged_user->getId()),
@@ -97,6 +95,62 @@ class AdminController extends AbstractController
             "users" => $this->em->getRepository(User::class)->getUsers($offset - 1, $limit, $this->current_logged_user->getId()),
             "offset" => $offset,
             "total_page" => $nbrOffset
+        ]);
+    }
+
+    /**
+     * @Route("/admin/users/add", name="adminUserAdd")
+     */
+    public function admin_user_add(Request $request, UserPasswordEncoderInterface $encoder)
+    {
+        $response = [];
+        $user = new User();
+        $formAddUser = $this->createForm(UserRegisterType::class, $user);
+        $formAddUser->handleRequest($request);
+
+        if($formAddUser->isSubmitted() && $formAddUser->isValid()) {
+            try {
+                if(empty($this->em->getRepository(User::class)->getUserByLogin(trim($user->getLogin())))) {
+                    if(trim($user->getPassword()) == trim($formAddUser["confirmPassword"]->getData())) {
+                        $user->setLogin(trim($user->getLogin()));
+                        $user->setPassword($encoder->encodePassword($user, trim($user->getPassword())));
+                        $user->setCreatedAt(new \DateTime());
+                        $this->em->persist($user);
+                        $this->em->flush();
+
+                        // $this->contactManager->sendEmailToUser(
+                        //     $user->getEmail(),
+                        //     "Welcome to GemEarth",
+                        //     "Welcome {$user->getFirstname()} {$user->getLastname()}."
+                        // );
+    
+                        $response = [
+                            "class" => "success",
+                            "message" => "The user {$user->getLogin()} has been successfully created."
+                        ];
+                    } else {
+                        $response = [
+                            "class" => "warning",
+                            "message" => "The password isn't the same. Please, check it."
+                        ];
+                    }
+                } else {
+                    $response = [
+                        "class" => "danger",
+                        "message" => "The username {$user->getLogin()} is already in use. Please, choose a different username."
+                    ];
+                }
+            } catch(\Exception $e) {
+                $response = [
+                    "class" => "danger",
+                    "message" => $e->getMessage()
+                ];
+            } finally {}
+        }
+
+        return $this->render("admin/user/formUser.html.twig", [
+            "formUser" => $formAddUser->createView(),
+            "response" => $response
         ]);
     }
 
@@ -191,9 +245,10 @@ class AdminController extends AbstractController
      */
     public function admin_living_thing_create_article($id, Request $request)
     {
-        $articleLivingThing = $this->em->getRepository(ArticleLivingThing::class)->findOneBy(["id" => $id]);
+        $articleLivingThing = $this->em->getRepository(Article::class)->getArticleByLivingThing($id);
         $message = [];
 
+        // If empty then there is no article so the user can create the article
         if(empty($articleLivingThing)) {
             $articleLivingThing = new ArticleLivingThing();
             $livingThing = $this->em->getRepository(LivingThing::class)->getLivingThing($id);
@@ -212,12 +267,15 @@ class AdminController extends AbstractController
                     );
                 }
             } else {
-                return $this->redirectToRoute("adminLivingThing", [], 307);
+                return $this->redirectToRoute("adminLivingThing", [
+                    "class" => "danger",
+                    "message" => "This living thing does not exist"
+                ], 307);
             }
         } else {
             return $this->redirectToRoute("adminLivingThing", [
                 "class" => "danger",
-                "message" => "Result not found"
+                "message" => "This living thing already have an article"
             ], 307);
         }
 
@@ -279,8 +337,8 @@ class AdminController extends AbstractController
      */
     public function admin_element(Request $request)
     {
-        $offset = !empty($request->get('offset')) && preg_match('/^[0-9]*$/', $request->get('offset')) ? $request->get('offset') : 1;
         $limit = 10;
+        $offset = !empty($request->get('offset')) && preg_match('/^[0-9]*$/', $request->get('offset')) ? \intval($request->get('offset')) : 1;
 
         return $this->render('admin/article/natural-elements/listElement.html.twig', [
             "offset" => $offset,
@@ -306,6 +364,7 @@ class AdminController extends AbstractController
                 $response = $this->elementManager->setElement(
                     $formElement["imgPath"]->getData(), 
                     $element,
+                    $formElement,
                     $this->em
                 );
             } else {
@@ -505,31 +564,31 @@ class AdminController extends AbstractController
         $nbrOffset = 1;
 
         if($category == "living-thing") {
-            $nbrLivingThing = $this->em->getRepository(ArticleLivingThing::class)->countArticleLivingThings();
+            $nbrLivingThing = $this->em->getRepository(Article::class)->countArticleLivingThings();
             $nbrOffset = $nbrLivingThing > $limit ? ceil($nbrLivingThing / $limit) : $nbrOffset;
 
             return $this->render('admin/article/living-thing/listArticle.html.twig', [
-                "articles" => $this->em->getRepository(ArticleLivingThing::class)->getArticleLivingThings($offset, $limit),
+                "articles" => $this->em->getRepository(Article::class)->getArticleLivingThings($offset, $limit),
                 "nbrOffset" => $nbrOffset,
                 "offset" => $offset,
                 "category" => $category
             ]);
         } elseif($category == "natural-elements") {
-            $nbrElements = $this->em->getRepository(ArticleElement::class)->countArticleElements();
+            $nbrElements = $this->em->getRepository(Article::class)->countArticleElements();
             $nbrOffset = $nbrElements > $limit ? ceil($nbrElements / $limit) : $nbrOffset;
 
             return $this->render('admin/article/natural-elements/listArticle.html.twig', [
-                "articles" => $this->em->getRepository(ArticleElement::class)->getArticleElements($offset, $limit),
+                "articles" => $this->em->getRepository(Article::class)->getArticleElements($offset, $limit),
                 "nbrOffset" => $nbrOffset,
                 "offset" => $offset,
                 "category" => $category
             ]);
         } elseif($category == "minerals") {
-            $nbrMinerals = $this->em->getRepository(ArticleMineral::class)->countArticleMinerals();
+            $nbrMinerals = $this->em->getRepository(Article::class)->countArticleMinerals();
             $nbrOffset = $nbrMinerals > $limit ? ceil($nbrMinerals / $limit) : $nbrOffset;
 
             return $this->render('admin/article/minerals/listArticle.html.twig', [
-                "articles" => $this->em->getRepository(ArticleMineral::class)->getArticleMinerals($offset, $limit),
+                "articles" => $this->em->getRepository(Article::class)->getArticleMinerals($offset, $limit),
                 "nbrOffset" => $nbrOffset,
                 "offset" => $offset,
                 "category" => $category
@@ -543,7 +602,7 @@ class AdminController extends AbstractController
     }
 
     /**
-     * Ajout un article celon le type (la categorie => "living-thing" ou "natural-elements") de l'article.
+     * Ajout un article selon le type (la categorie => "living-thing" ou "natural-elements") de l'article.
      * 
      * @Route("/admin/article/{category}/add", name="adminAddArticleByCategory")
      */
@@ -583,8 +642,8 @@ class AdminController extends AbstractController
                 "response" => $message
             ]);
         } elseif($category == "natural-elements") {
-            $article = new ArticleElement();
-            $formArticle = $this->createForm(ArticleElementType::class, $article);
+            $articleElement = new ArticleElement();
+            $formArticle = $this->createForm(ArticleElementType::class, $articleElement);
             $formArticle->handleRequest($request);
 
             if($formArticle->isSubmitted() && $formArticle->isValid()) {
@@ -606,9 +665,14 @@ class AdminController extends AbstractController
                 if($message["error"] == false) {
                     if(\is_null($element->getArticleElement())) {
                         $message = $this->articleElementManager->setArticleElement(
-                            $article,
+                            $articleElement,
                             $element,
-                            $this->em,
+                            $this->em
+                        );
+
+                        $message = $this->articleManager->insertArticle(
+                            $articleElement, 
+                            $this->em, 
                             $this->current_logged_user
                         );
                     } else {
@@ -683,18 +747,48 @@ class AdminController extends AbstractController
     public function admin_single_article_by_category(int $id, string $category)
     {
         if($category == "living-thing") {
+            $article = $this->em->getRepository(Article::class)->getArticleLivingThing($id);
+
+            if(empty($article)) {
+                return $this->redirectToRoute("adminArticleByCategory", [
+                    "category" => $category,
+                    "class" => "danger",
+                    "message" => "This article does not exist"
+                ], 307);
+            }
+
             return $this->render('admin/article/living-thing/detailArticle.html.twig', [
-                "article" => $this->em->getRepository(ArticleLivingThing::class)->findOneBy(["id" => $id]),
+                "article" => $article,
                 "category" => $category
             ]);
         } elseif($category == "natural-elements") {
+            $article = $this->em->getRepository(Article::class)->getArticleElement($id);
+
+            if(empty($article)) {
+                return $this->redirectToRoute("adminArticleByCategory", [
+                    "category" => $category,
+                    "class" => "danger",
+                    "message" => "This article does not exist"
+                ], 307);
+            }
+
             return $this->render('admin/article/natural-elements/detailArticle.html.twig', [
-                "article" => $this->em->getRepository(ArticleElement::class)->findOneBy(["id" => $id]),
+                "article" => $article,
                 "category" => $category
             ]);
         } elseif($category == "minerals") {
+            $article = $this->em->getRepository(Article::class)->getArticleMineral($id);
+
+            if(empty($article)) {
+                return $this->redirectToRoute("adminArticleByCategory", [
+                    "category" => $category,
+                    "class" => "danger",
+                    "message" => "This article does not exist"
+                ], 307);
+            }
+
             return $this->render('admin/article/minerals/detailArticle.html.twig', [
-                "article" => $this->em->getRepository(ArticleMineral::class)->findOneBy(["id" => $id]),
+                "article" => $article,
                 "category" => $category
             ]);
         }
@@ -757,8 +851,11 @@ class AdminController extends AbstractController
                 $response = $this->articleElementManager->setArticleElement(
                     $formArticle,
                     $formArticle->getElement(),
-                    $this->em,
-                    $this->current_logged_user
+                    $this->em
+                );
+
+                $response = $this->articleManager->insertArticle(
+                    // 
                 );
             }
 
@@ -822,11 +919,11 @@ class AdminController extends AbstractController
         $article = null;
         $response = [];
         if($category == "living-thing") {
-            $article = $this->em->getRepository(ArticleLivingThing::class)->findOneBy(["id" => $id]);
+            $article = $this->em->getRepository(Article::class)->getArticleLivingThing($id);
         } elseif ($category == "natural-elements") {
-            $article = $this->em->getRepository(ArticleElement::class)->findOneBy(["id" => $id]);
+            $article = $this->em->getRepository(Article::class)->getArticleElement($id);
         } elseif($category == "minerals") {
-            $article = $this->em->getRepository(ArticleMineral::class)->findOneBy(["id" => $id]);
+            $article = $this->em->getRepository(Article::class)->getArticleMineral($id);
         }
 
         if(empty($article)) {

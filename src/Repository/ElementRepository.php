@@ -66,6 +66,27 @@ class ElementRepository extends ServiceEntityRepository
         ;
     }
 
+    /**
+     * Search a value in the living thing
+     * 
+     * @param string the value to search
+     * @param int offset
+     * @param int limit
+     * @return Element[]|[] an array of elements or an empty array
+     */
+    public function searchElement(string $searchedValue, int $offset, int $limit)
+    {
+        return $this->createQueryBuilder('e')
+            ->where('e.name LIKE :searchedValue OR e.scientificName LIKE :searchedValue')
+            ->orderBy('e.name', 'ASC')
+            ->setParameter('searchedValue', "%{$searchedValue}%")
+            ->setFirstResult(($offset - 1) * $limit)
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     public function countElements()
     {
         return $this->createQueryBuilder('e')
@@ -75,27 +96,40 @@ class ElementRepository extends ServiceEntityRepository
         ;
     }
 
-    public function countElementsWithArticle($offset, $limit)
+    public function countElementsWithArticle()
     {
         return $this->createQueryBuilder('e')
             ->select('count(e.id) as nbrElements')
             ->leftJoin('e.articleElement', 'aE')
             ->where('aE.id IS NOT NULL')
-            ->setFirstResult(($offset - 1) * $limit)
-            ->setMaxResults($limit)
             ->getQuery()
             ->getSingleResult()["nbrElements"]
         ;
     }
 
-    public function countElementsWithoutArticle($offset, $limit)
+    public function countElementsWithoutArticle()
     {
         return $this->createQueryBuilder('e')
             ->select('count(e.id) as nbrElements')
             ->leftJoin('e.articleElement', 'aE')
             ->where('aE.id IS NULL')
-            ->setFirstResult(($offset - 1) * $limit)
-            ->setMaxResults($limit)
+            ->getQuery()
+            ->getSingleResult()["nbrElements"]
+        ;
+    }
+
+    /**
+     * Count elements corresponding to the searched value
+     * 
+     * @param string the searched value
+     * @return int the number of element corresponding of the searched value
+     */
+    public function countSearchElement(string $searchedValue)
+    {
+        return $this->createQueryBuilder('e')
+            ->select('count(e.id) as nbrElements')
+            ->where('e.name LIKE :searchedValue OR e.scientificName LIKE :searchedValue')
+            ->setParameter('searchedValue', "%{$searchedValue}%")
             ->getQuery()
             ->getSingleResult()["nbrElements"]
         ;

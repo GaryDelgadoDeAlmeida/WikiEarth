@@ -18,6 +18,9 @@ class LivingThingType extends AbstractType
         $builder
             ->add('imgPath', FileType::class, [
                 'label' => "Photo",
+                'label_attr' => [
+                    'id' => 'fileuploadLabel'
+                ],
                 'constraints' => [
                     new File([
                         'maxSize' => '5120k',

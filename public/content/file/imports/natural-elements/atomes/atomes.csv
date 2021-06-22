@@ -1,10 +1,10 @@
 id,name,scientificName,radioisotope,atomicNumber,symbole,group,periode,block,volumicMass,numCAS,numCE,atomicMass,atomicRadius,covalentRadius,vanDerWaalsRadius,electroniqueConfiguration,oxidationState,discoverYear,discoverPerson,discoverCountry,electronegativity,fusionPoint,boilingPoint,radioactivity,Image
 1,Hydrogène,hydrogene,1,1,H,1,1,s,"0,08988 g·l-1,
 0,0708 g·ml-1 (liquide, -253 °C),
-0,0706 g·ml-1 (solide, -262 °C)",12385-13-6,,"1,00794",25 pm,"0,31 ± 0,05 Å,",120 pm,1s1,"-1, +1",1766,Henry Cavendish,Grande-Bretagne,"2,2",,,0,1
+0,0706 g·ml-1 (solide, -262 °C)",12385-13-6,,"1,00794",25 pm,"0,31 ± 0,05 Å",120 pm,1s1,"-1, +1",1766,Henry Cavendish,Grande-Bretagne,"2,2",,,0,1
 2,Hélium,helium,2,2,He,18,1,s,"0,1785 g·l-1 (0 °C, 1 atm);
 0,125 g·ml-1 (liquide, -268,93 °C)",12385-13-6,231-168-5,"4,002602",128 pm (31 pm),28 pm,140 pm,1s2,0,1895,"Jules Janssen, Joseph Norman Lockyer",Grande-Bretagne,,,"-268,93 °C",0,0
-3,Lithium,lithium,2|1,3,Li,1,2,s,"0,534 g·cm-3 (20 °C)",7439-93-2,231-102-5,"6,941",145 pm (167 pm),"1,28 ± 0,07 Å",182 pm,[He] 2s1,1,1817,Johan August Arfwedson,Suède,"0,98","180,5 °C",1 342 °C,0,1
+3,Lithium,lithium,2|1,3,Li,1,2,s,"0,534 g·cm-3 (20 °C)",7439-93-2,231-102-5,"6,941",145 pm (167 pm),"1,28 ± 0,07 Å",182 pm,[He] 2s1,+1,1817,Johan August Arfwedson,Suède,"0,98","180,5 °C",1 342 °C,0,1
 4,Béryllium,beryllium,2|2,4,Be,2 (IIA),2,s,"1,848 g·cm-3 (20 °C)",7440-41-7,231-150-7,"9,012182",112 pm,"0,96 ± 0,03 Å",,[He] 2s2,2,1798,Louis-Nicolas Vauquelin,France,"1,57",1 287 °C,2 471 °C,0,1
 5,Bore,bore,2|3,5,B,13 (IIIA),2,p,"2,34 g·cm-3 (cristaux)
 2,37 g·cm-3 (variété amorphe)",7440-42-8,231-151-2,"10,811",85 pm (87 pm),"0,84 ± 0,03 Å",208 pm,[He] 2s2 2p1,3,1808,"Louis Joseph Gay-Lussac, Louis Jacques Thénard, Humphry Davy",France et Grande-Bretagne,"2,04",2 075 °C,4 000 °C,0,1
@@ -19,7 +19,7 @@ sp 0,69 ± 0,01 Å",150 pm,[He] 2s2 2p2,"-4, 0, +4, +2",Antiquité,,,"2,55",,3 8
 9,Fluor,fluor,2|7,9,F,17 (VII),2,p,"1,696 g·l-1 (0 °C, 1 atm),
 1,50 g·cm-3 (liquide, -188,12 °C)",14762-94-8,,"18,9984032",50 pm (42 pm),"0,57 ± 0,03 Å",135 pm,[He] 2s2 2p5,-1,1886,Henri Moissan,France,"3,98","-219,67 °C","-188,12 °C",0,
 10,Néon,neon,2|8,10,Ne,18 (VIIIA),2,p,"0,90032 g·l-1 (1 atm, 0 °C)",7440-01-09,231-110-9,"20,1797",(38 pm),"0,58 Å",154 pm,[He] 2s2 2p6,0,1898,"Morris William Travers, William Ramsay",Grande-Bretagne,,,"-246,053 °C",0,
-11,Sodium,sodium,2|8|1,11,Na,1,3,s,"0,971 g·cm-3 (20 °C)",7440-23-5,231-132-9,"22,98976928",180 pm (190 pm),"1,66 ± 0,09 Å",227 pm,Ne 3s1,1,1807,Humphry Davy,Grande-Bretagne,"0,93","97,80 °C",883 °C,0,
+11,Sodium,sodium,2|8|1,11,Na,1,3,s,"0,971 g·cm-3 (20 °C)",7440-23-5,231-132-9,"22,98976928",180 pm (190 pm),"1,66 ± 0,09 Å",227 pm,Ne 3s1,+1,1807,Humphry Davy,Grande-Bretagne,"0,93","97,80 °C",883 °C,0,
 12,Magnésium,magnesium,2|8|2,12,Mg,2 (IIA),3,s,"1,738 g·cm-3 (20 °C)",7439-95-4,231-104-6,"24,305",150 pm,"1,41 ± 0,07 Å",173,Ne 3s2,2,1775,Joseph Black,Écosse,"1,31",650 °C,1 090 °C,0,
 13,Aluminium,aluminium,2|8|3,13,Al,13 (IIIA),3,p,"2,6989 g·cm-3",7429-90-5,231-072-3,"26,9815386",125 pm (118 pm),"1,21 ± 0,04 Å",205 pm,[Ne] 3s2 3p1,3,1827,Hans Christian Ørsted,Danemark,"1,61","660,323 °C",2 519 °C,0,
 14,Silicium,silicium,2|8|4,14,Si,14,3,p,"2,33 g·cm-3 (25 °C)",7440-21-3,231-130-8,"28,0855",110 pm (111 pm),"1,11 ± 0,02 Å",210,Ne 3s2 3p2,"+1, +2, +3, +4",1824,Jöns Jacob Berzelius,Suède,"1,9",1 414 °C,3 265 °C,0,

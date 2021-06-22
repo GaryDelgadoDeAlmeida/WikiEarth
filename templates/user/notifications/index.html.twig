@@ -22,7 +22,7 @@
                     {% endfor %}
 
                     {# Pagination #}
-                    {% if nbrPage > 1 %}
+                    {% if offset > 1 and offset <= nbrPage %}
                         <nav aria-label="Page navigation example">
                             <ul class="pagination justify-content-center">
                                 <li class="page-item {% if offset == 1 %} disabled {% endif %}">

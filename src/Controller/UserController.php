@@ -3,8 +3,8 @@
 namespace App\Controller;
 
 use App\Form\{UserType, LivingThingType, ElementType, MineralType, Contact, ArticleLivingThingType, ArticleElementType, ArticleMineralType};
-use App\Entity\{LivingThing, Element, Mineral, Notification, ArticleLivingThing, ArticleElement, ArticleMineral};
-use App\Manager\{UserManager, LivingThingManager, ElementManager, MineralManager, ReferenceManager, MediaGalleryManager, ContactManager, NotificationManager, ArticleLivingThingManager, ArticleElementManager, ArticleMineralManager};
+use App\Entity\{LivingThing, Element, Mineral, Notification, Article, ArticleLivingThing, ArticleElement, ArticleMineral};
+use App\Manager\{UserManager, LivingThingManager, ElementManager, MineralManager, ReferenceManager, MediaGalleryManager, ContactManager, NotificationManager, ArticleManager, ArticleLivingThingManager, ArticleElementManager, ArticleMineralManager};
 use Psr\Container\ContainerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,6 +26,7 @@ class UserController extends AbstractController
     private $referenceManager;
     private $notificationManager;
     private $contactManager;
+    private $articleManager;
     private $articleLivingThingManager;
     private $articleElementManager;
     private $articleMineralManager;
@@ -41,6 +42,7 @@ class UserController extends AbstractController
         $this->referenceManager = new ReferenceManager();
         $this->notificationManager = new NotificationManager($manager);
         $this->contactManager = new ContactManager();
+        $this->articleManager = new ArticleManager();
         $this->articleLivingThingManager = new ArticleLivingThingManager();
         $this->articleElementManager = new ArticleElementManager();
         $this->articleMineralManager = new ArticleMineralManager();
@@ -64,7 +66,7 @@ class UserController extends AbstractController
             // "nbrBacteria" => $livingThingRepo->countLivingThingKingdom('Bacteria'),
             "nbrElement" => $this->manager->getRepository(Element::class)->countElements(),
             "nbrMineral" => $this->manager->getRepository(Mineral::class)->countMinerals(),
-            "recent_posts" => $this->manager->getRepository(ArticleLivingThing::class)->getArticleLivingThingsDesc($offset, $limit),
+            "recent_posts" => $this->manager->getRepository(Article::class)->getArticlesApproved($offset, $limit),
             "notifications" => $this->manager->getRepository(Notification::class)->getLatestNotifications($this->currentLoggedUser->getId(), $offset, $limit),
             "recent_conversation" => [],
         ]);
@@ -203,7 +205,7 @@ class UserController extends AbstractController
      */
     public function user_living_thing_create_article($id, Request $request)
     {
-        $articleLivingThing = $this->manager->getRepository(ArticleLivingThing::class)->findOneBy(["idLivingThing" => $id]);
+        $articleLivingThing = $this->manager->getRepository(Article::class)->getArticleByLivingThing($id);
         $message = [];
 
         if(empty($articleLivingThing)) {
@@ -314,7 +316,7 @@ class UserController extends AbstractController
     public function user_mineral(Request $request)
     {
         $limit = 10;
-        $offset = !empty($request->get('offset')) && preg_match('/^[0-9]*$/', $request->get('offset')) ? $request->get('offset') : 1;
+        $offset = !empty($request->get('offset')) && preg_match('/^[0-9]*$/', $request->get('offset')) ? intval($request->get('offset')) : 1;
         $search = !empty($request->get("search")) ? $request->get("search") : null;
         $filterBy = !empty($request->get("filter-by-mineral")) ? $request->get("filter-by-mineral") : "all";
         $filterChocies = [
@@ -366,11 +368,12 @@ class UserController extends AbstractController
 
         if($formMineral->isSubmitted() && $formMineral->isValid()) {
             if(empty($this->manager->getRepository(Mineral::class)->getMineralByName($mineral->getName()))) {
-                $mineral->setImaStatus(explode(", ", $formArticle["mineral"]['imaStatus']));
+                $mineral->setImaStatus(explode(", ", $formMineral['imaStatus']->getData()));
 
                 $response = $this->mineralManager->setMineral(
                     $formMineral["imgPath"]->getData(), 
                     $mineral, 
+                    $formMineral,
                     $this->manager
                 );
 
@@ -420,10 +423,16 @@ class UserController extends AbstractController
                         $this->manager
                     );
 
-                    // On traite maintenant l'article (pour cause ces liaisons avec les autres tables)
+                    // On traite maintenant l'articleMineral (pour cause ces liaisons avec les autres tables)
                     $response = $this->articleMineralManager->setArticleMineral(
                         $articleMineral,
                         $mineral,
+                        $this->manager
+                    );
+
+                    // On traite maintenant l'article (pour cause ces liaisons avec les autres tables)
+                    $response = $this->articleManager->insertArticle(
+                        $articleMineral,
                         $this->manager,
                         $this->currentLoggedUser
                     );
@@ -471,8 +480,8 @@ class UserController extends AbstractController
         $limit = 10;
         $offset = !empty($request->get('offset')) && preg_match('/^[0-9]*$/', $request->get('offset')) ? $request->get('offset') : 1;
         $search = !empty($request->get("search")) ? $request->get("search") : null;
-        $filterBy = !empty($request->get("filter-by-mineral")) ? $request->get("filter-by-mineral") : "all";
-        $filterChocies = [
+        $filterBy = !empty($request->get("filter-by-element")) ? $request->get("filter-by-element") : "all";
+        $filterChoices = [
             "all" => "All",
             "have-article" => "Have an article",
             "not-have-article" => "Not have an article"
@@ -481,7 +490,7 @@ class UserController extends AbstractController
         $nbrPages = 1;
         
         if(empty($search)) {
-            if($filterBy != "all" && array_key_exists($filterBy, $filterChocies)) {
+            if($filterBy != "all" && array_key_exists($filterBy, $filterChoices)) {
                 if($filterBy == "have-article") {
                     $elements = $this->manager->getRepository(Element::class)->getElementsWithArticle($offset, $limit);
                     $nbrPages = ceil($this->manager->getRepository(Element::class)->countElementsWithArticle() / $limit);
@@ -499,6 +508,8 @@ class UserController extends AbstractController
             $nbrPages = ceil($this->manager->getRepository(Element::class)->countSearchElement($search) / $limit);
         }
         return $this->render('user/article/elements/listElement.html.twig', [
+            "filterChoices" => $filterChoices,
+            "filter_by" => $filterBy,
             "elements" => $elements,
             "search" => $search,
             "offset" => $offset,
@@ -548,8 +559,7 @@ class UserController extends AbstractController
                 $response = $this->articleElementManager->setArticleElement(
                     $articleElement,
                     $element,
-                    $this->manager,
-                    $this->currentLoggedUser
+                    $this->manager
                 );
 
                 // Insert reference of the content of the article
@@ -558,6 +568,13 @@ class UserController extends AbstractController
                 //     $articleElementManager,
                 //     $this->manager
                 // );
+
+                // Working logic of new table 
+                $this->articleManager->insertArticle(
+                    $articleElement, 
+                    $this->manager, 
+                    $this->currentLoggedUser
+                );
 
                 $this->notificationManager->userCreateArticle($this->currentLoggedUser);
             }
@@ -590,15 +607,15 @@ class UserController extends AbstractController
 
         if(!empty($search)) {
             $category_by = "all";
-            $articleLivingThing = $this->manager->getRepository(ArticleLivingThing::class)->searchArticleLivingThings($search);
-            $nbrPages = ceil($this->manager->getRepository(ArticleLivingThing::class)->countSearchArticleLivingThings() / $limit);
+            $articleLivingThing = $this->manager->getRepository(Article::class)->searchArticleLivingThings($search);
+            $nbrPages = ceil($this->manager->getRepository(Article::class)->countSearchArticleLivingThings() / $limit);
         } else {
             if($category_by == "all") {
-                $articleLivingThing = $this->manager->getRepository(ArticleLivingThing::class)->getArticleLivingThingsApproved($offset, $limit);
-                $nbrPages = ceil($this->manager->getRepository(ArticleLivingThing::class)->countArticleLivingThingsApproved() / $limit);
+                $articleLivingThing = $this->manager->getRepository(Article::class)->getArticleLivingThingsApproved($offset, $limit);
+                $nbrPages = ceil($this->manager->getRepository(Article::class)->countArticleLivingThingsApproved() / $limit);
             } else {
-                $articleLivingThing = $this->manager->getRepository(ArticleLivingThing::class)->getArticleLivingThingsByLivingThingKingdom($category_by, $offset, $limit);
-                $nbrPages = ceil($this->manager->getRepository(ArticleLivingThing::class)->countArticleLivingThingsByKingdom($category_by, $limit));
+                $articleLivingThing = $this->manager->getRepository(Article::class)->getArticleLivingThingsByLivingThingKingdom($category_by, $offset, $limit);
+                $nbrPages = ceil($this->manager->getRepository(Article::class)->countArticleLivingThingsByKingdom($category_by, $limit));
             }
         }
 
@@ -647,6 +664,13 @@ class UserController extends AbstractController
                 $this->manager
             );
 
+            // TODO : vérifier le bon fonctionnement de cette méthode
+            // $this->referenceManager->setReferences(
+            //     $formArticle["references"]->getData(),
+            //     $articleLivingThing,
+            //     $this->manager
+            // );
+
             // On notifie que l'utilisateur vient de créer un nouvel article et que nous allons le vérifier
             $this->notificationManager->userCreateArticle($this->currentLoggedUser);
         }
@@ -665,74 +689,131 @@ class UserController extends AbstractController
         $response = [];
 
         if($category == "living-thing") {
-            $article = $this->manager->getRepository(ArticleLivingThing::class)->find($id);
-            $formArticle = $this->createForm(ArticleLivingThingType::class, $article);
-            $formArticle->get('livingThing')->setData($article->getIdLivingThing());
-            $formArticle->handleRequest($request);
+            $article = $this->manager->getRepository(Article::class)->getArticleByLivingThing($id);
+            
+            if(!empty($article)) {
+                $articleLivingThing = $article->getArticleLivingThing();
+                $formArticle = $this->createForm(ArticleLivingThingType::class, $articleLivingThing);
+                $formArticle->get('livingThing')->setData($article->getIdLivingThing());
+                $formArticle->handleRequest($request);
 
-            if($formArticle->isSubmitted() && $formArticle->isValid()) {
+                if($formArticle->isSubmitted() && $formArticle->isValid()) {
 
-                $livingThing = $formArticle["livingThing"]->getData();
-                
-                // On effectue en premier le traitement sur le living thing
-                $this->livingThingManager->setLivingThing(
-                    $formArticle["livingThing"]["imgPath"]->getData(),
-                    $livingThing,
-                    $this->manager
-                );
+                    $livingThing = $formArticle["livingThing"]->getData();
+                    
+                    // On effectue en premier le traitement sur le living thing
+                    $this->livingThingManager->setLivingThing(
+                        $formArticle["livingThing"]["imgPath"]->getData(),
+                        $livingThing,
+                        $this->manager
+                    );
 
-                // On traite maintenant l'article (pour cause ces liaisons avec les autres tables)
-                $this->articleLivingThingManager->setArticleLivingThing(
-                    $article, 
-                    $livingThing,
-                    $this->manager, 
-                    $this->currentLoggedUser
-                );
+                    // On traite maintenant l'article (pour cause ces liaisons avec les autres tables)
+                    $this->articleLivingThingManager->setArticleLivingThing(
+                        $articleLivingThing, 
+                        $livingThing,
+                        $this->manager, 
+                        $this->currentLoggedUser
+                    );
 
-                // Une fois le traitement du living thing et de l'article, on traite les médias (qui seront liée à l'article)
-                $this->mediaGalleryManager->setMediaGalleryLivingThing(
-                    $formArticle["mediaGallery"]->getData(),
-                    $articleLivingThing,
-                    $this->manager
-                );
+                    // Une fois le traitement du living thing et de l'article, on traite les médias (qui seront liée à l'article)
+                    $this->mediaGalleryManager->setMediaGalleryLivingThing(
+                        $formArticle["mediaGallery"]->getData(),
+                        $articleLivingThing,
+                        $this->manager
+                    );
 
-                // TODO : vérifier le bon fonctionnement de cette méthode
-                // $this->referenceManager->setReferences(
-                //     $formArticle["references"]->getData(),
-                //     $articleLivingThing,
-                //     $this->manager
-                // );
+                    // TODO : vérifier le bon fonctionnement de cette méthode
+                    // $this->referenceManager->setReferences(
+                    //     $formArticle["references"]->getData(),
+                    //     $articleLivingThing,
+                    //     $this->manager
+                    // );
 
-                // On envoie une notification à l'utilisateur l'avertissant de la demande de mise à jour de l'article
-                $this->notificationManager->userUpdateArticle($this->currentLoggedUser);
+                    // On envoie une notification à l'utilisateur l'avertissant de la demande de mise à jour de l'article
+                    $this->notificationManager->userUpdateArticle($this->currentLoggedUser);
+                }
+
+                return $this->render('user/article/living-things/formArticle.html.twig', [
+                    "formArticle" => $formArticle->createView(),
+                    "response" => $response
+                ]);
+            } else {
+                return $this->redirectToRoute("userLivingThing", [
+                    "class" => "danger",
+                    "message" => "This living thing does not exist."
+                ], 307);
             }
-
-            return $this->render('user/article/living-things/formArticle.html.twig', [
-                "formArticle" => $formArticle->createView(),
-                "response" => $response
-            ]);
         } elseif($category == "element") {
-            // 
-        } elseif($category == "mineral") {
-            $article = $this->manager->getRepository(ArticleMineral::class)->find($id);
-            $formMineral = $this->createForm(ArticleMineralType::class, $article);
-            $formMineral->get("mineral")->setData($article->getMineral());
-            $formMineral->get("mineral")->get('imaStatus')->setData(implode(", ", $article->getMineral()->getImaStatus()));
-            $formMineral->handleRequest($request);
+            $article = $this->manager->getRepository(Article::class)->getArticleByElement($id);
+            
+            if(!empty($article)) {
+                $articleElement = $article->getArticleElement();
+                $formElement = $this->createForm(ArticleElementType::class, $articleElement);
+                $formElement->get("element")->setData($articleElement->getElement());
+                $formElement->handleRequest($request);
 
-            if($formMineral->isSubmitted() && $formMineral->isValid()) {
-                $response = $this->mineralManager->setMineral(
-                    $formMineral["imgPath"]->getData(), 
-                    $article,
-                    $formMineral,
-                    $this->manager
-                );
+                if($formElement->isSubmitted() && $formElement->isValid()) {
+                    $response = $this->mineralElement->setElement(
+                        $formElement["imgPath"]->getData(), 
+                        $articleElement,
+                        $formElement,
+                        $this->manager
+                    );
+                }
+
+                return $this->render('user/article/element/formArticle.html.twig', [
+                    "formArticle" => $formElement->createView(),
+                    "response" => $response
+                ]);
             }
+        } elseif($category == "mineral") {
+            $article = $this->manager->getRepository(Article::class)->getArticleByMineral($id);
+            
+            if(!empty($article)) {
+                $articleMineral = $article->getArticleMineral();
+                $mineral = $articleMineral->getMineral();
+                $formMineral = $this->createForm(ArticleMineralType::class, $articleMineral);
+                $formMineral->get("mineral")->setData($mineral);
+                $formMineral->get("mineral")->get('imaStatus')->setData(implode(", ", $mineral->getImaStatus()));
+                $formMineral->handleRequest($request);
 
-            return $this->render('user/article/minerals/formArticle.html.twig', [
-                "formArticle" => $formMineral->createView(),
-                "response" => $response
-            ]);
+                if($formMineral->isSubmitted() && $formMineral->isValid()) {
+
+                    // Update minéral
+                    $response = $this->mineralManager->setMineral(
+                        $formMineral["mineral"]["imgPath"]->getData(), 
+                        $mineral,
+                        $formMineral["mineral"],
+                        $this->manager
+                    );
+
+                    // Update the content of the article
+                    $response = $this->articleMineralManager->setArticleMineral(
+                        $articleMineral,
+                        $mineral,
+                        $this->manager
+                    );
+
+                    // Update Reference
+                    $response = $this->referenceManager;
+
+                    // Update Media
+                    $response = $this->mediaGalleryManager;
+
+                    // Update of the article
+                    $response = $this->articleManager->setArticle(
+                        $articleMineral,
+                        $this->manager,
+                        $this->currentLoggedUser
+                    );
+                }
+
+                return $this->render('user/article/minerals/formArticle.html.twig', [
+                    "formArticle" => $formMineral->createView(),
+                    "response" => $response
+                ]);
+            }
         }
 
         throw new \Exception("This category {$category} isn't allowed.");

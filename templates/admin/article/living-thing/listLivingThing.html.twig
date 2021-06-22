@@ -5,6 +5,7 @@
         <div class="">
             <a class="btn btn-custom-green" href="{{ path('adminAddLivingThing') }}">ADD</a>
             <div>&nbsp;</div>
+            
             {% if livingThings != [] %}
                 {% for livingThing in livingThings %}
                     <li class="media h-150px">
@@ -20,7 +21,7 @@
                 {% endfor %}
 
                 {# Pagination #}
-                {% if offset >= 1 and offset <= nbrOffset %}
+                {% if offset > 1 and offset <= nbrOffset %}
                     <div class="pagination">
                         <div class="pagination-links">
                             {% if offset - 1 >= 1 %}

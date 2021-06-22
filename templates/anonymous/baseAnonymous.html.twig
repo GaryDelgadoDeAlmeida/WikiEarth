@@ -25,7 +25,7 @@
             <i class="fas fa-times"></i>
         </label>
         <div>
-            {# <li class="menu-item"><a href=""><span>News</span></a></li> #}
+            <li class="menu-item"><a href="{{ path('news') }}"><span>News</span></a></li>
             <li class="menu-item"><a href="{{ path('home') }}"><span>Home</span></a></li>
             {# <li class="menu-item dropdown">
                 <span id="livingThing-menu">Living Things <img style="margin-left:5px; transform: rotate(180deg);" height="12" width="12" src="{{ asset('content/img/white-triangle.png') }}" /></span>
@@ -42,7 +42,6 @@
                 <ul class="submenu" id="naturalElements-submenu">
                     <li><a href="{{ path("articleElement") }}">Elements</a></li>    
                     <li><a href="{{ path("articleMineral") }}">Minerals</a></li>
-                    {# <li><a href="">Rocks</a></li> #}
                     {# <li><a href="">Chimical Reaction</a></li> #}
                 </ul>
             </li>
@@ -69,6 +68,7 @@
             <h3>Menu</h3>
             <hr>
             <ul class="footer-menu-items">
+                <li><a href="{{ path('news') }}">News</a></li>
                 <li><a href="{{ path('home') }}">Home</a></li>
                 {# <li><a href="{{ path('about') }}">About us</a></li> #}
                 <li><a href="{{ path('policy') }}">Policy</a></li>
@@ -99,7 +99,7 @@
             <ul class="footer-menu-items">
                 <li><a href="{{ path("articleElement") }}">Elements</a></li>
                 <li><a href="{{ path("articleMineral") }}">Minerals</a></li>
-                <li><a href="">Rocks</a></li>
+                <li><a href="{{ path("articleMineral") }}">Rocks</a></li>
                 {# <li><a href="">Chimical Reaction</a></li> #}
             </ul>
         </div>

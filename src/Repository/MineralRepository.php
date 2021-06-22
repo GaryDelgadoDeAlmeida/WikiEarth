@@ -19,6 +19,11 @@ class MineralRepository extends ServiceEntityRepository
         parent::__construct($registry, Mineral::class);
     }
 
+    /**
+     * @param int offset
+     * @param int limit
+     * @return Mineral[]|[]
+     */
     public function getMinerals(int $offset, int $limit)
     {
         return $this->createQueryBuilder('m')

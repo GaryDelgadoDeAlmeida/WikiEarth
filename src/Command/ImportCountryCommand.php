@@ -38,12 +38,11 @@ class ImportCountryCommand extends Command
             CURLOPT_URL => $this->url,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_FOLLOWLOCATION => true,
-            // CURLOPT_HEADER => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_0,
         ]);
         $execCurl = curl_exec($curl);
-        curl_close($curl);
         $countrys = json_decode($execCurl);
+        curl_close($curl);
 
         foreach($countrys as $key => $oneCountry) {
             $country = new Country();
