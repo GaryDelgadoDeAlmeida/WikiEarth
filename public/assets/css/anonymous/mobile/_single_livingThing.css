@@ -1,8 +1,47 @@
 /* ---------------------------------------- *\
             Single Living Thing
 \* ---------------------------------------- */
-@media(max-height : 991px) {
+@media(max-width: 991px) {
     .articleLivingThing .articleLivingThing-single {
+        grid-template-columns: none;
+    }
+
+    .articleLivingThing .articleLivingThing-single-center .articleLivingThing-livingThing-mobile {
         display: inherit;
+        padding: 1rem 0;
+    }
+
+    .articleLivingThing-livingThing-mobile .livingThing-img-mobile {
+        text-align: center;
+    }
+
+    .articleLivingThing-livingThing-mobile .livingThing-content-mobile {
+        max-width: 1250px;
+        /* margin: auto; */
+        width: calc(100% - 60px);
+    }
+
+    .livingThing-content-mobile table {
+        width: 100%;
+    }
+
+    .livingThing-content-mobile table tr {
+        padding: .5rem 0;
+    }
+
+    .livingThing-content-mobile table tr td {
+        width: 50%;
+    }
+    
+    .livingThing-content-mobile table tr td:first-child {
+        font-weight: 700;
+    }
+
+    .livingThing-content-mobile table tr td:last-child {
+        word-break: break-all;
+    }
+
+    .articleLivingThing-single-right {
+        display: none;
     }
 }

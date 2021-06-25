@@ -14,18 +14,19 @@
                     Article
 \* ---------------------------------------- */
 @import './desktop/_article.css';
-/* @import './desktop/_article_single.css'; */
+/* @import './mobile/_livingThing.css'; */
 
 /* ---------------------------------------- *\
                 Living Thing
 \* ---------------------------------------- */
 @import './desktop/_single_livingThing.css';
-/* @import './mobile/_single_livingThing.css'; */
+@import './mobile/_single_livingThing.css';
 
 /* ---------------------------------------- *\
                     Media
 \* ---------------------------------------- */
 @import './desktop/_media.css';
+@import './mobile/_media.css';
 
 /* ---------------------------------------- *\
                 Pagination

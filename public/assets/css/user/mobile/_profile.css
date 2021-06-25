@@ -1,0 +1,9 @@
+@media(max-width: 768px) {
+    .profile .profile-content {
+        grid-template-columns: none;
+    }
+
+    .profile-left .profile-img img {
+        height: auto;
+    }
+}

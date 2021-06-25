@@ -7,19 +7,19 @@
                     Home
 \* ---------------------------------------- */
 @import './desktop/_home.css';
-/* @import './mobile/_home.css'; */
+@import './mobile/_home.css';
 
 /* ---------------------------------------- *\
                     Profile
 \* ---------------------------------------- */
 @import './desktop/_profile.css';
-/* @import './mobile/_profile.css'; */
+@import './mobile/_profile.css';
 
 /* ---------------------------------------- *\
                 Living Thing
 \* ---------------------------------------- */
 @import './desktop/_livingThing.css';
-/* @import './mobile/_livingThing.css'; */
+@import './mobile/_livingThing.css';
 
 /* ---------------------------------------- *\
                 Notification

@@ -61,7 +61,7 @@
                     {% endfor %}
 
                     {# Pagination #}
-                    {% if offset > 1 and offset <= total_page %}
+                    {% if offset >= 1 and offset <= total_page %}
                         <nav aria-label="Page navigation example">
                             <ul class="pagination justify-content-center">
                                 <li class="page-item {% if offset == 1 %} disabled {% endif %}">

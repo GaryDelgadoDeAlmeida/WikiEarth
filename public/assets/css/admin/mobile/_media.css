@@ -1,0 +1,13 @@
+@media(max-width: 768px) {
+    .media.h-150px {
+        height: 100% !important;
+    }
+
+    .media {
+        display: block;
+    }
+
+    .media .media-header {
+        width: 100%;
+    }
+}

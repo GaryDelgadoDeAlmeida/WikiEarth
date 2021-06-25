@@ -1,0 +1,5 @@
+@media(max-width: 768px) {
+    .home .home-content {
+        padding: 3rem 1rem;
+    }
+}

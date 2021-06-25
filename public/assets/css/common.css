@@ -28,6 +28,12 @@ html, body {
     --c-midnight: #011740; 
 }
 
+.wrapper {
+    max-width: 1250px;
+    margin:auto;
+    width: calc(100% - 60px);
+}
+
 
 /* ---------------------------------------- *\
                     Link
@@ -43,6 +49,11 @@ a, a:hover {
 \* ---------------------------------------- */
 .w-100px {
     width: 100px;
+    margin-bottom: 10px;
+}
+
+.w-150px {
+    width: 150px !important;
     margin-bottom: 10px;
 }
 
@@ -164,7 +175,7 @@ a, a:hover {
 .btn-custom-midnight {
     text-align: center;
     height: 34px;
-    width: 185px;
+    max-width: 185px;
     color: var(--c-white);
     background-color: var(--c-sadBlue);
     text-decoration: none;
@@ -200,6 +211,16 @@ a, a:hover {
     vertical-align: middle;
 }
 
+@media(max-width: 768px) {
+    .btn-custom-midnight {
+        height: auto;
+    }
+
+    .btn-custom-green {
+        width: auto;
+        padding: 5px 25px;
+    }
+}
 
 /* ---------------------------------------- *\
                     Form

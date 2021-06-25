@@ -71,6 +71,19 @@ class MineralRepository extends ServiceEntityRepository
         ;
     }
 
+    public function searchMineral(string $searchedValue, int $offset, int $limit)
+    {
+        return $this->createQueryBuilder('m')
+            ->where('m.name LIKE :searchedValue')
+            ->orderBy('m.name', 'ASC')
+            ->setParameter('searchedValue', "%{$searchedValue}%")
+            ->setFirstResult(($offset - 1) * $limit)
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     public function countMinerals()
     {
         return $this->createQueryBuilder('m')
@@ -91,12 +104,30 @@ class MineralRepository extends ServiceEntityRepository
         ;
     }
 
+    /**
+     * @return int number of mineral who don't have any articke
+     */
     public function countMineralsWithoutArticle()
     {
         return $this->createQueryBuilder('m')
             ->select('count(m.id) as nbrMinerals')
             ->leftJoin("m.articleMineral", "aM")
             ->where('aM.id IS NULL')
+            ->getQuery()
+            ->getSingleResult()['nbrMinerals']
+        ;
+    }
+
+    /**
+     * @param string the searched value
+     * @return int number of mineral corresponding to the searched value
+     */
+    public function countSearchMineral(string $searchedValue)
+    {
+        return $this->createQueryBuilder('m')
+            ->select('count(m.id) as nbrMinerals')
+            ->where('m.name LIKE :searchedValue')
+            ->setParameter('searchedValue', "%{$searchedValue}%")
             ->getQuery()
             ->getSingleResult()['nbrMinerals']
         ;

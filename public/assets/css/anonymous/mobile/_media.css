@@ -1,0 +1,9 @@
+@media(max-width: 768px) {
+    .media {
+        display: inline-table;
+    }
+
+    .media .media-header {
+        max-width: none;
+    }
+}

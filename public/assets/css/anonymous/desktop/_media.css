@@ -9,7 +9,7 @@
 
 .media .media-header {
     height: 100%;
-    width: 156px;
+    max-width: 156px;
 }
 
 .media .media-header img {
@@ -26,4 +26,5 @@
 .media .media-body .media-body-title {
     font-size: 1rem;
     font-weight: 600;
+    word-break: break-all;
 }

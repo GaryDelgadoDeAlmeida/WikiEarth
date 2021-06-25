@@ -1,3 +1,36 @@
 /* ---------------------------------------- *\
             Living Thing - Mobile
 \* ---------------------------------------- */
+@media(max-width: 768px) {
+    .list-livingThing-box.h-150px {
+        height: auto !important;
+    }
+
+    .list-livingThing-box {
+        padding: 0;
+        display: block;
+    }
+
+    .box-livingThing-img {
+        width: 100%;
+    }
+
+    .box-livingThing-text {
+        width: auto;
+        padding: 15px;
+    }
+
+    .list-livingThing-content .list-livingThing-search .formSearch {
+        text-align: left;
+        display: block;
+    }
+    
+    .list-livingThing-content .list-livingThing-search .formSearch .formSearch-input {
+        width: 100%;
+    }
+    
+    .list-livingThing-content .list-livingThing-search .formSearch .formSearch-button {
+        width: 100%;
+        margin-top: 10px;
+    }
+}

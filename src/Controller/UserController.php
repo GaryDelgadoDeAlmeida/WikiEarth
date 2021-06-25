@@ -507,6 +507,7 @@ class UserController extends AbstractController
             $elements = $this->manager->getRepository(Element::class)->searchElement($search, $offset, $limit);
             $nbrPages = ceil($this->manager->getRepository(Element::class)->countSearchElement($search) / $limit);
         }
+        
         return $this->render('user/article/elements/listElement.html.twig', [
             "filterChoices" => $filterChoices,
             "filter_by" => $filterBy,

@@ -12,11 +12,13 @@
             Article Living Thing
 \* ---------------------------------------- */
 @import './desktop/_article.css';
+/* @import './mobile/_article.css'; */
 
 /* ---------------------------------------- *\
                     Media
 \* ---------------------------------------- */
 @import './desktop/_media.css';
+@import './mobile/_media.css';
 
 /* ---------------------------------------- *\
                 Pagination

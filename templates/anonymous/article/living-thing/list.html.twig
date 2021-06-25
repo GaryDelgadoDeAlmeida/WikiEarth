@@ -21,7 +21,7 @@
                 {% endfor %}
 
                 {# Pagination #}
-                {% if offset > 1 and offset <= nbrOffset %}
+                {% if offset >= 1 and offset <= nbrOffset %}
                     <div class="pagination">
                         <div class="pagination-links">
                             <a href="{{ path('articleLivingThing', {'name': name, 'offset': 1}) }}"><i class="fas fa-angle-double-left"></i></a>

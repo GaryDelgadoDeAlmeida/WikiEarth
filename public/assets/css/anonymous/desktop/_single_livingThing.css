@@ -88,6 +88,10 @@
     text-align: justify;
 }
 
+.articleLivingThing .articleLivingThing-single-center .articleLivingThing-livingThing-mobile {
+    display: none;
+}
+
 .articleLivingThing .articleLivingThing-single-center .post .post-title {
     font-weight: 700;
 }
