@@ -43,7 +43,7 @@ class ArticleManager extends AbstractController {
             return [
                 "error" => false,
                 "class" => "success",
-                "message" => "Le nouvel article {$articleMineral->getTitle()} a bien été ajouté.",
+                "message" => "Le nouvel article {$article->getTitle()} a bien été ajouté.",
             ];
         } catch(\Exception $e) {
             return [

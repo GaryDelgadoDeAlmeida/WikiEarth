@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use App\Manager\{UserManager, ContactManager, LivingThingManager, ElementManager, MineralManager, ArticleLivingThingManager, ArticleElementManager, ArticleMineralManager, MediaGalleryManager};
+use App\Manager\{UserManager, ContactManager, LivingThingManager, ElementManager, MineralManager, ArticleManager, ArticleLivingThingManager, ArticleElementManager, ArticleMineralManager, MediaGalleryManager};
 use App\Form\{UserType, LivingThingType, MineralType, ElementType, UserRegisterType, ArticleLivingThingType, ArticleElementType, ArticleMineralType};
 use App\Entity\{User, Element, Mineral, SourceLink, LivingThing, MediaGallery, Notification, Article, ArticleLivingThing, ArticleElement, ArticleMineral};
 
@@ -19,6 +19,7 @@ class AdminController extends AbstractController
     private $livingThingManager;
     private $elementManager;
     private $mineralManager;
+    private $articleManager;
     private $articleLivingThingManager;
     private $articleElementManager;
     private $articleMineralManager;
@@ -33,6 +34,7 @@ class AdminController extends AbstractController
         $this->livingThingManager = new LivingThingManager($container);
         $this->elementManager = new ElementManager($container);
         $this->mineralManager = new MineralManager($container);
+        $this->articleManager = new ArticleManager();
         $this->articleLivingThingManager = new ArticleLivingThingManager();
         $this->articleElementManager = new ArticleElementManager();
         $this->articleMineralManager = new ArticleMineralManager();
@@ -66,9 +68,10 @@ class AdminController extends AbstractController
     {
         $formUser = $this->createForm(UserType::class, $this->current_logged_user);
         $formUser->handleRequest($request);
+        $response = [];
 
         if($formUser->isSubmitted() && $formUser->isValid()) {
-            $this->userManager->updateUser(
+            $response = $this->userManager->updateUser(
                 $formUser, 
                 $this->current_logged_user, 
                 $this->em, 
@@ -79,7 +82,8 @@ class AdminController extends AbstractController
 
         return $this->render('admin/user/profile.html.twig', [
             "userForm" => $formUser->createView(),
-            "userImg" => $this->current_logged_user->getImgPath() ? $this->current_logged_user->getImgPath() : "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/1024px-User_icon_2.svg.png"
+            "userImg" => $this->current_logged_user->getImgPath() ? $this->current_logged_user->getImgPath() : "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/1024px-User_icon_2.svg.png",
+            "response" => $response
         ]);
     }
 
@@ -163,9 +167,10 @@ class AdminController extends AbstractController
     {
         $formUser = $this->createForm(UserType::class, $user);
         $formUser->handleRequest($request);
+        $response = [];
 
         if($formUser->isSubmitted() && $formUser->isValid()) {
-            $this->userManager->updateUser(
+            $response = $this->userManager->updateUser(
                 $formUser, 
                 $user, 
                 $this->em, 
@@ -178,7 +183,8 @@ class AdminController extends AbstractController
 
         return $this->render('admin/user/profile.html.twig', [
             "userForm" => $formUser->createView(),
-            "userImg" => $user->getImgPath() ? $user->getImgPath() : "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/1024px-User_icon_2.svg.png"
+            "userImg" => $user->getImgPath() ? $user->getImgPath() : "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/1024px-User_icon_2.svg.png",
+            "response" => $response
         ]);
     }
     
@@ -701,8 +707,8 @@ class AdminController extends AbstractController
                 "response" => $message
             ]);
         } elseif($category == "minerals") {
-            $article = new ArticleMineral();
-            $formArticle = $this->createForm(ArticleMineralType::class, $article);
+            $articleMineral = new ArticleMineral();
+            $formArticle = $this->createForm(ArticleMineralType::class, $articleMineral);
             $formArticle->handleRequest($request);
 
             if($formArticle->isSubmitted() && $formArticle->isValid()) {
@@ -723,7 +729,7 @@ class AdminController extends AbstractController
                 if(empty($message) || $message["error"] == false) {
                     if(\is_null($mineral->getArticleMineral())) {
                         $message = $this->articleMineralManager->setArticleMineral(
-                            $article,
+                            $articleMineral,
                             $mineral,
                             $this->em,
                             $this->current_logged_user
@@ -735,6 +741,22 @@ class AdminController extends AbstractController
                             "message" => "Le mineral {$mineral->getName()} possède déjà un article. L'ajout du nouvel article est annulé."
                         ];
                     }
+                }
+
+                if(empty($message) || $message["error"] == false) {
+                    $message = $this->articleManager->insertArticle(
+                        $articleMineral,
+                        $this->em,
+                        $this->current_logged_user
+                    );
+                }
+
+                if(empty($message) || $message["error"] == false) {
+                    $message = $this->mediaGalleryManager->setMediaGalleryMinerals(
+                        $formArticle["mediaGallery"]->getData(),
+                        $articleMineral,
+                        $this->em
+                    );
                 }
             }
 

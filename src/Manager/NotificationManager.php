@@ -87,12 +87,12 @@ class NotificationManager extends AbstractController {
         $this->em->clear();
     }
 
-    public function articleAlreadyExist($user)
+    public function articleAlreadyExist($articleTitle, $user)
     {
         $notification = new Notification();
         $notification->setUser($user);
         $notification->setType("info");
-        $notification->setContent("This living thing already have an article");
+        $notification->setContent("The article {$articleTitle} already have an article");
         $notification->setCreatedAt(new \DateTime());
         $this->em->merge($notification);
         $this->em->flush();

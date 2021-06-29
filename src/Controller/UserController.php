@@ -271,7 +271,7 @@ class UserController extends AbstractController
             }
         } else {
             // On envoi une notif à l'utilisateur l'avertissant que le living thing possède déjà un article
-            $this->notificationManager->articleAlreadyExist($this->currentLoggedUser);
+            $this->notificationManager->articleAlreadyExist($livingThing->getName(), $this->currentLoggedUser);
 
             return $this->redirectToRoute("userLivingThing", [
                 "class" => "danger",
@@ -463,7 +463,7 @@ class UserController extends AbstractController
             }
         } else {
             // On envoi une notif à l'utilisateur l'avertissant que le mineral possède déjà un article
-            $this->notificationManager->articleAlreadyExist($this->currentLoggedUser);
+            $this->notificationManager->articleAlreadyExist($articleMineral->getMineral()->getName(), $this->currentLoggedUser);
 
             return $this->redirectToRoute("userMineral", [
                 "class" => "danger",

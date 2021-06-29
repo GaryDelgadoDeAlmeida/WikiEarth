@@ -267,7 +267,7 @@ class LivingThing
     private $imgPath;
 
     /**
-     * @ORM\OneToOne(targetEntity=ArticleLivingThing::class, mappedBy="idLivingThing", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=ArticleLivingThing::class, mappedBy="livingThing", cascade={"persist", "remove"})
      */
     private $articleLivingThing;
 

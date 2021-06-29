@@ -26,6 +26,7 @@ class NotificationRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('n')
             ->where("n.user = :user")
+            ->orderBy('n.createdAt', 'DESC')
             ->setFirstResult(($offset - 1) * $limit)
             ->setMaxResults($limit)
             ->setParameter('user', $user)

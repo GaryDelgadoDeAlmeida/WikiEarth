@@ -46,7 +46,7 @@ class UserManager {
 
             $message = [
                 "class" => "success",
-                "message" => "Ok, your data has been successfully updated"
+                "message" => "This account has been successfully updated"
             ];
         } catch(\Exception $e) {
             $message = [

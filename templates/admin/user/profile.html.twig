@@ -3,6 +3,13 @@
 {% block body %}
     <section class="user-profile">
         <div class="">
+            {% if response != [] %}
+                <div class="alert alert-{{ response.class }} txt-center">
+                    <span>{{ response.message }}</span>
+                </div>
+                <div>&nbsp;</div>
+            {% endif %}
+
             {{ form_start(userForm, {'method': 'POST'}) }}
                 <div class="row">
                     <div class="col-lg-6 m-middle">
