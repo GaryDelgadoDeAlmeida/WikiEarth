@@ -571,13 +571,16 @@ class UserController extends AbstractController
                 // );
 
                 // Working logic of new table 
-                $this->articleManager->insertArticle(
+                $response = $this->articleManager->insertArticle(
                     $articleElement, 
                     $this->manager, 
                     $this->currentLoggedUser
                 );
 
                 $this->notificationManager->userCreateArticle($this->currentLoggedUser);
+                return $this->redirectToRoute("userElement", [
+                    "response" => $response
+                ], 302);
             }
         }
 

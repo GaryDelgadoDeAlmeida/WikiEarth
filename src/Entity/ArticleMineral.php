@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ArticleMineralRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -56,6 +58,16 @@ class ArticleMineral
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
+
+    /**
+     * @ORM\OneToMany(targetEntity=MediaGallery::class, mappedBy="articleMineral")
+     */
+    private $mediaGalleries;
+
+    public function __construct()
+    {
+        $this->mediaGalleries = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -164,6 +176,36 @@ class ArticleMineral
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|MediaGallery[]
+     */
+    public function getMediaGalleries(): Collection
+    {
+        return $this->mediaGalleries;
+    }
+
+    public function addMediaGallery(MediaGallery $mediaGallery): self
+    {
+        if (!$this->mediaGalleries->contains($mediaGallery)) {
+            $this->mediaGalleries[] = $mediaGallery;
+            $mediaGallery->setArticleMineral($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMediaGallery(MediaGallery $mediaGallery): self
+    {
+        if ($this->mediaGalleries->removeElement($mediaGallery)) {
+            // set the owning side to null (unless already changed)
+            if ($mediaGallery->getArticleMineral() === $this) {
+                $mediaGallery->setArticleMineral(null);
+            }
+        }
 
         return $this;
     }

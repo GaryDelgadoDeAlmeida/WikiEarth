@@ -6,6 +6,12 @@
             <a class="btn btn-primary" href="{{ path('adminArticle') }}"><i class="fas fa-arrow-left"></i> Retour</a>
             <a class="btn btn-custom-green" href="{{ path("adminAddArticleByCategory", {"category": category}) }}">Add</a>
             <div>&nbsp;</div>
+
+            {% if response != [] %}
+                <div class="alert alert-{{ response.class }} txt-center">
+                    <span>{{ response.message }}</span>
+                </div>
+            {% endif %}
             
             {% if articles != [] %}
                 {% for article in articles %}

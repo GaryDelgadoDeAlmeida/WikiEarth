@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use App\Manager\{UserManager, ContactManager, LivingThingManager, ElementManager, MineralManager, ArticleLivingThingManager, ArticleElementManager, ArticleMineralManager};
+use App\Manager\{UserManager, ContactManager, LivingThingManager, ElementManager, MineralManager, ArticleLivingThingManager, ArticleElementManager, ArticleMineralManager, MediaGalleryManager};
 use App\Form\{UserType, LivingThingType, MineralType, ElementType, UserRegisterType, ArticleLivingThingType, ArticleElementType, ArticleMineralType};
 use App\Entity\{User, Element, Mineral, SourceLink, LivingThing, MediaGallery, Notification, Article, ArticleLivingThing, ArticleElement, ArticleMineral};
 
@@ -22,6 +22,7 @@ class AdminController extends AbstractController
     private $articleLivingThingManager;
     private $articleElementManager;
     private $articleMineralManager;
+    private $mediaGalleryManager;
     private $userManager;
     private $contactManager;
     private $em;
@@ -35,6 +36,7 @@ class AdminController extends AbstractController
         $this->articleLivingThingManager = new ArticleLivingThingManager();
         $this->articleElementManager = new ArticleElementManager();
         $this->articleMineralManager = new ArticleMineralManager();
+        $this->mediaGalleryManager = new MediaGalleryManager($container);
         $this->userManager = new UserManager();
         $this->contactManager = new ContactManager();
         $this->em = $em;
@@ -512,8 +514,8 @@ class AdminController extends AbstractController
     /**
      * Possibilité d'en faire une retour API
      * 
-     * Attention : supprimer un living thing possèdant une liaison avec une autre table,
-     * la donnée dans l'autre table et le living thing seront supprimés de la base de données.
+     * Attention : supprimer un minéral possèdant une liaison avec une autre table,
+     * la donnée dans l'autre table et le minéral seront supprimés de la base de données.
      * 
      * @Route("/admin/mineral/{id}/delete", name="adminDeleteMineral")
      */
@@ -560,6 +562,7 @@ class AdminController extends AbstractController
         $search = !empty($request->get('search')) ? $request->get('search') : null;
         $filterBy = !empty($request->get('filterBy')) ? $request->get('filterBy') : "all";
         $filterByChoices = ["all" => "All", "approved-article" => "Approved", "not-approuved-article" => "To Approuve"];
+        $response = !empty($request->get('response')) ? $request->get('response') : [];
         $limit = 10;
         $nbrOffset = 1;
 
@@ -571,33 +574,40 @@ class AdminController extends AbstractController
                 "articles" => $this->em->getRepository(Article::class)->getArticleLivingThings($offset, $limit),
                 "nbrOffset" => $nbrOffset,
                 "offset" => $offset,
-                "category" => $category
+                "category" => $category,
+                "response" => $response
             ]);
         } elseif($category == "natural-elements") {
+            $articleElements = $this->em->getRepository(Article::class)->getArticleElements($offset, $limit);
             $nbrElements = $this->em->getRepository(Article::class)->countArticleElements();
             $nbrOffset = $nbrElements > $limit ? ceil($nbrElements / $limit) : $nbrOffset;
 
             return $this->render('admin/article/natural-elements/listArticle.html.twig', [
-                "articles" => $this->em->getRepository(Article::class)->getArticleElements($offset, $limit),
+                "articles" => $articleElements,
                 "nbrOffset" => $nbrOffset,
                 "offset" => $offset,
-                "category" => $category
+                "category" => $category,
+                "response" => $response
             ]);
         } elseif($category == "minerals") {
+            $articleMinerals = $this->em->getRepository(Article::class)->getArticleMinerals($offset, $limit);
             $nbrMinerals = $this->em->getRepository(Article::class)->countArticleMinerals();
             $nbrOffset = $nbrMinerals > $limit ? ceil($nbrMinerals / $limit) : $nbrOffset;
 
             return $this->render('admin/article/minerals/listArticle.html.twig', [
-                "articles" => $this->em->getRepository(Article::class)->getArticleMinerals($offset, $limit),
+                "articles" => $articleMinerals,
                 "nbrOffset" => $nbrOffset,
                 "offset" => $offset,
-                "category" => $category
+                "category" => $category,
+                "response" => $response
             ]);
         }
 
         return $this->redirectToRoute("adminArticle", [
-            "class" => "danger",
-            "message" => "The category {$category} isn't allowed."
+            "response" => [
+                "class" => "danger",
+                "message" => "The category {$category} isn't allowed."
+            ]
         ], 307);
     }
 
@@ -807,15 +817,16 @@ class AdminController extends AbstractController
         $response = [];
 
         if($category == "living-thing") {
-            $articleLivingThing = $this->em->getRepository(ArticleLivingThing::class)->findOneBy(["id" => $id]);
+            $article = $this->em->getRepository(Article::class)->findOneBy(["id" => $id]);
             
-            if(empty($articleLivingThing)) {
+            if(empty($article)) {
                 return $this->redirectToRoute("adminArticle", [
                     "class" => "danger",
                     "message" => "This article does not exist."
                 ], 307);
             }
             
+            $articleLivingThing = $article->getArticleLivingThing();
             $formArticle = $this->createForm(ArticleLivingThingType::class, $articleLivingThing);
             $formArticle->get('livingThing')->setData($articleLivingThing->getIdLivingThing());
             $formArticle->handleRequest($request);
@@ -834,15 +845,16 @@ class AdminController extends AbstractController
                 "response" => $response
             ]);
         } elseif($category == "natural-elements") {
-            $articleElement = $this->em->getRepository(ArticleElement::class)->findOneBy(["id" => $id]);
+            $article = $this->em->getRepository(Article::class)->findOneBy(["id" => $id]);
 
-            if(empty($articleElement)) {
+            if(empty($article)) {
                 return $this->redirectToRoute("adminArticle", [
                     "class" => "danger",
                     "message" => "This article does not exist."
                 ], 307);
             }
-
+            
+            $articleElement = $article->getArticleElement();
             $formArticle = $this->createForm(ArticleElementType::class, $articleElement);
             $formArticle->get('element')->setData($articleElement->getElement());
             $formArticle->handleRequest($request);
@@ -854,9 +866,22 @@ class AdminController extends AbstractController
                     $this->em
                 );
 
-                $response = $this->articleManager->insertArticle(
-                    // 
-                );
+                if(!empty($response) && $response["error"] == false) {
+                    $response = $this->articleManager->insertArticle(
+                        $articleElement,
+                        $formArticle["element"]->getData(),
+                        $this->em,
+                        $this->current_logged_user
+                    );
+
+                    if(!empty($response) && $response["error"] == false) {
+                        $response = $this->mediaGalleryManager->setMediaGalleryElements(
+                            $formArticle["mediaGallery"]->getData(),
+                            $articleElement,
+                            $this->em
+                        );
+                    }
+                }
             }
 
             return $this->render('admin/article/natural-elements/formArticle.html.twig', [
@@ -865,15 +890,19 @@ class AdminController extends AbstractController
                 "response" => $response
             ]);
         } elseif($category == "minerals") {
-            $articleMineral = $this->em->getRepository(ArticleMineral::class)->findOneBy(["id" => $id]);
+            $article = $this->em->getRepository(Article::class)->findOneBy(["id" => $id]);
 
-            if(empty($articleMineral)) {
-                return $this->redirectToRoute("adminArticle", [
-                    "class" => "danger",
-                    "message" => "This article does not exist."
+            if(empty($article)) {
+                return $this->redirectToRoute("adminArticleByCategory", [
+                    "category" => $category,
+                    "response" => [
+                        "class" => "danger",
+                        "message" => "This article does not exist."
+                    ]
                 ], 307);
             }
 
+            $articleMineral = $article->getArticleMineral();
             $mineral = $articleMineral->getMineral();
             $formArticle = $this->createForm(ArticleMineralType::class, $articleMineral);
             $formArticle->get('mineral')->setData($mineral);
@@ -895,6 +924,14 @@ class AdminController extends AbstractController
                         $this->em,
                         $this->current_logged_user
                     );
+
+                    if(!empty($response) && $response["error"] == false) {
+                        $response = $this->mediaGalleryManager->setMediaGalleryMinerals(
+                            $formArticle["mediaGallery"]->getData(),
+                            $articleMineral,
+                            $this->em
+                        );
+                    }
                 }
             }
 
@@ -966,28 +1003,24 @@ class AdminController extends AbstractController
      */
     public function admin_delete_article_by_category(int $id, string $category)
     {
-        $article = null;
-        if($category == "living-thing") {
-            $article = $this->em->getRepository(ArticleLivingThing::class)->findOneBy(["id" => $id]);
-        } elseif($category == "natural-elements") {
-            $article = $this->em->getRepository(ArticleElement::class)->findOneBy(["id" => $id]);
-        } elseif($category == "minerals") {
-            $article = $this->em->getRepository(ArticleMineral::class)->findOneBy(["id" => $id]);
-        }
+        $article = $this->em->getRepository(Article::class)->findOneBy(["id" => $id]);
 
         if(empty($article)) {
-            return $this->redirectToRoute("adminArticle", [
-                "class" => "danger",
-                "message" => "This article does not exist."
+            return $this->redirectToRoute("adminArticleByCategory", [
+                "category" => $category,
+                "response" => [
+                    "class" => "danger",
+                    "message" => "This article does not exist."
+                ]
             ], 307);
         }
 
         if($category == "living-thing") {
-            $article->setIdLivingThing(null);
+            $article->getArticleLivingThing()->setIdLivingThing(null);
         } elseif($category == "natural-elements") {
-            $article->setElement(null);
+            $article->getArticleElement()->setElement(null);
         } elseif($category == "minerals") {
-            $article->setMineral(null);
+            $article->getArticleMineral()->setMineral(null);
         }
 
         // Envoi d'une notification à l'utilisateur
@@ -1001,7 +1034,11 @@ class AdminController extends AbstractController
         $this->em->flush();
 
         return $this->redirectToRoute('adminArticleByCategory', [
-            "category" => $category
+            "category" => $category,
+            "response" => [
+                "class" => "success",
+                "message" => "The article {$article->getTitle()} has been successfully deleted."
+            ]
         ]);
     }
 
@@ -1047,14 +1084,14 @@ class AdminController extends AbstractController
         }
 
         // Suppression de la liaison existante avec le mineral
-        // if(!empty($media->getArticleMineral())) {
-        //     $media->setArticleMineral(null);
-        // }
+        if(!empty($media->getArticleMineral())) {
+            $media->setArticleMineral(null);
+        }
 
         // Suppression de la liaison existante avec l'élément chimique
-        // if(!empty($media->getArticleElement())) {
-        //     $media->setArticleElement(null);
-        // }
+        if(!empty($media->getArticleElement())) {
+            $media->setArticleElement(null);
+        }
 
         $this->em->remove($media);
         $this->em->flush();

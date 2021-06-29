@@ -79,7 +79,7 @@ class MediaGalleryManager extends AbstractController {
         }
 
         foreach($files as $key => $oneFile) {
-            $fileName = "{$articleElement->getTitle()}_" . ($key + 1);
+            $fileName = "{$articleElement->getElement()->getName()}_" . ($key + 1);
             $newFilename = "{$fileName}.{$oneFile->guessExtension()}";
             $elementDirectory = $this->getParameter('project_natural_elements_elements_dir');
 
@@ -133,7 +133,7 @@ class MediaGalleryManager extends AbstractController {
         }
 
         foreach($files as $key => $oneFile) {
-            $fileName = "{$articleMineral->getTitle()}_" . ($key + 1);
+            $fileName = "{$articleMineral->getMineral()->getName()}_" . ($key + 1);
             $newFilename = "{$fileName}.{$oneFile->guessExtension()}";
             $mineralDirectory = $this->getParameter('project_natural_elements_minerals_dir');
 

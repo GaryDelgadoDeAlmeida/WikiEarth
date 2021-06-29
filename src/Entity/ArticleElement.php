@@ -64,9 +64,15 @@ class ArticleElement
      */
     private $createdAt;
 
+    /**
+     * @ORM\OneToMany(targetEntity=MediaGallery::class, mappedBy="articleElement")
+     */
+    private $mediaGalleries;
+
     public function __construct()
     {
         $this->reference = new ArrayCollection();
+        $this->mediaGalleries = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -206,6 +212,36 @@ class ArticleElement
         }
 
         $this->article = $article;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|MediaGallery[]
+     */
+    public function getMediaGalleries(): Collection
+    {
+        return $this->mediaGalleries;
+    }
+
+    public function addMediaGallery(MediaGallery $mediaGallery): self
+    {
+        if (!$this->mediaGalleries->contains($mediaGallery)) {
+            $this->mediaGalleries[] = $mediaGallery;
+            $mediaGallery->setArticleElement($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMediaGallery(MediaGallery $mediaGallery): self
+    {
+        if ($this->mediaGalleries->removeElement($mediaGallery)) {
+            // set the owning side to null (unless already changed)
+            if ($mediaGallery->getArticleElement() === $this) {
+                $mediaGallery->setArticleElement(null);
+            }
+        }
 
         return $this;
     }

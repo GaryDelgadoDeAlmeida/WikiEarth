@@ -39,6 +39,16 @@ class MediaGallery
     private $articleLivingThing;
 
     /**
+     * @ORM\ManyToOne(targetEntity=ArticleElement::class, inversedBy="mediaGalleries")
+     */
+    private $articleElement;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=ArticleMineral::class, inversedBy="mediaGalleries")
+     */
+    private $articleMineral;
+
+    /**
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
@@ -92,6 +102,30 @@ class MediaGallery
     public function setArticleLivingThing(?ArticleLivingThing $articleLivingThing): self
     {
         $this->articleLivingThing = $articleLivingThing;
+
+        return $this;
+    }
+
+    public function getArticleElement(): ?ArticleElement
+    {
+        return $this->articleElement;
+    }
+
+    public function setArticleElement(?ArticleElement $articleElement): self
+    {
+        $this->articleElement = $articleElement;
+
+        return $this;
+    }
+
+    public function getArticleMineral(): ?ArticleMineral
+    {
+        return $this->articleMineral;
+    }
+
+    public function setArticleMineral(?ArticleMineral $articleMineral): self
+    {
+        $this->articleMineral = $articleMineral;
 
         return $this;
     }

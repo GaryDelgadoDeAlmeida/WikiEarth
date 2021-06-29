@@ -50,7 +50,7 @@ class Mineral
     private $chemistryElements;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $imaNumber;
 

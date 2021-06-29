@@ -14,6 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+// use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class AnonymousController extends AbstractController
@@ -165,7 +166,7 @@ class AnonymousController extends AbstractController
     {
         $limit = 10;
         $offset = !empty($request->get('offset')) && preg_match('/^[0-9]*$/', $request->get('offset')) ? $request->get('offset') : 1;
-        $nbrOffset = ceil($this->em->getRepository(Article::class)->countArticleElements() / $limit);
+        $nbrOffset = ceil($this->em->getRepository(Article::class)->countArticleElementsApproved() / $limit);
 
         return $this->render('anonymous/article/natural-elements/list.html.twig', [
             "elements" => $this->em->getRepository(Article::class)->getArticleElementsApproved($offset, $limit),
@@ -199,7 +200,7 @@ class AnonymousController extends AbstractController
     {
         $limit = 10;
         $offset = !empty($request->get('offset')) && preg_match('/^[0-9]*$/', $request->get('offset')) ? $request->get('offset') : 1;
-        $nbrOffset = ceil($this->em->getRepository(Article::class)->countArticleMinerals() / $limit);
+        $nbrOffset = ceil($this->em->getRepository(Article::class)->countArticleMineralsApproved() / $limit);
 
         return $this->render('anonymous/article/minerals/list.html.twig', [
             "minerals" => $this->em->getRepository(Article::class)->getArticleMineralsApproved($offset, $limit),
@@ -252,10 +253,13 @@ class AnonymousController extends AbstractController
         $limit = 10;
         $offset = !empty($request->get('offset')) && preg_match('/^[0-9]*$/', $request->get('offset')) ? $request->get('offset') : 1;
         $articles = $this->em->getRepository(Article::class)->searchArticles($search, $offset, $limit);
+        $nbrArticles = $this->em->getRepository(Article::class)->countSearchedArticles($search);
+        $nbrOffset = ceil($nbrArticles / $limit);
         
         return $this->render('anonymous/article/search.html.twig', [
             "articles" => $articles,
             "offset" => $offset,
+            "nbrOffset" => $nbrOffset,
             "search" => $search,
         ]);
     }
@@ -307,6 +311,13 @@ class AnonymousController extends AbstractController
         
         $formUserLogin = $this->createForm(UserLoginType::class, new User());
         $formUserLogin->handleRequest($request);
+
+        // if($formUserLogin->isSubmitted() && $formUserLogin->isValid()) {
+        //     // Manually authenticate user in controller
+        //     $token = new UsernamePasswordToken($user, null, 'main', $user->getRoles());
+        //     $this->get('security.token_storage')->setToken($token);
+        //     $this->get('session')->set('_security_main', serialize($token));
+        // }
 
         if(!empty($error)) {
             $error = [

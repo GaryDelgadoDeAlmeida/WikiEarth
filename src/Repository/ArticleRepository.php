@@ -431,6 +431,68 @@ class ArticleRepository extends ServiceEntityRepository
     }
 
     /**
+     * Count searched articles with a given value.
+     * 
+     * @param string the value to search in the article
+     * @return int number of articles who match the criteria
+     */
+    public function countSearchedArticles(string $searchedValue)
+    {
+        $query = $this->createQueryBuilder('a');
+        
+        return $query
+            ->select("count(a.id) as nbrArticles")
+            ->leftJoin("a.articleLivingThing", "aLT")
+            ->leftJoin("a.articleElement", "aE")
+            ->leftJoin("a.articleMineral", "aM")
+            ->where($query->expr()->orx(
+                $query->expr()->like("a.title", ":searchedValue"),
+                
+                // Article Living Thing
+                $query->expr()->andX(
+                    $query->expr()->isNotNull('aLT.id'),
+                    $query->expr()->orx(
+                        $query->expr()->like("aLT.geography", ":searchedValue"),
+                        $query->expr()->like("aLT.ecology", ":searchedValue"),
+                        $query->expr()->like("aLT.behaviour", ":searchedValue"),
+                        $query->expr()->like("aLT.wayOfLife", ":searchedValue"),
+                        $query->expr()->like("aLT.description", ":searchedValue"),
+                        $query->expr()->like("aLT.otherData", ":searchedValue")
+                    )
+                ),
+                
+                // Article Element
+                $query->expr()->andX(
+                    $query->expr()->isNotNull('aE.id'),
+                    $query->expr()->orx(
+                        $query->expr()->like("aE.generality", ":searchedValue"),
+                        $query->expr()->like("aE.description", ":searchedValue"),
+                        $query->expr()->like("aE.characteristics", ":searchedValue"),
+                        $query->expr()->like("aE.property", ":searchedValue"),
+                        $query->expr()->like("aE.utilization", ":searchedValue")
+                    )
+                ),
+                
+                // Article Mineral
+                $query->expr()->andX(
+                    $query->expr()->isNotNull('aM.id'),
+                    $query->expr()->orx(
+                        $query->expr()->like("aM.generality", ":searchedValue"),
+                        $query->expr()->like("aM.etymology", ":searchedValue"),
+                        $query->expr()->like("aM.properties", ":searchedValue"),
+                        $query->expr()->like("aM.geology", ":searchedValue"),
+                        $query->expr()->like("aM.mining", ":searchedValue")
+                    )
+                )
+            ))
+            ->andWhere('a.approved = 1')
+            ->setParameter("searchedValue", "%{$searchedValue}%")
+            ->getQuery()
+            ->getSingleResult()["nbrArticles"]
+        ;
+    }
+
+    /**
      * Count all articles (living thing, element, mineral) approved (by the staff) of the database.
      * 
      * @return int number of all articles (living thing, element, mineral) approved
@@ -502,10 +564,9 @@ class ArticleRepository extends ServiceEntityRepository
     }
 
     /**
-     * Count all articles of elements approved (by the staff) of the database. The article, the articleElement and the element need to exist and
-     * linked between then to include then in the count
+     * Count all articles of elements of the database.
      * 
-     * @return int number of articles of element approved
+     * @return int number of articles of element
      */
     public function countArticleElements()
     {
@@ -513,7 +574,6 @@ class ArticleRepository extends ServiceEntityRepository
             ->select('count(a.id) as nbrElements')
             ->leftJoin("a.articleElement", "aE")
             ->leftJoin("aE.element", "e")
-            ->where('a.approved = 1')
             ->andWhere("e.id IS NOT NULL")
             ->getQuery()
             ->getSingleResult()["nbrElements"]
@@ -523,7 +583,7 @@ class ArticleRepository extends ServiceEntityRepository
     /**
      * Count articles of element type approved (by the staff) in the database
      * 
-     * @return int the number of article
+     * @return int the number of article approved
      */
     public function countArticleElementsApproved()
     {
@@ -539,9 +599,9 @@ class ArticleRepository extends ServiceEntityRepository
     }
 
     /**
-     * Count all articles of minerals approved (by the staff) of the database
+     * Count all articles of minerals of the database
      * 
-     * @return int number of articles of mineral approved
+     * @return int number of articles of mineral
      */
     public function countArticleMinerals()
     {
@@ -549,7 +609,6 @@ class ArticleRepository extends ServiceEntityRepository
             ->select('count(a.id) as nbrMinerals')
             ->leftJoin("a.articleMineral", "aM")
             ->leftJoin("aM.mineral", "m")
-            ->where('a.approved = 1')
             ->andWhere("m.id IS NOT NULL")
             ->getQuery()
             ->getSingleResult()["nbrMinerals"]
@@ -557,16 +616,16 @@ class ArticleRepository extends ServiceEntityRepository
     }
 
     /**
-     * Count articles of mineral type approved (by the staff) in the database
+     * Count all articles of mineral type approved (by the staff) in the database
      * 
-     * @return int the number of article
+     * @return int the number of article of mineral approved
      */
     public function countArticleMineralsApproved()
     {
         return $this->createQueryBuilder('a')
             ->select('count(a.id) as nbrArticles')
             ->leftJoin("a.articleMineral", "aM")
-            ->leftJoin("aM.element", "m")
+            ->leftJoin("aM.mineral", "m")
             ->where('a.approved = 1')
             ->andWhere('aM.id IS NOT NULL')
             ->andWhere('m.id IS NOT NULL')
