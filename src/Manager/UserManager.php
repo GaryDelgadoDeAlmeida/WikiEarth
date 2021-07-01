@@ -21,7 +21,7 @@ class UserManager {
 
             return [
                 "class" => "success",
-                "message" => "Your account has been successfully created. Welcome to GemEarth, {$user->getFirstname()}."
+                "message" => "Your account has been successfully created. Welcome to WikiEarth, {$user->getFirstname()}."
             ];
         } catch(\Exception $e) {
             return [

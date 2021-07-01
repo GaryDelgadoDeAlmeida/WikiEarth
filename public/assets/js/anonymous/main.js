@@ -1,4 +1,4 @@
-const loopStatus = false;
+const loopStatus = true;
 
 $('.slider').owlCarousel({
     loop: loopStatus,

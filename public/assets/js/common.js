@@ -168,20 +168,6 @@ function addTagFormDeleteLink($tagFormLi) {
     });
 }
 
-// let currentFileuploadInput = document.getElementById("article_mineral_mineral_imgPath");
-// let currentFileuploadInput = document.getElementById("mineral_imgPath");
-// if(currentFileuploadInput !== null && currentFileuploadInput !== undefined) {
-//     currentFileuploadInput.addEventListener("change", function(e) {
-//         var fileName = e.target.files[0].name;
-//         let childNodes_1 = this.parentElement.childNodes[1];
-//         if(childNodes_1 !== null || childNodes_1 !== undefined) {
-//             if(childNodes_1.id === "fileuploadLabel") {
-//                 childNodes_1.innerHTML = fileName;
-//             }
-//         }
-//     });
-// }
-
 function fillFileUploadLabel(idFileInput) {
     let currentFileuploadInput = document.getElementById(idFileInput);
     if(currentFileuploadInput !== null && currentFileuploadInput !== undefined) {

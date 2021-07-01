@@ -45,7 +45,7 @@ class AnonymousController extends AbstractController
             // "countrys" => count($countrys) > 0 ? array_chunk($countrys, $nbrCountryPerColown, true) : [],
             // "nbrCountryPerColown" => $nbrCountryPerColown,
             "nbrArticles" => $nbrArticles,
-            // "nbrLivingThings" => $this->em->getRepository(LivingThing::class)->countLivingThings(),
+            "nbrLivingThings" => $this->em->getRepository(LivingThing::class)->countLivingThings(),
             "nbrElements" => $this->em->getRepository(Element::class)->countElements(),
             "nbrMinerals" => $this->em->getRepository(Mineral::class)->countMinerals(),
         ]);
@@ -366,8 +366,8 @@ class AnonymousController extends AbstractController
                 $manager->persist($userRegister);
                 $manager->flush();
 
-                $this->contactManager->sendEmailToAdmin($userRegister->getEmail(), "A new GemEarth user", "The user {$userRegister->getFirstname()} {$userRegister->getLastname()} ({$userRegister->getEmail()}) created an account on GemEarth.");
-                $this->contactManager->sendEmailToUser($userRegister->getEmail(), "Welcome to GemEarth", "You account {$userRegister->getLogin()} has been created.\n\n");
+                $this->contactManager->sendEmailToAdmin($userRegister->getEmail(), "A new WikiEarth user", "The user {$userRegister->getFirstname()} {$userRegister->getLastname()} ({$userRegister->getEmail()}) created an account on WikiEarth.");
+                $this->contactManager->sendEmailToUser($userRegister->getEmail(), "Welcome to WikiEarth", "You account {$userRegister->getLogin()} has been created.\n\n");
 
                 return $this->redirectToRoute('login');
             } else {

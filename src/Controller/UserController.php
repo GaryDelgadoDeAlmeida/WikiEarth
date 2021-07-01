@@ -57,13 +57,9 @@ class UserController extends AbstractController
     {
         $offset = 1;
         $limit = 4;
-        // $livingThingRepo = $this->manager->getRepository(LivingThing::class);
         
         return $this->render('user/home/index.html.twig', [
-            // "nbrAnimalia" => $livingThingRepo->countLivingThingKingdom('Animalia'),
-            // "nbrPlantae" => $livingThingRepo->countLivingThingKingdom('Plantae'),
-            // "nbrInsecta" => $livingThingRepo->countLivingThingKingdom('Insecta'),
-            // "nbrBacteria" => $livingThingRepo->countLivingThingKingdom('Bacteria'),
+            "nbrLivingBeing" => $this->manager->getRepository(LivingThing::class)->countLivingThings(),
             "nbrElement" => $this->manager->getRepository(Element::class)->countElements(),
             "nbrMineral" => $this->manager->getRepository(Mineral::class)->countMinerals(),
             "recent_posts" => $this->manager->getRepository(Article::class)->getArticlesApproved($offset, $limit),

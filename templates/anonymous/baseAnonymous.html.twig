@@ -12,7 +12,7 @@
     <h2 class="logo">
         <a href="{{ path('home') }}">
             <img src="{{ asset('content/img/logo/world.png') }}" width="45" height="45" alt="logo_wikiearth">
-            <span>Gem<em class="c-cyanBlue">Earth</em></span>
+            <span>Wiki<em class="c-cyanBlue">Earth</em></span>
         </a>
     </h2>
 
@@ -27,7 +27,7 @@
         <div>
             <li class="menu-item"><a href="{{ path('news') }}"><span>News</span></a></li>
             <li class="menu-item"><a href="{{ path('home') }}"><span>Home</span></a></li>
-            {# <li class="menu-item dropdown">
+            <li class="menu-item dropdown">
                 <span id="livingThing-menu">Living Things <img style="margin-left:5px; transform: rotate(180deg);" height="12" width="12" src="{{ asset('content/img/white-triangle.png') }}" /></span>
                 <ul class="submenu" id="livingThing-submenu">
                     <li><a href="{{ path("articleLivingThing", {"name": "animals"}) }}">Animals</a></li>    
@@ -36,7 +36,7 @@
                     <li><a href="{{ path("articleLivingThing", {"name": "bacteria"}) }}">Bacteria</a></li>
                     <li><a href="{{ path("articleLivingThing", {"name": "viruses"}) }}">Virus</a></li>
                 </ul>
-            </li> #}
+            </li>
             <li class="menu-item dropdown">
                 <span id="naturalElements-menu">Natural Elements <img style="margin-left:5px; transform: rotate(180deg);" height="12" width="12" src="{{ asset('content/img/white-triangle.png') }}" /></span>
                 <ul class="submenu" id="naturalElements-submenu">
@@ -82,7 +82,7 @@
                 {% endif %}
             </ul>
         </div>
-        {# <div class="footer-menu-container">
+        <div class="footer-menu-container">
             <h3>Living Things</h3>
             <hr>
             <ul class="footer-menu-items">
@@ -92,7 +92,7 @@
                 <li><a href="{{ path("articleLivingThing", {"name": "bacteria"}) }}">Bacteria</a></li>
                 <li><a href="{{ path("articleLivingThing", {"name": "viruses"}) }}">Virus</a></li>
             </ul>
-        </div> #}
+        </div>
         <div class="footer-menu-container">
             <h3>Natural Elements</h3>
             <hr>
@@ -106,7 +106,7 @@
     </div>
     <div class="footer-copyright bg-night">
         <div class="copyright">
-            <span>Copyright &copy; 2020-{{ "now"|date("Y") }} &minus; <a href="{{ path('home') }}"><span class="c-white">Gem<em class="c-cyanBlue">Earth</em></span></a></span>
+            <span>Copyright &copy; 2020-{{ "now"|date("Y") }} &minus; <a href="{{ path('home') }}"><span class="c-white">Wiki<em class="c-cyanBlue">Earth</em></span></a></span>
         </div>
         <div class="creator">
             {# <span>Realised by <a class="c-cyanBlue txt-bold" href="http://gary-delgado-de-almeida.000webhostapp.com" target="__blank">Garry Almeida</a></span> #}

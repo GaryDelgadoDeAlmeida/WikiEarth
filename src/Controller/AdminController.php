@@ -126,7 +126,7 @@ class AdminController extends AbstractController
 
                         // $this->contactManager->sendEmailToUser(
                         //     $user->getEmail(),
-                        //     "Welcome to GemEarth",
+                        //     "Welcome to WikiEarth",
                         //     "Welcome {$user->getFirstname()} {$user->getLastname()}."
                         // );
     
