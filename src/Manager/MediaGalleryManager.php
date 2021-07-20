@@ -28,7 +28,7 @@ class MediaGalleryManager extends AbstractController {
         foreach($files as $key => $oneFile) {
             $fileName = "{$articleLivingThing->getTitle()}_" . ($key + 1);
             $newFilename = "{$fileName}.{$oneFile->guessExtension()}";
-            $kingdomDirectory = $this->getParameter('project_living_thing_media_gallery_dir') . $this->convertKingdomClassification($this->convertUppercaseToUcfirst($articleLivingThing->getIdLivingThing()->getKingdom()));
+            $kingdomDirectory = $this->getParameter('project_living_thing_media_gallery_dir') . $this->convertUppercaseToUcfirst($articleLivingThing->getIdLivingThing()->getKingdom());
 
             if(!\file_exists($kingdomDirectory)) {
                 mkdir($kingdomDirectory, 0777, true);
@@ -55,7 +55,7 @@ class MediaGalleryManager extends AbstractController {
             if(empty($manager->getRepository(MediaGallery::class)->getMediaGalleryByName($fileName))) {
                 $mediaGallery = new MediaGallery();
                 $mediaGallery->setName($fileName);
-                $mediaGallery->setPath("content/wikiearth/living-thing/{$this->convertKingdomClassification($this->convertUppercaseToUcfirst($articleLivingThing->getIdLivingThing()->getKingdom()))}/{$newFilename}");
+                $mediaGallery->setPath("content/wikiearth/living-thing/{$this->convertUppercaseToUcfirst($articleLivingThing->getIdLivingThing()->getKingdom())}/{$newFilename}");
                 $mediaGallery->setMediaType("image");
                 $mediaGallery->setCreatedAt($date);
                 $manager->persist($mediaGallery);
@@ -176,27 +176,6 @@ class MediaGalleryManager extends AbstractController {
                 $manager->flush();
             }
         }
-    }
-
-    public function convertKingdomClassification($kingdomClassification)
-    {
-        $kingdom = "";
-        
-        if($kingdomClassification == "Animalia") {
-            $kingdom = "animals";
-        } elseif($kingdomClassification == "Plantae") {
-            $kingdom = "plants";
-        } elseif($kingdomClassification == "Fungi") {
-            $kingdom = "fungis";
-        } elseif($kingdomClassification == "Insecta") {
-            $kingdom = "insects";
-        } elseif($kingdomClassification == "Bacteria") {
-            $kingdom = "bacteria";
-        } elseif($kingdomClassification == "Virae") {
-            $kingdom = "virus";
-        }
-
-        return $kingdom;
     }
 
     public function convertUppercaseToUcfirst(string $value)

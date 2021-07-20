@@ -108,11 +108,13 @@ class UserController extends AbstractController
         $categoryBy = !empty($request->get("category-by-livingThing")) ? $request->get("category-by-livingThing") : "all";
         $categoryChoices = [
             "all" => "All",
-            "animalia" => "Animals",
-            "plantae" => "Plants",
-            "insecta" => "Insecta",
+            "animalia" => "Animalia",
+            "plantae" => "Plantae",
+            "fungi" => "Fungi",
             "bacteria" => "Bacteria",
-            "virus" => "Virus"
+            "archaea" => "Archaea",
+            "protozoa" => "Protozoa",
+            "chromista" => "Chromista",
         ];
         $filterChocies = [
             "all" => "All",

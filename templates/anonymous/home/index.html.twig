@@ -14,6 +14,8 @@
 
     <section class="home-article bg-lightGrey">
         <div class="slider owl-carousel">
+
+            {# Animalia #}
             <div class="card">
                 <div class="img">
                     <img src="{{ asset('content/img/Animalia.jpg') }}" alt="Animalia">
@@ -21,10 +23,11 @@
                 
                 <div class="content">
                     <h5 class="title">Animalia</h5>
-                    <a class="btn" href="{{ path('articleLivingThing', {'name': 'animals'}) }}">See More</a>
+                    <a class="btn" href="{{ path('articleLivingThing', {'name': 'animalia'}) }}">See More</a>
                 </div>
             </div>
 
+            {# Plantae #}
             <div class="card">
                 <div class="img">
                     <img src="{{ asset('content/img/Plantae.jpg') }}" alt="Plantae">
@@ -32,10 +35,11 @@
                 
                 <div class="content">
                     <h5 class="title">Plantae</h5>
-                    <a class="btn" href="{{ path('articleLivingThing', {'name': 'plants'}) }}">See More</a>
+                    <a class="btn" href="{{ path('articleLivingThing', {'name': 'plantae'}) }}">See More</a>
                 </div>
             </div>
 
+            {# Fungi #}
             <div class="card">
                 <div class="img">
                     <img src="{{ asset('content/img/Fungi.jpg') }}" alt="Fungi">
@@ -47,6 +51,7 @@
                 </div>
             </div>
 
+            {# Bacteria #}
             <div class="card">
                 <div class="img">
                     <img src="{{ asset('content/img/Bacteria.jpg') }}" alt="Bacteria">
@@ -58,17 +63,43 @@
                 </div>
             </div>
 
+            {# Archaea #}
             <div class="card">
                 <div class="img">
-                    <img src="{{ asset('content/img/Viruses.jpg') }}" alt="Viruses">
+                    <img src="{{ asset('content/img/Archaea.jpg') }}" alt="Archaea">
                 </div>
                 
                 <div class="content">
-                    <h5 class="title">Viruses</h5>
-                    <a class="btn" href="{{ path('articleLivingThing', {'name': 'viruses'}) }}">See More</a>
+                    <h5 class="title">Archaea</h5>
+                    <a class="btn" href="{{ path('articleLivingThing', {'name': 'archaea'}) }}">See More</a>
                 </div>
             </div>
 
+            {# Protozoa #}
+            <div class="card">
+                <div class="img">
+                    <img src="{{ asset('content/img/Protozoa.jpg') }}" alt="Protozoa">
+                </div>
+                
+                <div class="content">
+                    <h5 class="title">Protozoa</h5>
+                    <a class="btn" href="{{ path('articleLivingThing', {'name': 'protozoa'}) }}">See More</a>
+                </div>
+            </div>
+            
+            {# Chromista #}
+            <div class="card">
+                <div class="img">
+                    <img src="{{ asset('content/img/Chromista.jpg') }}" alt="Chromista">
+                </div>
+                
+                <div class="content">
+                    <h5 class="title">Chromista</h5>
+                    <a class="btn" href="{{ path('articleLivingThing', {'name': 'chromista'}) }}">See More</a>
+                </div>
+            </div>
+
+            {# Elements #}
             <div class="card">
                 <div class="img">
                     <img src="{{ asset('content/img/Atome.jpg') }}" alt="Elements">
@@ -80,6 +111,7 @@
                 </div>
             </div>
 
+            {# Minerals #}
             <div class="card">
                 <div class="img">
                     <img src="{{ asset('content/img/Minerals.jpg') }}" alt="Minerals">
@@ -91,7 +123,8 @@
                 </div>
             </div>
 
-            <div class="card">
+            {# Rocks #}
+            {# <div class="card">
                 <div class="img">
                     <img src="{{ asset('content/img/Rocks.jpg') }}" alt="Rocks">
                 </div>
@@ -99,6 +132,18 @@
                 <div class="content">
                     <h5 class="title">Rocks</h5>
                     <a class="btn" href="{{ path("articleMineral") }}">See More</a>
+                </div>
+            </div> #}
+
+            {# Chimical Reactions #}
+            <div class="card">
+                <div class="img">
+                    <img src="{{ asset('content/img/Chimical-reactions.jpg') }}" alt="Chimical Reactions">
+                </div>
+                
+                <div class="content">
+                    <h5 class="title">Chimical Reactions</h5>
+                    <a class="btn" href="{{ path("articleChimicalReaction") }}">See More</a>
                 </div>
             </div>
         </div>

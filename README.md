@@ -80,9 +80,8 @@ Il existe un répertoire nommé "imports" dans "public/content/file". Ce répert
     - le répertoire "Fungi" (champignons)
     - le répertoire "Protista"
     - le répertoire "Archaea"
-    - le répertoire "Eubacteria"
+    - le répertoire "Chromista"
     - le répertoire "Bacteria"
-    - le répertoire "Virae"
     
   - le répertoire "Natural Elements" contenant tous les élements du tableau périodique (métaux et non-métaux), les minéraux.
     - le répertoire "Elements"
@@ -114,6 +113,21 @@ Pour importer les pays
 ```bash
     symfony console app:import:country
 ```
+
+## Informations supplémentaires
+
+### Living Thing
+
+Actuellement, seul 7 règnes (selon la classfication actuelle) du domaine de la biologie ont été défini. 
+
+Ils sont :
+  - Archaea
+  - Bacteria
+  - Protozoa
+  - Chromista
+  - Plantae
+  - Fungi
+  - Animalia
 
 ## Compatibilité Apache 2
 

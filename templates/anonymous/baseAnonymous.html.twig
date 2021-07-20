@@ -30,11 +30,13 @@
             <li class="menu-item dropdown">
                 <span id="livingThing-menu">Living Things <img style="margin-left:5px; transform: rotate(180deg);" height="12" width="12" src="{{ asset('content/img/white-triangle.png') }}" /></span>
                 <ul class="submenu" id="livingThing-submenu">
-                    <li><a href="{{ path("articleLivingThing", {"name": "animals"}) }}">Animals</a></li>    
-                    <li><a href="{{ path("articleLivingThing", {"name": "plants"}) }}">Plants</a></li>
+                    <li><a href="{{ path("articleLivingThing", {"name": "animalia"}) }}">Animalia</a></li>
+                    <li><a href="{{ path("articleLivingThing", {"name": "plantae"}) }}">Plantae</a></li>
                     <li><a href="{{ path("articleLivingThing", {"name": "fungi"}) }}">Fungi</a></li>
-                    <li><a href="{{ path("articleLivingThing", {"name": "bacteria"}) }}">Bacteria</a></li>
-                    <li><a href="{{ path("articleLivingThing", {"name": "viruses"}) }}">Virus</a></li>
+                    <li><a href="{{ path("articleLivingThing", {"name": "bacteria"}) }}">Bacteria</a></li>    
+                    <li><a href="{{ path("articleLivingThing", {"name": "archaea"}) }}">Archaea</a></li>
+                    <li><a href="{{ path("articleLivingThing", {"name": "protozoa"}) }}">Protozoa</a></li>
+                    <li><a href="{{ path("articleLivingThing", {"name": "chromista"}) }}">Chromista</a></li>
                 </ul>
             </li>
             <li class="menu-item dropdown">
@@ -42,7 +44,7 @@
                 <ul class="submenu" id="naturalElements-submenu">
                     <li><a href="{{ path("articleElement") }}">Elements</a></li>    
                     <li><a href="{{ path("articleMineral") }}">Minerals</a></li>
-                    {# <li><a href="">Chimical Reaction</a></li> #}
+                    <li><a href="{{ path("articleChimicalReaction") }}">Chimical Reaction</a></li>
                 </ul>
             </li>
             {# <li class="menu-item"><a href="{{ path('about') }}"><span>About us</span></a></li> #}
@@ -86,11 +88,13 @@
             <h3>Living Things</h3>
             <hr>
             <ul class="footer-menu-items">
-                <li><a href="{{ path("articleLivingThing", {"name": "animals"}) }}">Animals</a></li>
-                <li><a href="{{ path("articleLivingThing", {"name": "plants"}) }}">Plants</a></li>
+                <li><a href="{{ path("articleLivingThing", {"name": "animalia"}) }}">Animalia</a></li>
+                <li><a href="{{ path("articleLivingThing", {"name": "plantae"}) }}">Plantae</a></li>
                 <li><a href="{{ path("articleLivingThing", {"name": "fungi"}) }}">Fungi</a></li>
                 <li><a href="{{ path("articleLivingThing", {"name": "bacteria"}) }}">Bacteria</a></li>
-                <li><a href="{{ path("articleLivingThing", {"name": "viruses"}) }}">Virus</a></li>
+                <li><a href="{{ path("articleLivingThing", {"name": "archaea"}) }}">Archaea</a></li>
+                <li><a href="{{ path("articleLivingThing", {"name": "protozoa"}) }}">Protozoa</a></li>
+                <li><a href="{{ path("articleLivingThing", {"name": "chromista"}) }}">Chromista</a></li>
             </ul>
         </div>
         <div class="footer-menu-container">
@@ -99,8 +103,7 @@
             <ul class="footer-menu-items">
                 <li><a href="{{ path("articleElement") }}">Elements</a></li>
                 <li><a href="{{ path("articleMineral") }}">Minerals</a></li>
-                <li><a href="{{ path("articleMineral") }}">Rocks</a></li>
-                {# <li><a href="">Chimical Reaction</a></li> #}
+                <li><a href="{{ path("articleChimicalReaction") }}">Chimical Reaction</a></li>
             </ul>
         </div>
     </div>

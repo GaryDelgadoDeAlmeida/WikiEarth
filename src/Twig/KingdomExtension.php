@@ -20,22 +20,6 @@ class KingdomExtension extends AbstractExtension
 
     public function convertKingdomClassification($kingdomClassification)
     {
-        $kingdom = "";
-        
-        if($kingdomClassification == "Animalia") {
-            $kingdom = "animals";
-        } elseif($kingdomClassification == "Plantae") {
-            $kingdom = "plants";
-        } elseif($kingdomClassification == "Fungi") {
-            $kingdom = "fungi";
-        } elseif($kingdomClassification == "Insecta") {
-            $kingdom = "insects";
-        } elseif($kingdomClassification == "Bacteria") {
-            $kingdom = "bacteria";
-        } elseif($kingdomClassification == "Virae") {
-            $kingdom = "virus";
-        }
-
-        return $kingdom;
+        return ucfirst(strtolower($kingdomClassification));
     }
 }

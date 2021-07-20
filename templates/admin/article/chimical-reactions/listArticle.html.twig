@@ -1,0 +1,16 @@
+{% extends 'admin/baseAdmin.html.twig' %}
+
+{% block body %}
+    <section class="wikiearth-article">
+        <div class="container">
+            <a class="btn btn-primary" href="{{ path('adminArticle') }}"><i class="fas fa-arrow-left"></i> Retour</a>
+            <a class="btn btn-custom-green" href="{{ path("adminAddArticleByCategory", {"category": category}) }}">Add</a>
+            <div>&nbsp;</div>
+            
+            
+            <li class="media">
+                <div class="media-body">This page is currently under construction. Please check back soon.</div>
+            </li>
+        </div>
+    </section>
+{% endblock %}

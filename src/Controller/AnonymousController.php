@@ -98,17 +98,7 @@ class AnonymousController extends AbstractController
     {
         $limit = 10;
         $offset = !empty($request->get('offset')) && preg_match('/^[0-9]*$/', $request->get('offset')) ? $request->get('offset') : 1;
-        $kingdom = "";
-
-        if($name == "animals") {
-            $kingdom = 'Animalia';
-        } elseif($name == "insects") {
-            $kingdom = 'Insecta';
-        } elseif($name == "plants") {
-            $kingdom = 'Plantae';
-        } elseif($name == "bacteria") {
-            $kingdom = 'Bacteria';
-        }
+        $kingdom = ucfirst($name);
 
         $livingThing = $this->articleRepository->getArticleLivingThingsByLivingThingKingdom($kingdom, $offset, $limit);
         $totalOffset = ceil($this->articleRepository->countArticleLivingThingsByKingdom($kingdom, $limit));
@@ -127,17 +117,7 @@ class AnonymousController extends AbstractController
     public function article_living_thing_by_id(string $name, int $id)
     {
         $articleLivingThing = [];
-        $kingdom = "";
-
-        if($name == "animals") {
-            $kingdom = 'Animalia';
-        } elseif($name == "insects") {
-            $kingdom = 'Insecta';
-        } elseif($name == "plants") {
-            $kingdom = 'Plantae';
-        } elseif($name == "bacteria") {
-            $kingdom = 'Bacteria';
-        }
+        $kingdom = ucfirst($name);
 
         $articleLivingThing = $this->articleRepository->getArticleLivingThingsByLivingThingKingdomByID($kingdom, $id);
 
@@ -229,6 +209,14 @@ class AnonymousController extends AbstractController
     }
 
     /**
+     * @Route("/chimical-reaction", name="articleChimicalReaction")
+     */
+    public function article_chimical_reactions(Request $request)
+    {
+        return $this->render("anonymous/article/chimical-reactions/list.html.twig", []);
+    }
+
+    /**
      * @Route("/about", name="about")
      */
     public function about()
@@ -312,8 +300,8 @@ class AnonymousController extends AbstractController
         $formUserLogin = $this->createForm(UserLoginType::class, new User());
         $formUserLogin->handleRequest($request);
 
+        // Manually authenticate user in controller
         // if($formUserLogin->isSubmitted() && $formUserLogin->isValid()) {
-        //     // Manually authenticate user in controller
         //     $token = new UsernamePasswordToken($user, null, 'main', $user->getRoles());
         //     $this->get('security.token_storage')->setToken($token);
         //     $this->get('session')->set('_security_main', serialize($token));

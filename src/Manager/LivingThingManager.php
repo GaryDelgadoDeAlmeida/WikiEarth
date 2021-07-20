@@ -50,7 +50,7 @@ class LivingThingManager extends AbstractController {
                     throw new $e->getMessage();
                 }
     
-                $livingThing->setImgPath("content/wikiearth/living-thing/{$this->convertKingdomClassification(ucfirst(strtolower($livingThing->getKingdom())))}/{$newFilename}");
+                $livingThing->setImgPath("content/wikiearth/living-thing/" . ucfirst(strtolower($livingThing->getKingdom())) . "/{$newFilename}");
             }
     
             $manager->persist($livingThing);
@@ -81,35 +81,16 @@ class LivingThingManager extends AbstractController {
             $kingdomPath = $this->getParameter('project_living_thing_plants_dir');
         } elseif($kingdomClassification == "Fungi") {
             $kingdomPath = $this->getParameter('project_living_thing_fungis_dir');
-        } elseif($kingdomClassification == "Insecta") {
-            $kingdomPath = $this->getParameter('project_living_thing_insects_dir');
         } elseif($kingdomClassification == "Bacteria") {
             $kingdomPath = $this->getParameter('project_living_thing_bacteria_dir');
-        } elseif($kingdomClassification == "Virae") {
-            $kingdomPath = $this->getParameter('project_living_thing_virus_dir');
+        } elseif($kingdomClassification == "Archaea") {
+            $kingdomPath = $this->getParameter('project_living_thing_archaea_dir');
+        } elseif($kingdomClassification == "Protozoa") {
+            $kingdomPath = $this->getParameter('project_living_thing_protozoa_dir');
+        } elseif($kingdomClassification == "Chromista") {
+            $kingdomPath = $this->getParameter('project_living_thing_chromista_dir');
         }
 
         return $kingdomPath;
-    }
-
-    public function convertKingdomClassification($kingdomClassification)
-    {
-        $kingdom = "";
-        
-        if($kingdomClassification == "Animalia") {
-            $kingdom = "animals";
-        } elseif($kingdomClassification == "Plantae") {
-            $kingdom = "plants";
-        } elseif($kingdomClassification == "Fungi") {
-            $kingdom = "fungis";
-        } elseif($kingdomClassification == "Insecta") {
-            $kingdom = "insects";
-        } elseif($kingdomClassification == "Bacteria") {
-            $kingdom = "bacteria";
-        } elseif($kingdomClassification == "Virae") {
-            $kingdom = "virus";
-        }
-
-        return $kingdom;
     }
 }
