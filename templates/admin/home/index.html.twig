@@ -1,7 +1,44 @@
 {% extends 'admin/baseAdmin.html.twig' %}
 
 {% block body %}
+<script>
+    window.onload = function () {
+    
+        var chart = new CanvasJS.Chart("chartContainer", {
+            animationEnabled: true,
+            //theme: "light2",
+            title:{
+                text: "Salmon Production - 1997 to 2006"
+            },
+            axisX:{
+                crosshair: {
+                    enabled: true,
+                    snapToDataPoint: true
+                }
+            },
+            axisY:{
+                title: "in Metric Tons",
+                includeZero: true,
+                crosshair: {
+                    enabled: true,
+                    snapToDataPoint: true
+                }
+            },
+            toolTip:{
+                enabled: false
+            },
+            data: [{
+                type: "area",
+                dataPoints: {{ dataPoints|json_encode(constant('JSON_NUMERIC_CHECK'))|raw }}
+            }]
+        });
+        
+        chart.render();
+    }
+</script>
     <section class="admin-home">
+
+        {# Résumé #}
         <div class="resume">
             <div class="row">
 
@@ -97,6 +134,15 @@
             </div>
         </div>
 
-        <div class="stat"></div>
+        {# Statistique utilisateurs (création & connexion) #}
+        <div class="stat-users">
+            <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+        </div>
+
+        {# Statistique articles #}
+        <div class="stat-article"></div>
     </section>
+
+<script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+<script src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
 {% endblock %}

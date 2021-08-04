@@ -93,7 +93,7 @@ class User implements UserInterface
     private $createdAt;
 
     /**
-     * @ORM\OneToMany(targetEntity=Notification::class, mappedBy="userId")
+     * @ORM\OneToMany(targetEntity=Notification::class, mappedBy="user")
      */
     private $notifications;
 
