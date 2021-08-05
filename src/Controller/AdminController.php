@@ -1101,10 +1101,14 @@ class AdminController extends AbstractController
     {
         $limit = 10;
         $offset = !empty($request->get('offset')) && preg_match('/^[0-9]*$/', $request->get('offset')) ? $request->get('offset') : 1;
+        $medias = $this->em->getRepository(MediaGallery::class)->getMediaGalleryByType($type, $offset, $limit);
+        $nbrOffset = ceil($this->em->getRepository(MediaGallery::class)->countMediaGalleryByType($type) / $limit);
 
         return $this->render('admin/media/list.html.twig', [
             "mediaType" => $type,
-            "medias" => $this->em->getRepository(MediaGallery::class)->getMediaGalleryByType($type, $offset, $limit)
+            "medias" => $medias,
+            "offset" => $offset,
+            "nbrOffset" => $nbrOffset,
         ]);
     }
 

@@ -57,4 +57,20 @@ class MediaGalleryRepository extends ServiceEntityRepository
             ->getOneOrNullResult()
         ;
     }
+
+    /**
+     * Count all media whoes media type (image, video) corresponding to researched type
+     * 
+     * @param string type of medias
+     * @return int number of media corresponding to media type
+     */
+    public function countMediaGalleryByType(string $type)
+    {
+        return $this->createQueryBuilder('m')
+            ->select("COUNT(m.id) as nbrMedias")
+            ->where('m.mediaType = :mediaType')
+            ->setParameter('mediaType', $type)
+            ->getQuery()
+            ->getSingleResult()["nbrMedias"];
+    }
 }

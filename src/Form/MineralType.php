@@ -26,7 +26,7 @@ class MineralType extends AbstractType
                 ],
                 'constraints' => [
                     new File([
-                        'maxSize' => '5120k',
+                        'maxSize' => '5Mi',
                         'mimeTypes' => [
                             'image/jpg',
                             'image/jpeg',

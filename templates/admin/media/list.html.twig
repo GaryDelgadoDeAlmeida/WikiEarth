@@ -16,6 +16,25 @@
                     </div>
                 </li>
             {% endfor %}
+
+            {# Pagination #}
+            {% if offset >= 1 and offset <= nbrOffset %}
+                <div class="pagination">
+                    <div class="pagination-links">
+                        {% if offset - 1 >= 1 %}
+                            <a href="{{ path('adminMediaType', {'type': mediaType, 'offset': 1}) }}"><i class="fas fa-angle-double-left"></i></a>
+                            <a class="" href="{{ path('adminMediaType', {'type': mediaType, 'offset': offset - 1}) }}">{{ offset - 1 }}</a>
+                        {% endif %}
+
+                        <a class="active" href="{{ path('adminMediaType', {'type': mediaType, 'offset': offset}) }}"><span>{{ offset }}</span></a>
+                        
+                        {% if offset + 1 <= nbrOffset %}
+                            <a class="" href="{{ path('adminMediaType', {'type': mediaType, 'offset': offset + 1}) }}">{{ offset + 1 }}</a>
+                            <a href="{{ path('adminMediaType', {'type': mediaType, 'offset': nbrOffset}) }}"><i class="fas fa-angle-double-right"></i></a>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endif %}
         {% else %}
             <li class="media">
                 <div class="media-body">Aucun média du type "{{ mediaType }}" n'a été trouvé.</div>
