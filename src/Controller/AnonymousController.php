@@ -2,9 +2,9 @@
 
 namespace App\Controller;
 
-use App\Manager\{PdfGeneratorManager, ContactManager};
+use App\Manager\{PdfGeneratorManager, ContactManager, StatisticsManager};
 use App\Form\{UserLoginType, UserRegisterType, ContactType};
-use App\Entity\{User, Element, Country, Mineral, LivingThing, Contact, Article, ArticleLivingThing, ArticleElement, ArticleMineral};
+use App\Entity\{User, Element, Country, Mineral, LivingThing, Contact, Statistics, Article, ArticleLivingThing, ArticleElement, ArticleMineral};
 use Dompdf\{Dompdf, Options};
 use Psr\Container\ContainerInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -19,15 +19,17 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 
 class AnonymousController extends AbstractController
 {
-    private $pdfGeneratorManager;
-    private $contactManager;
     private $em;
+    private $pdfGeneratorManager;
+    private $statisticsManager;
+    private $contactManager;
     private $articleRepository;
     
     public function __construct(ContainerInterface $container, EntityManagerInterface $manager)
     {
         $this->em = $manager;
         $this->articleRepository = $manager->getRepository(Article::class);
+        $this->statisticsManager = new StatisticsManager($manager);
         // $this->pdfGeneratorManager = new PdfGeneratorManager($container);
         $this->contactManager = new ContactManager();
     }
@@ -130,6 +132,9 @@ class AnonymousController extends AbstractController
             ], 307);
         }
 
+        // Article consulatation statistics
+        $this->statisticsManager->updateArticlePageConsultationsStatistics();
+
         return $this->render('anonymous/article/living-thing/single.html.twig', [
             "article" => $articleLivingThing,
             "mediaGallery" => $articleLivingThing->getMediaGallery(),
@@ -166,6 +171,9 @@ class AnonymousController extends AbstractController
             return $this->redirectToRoute('articleElement');
         }
 
+        // Article consulatation statistics
+        $this->statisticsManager->updateArticlePageConsultationsStatistics();
+
         return $this->render('anonymous/article/natural-elements/single.html.twig', [
             "article" => $element,
             "mediaGallery" => [],
@@ -200,6 +208,9 @@ class AnonymousController extends AbstractController
             return $this->redirectToRoute('404Error');
         }
 
+        // Article consulatation statistics
+        $this->statisticsManager->updateArticlePageConsultationsStatistics();
+        
         return $this->render('anonymous/article/minerals/single.html.twig', [
             "article" => $article,
             "mediaGallery" => [],
@@ -325,6 +336,9 @@ class AnonymousController extends AbstractController
      */
     public function checkUser(TokenStorageInterface $tokenStorage)
     {
+        // Authentified user connection statistics
+        $this->statisticsManager->updateUserConnectionStatistics();
+
         if($tokenStorage->getToken()->getUser()->getRoles()[0] == "ROLE_ADMIN") {
             return $this->redirectToRoute("adminHome");
         } elseif($tokenStorage->getToken()->getUser()->getRoles()[0] == "ROLE_USER") {
@@ -332,7 +346,6 @@ class AnonymousController extends AbstractController
         }
 
         return $this->redirectToRoute("home");
-        // throw $this->createNotFoundException("This role don't exist");
     }
 
     /**

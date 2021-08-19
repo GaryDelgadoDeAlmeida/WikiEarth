@@ -178,30 +178,3 @@ app {
         display: block;
     }
 }
-
-
-
-/* ---------------------------------------- *\
-                    Work
-\* ---------------------------------------- */
-.work-tr td {
-    vertical-align: middle;
-}
-
-@media (max-width: 1155px) {
-    .displayNoneColumn-lvl-1 {
-        display: none;
-    }
-}
-
-@media (max-width: 768px) {
-    .displayNoneColumn-lvl-2 {
-        display: none;
-    }
-}
-
-@media (max-width: 525px) {
-    .displayNoneColumn-lvl-3 {
-        display: none;
-    }
-}

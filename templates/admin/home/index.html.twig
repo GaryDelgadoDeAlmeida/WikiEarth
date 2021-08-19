@@ -4,11 +4,11 @@
 <script>
     window.onload = function () {
     
-        var chart = new CanvasJS.Chart("chartContainer", {
+        var chart = new CanvasJS.Chart("chartUser", {
             animationEnabled: true,
-            //theme: "light2",
+            theme: "light2",
             title:{
-                text: "Salmon Production - 1997 to 2006"
+                text: "User activity"
             },
             axisX:{
                 crosshair: {
@@ -17,7 +17,7 @@
                 }
             },
             axisY:{
-                title: "in Metric Tons",
+                title: "",
                 includeZero: true,
                 crosshair: {
                     enabled: true,
@@ -28,7 +28,7 @@
                 enabled: false
             },
             data: [{
-                type: "area",
+                type: "splineArea",
                 dataPoints: {{ dataPoints|json_encode(constant('JSON_NUMERIC_CHECK'))|raw }}
             }]
         });
@@ -136,7 +136,7 @@
 
         {# Statistique utilisateurs (création & connexion) #}
         <div class="stat-users">
-            <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+            <div id="chartUser" style="height: 370px; width: 100%;"></div>
         </div>
 
         {# Statistique articles #}

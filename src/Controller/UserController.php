@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Form\{UserType, LivingThingType, ElementType, MineralType, Contact, ArticleLivingThingType, ArticleElementType, ArticleMineralType};
 use App\Entity\{LivingThing, Element, Mineral, Notification, Article, ArticleLivingThing, ArticleElement, ArticleMineral};
-use App\Manager\{UserManager, LivingThingManager, ElementManager, MineralManager, ReferenceManager, MediaGalleryManager, ContactManager, NotificationManager, ArticleManager, ArticleLivingThingManager, ArticleElementManager, ArticleMineralManager};
+use App\Manager\{UserManager, StatisticsManager, LivingThingManager, ElementManager, MineralManager, ReferenceManager, MediaGalleryManager, ContactManager, NotificationManager, ArticleManager, ArticleLivingThingManager, ArticleElementManager, ArticleMineralManager};
 use Psr\Container\ContainerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,6 +31,7 @@ class UserController extends AbstractController
     private $articleElementManager;
     private $articleMineralManager;
     private $mediaGalleryManager;
+    private $statisticsManager;
 
     public function __construct(TokenStorageInterface $tokenStorage, EntityManagerInterface $manager, ContainerInterface $container)
     {
@@ -47,6 +48,7 @@ class UserController extends AbstractController
         $this->articleElementManager = new ArticleElementManager();
         $this->articleMineralManager = new ArticleMineralManager();
         $this->mediaGalleryManager = new MediaGalleryManager($container);
+        $this->statisticsManager = new StatisticsManager($manager);
         $this->manager = $manager;
     }
 
@@ -79,7 +81,7 @@ class UserController extends AbstractController
 
         if($formUser->isSubmitted() && $formUser->isValid()) {
 
-            // On mets à jour les informations de l'utilisateur (nom, prénom, img, pass, etc ...)
+            // Update personnal user data (lastname, firstname, img, password, etc ...)
             $this->userManager->updateUser(
                 $formUser, 
                 $user, 
@@ -182,8 +184,14 @@ class UserController extends AbstractController
                 );
 
                 if(empty($message) || $message["erorr"] == false) {
-                    // TODO : On envoi une notification / un email aux admins du site
-                    $this->contactManager->sendMail($this->currentLoggedUser->getEmail(), "New article {$livingThing->getName()}", "A new article has been created. Please, go to the back office to approuve or delete the article.");
+                    // We send a notification to the user
+                    $this->notificationManager->userCreateArticle($this->currentLoggedUser);
+
+                    // Send a notification email to admin
+                    $this->contactManager->sendMail($this->getParameter("admin_email"), "New article {$livingThing->getName()}", "A new article has been created. Please, go to the back office to approuve or delete the article.");
+                    
+                    // Article creation statistics
+                    $this->statisticsManager->updateArticleCreationsStatistics();
                 }
             } else {
                 // On envoi une notif à l'utilisateur l'avertissant que le living thing qu'il a tenté d'ajouté existe déjà
@@ -253,9 +261,15 @@ class UserController extends AbstractController
                         }
                     }
 
-                    // On envoie une notification à l'utilisateur
+                    // We send a notification to the user
                     $this->notificationManager->userCreateArticle($this->currentLoggedUser);
-                    $this->contactManager->sendMail($this->currentLoggedUser->getEmail(), "New article {$livingThing->getName()}", "A new article has been created. Please, go to the back office to approuve or delete the article.");
+                    
+                    // Send a notification email to admin
+                    $this->contactManager->sendMail($this->getParameter("admin_email"), "New article {$livingThing->getName()}", "A new article has been created. Please, go to the back office to approuve or delete the article.");
+                    
+                    // Article creation statistics
+                    $this->statisticsManager->updateArticleCreationsStatistics();
+                    
                     return $this->redirectToRoute("userLivingThing");
                 }
             } else {
@@ -273,7 +287,7 @@ class UserController extends AbstractController
 
             return $this->redirectToRoute("userLivingThing", [
                 "class" => "danger",
-                "message" => "This living thing already have an article."
+                "message" => "This living thing, {$livingThing->getName()}, already have an article."
             ], 307);
         }
 
@@ -375,8 +389,15 @@ class UserController extends AbstractController
                     $this->manager
                 );
 
-                // TODO : On envoi une notification / un email aux admins du site
+                // We send a notification to the user
                 $this->notificationManager->userCreateArticle($this->currentLoggedUser);
+
+                // Send a notification email to admin
+                $this->contactManager->sendMail($this->getParameter("admin_email"), "New article {$mineral->getName()}", "A new article has been created. Please, go to the back office to approuve or delete the article.");
+                
+                // Article creation statistics
+                $this->statisticsManager->updateArticleCreationsStatistics();
+                
                 return $this->redirectToRoute("userMineral");
             } else {
                 // On envoi une notif à l'utilisateur l'avertissant que le living thing qu'il a tenté d'ajouté existe déjà
@@ -442,8 +463,15 @@ class UserController extends AbstractController
                         $this->manager
                     );
 
-                    // On envoie une notification à l'utilisateur
+                    // We send a notification to the user
                     $this->notificationManager->userCreateArticle($this->currentLoggedUser);
+
+                    // Send a notification email to admin
+                    $this->contactManager->sendMail($this->getParameter("admin_email"), "New article {$mineral->getName()}", "A new article has been created. Please, go to the back office to approuve or delete the article.");
+
+                    // Article creation statistics
+                    $this->statisticsManager->updateArticleCreationsStatistics();
+
                     return $this->redirectToRoute("userMineral");
                 }
 
@@ -575,7 +603,15 @@ class UserController extends AbstractController
                     $this->currentLoggedUser
                 );
 
+                // We send a notification to the user
                 $this->notificationManager->userCreateArticle($this->currentLoggedUser);
+
+                // Send a notification email to admin
+                $this->contactManager->sendMail($this->getParameter("admin_email"), "New article {$element->getName()}", "A new article has been created. Please, go to the back office to approuve or delete the article.");
+
+                // Article creation statistics
+                $this->statisticsManager->updateArticleCreationsStatistics();
+
                 return $this->redirectToRoute("userElement", [
                     "response" => $response
                 ], 302);
@@ -673,8 +709,14 @@ class UserController extends AbstractController
             //     $this->manager
             // );
 
-            // On notifie que l'utilisateur vient de créer un nouvel article et que nous allons le vérifier
+            // We send a notification to the user
             $this->notificationManager->userCreateArticle($this->currentLoggedUser);
+
+            // Send a notification email to admin
+            $this->contactManager->sendMail($this->getParameter("admin_email"), "New article {$livingThing->getName()}", "A new article has been created. Please, go to the back office to approuve or delete the article.");
+
+            // Article creation statistics
+            $this->statisticsManager->updateArticleCreationsStatistics();
         }
 
         return $this->render('user/article/living-things/formArticle.html.twig', [
@@ -732,7 +774,7 @@ class UserController extends AbstractController
                     //     $this->manager
                     // );
 
-                    // On envoie une notification à l'utilisateur l'avertissant de la demande de mise à jour de l'article
+                    // We send a notification to the user
                     $this->notificationManager->userUpdateArticle($this->currentLoggedUser);
                 }
 

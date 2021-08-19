@@ -9,6 +9,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
 class UserType extends AbstractType
@@ -34,6 +35,19 @@ class UserType extends AbstractType
                 'label' => 'Username',
                 "attr" => [
                     "readonly" => true
+                ]
+            ])
+            ->add("preferences", ChoiceType::class, [
+                'label' => "Preferences",
+                'multiple'=> true,
+                'expanded'=> true,
+                "required" => false,
+                "mapped" => false,
+                "choices" => [
+                    "Living Thing" => "living-thing",
+                    "Mineral" => "mineral",
+                    "Element" => "natural-element",
+                    "Chimical Reactions" => "chimical-reaction"
                 ]
             ])
             ->add('password', PasswordType::class, [
