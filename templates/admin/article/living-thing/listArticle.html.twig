@@ -31,7 +31,7 @@
                                 <a class="" href="{{ path('adminArticleByCategory', {'category': 'living-thing', 'offset': offset - 1}) }}">{{ offset - 1 }}</a>
                             {% endif %}
 
-                            <a class="active" href="{{ path('adminArticleByCategory', {'offset': offset}) }}"><span>{{ offset }}</span></a>
+                            <a class="active" href="{{ path('adminArticleByCategory', {'category': 'living-thing', 'offset': offset}) }}"><span>{{ offset }}</span></a>
                             
                             {% if offset + 1 <= nbrOffset %}
                                 <a class="" href="{{ path('adminArticleByCategory', {'category': 'living-thing', 'offset': offset + 1}) }}">{{ offset + 1 }}</a>

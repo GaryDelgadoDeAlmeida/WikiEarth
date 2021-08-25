@@ -51,6 +51,26 @@ class LivingThing
     private $domain;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Length(
+     *      max = 255,
+     *      maxMessage = "The sub domain of the animal cannot be longer than {{ limit }} character"
+     * )
+     */
+    private $subDomain;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 255,
+     *      minMessage = "The super kingdom of the animal must be at least {{ limit }} characters long",
+     *      maxMessage = "The super kingdom of the animal cannot be longer than {{ limit }} character"
+     * )
+     */
+    private $superKingdom;
+
+    /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotNull
      * @Assert\Length(
@@ -318,6 +338,18 @@ class LivingThing
     public function setDomain(?string $domain): self
     {
         $this->domain = $domain;
+
+        return $this;
+    }
+
+    public function getSubDomain(): ?string
+    {
+        return $this->subDomain;
+    }
+
+    public function setSubDomain(?string $subDomain): self
+    {
+        $this->subDomain = $subDomain;
 
         return $this;
     }
@@ -633,8 +665,8 @@ class LivingThing
 
         // set (or unset) the owning side of the relation if necessary
         $newIdLivingThing = null === $articleLivingThing ? null : $this;
-        if ($articleLivingThing->getIdLivingThing() !== $newIdLivingThing) {
-            $articleLivingThing->setIdLivingThing($newIdLivingThing);
+        if ($articleLivingThing->getLivingThing() !== $newIdLivingThing) {
+            $articleLivingThing->setLivingThing($newIdLivingThing);
         }
 
         return $this;
@@ -664,6 +696,18 @@ class LivingThing
             $this->countries->removeElement($country);
             $country->removeLivingThing($this);
         }
+
+        return $this;
+    }
+
+    public function getSuperKingdom(): ?string
+    {
+        return $this->superKingdom;
+    }
+
+    public function setSuperKingdom(?string $superKingdom): self
+    {
+        $this->superKingdom = $superKingdom;
 
         return $this;
     }

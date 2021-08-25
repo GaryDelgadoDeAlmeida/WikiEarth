@@ -56,10 +56,11 @@ class LivingThingManager extends AbstractController {
             $manager->persist($livingThing);
             $manager->flush();
             $manager->clear();
+            
             return [
                 "error" => false,
                 "class" => "success",
-                "message" => "L'ajout de l'être vivant {$livingThing->getName()} a correctement ajouté"
+                "message" => "L'ajout de l'être vivant {$livingThing->getName()} a correctement été ajouté"
             ];
 
         } catch(\Exception $e) {

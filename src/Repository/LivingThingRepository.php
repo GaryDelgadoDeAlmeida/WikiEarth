@@ -44,8 +44,6 @@ class LivingThingRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('l')
             ->where('l.name = :name OR l.commonName = :name')
             ->setParameter('name', $name)
-            ->setFirstResult(($offset - 1) * $limit)
-            ->setMaxResults($limit)
             ->getQuery()
             ->getResult();
     }

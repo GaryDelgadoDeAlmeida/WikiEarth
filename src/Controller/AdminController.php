@@ -315,7 +315,7 @@ class AdminController extends AbstractController
 
         if($formLivingThing->isSubmitted() && $formLivingThing->isValid()) {
             $message = $this->livingThingManager->setLivingThing(
-                $formLivingThing, 
+                $formLivingThing["imgPath"]->getData(),
                 $livingThing, 
                 $this->em
             );

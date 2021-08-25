@@ -24,6 +24,13 @@ class ArticleLivingThingType extends AbstractType
                 'label' => 'Living Thing',
                 'mapped' => false
             ])
+            ->add('generality', CollectionType::class, [
+                "entry_type" => ArticleContentType::class,
+                'entry_options' => ['label' => false],
+                'allow_add' => true,
+                'allow_delete' => true,
+                'required' => false
+            ])
             ->add('geography', CollectionType::class, [
                 "entry_type" => ArticleContentType::class,
                 'entry_options' => ['label' => false],

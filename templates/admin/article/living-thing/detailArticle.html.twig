@@ -12,177 +12,190 @@
                 <div class="mineral-data-section txt-center">
                     <table class="table w-350px m-auto">
                         <tr>
-                            <td colspan="2"><img class="img-fluid" src="{{ asset(file_exist(article.idLivingThing.imgPath)) }}" alt="{{ article.idLivingThing.name }}"></td>
+                            <td colspan="2"><img class="img-fluid" src="{{ asset(file_exist(article.articleLivingThing.livingThing.imgPath)) }}" alt="{{ article.articleLivingThing.livingThing.name }}"></td>
                         </tr>
 
-                        {% if article.idLivingThing.domain != null %}
+                        {% if article.articleLivingThing.livingThing.domain != null %}
                             <tr>
                                 <td>Domain : </td>
-                                <td>{{ article.idLivingThing.domain }}</td>
+                                <td>{{ article.articleLivingThing.livingThing.domain }}</td>
                             </tr>
                         {% endif %}
 
-                        {% if article.idLivingThing.kingdom != null %}
+                        {% if article.articleLivingThing.livingThing.kingdom != null %}
                             <tr>
                                 <td>Kingdom : </td>
-                                <td>{{ article.idLivingThing.kingdom }}</td>
+                                <td>{{ article.articleLivingThing.livingThing.kingdom }}</td>
                             </tr>
                         {% endif %}
 
-                        {% if article.idLivingThing.subKingdom != null %}
+                        {% if article.articleLivingThing.livingThing.subKingdom != null %}
                             <tr>
                                 <td>Sub Kingdom : </td>
-                                <td>{{ article.idLivingThing.subKingdom }}</td>
+                                <td>{{ article.articleLivingThing.livingThing.subKingdom }}</td>
                             </tr>
                         {% endif %}
 
-                        {% if article.idLivingThing.branch != null %}
+                        {% if article.articleLivingThing.livingThing.branch != null %}
                             <tr>
                                 <td>Branch : </td>
-                                <td>{{ article.idLivingThing.branch }}</td>
+                                <td>{{ article.articleLivingThing.livingThing.branch }}</td>
                             </tr>
                         {% endif %}
                         
-                        {% if article.idLivingThing.subBranch != null %}
+                        {% if article.articleLivingThing.livingThing.subBranch != null %}
                             <tr>
                                 <td>Sub Branch : </td>
-                                <td>{{ article.idLivingThing.subBranch }}</td>
+                                <td>{{ article.articleLivingThing.livingThing.subBranch }}</td>
                             </tr>
                         {% endif %}
 
-                        {% if article.idLivingThing.infraBranch != null %}
+                        {% if article.articleLivingThing.livingThing.infraBranch != null %}
                             <tr>
                                 <td>Infra Branch : </td>
-                                <td>{{ article.idLivingThing.infraBranch }}</td>
+                                <td>{{ article.articleLivingThing.livingThing.infraBranch }}</td>
                             </tr>
                         {% endif %}
                             
-                        {% if article.idLivingThing.division != null %}
+                        {% if article.articleLivingThing.livingThing.division != null %}
                             <tr>
                                 <td>Division : </td>
-                                <td>{{ article.idLivingThing.division }}</td>
+                                <td>{{ article.articleLivingThing.livingThing.division }}</td>
                             </tr>
                         {% endif %}
 
-                        {% if article.idLivingThing.superClass != null %}
+                        {% if article.articleLivingThing.livingThing.superClass != null %}
                             <tr>
                                 <td>Super Class : </td>
-                                <td>{{ article.idLivingThing.superClass }}</td>
+                                <td>{{ article.articleLivingThing.livingThing.superClass }}</td>
                             </tr>
                         {% endif %}
 
-                        {% if article.idLivingThing.class != null %}
+                        {% if article.articleLivingThing.livingThing.class != null %}
                             <tr>
                                 <td>Class : </td>
-                                <td>{{ article.idLivingThing.class }}</td>
+                                <td>{{ article.articleLivingThing.livingThing.class }}</td>
                             </tr>
                         {% endif %}
 
-                        {% if article.idLivingThing.subClass != null %}
+                        {% if article.articleLivingThing.livingThing.subClass != null %}
                             <tr>
                                 <td>Sub Class : </td>
-                                <td>{{ article.idLivingThing.subClass }}</td>
+                                <td>{{ article.articleLivingThing.livingThing.subClass }}</td>
                             </tr>
                         {% endif %}
 
-                        {% if article.idLivingThing.infraClass != null %}
+                        {% if article.articleLivingThing.livingThing.infraClass != null %}
                             <tr>
                                 <td>Infra Class : </td>
-                                <td>{{ article.idLivingThing.infraClass }}</td>
+                                <td>{{ article.articleLivingThing.livingThing.infraClass }}</td>
                             </tr>
                         {% endif %}
 
-                        {% if article.idLivingThing.superOrder != null %}
+                        {% if article.articleLivingThing.livingThing.superOrder != null %}
                             <tr>
                                 <td>Super Order : </td>
-                                <td>{{ article.idLivingThing.superOrder }}</td>
+                                <td>{{ article.articleLivingThing.livingThing.superOrder }}</td>
                             </tr>
                         {% endif %}
 
-                        {% if article.idLivingThing.normalOrder != null %}
+                        {% if article.articleLivingThing.livingThing.normalOrder != null %}
                             <tr>
                                 <td>Order : </td>
-                                <td>{{ article.idLivingThing.normalOrder }}</td>
+                                <td>{{ article.articleLivingThing.livingThing.normalOrder }}</td>
                             </tr>
                         {% endif %}
 
-                        {% if article.idLivingThing.subOrder != null %}
+                        {% if article.articleLivingThing.livingThing.subOrder != null %}
                             <tr>
                                 <td>Sub Order : </td>
-                                <td>{{ article.idLivingThing.subOrder }}</td>
+                                <td>{{ article.articleLivingThing.livingThing.subOrder }}</td>
                             </tr>
                         {% endif %}
                         
-                        {% if article.idLivingThing.infraOrder != null %}
+                        {% if article.articleLivingThing.livingThing.infraOrder != null %}
                             <tr>
                                 <td>Infra Order : </td>
-                                <td>{{ article.idLivingThing.infraOrder }}</td>
+                                <td>{{ article.articleLivingThing.livingThing.infraOrder }}</td>
                             </tr>
                         {% endif %}
 
-                        {% if article.idLivingThing.microOrder != null %}
+                        {% if article.articleLivingThing.livingThing.microOrder != null %}
                             <tr>
                                 <td>Micro Order : </td>
-                                <td>{{ article.idLivingThing.microOrder }}</td>
+                                <td>{{ article.articleLivingThing.livingThing.microOrder }}</td>
                             </tr>
                         {% endif %}
 
-                        {% if article.idLivingThing.superFamily != null %}
+                        {% if article.articleLivingThing.livingThing.superFamily != null %}
                             <tr>
                                 <td>Super Family : </td>
-                                <td>{{ article.idLivingThing.superFamily }}</td>
+                                <td>{{ article.articleLivingThing.livingThing.superFamily }}</td>
                             </tr>
                         {% endif %}
 
-                        {% if article.idLivingThing.family != null %}
+                        {% if article.articleLivingThing.livingThing.family != null %}
                             <tr>
                                 <td>Family : </td>
-                                <td>{{ article.idLivingThing.family }}</td>
+                                <td>{{ article.articleLivingThing.livingThing.family }}</td>
                             </tr>
                         {% endif %}
 
-                        {% if article.idLivingThing.subFamily != null %}
+                        {% if article.articleLivingThing.livingThing.subFamily != null %}
                             <tr>
                                 <td>Sub Family : </td>
-                                <td>{{ article.idLivingThing.subFamily }}</td>
+                                <td>{{ article.articleLivingThing.livingThing.subFamily }}</td>
                             </tr>
                         {% endif %}
 
-                        {% if article.idLivingThing.genus != null %}
+                        {% if article.articleLivingThing.livingThing.genus != null %}
                             <tr>
                                 <td>Genus : </td>
-                                <td>{{ article.idLivingThing.genus }}</td>
+                                <td>{{ article.articleLivingThing.livingThing.genus }}</td>
                             </tr>
                         {% endif %}
 
-                        {% if article.idLivingThing.subGenus != null %}
+                        {% if article.articleLivingThing.livingThing.subGenus != null %}
                             <tr>
                                 <td>Sub Genus : </td>
-                                <td>{{ article.idLivingThing.subGenus }}</td>
+                                <td>{{ article.articleLivingThing.livingThing.subGenus }}</td>
                             </tr>
                         {% endif %}
 
-                        {% if article.idLivingThing.species != null %}
+                        {% if article.articleLivingThing.livingThing.species != null %}
                             <tr>
                                 <td>Species : </td>
-                                <td>{{ article.idLivingThing.species }}</td>
+                                <td>{{ article.articleLivingThing.livingThing.species }}</td>
                             </tr>
                         {% endif %}
 
-                        {% if article.idLivingThing.subSpecies != null %}
+                        {% if article.articleLivingThing.livingThing.subSpecies != null %}
                             <tr>
                                 <td>Sub Species : </td>
-                                <td>{{ article.idLivingThing.subSpecies }}</td>
+                                <td>{{ article.articleLivingThing.livingThing.subSpecies }}</td>
                             </tr>
                         {% endif %}
                     </table>
                 </div>
 
+                {# Generality #}
+                {% if article.articleLivingThing.generality != [] %}
+                    <div class="generality-section">
+                        <h2>Generality</h2>
+                        {% for generality in article.articleLivingThing.generality %}
+                            <div class="generality">
+                                <h3>{{ generality.sub_title }}</h3>
+                                <p>{{ generality.sub_content }}</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
                 {# Geography #}
-                {% if article.geography != [] %}
+                {% if article.articleLivingThing.geography != [] %}
                     <div class="geography-section">
                         <h2>Geography</h2>
-                        {% for geography in article.geography %}
+                        {% for geography in article.articleLivingThing.geography %}
                             <div class="geography">
                                 <h3>{{ geography.sub_title }}</h3>
                                 <p>{{ geography.sub_content }}</p>
@@ -192,10 +205,10 @@
                 {% endif %}
 
                 {# Ecology #}
-                {% if article.ecology != [] %}
+                {% if article.articleLivingThing.ecology != [] %}
                     <div class="ecologies-section">
                         <h2>Ecology</h2>
-                        {% for ecology in article.ecology %}
+                        {% for ecology in article.articleLivingThing.ecology %}
                             <div class="ecology">
                                 <h3>{{ ecology.sub_title }}</h3>
                                 <p>{{ ecology.sub_content }}</p>
@@ -205,10 +218,10 @@
                 {% endif %}
 
                 {# Behaviour #}
-                {% if article.behaviour != [] %}
+                {% if article.articleLivingThing.behaviour != [] %}
                     <div class="behaviours-section">
                         <h2>Behaviour</h2>
-                        {% for behaviour in article.behaviour %}
+                        {% for behaviour in article.articleLivingThing.behaviour %}
                             <div class="behaviour">
                                 <h3>{{ behaviour.sub_title }}</h3>
                                 <p>{{ behaviour.sub_content }}</p>
@@ -218,10 +231,10 @@
                 {% endif %}
 
                 {# Way of Life #}
-                {% if article.wayOfLife != [] %}
+                {% if article.articleLivingThing.wayOfLife != [] %}
                     <div class="wayOfLifes-section">
                         <h2>Way of life</h2>
-                        {% for wayOfLife in article.wayOfLife %}
+                        {% for wayOfLife in article.articleLivingThing.wayOfLife %}
                             <div class="wayOfLife">
                                 <h3>{{ wayOfLife.sub_title }}</h3>
                                 <p>{{ wayOfLife.sub_content }}</p>
@@ -231,10 +244,10 @@
                 {% endif %}
 
                 {# Description #}
-                {% if article.description != [] %}
+                {% if article.articleLivingThing.description != [] %}
                     <div class="descriptions-section">
                         <h2>Way of life</h2>
-                        {% for description in article.description %}
+                        {% for description in article.articleLivingThing.description %}
                             <div class="description">
                                 <h3>{{ description.sub_title }}</h3>
                                 <p>{{ description.sub_content }}</p>
@@ -244,10 +257,10 @@
                 {% endif %}
 
                 {# Other Informations #}
-                {% if article.otherData != [] %}
+                {% if article.articleLivingThing.otherData != [] %}
                     <div class="otherDatas-section">
                         <h2>Way of life</h2>
-                        {% for otherData in article.otherData %}
+                        {% for otherData in article.articleLivingThing.otherData %}
                             <div class="otherData">
                                 <h3>{{ otherData.sub_title }}</h3>
                                 <p>{{ otherData.sub_content }}</p>
@@ -257,10 +270,10 @@
                 {% endif %}
 
                 {# Media Gallery Photo #}
-                {% if article.mediaGallery != [] %}
+                {% if article.articleLivingThing.mediaGallery != [] %}
                     <div class="mediaGalleries-section">
                         <h2>Media Gallery</h2>
-                        {% for oneMedia in article.mediaGallery %}
+                        {% for oneMedia in article.articleLivingThing.mediaGallery %}
                             <div class="mediaGallery">
                                 <img src="{{ asset(oneMedia) }}" alt="">
                             </div>

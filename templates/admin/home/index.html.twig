@@ -1,41 +1,6 @@
 {% extends 'admin/baseAdmin.html.twig' %}
 
 {% block body %}
-<script>
-    window.onload = function () {
-    
-        var chart = new CanvasJS.Chart("chartUser", {
-            animationEnabled: true,
-            theme: "light2",
-            title:{
-                text: "User activity"
-            },
-            axisX:{
-                crosshair: {
-                    enabled: true,
-                    snapToDataPoint: true
-                }
-            },
-            axisY:{
-                title: "",
-                includeZero: true,
-                crosshair: {
-                    enabled: true,
-                    snapToDataPoint: true
-                }
-            },
-            toolTip:{
-                enabled: false
-            },
-            data: [{
-                type: "splineArea",
-                dataPoints: {{ dataPoints|json_encode(constant('JSON_NUMERIC_CHECK'))|raw }}
-            }]
-        });
-        
-        chart.render();
-    }
-</script>
     <section class="admin-home">
 
         {# Résumé #}
@@ -136,13 +101,51 @@
 
         {# Statistique utilisateurs (création & connexion) #}
         <div class="stat-users">
-            <div id="chartUser" style="height: 370px; width: 100%;"></div>
+            <div id="chartUser" style="height: 370px; width: 98.5%;" ></div>
         </div>
 
         {# Statistique articles #}
         <div class="stat-article"></div>
     </section>
+{% endblock %}
 
-<script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
-<script src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+{% block javascripts %}
+    <script src="{{ asset('assets/js/admin/main.js') }}" type="text/javascript"></script>
+    <script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js" type="text/javascript"></script>
+    <script src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        window.onload = function () {
+        
+            var chart = new CanvasJS.Chart("chartUser", {
+                animationEnabled: true,
+                theme: "light2",
+                title:{
+                    text: "User activity"
+                },
+                axisX:{
+                    crosshair: {
+                        enabled: true,
+                        snapToDataPoint: true
+                    }
+                },
+                axisY:{
+                    title: "",
+                    includeZero: true,
+                    crosshair: {
+                        enabled: true,
+                        snapToDataPoint: true
+                    }
+                },
+                toolTip:{
+                    enabled: false
+                },
+                data: [{
+                    type: "splineArea",
+                    dataPoints: {{ dataPoints|json_encode(constant('JSON_NUMERIC_CHECK'))|raw }}
+                }]
+            });
+            
+            chart.render();
+        }
+    </script>
 {% endblock %}

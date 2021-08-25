@@ -31,6 +31,11 @@ class ArticleLivingThing
     private $livingThing;
 
     /**
+     * @ORM\Column(type="json")
+     */
+    private $generality = [];
+
+    /**
      * @ORM\Column(type="json", nullable=true)
      */
     private $geography = [];
@@ -117,6 +122,18 @@ class ArticleLivingThing
     public function setLivingThing(?LivingThing $livingThing): self
     {
         $this->livingThing = $livingThing;
+
+        return $this;
+    }
+
+    public function getGenerality(): ?array
+    {
+        return $this->generality;
+    }
+
+    public function setGenerality(array $generality): self
+    {
+        $this->generality = $generality;
 
         return $this;
     }

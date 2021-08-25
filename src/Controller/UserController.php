@@ -183,12 +183,12 @@ class UserController extends AbstractController
                     $this->manager
                 );
 
-                if(empty($message) || $message["erorr"] == false) {
+                if(empty($message) || $message["error"] == false) {
                     // We send a notification to the user
                     $this->notificationManager->userCreateArticle($this->currentLoggedUser);
 
                     // Send a notification email to admin
-                    $this->contactManager->sendMail($this->getParameter("admin_email"), "New article {$livingThing->getName()}", "A new article has been created. Please, go to the back office to approuve or delete the article.");
+                    $this->contactManager->sendEmailToAdmin($this->getParameter("admin_email"), "New article {$livingThing->getName()}", "A new article has been created. Please, go to the back office to approuve or delete the article.");
                     
                     // Article creation statistics
                     $this->statisticsManager->updateArticleCreationsStatistics();
@@ -224,7 +224,7 @@ class UserController extends AbstractController
                 $formArticle->handleRequest($request);
 
                 if($formArticle->isSubmitted() && $formArticle->isValid()) {
-                    $existingLivingThing = $this->em->getRepository(LivingThing::class)->getLivingThingByName($livingThing->getName());
+                    $existingLivingThing = $this->manager->getRepository(LivingThing::class)->getLivingThingByName($livingThing->getName());
                     if(!empty($existingLivingThing)) {
                         // On effectue en premier le traitement sur le living thing
                         $message = $this->livingThingManager->setLivingThing(
@@ -265,7 +265,7 @@ class UserController extends AbstractController
                     $this->notificationManager->userCreateArticle($this->currentLoggedUser);
                     
                     // Send a notification email to admin
-                    $this->contactManager->sendMail($this->getParameter("admin_email"), "New article {$livingThing->getName()}", "A new article has been created. Please, go to the back office to approuve or delete the article.");
+                    $this->contactManager->sendEmailToAdmin($this->getParameter("admin_email"), "New article {$livingThing->getName()}", "A new article has been created. Please, go to the back office to approuve or delete the article.");
                     
                     // Article creation statistics
                     $this->statisticsManager->updateArticleCreationsStatistics();
@@ -393,7 +393,7 @@ class UserController extends AbstractController
                 $this->notificationManager->userCreateArticle($this->currentLoggedUser);
 
                 // Send a notification email to admin
-                $this->contactManager->sendMail($this->getParameter("admin_email"), "New article {$mineral->getName()}", "A new article has been created. Please, go to the back office to approuve or delete the article.");
+                $this->contactManager->sendEmailToAdmin($this->getParameter("admin_email"), "New article {$mineral->getName()}", "A new article has been created. Please, go to the back office to approuve or delete the article.");
                 
                 // Article creation statistics
                 $this->statisticsManager->updateArticleCreationsStatistics();
@@ -467,7 +467,7 @@ class UserController extends AbstractController
                     $this->notificationManager->userCreateArticle($this->currentLoggedUser);
 
                     // Send a notification email to admin
-                    $this->contactManager->sendMail($this->getParameter("admin_email"), "New article {$mineral->getName()}", "A new article has been created. Please, go to the back office to approuve or delete the article.");
+                    $this->contactManager->sendEmailToAdmin($this->getParameter("admin_email"), "New article {$mineral->getName()}", "A new article has been created. Please, go to the back office to approuve or delete the article.");
 
                     // Article creation statistics
                     $this->statisticsManager->updateArticleCreationsStatistics();
@@ -607,7 +607,7 @@ class UserController extends AbstractController
                 $this->notificationManager->userCreateArticle($this->currentLoggedUser);
 
                 // Send a notification email to admin
-                $this->contactManager->sendMail($this->getParameter("admin_email"), "New article {$element->getName()}", "A new article has been created. Please, go to the back office to approuve or delete the article.");
+                $this->contactManager->sendEmailToAdmin($this->getParameter("admin_email"), "New article {$element->getName()}", "A new article has been created. Please, go to the back office to approuve or delete the article.");
 
                 // Article creation statistics
                 $this->statisticsManager->updateArticleCreationsStatistics();
@@ -713,7 +713,7 @@ class UserController extends AbstractController
             $this->notificationManager->userCreateArticle($this->currentLoggedUser);
 
             // Send a notification email to admin
-            $this->contactManager->sendMail($this->getParameter("admin_email"), "New article {$livingThing->getName()}", "A new article has been created. Please, go to the back office to approuve or delete the article.");
+            $this->contactManager->sendEmailToAdmin($this->getParameter("admin_email"), "New article {$livingThing->getName()}", "A new article has been created. Please, go to the back office to approuve or delete the article.");
 
             // Article creation statistics
             $this->statisticsManager->updateArticleCreationsStatistics();
