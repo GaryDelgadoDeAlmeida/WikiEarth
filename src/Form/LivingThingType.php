@@ -135,6 +135,14 @@ class LivingThingType extends AbstractType
                 'label' => "Sub Family",
                 "required" => false
             ])
+            ->add('tribe', null, [
+                'label' => "Tribe",
+                "required" => false
+            ])
+            ->add('subTribe', null, [
+                'label' => "Sub Tribe",
+                "required" => false
+            ])
             ->add('genus', null, [
                 'label' => "Genus",
                 "required" => false

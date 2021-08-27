@@ -2,13 +2,13 @@
 
 {% block body %}
     <section>
+        <a class="btn btn-primary" href="{{ path('adminElement') }}"><i class="fas fa-arrow-left"></i> Retour</a>
+        <div>&nbsp;</div>
         {% if response != [] %}
             <div class="alert alert-{{ response.class }} txt-center">
                 <span>{{ response.message }}</span>
             </div>
         {% endif %}
-        
-        <div>&nbsp;</div>
 
         <h2>Element</h2>
         

@@ -247,6 +247,16 @@ class LivingThing
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $tribe;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $subTribe;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\Length(
      *      max = 255,
      *      maxMessage = "The genus of the animal cannot be longer than {{ limit }} character"
@@ -350,6 +360,18 @@ class LivingThing
     public function setSubDomain(?string $subDomain): self
     {
         $this->subDomain = $subDomain;
+
+        return $this;
+    }
+
+    public function getSuperKingdom(): ?string
+    {
+        return $this->superKingdom;
+    }
+
+    public function setSuperKingdom(?string $superKingdom): self
+    {
+        $this->superKingdom = $superKingdom;
 
         return $this;
     }
@@ -594,6 +616,30 @@ class LivingThing
         return $this;
     }
 
+    public function getTribe(): ?string
+    {
+        return $this->tribe;
+    }
+
+    public function setTribe(?string $tribe): self
+    {
+        $this->tribe = $tribe;
+
+        return $this;
+    }
+
+    public function getSubTribe(): ?string
+    {
+        return $this->subTribe;
+    }
+
+    public function setSubTribe(?string $subTribe): self
+    {
+        $this->subTribe = $subTribe;
+
+        return $this;
+    }
+
     public function getGenus(): ?string
     {
         return $this->genus;
@@ -696,18 +742,6 @@ class LivingThing
             $this->countries->removeElement($country);
             $country->removeLivingThing($this);
         }
-
-        return $this;
-    }
-
-    public function getSuperKingdom(): ?string
-    {
-        return $this->superKingdom;
-    }
-
-    public function setSuperKingdom(?string $superKingdom): self
-    {
-        $this->superKingdom = $superKingdom;
 
         return $this;
     }
