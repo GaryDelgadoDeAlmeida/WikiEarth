@@ -1,10 +1,58 @@
 /* ---------------------------------------- *\
                     Home
 \* ---------------------------------------- */
-.stat-users {
+.admin-home {
+    margin: 25px 0;
+}
+
+/* ------------------------ Users -------------------------- */
+.wikiearth-admin-users {
+    margin: 20px 0;
+    padding: 0;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.wikiearth-admin-users-left, .wikiearth-admin-users-right {
+    flex: 1 1 auto;
+}
+
+.wikiearth-admin-users-left {
+    width: 70%;
+    min-width: auto;
+    max-width: none;
+}
+.wikiearth-admin-users-right {
+    width: 30%;
+    min-width: auto;
+    max-width: none;
+}
+
+/* ------------------------ Article -------------------------- */
+.wikiearth-admin-article {
+    width: 100%;
+    box-shadow: 2.5px 5px 5px var(--c-grey);
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.wikiearth-admin-article-latestArticle {
+    padding: 1rem;
+    margin: 0;
+    width: 50%;
+    background-color: var(--c-white);
+    border-radius: 5px;
+    border: 1px solid var(--c-steelGrey);
+    overflow: visible;
+}
+
+.wikiearth-admin-article-latestArticle-header {
     margin: 20px 0;
 }
 
-.stat-article {
-    /*  */
+.wikiearth-admin-article-latestArticle-title {
+    font-size: 18px;
+    font-weight: bold;
+    text-transform: uppercase;
 }

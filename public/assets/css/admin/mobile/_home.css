@@ -1,0 +1,24 @@
+/* ---------------------------------------- *\
+                    Home
+\* ---------------------------------------- */
+@media(max-width: 768px) {
+    
+    /* ------------------------ Users -------------------------- */
+    .wikiearth-admin-users {
+        display: block;
+        flex-wrap: unset;
+    }
+
+    .wikiearth-admin-users-left, .wikiearth-admin-users-right {
+        width: 100%;
+    }
+
+    .wikiearth-admin-users-right {
+        margin: 5px 0;
+    }
+
+    /* ------------------------ Article -------------------------- */
+    .wikiearth-admin-article-latestArticle {
+        width: auto;
+    }
+}

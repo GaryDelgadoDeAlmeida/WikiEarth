@@ -17,7 +17,7 @@ parameters:
     project_living_thing_animals_dir: '%kernel.project_dir%/public/content/wikiearth/living-thing/animalia/'
     project_living_thing_animals_dinosaur_dir: '%kernel.project_dir%/public/content/wikiearth/living-thing/animals/dinosaur/'
     project_living_thing_plants_dir: '%kernel.project_dir%/public/content/wikiearth/living-thing/plantae/'
-    project_living_thing_fungis_dir: '%kernel.project_dir%/public/content/wikiearth/living-thing/fungis/'
+    project_living_thing_fungis_dir: '%kernel.project_dir%/public/content/wikiearth/living-thing/fungi/'
     project_living_thing_bacteria_dir: '%kernel.project_dir%/public/content/wikiearth/living-thing/bacteria/'
     project_living_thing_archaea_dir: '%kernel.project_dir%/public/content/wikiearth/living-thing/archaea/'
     project_living_thing_protozoa_dir: '%kernel.project_dir%/public/content/wikiearth/living-thing/protozoa/'

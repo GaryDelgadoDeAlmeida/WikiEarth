@@ -8,6 +8,7 @@
 \* ---------------------------------------- */
 @import './site.css';
 @import './desktop/_home.css';
+@import './mobile/_home.css';
 
 /* ---------------------------------------- *\
             Article Living Thing

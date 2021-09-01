@@ -49,7 +49,9 @@ class AdminController extends AbstractController
      */
     public function admin_home()
     {
-        $nbrArticles = $this->em->getRepository(Article::class)->countArticlesApproved();
+        $articleRepo = $this->em->getRepository(Article::class);
+        $nbrArticles = $articleRepo->countArticlesApproved();
+        $articles = $articleRepo->getArticles(1, 5);
         $latestStatistics = $this->em->getRepository(Statistics::class)->getStatisticsByYear((new \DateTime())->format("Y"));
         $latestUsersActivities = [];
 
@@ -68,6 +70,7 @@ class AdminController extends AbstractController
             "nbrElements" => $this->em->getRepository(Element::class)->countElements(),
             "nbrMinerals" => $this->em->getRepository(Mineral::class)->countMinerals(),
             "nbrChimicalReaction" => 0,
+            "articles" => $articles,
             "dataPoints" => $latestUsersActivities,
         ]);
     }

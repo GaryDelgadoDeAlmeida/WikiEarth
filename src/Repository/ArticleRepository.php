@@ -20,6 +20,24 @@ class ArticleRepository extends ServiceEntityRepository
     }
 
     /**
+     * Get articles independently if mineral or living thing or something other.
+     * 
+     * @param int offset
+     * @param int limit of elements per page
+     * @return Article[]|[] array of approved article
+     */
+    public function getArticles(int $offset, int $limit)
+    {
+        return $this->createQueryBuilder('a')
+            ->orderBy("a.createdAt", "DESC")
+            ->setFirstResult(($offset - 1) * $limit)
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
      * Get articles independently if mineral or living thing or something other approved by the staff.
      * 
      * @param int offset
