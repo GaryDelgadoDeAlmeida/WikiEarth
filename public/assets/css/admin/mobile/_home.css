@@ -4,7 +4,7 @@
 @media(max-width: 768px) {
     
     /* ------------------------ Users -------------------------- */
-    .wikiearth-admin-users {
+    .wikiearth-admin-users, .wikiearth-admin-article {
         display: block;
         flex-wrap: unset;
     }
@@ -18,7 +18,12 @@
     }
 
     /* ------------------------ Article -------------------------- */
-    .wikiearth-admin-article-latestArticle {
-        width: auto;
+    .wikiearth-admin-article {
+        width: 100%;
+    }
+
+    .wikiearth-admin-article-latestArticle, .wikiearth-admin-users-statArticle {
+        width: 50%;
+        padding: 5%;
     }
 }
