@@ -1,20 +1,71 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ChatController!{% endblock %}
+{% block stylesheets %}
+    <link href="{{ asset('assets/css/chat/main.css') }}" rel="stylesheet">
+{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <section class="chat">
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+        {# Users #}
+        <div class="chat-users">
+            <div class="users-list">
+                <button class="user-add-discussion">Add a new discussion</button>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'D:/garya/Documents/Developpement/Web/Project Symfony/WikiEarth/src/Controller/ChatController.php'|file_link(0) }}">src/Controller/ChatController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'D:/garya/Documents/Developpement/Web/Project Symfony/WikiEarth/templates/chat/index.html.twig'|file_link(0) }}">templates/chat/index.html.twig</a></code></li>
-    </ul>
-</div>
+                <div class="user-block">
+                    <div class="user-img">
+                        <img class="img-rounded" src="{{ asset('content/users/avatar.png') }}" />
+                    </div>
+                    <div class="user-descr">
+                        <span class="user-name">Alban DUPONT</span>
+                        <span class="user-lastmessage">Fine ?</span>
+                    </div>
+                </div>
+
+                <div class="user-block">
+                    <div class="user-img">
+                        <img class="img-rounded" src="{{ asset('content/users/avatar.png') }}" />
+                    </div>
+                    <div class="user-descr">
+                        <span class="user-name">Jack Parkson</span>
+                        <span class="user-lastmessage">OK</span>
+                    </div>
+                </div>
+
+                <div class="user-block">
+                    <div class="user-img">
+                        <img class="img-rounded" src="{{ asset('content/users/avatar.png') }}" />
+                    </div>
+                    <div class="user-descr">
+                        <span class="user-name">Robert Johnson</span>
+                        <span class="user-lastmessage">No, That's wrong !</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {# Discussion #}
+        <div class="chat-discussion">
+            <div class="discussion-panel">
+                <div class="discussion-block">
+                    <div class="discussion">
+                        <span>Hello</span>
+                    </div>
+                    <div class="discussion inverted">
+                        <span>Hi !</span>
+                    </div>
+                    <div class="discussion">
+                        <span>How are you ?</span>
+                    </div>
+                    <div class="discussion inverted">
+                        <span>Fine ?</span>
+                    </div>
+                </div>
+            </div>
+            <div class="discussion-bar">
+                <input type="text" name="message" placeholder="Message . . ." />
+                <button>Send</button>
+            </div>
+        </div>
+    </section>
 {% endblock %}

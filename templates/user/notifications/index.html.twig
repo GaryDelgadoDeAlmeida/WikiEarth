@@ -22,28 +22,28 @@
                     {% endfor %}
 
                     {# Pagination #}
-                    {% if offset > 1 and offset <= nbrPage %}
-                        <nav aria-label="Page navigation example">
-                            <ul class="pagination justify-content-center">
-                                <li class="page-item {% if offset == 1 %} disabled {% endif %}">
-                                    <a class="page-link" href="{{ path("userNotifs") }}" tabindex="-1" aria-disabled="true"><i class="fas fa-angle-double-left"></i></a>
-                                </li>
+                    {% if offset >= 1 and offset <= nbrPage %}
+                        <div class="pagination">
+                            <div class="pagination-links">
+                                {% if offset > 1 %}
+                                    <a href="{{ path('userNotifs', {'offset': 1}) }}"><i class="fas fa-angle-double-left"></i></a>
+                                {% endif %}
+                            
+                                {% if offset - 1 >= 1 %}
+                                    <a class="" href="{{ path('userNotifs', {'offset': offset - 1}) }}">{{ offset - 1 }}</a>
+                                {% endif %}
+
+                                <a class="active" href="{{ path('userNotifs', {'offset': offset}) }}"><span>{{ offset }}</span></a>
                                 
-                                {% if offset - 1 >= 1  %}
-                                    <li class="page-item"><a class="page-link" href="{{ path("userNotifs", {'offset': (offset - 1)}) }}">{{ offset - 1 }}</a></li>
+                                {% if offset + 1 <= nbrPage %}
+                                    <a class="" href="{{ path('userNotifs', {'offset': offset + 1}) }}">{{ offset + 1 }}</a>
                                 {% endif %}
-
-                                <li class="page-item"><a class="page-link" >{{ offset }}</a></li>
-
-                                {% if offset + 1 <= nbrPage  %}
-                                    <li class="page-item"><a class="page-link" href="{{ path("userNotifs", {'offset': (offset + 1)}) }}">{{ offset + 1 }}</a></li>
+                                
+                                {% if offset < nbrPage %}
+                                    <a href="{{ path('userNotifs', {'offset': nbrPage}) }}"><i class="fas fa-angle-double-right"></i></a>
                                 {% endif %}
-
-                                <li class="page-item {% if offset == nbrPage %} disabled {% endif %}">
-                                    <a class="page-link" href="{{ path("userNotifs", {'offset': (nbrPage)}) }}"><i class="fas fa-angle-double-right"></i></a>
-                                </li>
-                            </ul>
-                        </nav>
+                            </div>
+                        </div>
                     {% endif %}
                 {% else %}
                     <div class="alert alert-info">

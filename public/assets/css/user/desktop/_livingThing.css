@@ -92,8 +92,9 @@
 .list-livingThing-box {
     margin: 1rem 0;
     padding: 1rem;
-    border: 1px solid #aaaaaa;
+    border: 1px solid var(--c-lightGrey);
     display: flex;
+    box-shadow: 2.5px 5px 5px var(--c-grey);
 }
 
 .box-livingThing-img {

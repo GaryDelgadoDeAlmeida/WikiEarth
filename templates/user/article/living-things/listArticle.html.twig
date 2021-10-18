@@ -54,27 +54,27 @@
 
                     {# Pagination #}
                     {% if offset >= 1 and offset <= total_page %}
-                        <nav aria-label="Page navigation example">
-                            <ul class="pagination justify-content-center">
-                                <li class="page-item {% if offset == 1 %} disabled {% endif %}">
-                                    <a class="page-link" href="{{ path("userLivingThing", {'search': search}) }}" tabindex="-1" aria-disabled="true"><i class="fas fa-angle-double-left"></i></a>
-                                </li>
+                        <div class="pagination">
+                            <div class="pagination-links">
+                                {% if offset > 1 %}
+                                    <a href="{{ path('userLivingThing', {'search': search}) }}"><i class="fas fa-angle-double-left"></i></a>
+                                {% endif %}
+                            
+                                {% if offset - 1 >= 1 %}
+                                    <a class="" href="{{ path('userLivingThing', {'search': search, 'offset': (offset - 1)}) }}">{{ offset - 1 }}</a>
+                                {% endif %}
+
+                                <a class="active" href="{{ path('userLivingThing', {'search': search, 'offset': offset}) }}"><span>{{ offset }}</span></a>
                                 
-                                {% if offset - 1 >= 1  %}
-                                    <li class="page-item"><a class="page-link" href="{{ path("userLivingThing", {'offset': (offset - 1), 'search': search}) }}">{{ offset - 1 }}</a></li>
+                                {% if offset + 1 <= total_page %}
+                                    <a class="" href="{{ path('userLivingThing', {'search': search, 'offset': offset + 1}) }}">{{ offset + 1 }}</a>
                                 {% endif %}
-
-                                <li class="page-item"><a class="page-link" >{{ offset }}</a></li>
-
-                                {% if offset + 1 <= total_page  %}
-                                    <li class="page-item"><a class="page-link" href="{{ path("userLivingThing", {'offset': (offset + 1),'search': search}) }}">{{ offset + 1 }}</a></li>
+                                
+                                {% if offset < total_page %}
+                                    <a href="{{ path('userLivingThing', {'search': search, 'offset': total_page}) }}"><i class="fas fa-angle-double-right"></i></a>
                                 {% endif %}
-
-                                <li class="page-item {% if offset == total_page %} disabled {% endif %}">
-                                    <a class="page-link" href="{{ path("userLivingThing", {'offset': (total_page), 'search': search}) }}"><i class="fas fa-angle-double-right"></i></a>
-                                </li>
-                            </ul>
-                        </nav>
+                            </div>
+                        </div>
                     {% endif %}
                 {% else %}
                     <div class="alert alert-info">

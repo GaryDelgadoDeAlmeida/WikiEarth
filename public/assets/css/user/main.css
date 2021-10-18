@@ -24,6 +24,11 @@
 /* ---------------------------------------- *\
                 Notification
 \* ---------------------------------------- */
+@import './desktop/_pagination.css';
+
+/* ---------------------------------------- *\
+                Notification
+\* ---------------------------------------- */
 @import './desktop/_notification.css';
 /* @import './mobile/_notification.css'; */
 
