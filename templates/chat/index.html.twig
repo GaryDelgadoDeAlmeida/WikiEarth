@@ -12,35 +12,18 @@
             <div class="users-list">
                 <button class="user-add-discussion">Add a new discussion</button>
 
-                <div class="user-block">
-                    <div class="user-img">
-                        <img class="img-rounded" src="{{ asset('content/users/avatar.png') }}" />
-                    </div>
-                    <div class="user-descr">
-                        <span class="user-name">Alban DUPONT</span>
-                        <span class="user-lastmessage">Fine ?</span>
-                    </div>
-                </div>
-
-                <div class="user-block">
-                    <div class="user-img">
-                        <img class="img-rounded" src="{{ asset('content/users/avatar.png') }}" />
-                    </div>
-                    <div class="user-descr">
-                        <span class="user-name">Jack Parkson</span>
-                        <span class="user-lastmessage">OK</span>
-                    </div>
-                </div>
-
-                <div class="user-block">
-                    <div class="user-img">
-                        <img class="img-rounded" src="{{ asset('content/users/avatar.png') }}" />
-                    </div>
-                    <div class="user-descr">
-                        <span class="user-name">Robert Johnson</span>
-                        <span class="user-lastmessage">No, That's wrong !</span>
-                    </div>
-                </div>
+                {% for i, oneDiscussion in startedDiscussions %}
+                    {# User block {{ key }} #}
+                    <a class="user-block {% if oneDiscussion.isCurrent == true %} current-discussion {% endif %}" href="{{ path('adminChat', {"user": oneDiscussion.id}) }}">
+                        <div class="user-img">
+                            <img class="img-rounded" src="{{ asset(oneDiscussion.image) }}" />
+                        </div>
+                        <div class="user-descr">
+                            <span class="user-name">{{ oneDiscussion.firstname }} {{ oneDiscussion.lastname }}</span>
+                            <span class="user-lastmessage">{{ oneDiscussion.lastMessage }}</span>
+                        </div>
+                    </a>
+                {% endfor %}
             </div>
         </div>
 
@@ -48,23 +31,44 @@
         <div class="chat-discussion">
             <div class="discussion-panel">
                 <div class="discussion-block">
-                    <div class="discussion">
+                    <div class="discussion inverted">
                         <span>Hello</span>
                     </div>
-                    <div class="discussion inverted">
+                    <div class="discussion ordered">
                         <span>Hi !</span>
                     </div>
-                    <div class="discussion">
+                    <div class="discussion inverted">
                         <span>How are you ?</span>
                     </div>
-                    <div class="discussion inverted">
+                    <div class="discussion ordered">
                         <span>Fine ?</span>
+                    </div>
+                    <div class="discussion inverted">
+                        <span>Something happened ?</span>
+                    </div>
+                    <div class="discussion ordered">
+                        <span>I'm currently researching the name of a bird species for a half-hours and I'm tired of searching !</span>
+                    </div>
+                    <div class="discussion inverted">
+                        <span>I understand your feeling. Can you send me the picture of that bird ? I can help you.</span>
+                    </div>
+                    <div class="discussion ordered">
+                        <span>Yeah, i'll send you in a minute</span>
+                    </div>
+                    <div class="discussion ordered">
+                        <span>Thanks</span>
+                    </div>
+                    <div class="discussion ordered">
+                        <img src="{{ asset("/content/wikiearth/living-thing/animalia/Canis Lupus.jpeg") }}" />
+                    </div>
+                    <div class="discussion inverted">
+                        <img src="{{ asset("/content/wikiearth/living-thing/animalia/Canis Lupus.jpeg") }}" />
                     </div>
                 </div>
             </div>
             <div class="discussion-bar">
                 <input type="text" name="message" placeholder="Message . . ." />
-                <button>Send</button>
+                {# <button><i class="fas fa-paper-plane"></i></button> #}
             </div>
         </div>
     </section>

@@ -74,7 +74,7 @@ class ElementRepository extends ServiceEntityRepository
      * @param int limit
      * @return Element[]|[] an array of elements or an empty array
      */
-    public function searchElement(string $searchedValue, int $offset, int $limit)
+    public function searchElements(string $searchedValue, int $offset, int $limit)
     {
         return $this->createQueryBuilder('e')
             ->where('e.name LIKE :searchedValue OR e.scientificName LIKE :searchedValue')
@@ -124,7 +124,7 @@ class ElementRepository extends ServiceEntityRepository
      * @param string the searched value
      * @return int the number of element corresponding of the searched value
      */
-    public function countSearchElement(string $searchedValue)
+    public function countSearchElements(string $searchedValue)
     {
         return $this->createQueryBuilder('e')
             ->select('count(e.id) as nbrElements')

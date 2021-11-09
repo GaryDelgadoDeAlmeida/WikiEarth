@@ -4,7 +4,19 @@
     <section class="wikiearth-article">
         <div class="">
             <a class="btn btn-custom-green" href="{{ path('adminAddLivingThing') }}">ADD</a>
-            <div>&nbsp;</div>
+            
+            {# Search form #}
+            <div class="search-subject">
+                <form class="form" method="get" action="{{ path('adminLivingThing') }}">
+                    <div class="formSearch">
+                        <div class="formSearch-input">
+                            <input type="search" name="search" placeholder="Search a living thing . . .">
+                        </div>
+                        
+                        <button class="formSearch-button">Search</button>
+                    </div>
+                </form>
+            </div>
             
             {% if livingThings != [] %}
                 {% for livingThing in livingThings %}
@@ -21,22 +33,24 @@
                 {% endfor %}
 
                 {# Pagination #}
-                {% if offset >= 1 and offset <= nbrOffset %}
-                    <div class="pagination">
-                        <div class="pagination-links">
-                            {% if offset - 1 >= 1 %}
-                                <a href="{{ path('adminLivingThing', {'offset': 1}) }}"><i class="fas fa-angle-double-left"></i></a>
-                                <a class="" href="{{ path('adminLivingThing', {'offset': offset - 1}) }}">{{ offset - 1 }}</a>
-                            {% endif %}
+                {% if nbrOffset > 1 %}
+                    {% if offset >= 1 and offset <= nbrOffset %}
+                        <div class="pagination">
+                            <div class="pagination-links">
+                                {% if offset - 1 >= 1 %}
+                                    <a href="{{ path('adminLivingThing', {'search': search, 'offset': 1}) }}"><i class="fas fa-angle-double-left"></i></a>
+                                    <a class="" href="{{ path('adminLivingThing', {'search': search, 'offset': offset - 1}) }}">{{ offset - 1 }}</a>
+                                {% endif %}
 
-                            <a class="active" href="{{ path('adminLivingThing', {'offset': offset}) }}"><span>{{ offset }}</span></a>
-                            
-                            {% if offset + 1 <= nbrOffset %}
-                                <a class="" href="{{ path('adminLivingThing', {'offset': offset + 1}) }}">{{ offset + 1 }}</a>
-                                <a href="{{ path('adminLivingThing', {'offset': nbrOffset}) }}"><i class="fas fa-angle-double-right"></i></a>
-                            {% endif %}
+                                <a class="active" href="{{ path('adminLivingThing', {'search': search, 'offset': offset}) }}"><span>{{ offset }}</span></a>
+                                
+                                {% if offset + 1 <= nbrOffset %}
+                                    <a class="" href="{{ path('adminLivingThing', {'search': search, 'offset': offset + 1}) }}">{{ offset + 1 }}</a>
+                                    <a href="{{ path('adminLivingThing', {'search': search, 'offset': nbrOffset}) }}"><i class="fas fa-angle-double-right"></i></a>
+                                {% endif %}
+                            </div>
                         </div>
-                    </div>
+                    {% endif %}
                 {% endif %}
             {% else %}
                 <div class="alert alert-danger">

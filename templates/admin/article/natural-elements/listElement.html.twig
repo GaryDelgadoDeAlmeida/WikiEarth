@@ -4,9 +4,23 @@
     <section class="wikiearth-article">
         <div class="element">
             <a class="btn btn-custom-green" href="{{ path('adminAddElement') }}">ADD</a>
-            <div>&nbsp;</div>
+            
+            {# Search form #}
+            <div class="search-subject">
+                <form class="form" method="get" action="{{ path('adminElement') }}">
+                    <div class="formSearch">
+                        <div class="formSearch-input">
+                            <input type="search" name="search" placeholder="Search an element . . .">
+                        </div>
+                        
+                        <button class="formSearch-button">Search</button>
+                    </div>
+                </form>
+            </div>
             
             {% if elements != [] %}
+
+                {# Natural elements #}
                 {% for element in elements %}
                     <li class="media h-150px">
                         <div class="media-header">
@@ -21,22 +35,24 @@
                 {% endfor %}
 
                 {# Pagination #}
-                {% if offset >= 1 and offset <= nbrOffset %}
-                    <div class="pagination">
-                        <div class="pagination-links">
-                            {% if offset - 1 >= 1 %}
-                                <a href="{{ path('adminElement', {'offset': 1}) }}"><i class="fas fa-angle-double-left"></i></a>
-                                <a class="" href="{{ path('adminElement', {'offset': offset - 1}) }}">{{ offset - 1 }}</a>
-                            {% endif %}
+                {% if nbrOffset > 1 %}
+                    {% if offset >= 1 and offset <= nbrOffset %}
+                        <div class="pagination">
+                            <div class="pagination-links">
+                                {% if offset - 1 >= 1 %}
+                                    <a href="{{ path('adminElement', {'search': search, 'offset': 1}) }}"><i class="fas fa-angle-double-left"></i></a>
+                                    <a class="" href="{{ path('adminElement', {'search': search, 'offset': offset - 1}) }}">{{ offset - 1 }}</a>
+                                {% endif %}
 
-                            <a class="active" href="{{ path('adminElement', {'offset': offset}) }}"><span>{{ offset }}</span></a>
-                            
-                            {% if offset + 1 <= nbrOffset %}
-                                <a class="" href="{{ path('adminElement', {'offset': offset + 1}) }}">{{ offset + 1 }}</a>
-                                <a href="{{ path('adminElement', {'offset': nbrOffset}) }}"><i class="fas fa-angle-double-right"></i></a>
-                            {% endif %}
+                                <a class="active" href="{{ path('adminElement', {'search': search, 'offset': offset}) }}"><span>{{ offset }}</span></a>
+                                
+                                {% if offset + 1 <= nbrOffset %}
+                                    <a class="" href="{{ path('adminElement', {'search': search, 'offset': offset + 1}) }}">{{ offset + 1 }}</a>
+                                    <a href="{{ path('adminElement', {'search': search, 'offset': nbrOffset}) }}"><i class="fas fa-angle-double-right"></i></a>
+                                {% endif %}
+                            </div>
                         </div>
-                    </div>
+                    {% endif %}
                 {% endif %}
             {% else %}
                 <div class="alert alert-danger">

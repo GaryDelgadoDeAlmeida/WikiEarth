@@ -228,13 +228,24 @@ class AdminController extends AbstractController
     {
         $limit = 10;
         $offset = !empty($request->get('offset')) && preg_match('/^[0-9]*$/', $request->get('offset')) ? $request->get('offset') : 1;
-        $nbrLivingThing = $this->em->getRepository(LivingThing::class)->countLivingThings();
+        $search = !empty($request->get("search")) ? $request->get("search") : null;
+        $nbrLivingThing = $livingThings = [];
+
+        if(!empty($search)) {
+            $livingThings = $this->em->getRepository(LivingThing::class)->searchLivingThing($search, $offset, $limit);
+            $nbrLivingThing = $this->em->getRepository(LivingThing::class)->countSearchLivingThing($search);
+        } else {
+            $livingThings = $this->em->getRepository(LivingThing::class)->getLivingThings($offset, $limit);
+            $nbrLivingThing = $this->em->getRepository(LivingThing::class)->countLivingThings();
+        }
+
         $nbrOffset = $nbrLivingThing > $limit ? ceil($nbrLivingThing / $limit) : 1;
 
         return $this->render('admin/article/living-thing/listLivingThing.html.twig', [
-            "livingThings" => $this->em->getRepository(LivingThing::class)->getLivingThings($offset, $limit),
+            "livingThings" => $livingThings,
             "offset" => $offset,
-            "nbrOffset" => $nbrOffset
+            "nbrOffset" => $nbrOffset,
+            "search" => $search,
         ]);
     }
 
@@ -361,11 +372,25 @@ class AdminController extends AbstractController
     {
         $limit = 10;
         $offset = !empty($request->get('offset')) && preg_match('/^[0-9]*$/', $request->get('offset')) ? \intval($request->get('offset')) : 1;
+        $search = !empty($request->get('search')) ? $request->get('search') : null;
+        $elements = [];
+        $nbrElements = 0;
+
+        if(!empty($search)) {
+            $elements = $this->em->getRepository(Element::class)->searchElements($search, $offset, $limit);
+            $nbrElements = $this->em->getRepository(Element::class)->countSearchElements($search);
+        } else {
+            $elements = $this->em->getRepository(Element::class)->getElements($offset, $limit);
+            $nbrElements = $this->em->getRepository(Element::class)->countElements();
+        }
+
+        $nbrOffset = $nbrElements > $limit ? ceil($nbrElements / $limit) : 0;
 
         return $this->render('admin/article/natural-elements/listElement.html.twig', [
+            "elements" => $elements,
             "offset" => $offset,
-            "nbrOffset" => ceil($this->em->getRepository(Element::class)->countElements() / $limit),
-            "elements" => $this->em->getRepository(Element::class)->getElements($offset, $limit),
+            "nbrOffset" => $nbrOffset,
+            "search" => $search,
         ]);
     }
 
@@ -458,13 +483,25 @@ class AdminController extends AbstractController
      */
     public function admin_mineral(Request $request)
     {
-        $offset = !empty($request->get('offset')) && preg_match('/^[0-9]*$/', $request->get('offset')) ? $request->get('offset') : 1;
         $limit = 10;
+        $offset = !empty($request->get('offset')) && preg_match('/^[0-9]*$/', $request->get('offset')) ? $request->get('offset') : 1;
+        $search = !empty($request->get('search')) ? $request->get('search') : null;
+        $minerals = [];
+        $nbrPages = 1;
+
+        if(!empty($search)) {
+            $minerals = $this->em->getRepository(Mineral::class)->searchMineral($search, $offset, $limit);
+            $nbrPages = ceil($this->em->getRepository(Mineral::class)->countSearchMineral($search) / $limit);
+        } else {
+            $minerals = $this->em->getRepository(Mineral::class)->getMinerals($offset, $limit);
+            $nbrPages = ceil($this->em->getRepository(Mineral::class)->countMinerals() / $limit);
+        }
 
         return $this->render('admin/article/minerals/listMineral.html.twig', [
             "offset" => $offset,
-            "nbrOffset" => ceil($this->em->getRepository(Mineral::class)->countMinerals() / $limit),
-            "minerals" => $this->em->getRepository(Mineral::class)->getMinerals($offset, $limit),
+            "nbrOffset" => $nbrPages,
+            "minerals" => $minerals,
+            "search" => $search,
         ]);
     }
 

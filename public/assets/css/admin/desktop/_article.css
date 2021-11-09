@@ -61,5 +61,39 @@
 .card .content .btn:hover {
     background-color: #868686;
     transition: .5s;
-    color: #ffffff;
+    color: var(--c-white);
+}
+
+
+/* ---------------------------------------- *\
+                Search Mineral
+\* ---------------------------------------- */
+.search-subject {
+    margin: 50px 0;
+    padding: 20px;
+    background-color: var(--c-white);
+}
+
+.formSearch {
+    display: flex;
+}
+
+.formSearch-input input {
+    padding: 0 25px;
+    background-color: #F5F5F5;
+    border-style: none;
+    height: 50px;
+    width: 100%;
+    vertical-align: middle;
+}
+.formSearch-input {
+    width: 100%;
+}
+
+.formSearch-button {
+    background-color: var(--c-primaryBlue);
+    color: var(--c-white);
+    border-style: none;
+    height: 50px;
+    width: 170px;
 }

@@ -530,8 +530,8 @@ class UserController extends AbstractController
             }
         } else {
             $filterBy = "all";
-            $elements = $this->manager->getRepository(Element::class)->searchElement($search, $offset, $limit);
-            $nbrPages = ceil($this->manager->getRepository(Element::class)->countSearchElement($search) / $limit);
+            $elements = $this->manager->getRepository(Element::class)->searchElements($search, $offset, $limit);
+            $nbrPages = ceil($this->manager->getRepository(Element::class)->countSearchElements($search) / $limit);
         }
         
         return $this->render('user/article/elements/listElement.html.twig', [
