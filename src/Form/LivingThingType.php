@@ -37,11 +37,11 @@ class LivingThingType extends AbstractType
             ])
             ->add('commonName', null, [
                 'label' => "Name",
-                "required" => true
+                "required" => true,
             ])
             ->add('name', null, [
                 'label' => "Scientific Name",
-                "required" => true
+                "required" => true,
             ])
             ->add('domain', null, [
                 'label' => "Domain",
@@ -68,19 +68,19 @@ class LivingThingType extends AbstractType
                 "required" => false
             ])
             ->add('superBranch', null, [
-                'label' => "Super Branch",
+                'label' => "Super Phylum (Super Division)",
                 "required" => false
             ])
             ->add('branch', null, [
-                'label' => "Branch",
+                'label' => "Phylum (Division)",
                 "required" => false
             ])
             ->add('subBranch', null, [
-                'label' => "Sub Branch",
+                'label' => "Sub Phylum (Sub Division)",
                 "required" => false
             ])
             ->add('infraBranch', null, [
-                'label' => "Infra Branch",
+                'label' => "Infra Phylum (Infra Division)",
                 "required" => false
             ])
             ->add('division', null, [

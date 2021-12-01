@@ -131,12 +131,11 @@
 .chat-discussion .discussion-bar {
     position: absolute;
     bottom: 0;
-    padding: 0 1%;
-    padding-bottom: 1%;
-    width: fill-available;
+    padding: 1%;
+    width: fit-content;
     width: -moz-available;          /* WebKit-based browsers will ignore this. */
     width: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
-    background-color: var(--c-cyanBlue);
+    display: flex;
 }
 
 .chat-discussion .discussion-bar input {
@@ -146,6 +145,7 @@
     vertical-align: middle;
     border: 1px solid var(--c-lightSilver);
     border-radius: 25px;
+    margin: 0 5px 0 0;
 }
 
 .chat-discussion .discussion-bar button {

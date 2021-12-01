@@ -7,42 +7,46 @@
                 <div class="profile-img">
                     <label for="user_imgPath"><img class="img-fluid" src="{{ asset(file_exist(userImg)) }}" alt="{{ user.firstname }} {{ user.lastname }}"></label>
                 </div>
+                <div class="profile-username">
+                    <span>{{ user.firstname }} {{ user.lastname }}</span>
+                </div>
             </div>
             <div class="profile-right">
-                {{ form_start(formUser, {"method": "POST"}) }}
-                    <div class="form-group">
+                {{ form_start(formUser, {"method": "POST", "attr": {"class": "row"}}) }}
+                    <div class="form-group col-6">
                         {{ form_label(formUser.firstname) }}
                         {{ form_widget(formUser.firstname) }}
                     </div>
-                    <div class="form-group">
+                    <div class="form-group col-6">
                         {{ form_label(formUser.lastname) }}
                         {{ form_widget(formUser.lastname) }}
                     </div>
-                    <div class="form-group">
+                    <div class="form-group col-12">
                         {{ form_label(formUser.email) }}
                         {{ form_widget(formUser.email) }}
                     </div>
-                    <div class="form-group">
+                    <div class="form-group col-12">
                         {{ form_label(formUser.login) }}
                         {{ form_widget(formUser.login, {"attr": {"readonly": "true"}}) }}
                     </div>
-                    <div class="form-group">
+                    <div class="form-group col-6">
                         {{ form_label(formUser.password) }}
                         {{ form_widget(formUser.password) }}
                     </div>
-                    <div class="form-group">
+                    <div class="form-group col-6">
                         {{ form_label(formUser.confirmPassword) }}
                         {{ form_widget(formUser.confirmPassword) }}
                     </div>
-                    <div class="form-group">
+                    <div class="form-group col-12">
                         {{ form_label(formUser.preferences) }}
-                        {{ form_widget(formUser.preferences) }}
+                        {{ form_widget(formUser.preferences, {"attr": {"class": "profile-preferences"}}) }}
                     </div>
-                    <div class="form-group" hidden>
+                    <div class="form-group col-12" hidden>
                         {{ form_widget(formUser.imgPath) }}
                     </div>
-                    <div class="form-group text-center">
+                    <div class="form-group ml-10px pt-3_5rem">
                         {{ form_widget(formUser.submit) }}
+                        <a class="btn btn-custom-danger r-20px" href="" onclick="confirm('Are you sure you want to delete your account ?')">Delete account</a>
                     </div>
                 {{ form_end(formUser, {"method": "POST"}) }}
             </div>

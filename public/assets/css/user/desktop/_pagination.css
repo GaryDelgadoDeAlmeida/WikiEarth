@@ -17,7 +17,7 @@
 .pagination .pagination-links > a {
     margin: 0 .5rem;
     padding: 0 10px;
-    border: 2px solid var(--c-black);
+    /* border: 2px solid var(--c-black); */
     text-align: center;
     display: inline-block;
 }

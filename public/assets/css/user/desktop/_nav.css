@@ -18,7 +18,6 @@ header {
 }
 
 .menu {
-	/* margin-top: var(--navHeight); */
 	margin-top: 0;
     position: fixed;
     width: 100%;
@@ -31,6 +30,7 @@ header {
     line-height: normal;
     transition: 0.7s;
     z-index: 9999;
+	overflow: scroll;
 }
 
 .menu li {

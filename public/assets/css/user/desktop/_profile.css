@@ -7,40 +7,49 @@
 
 .profile-content {
     display: grid;
-    grid-template-columns: 50% 50%;
+    grid-template-columns: 30% 70%;
     height: auto;
 }
 
 .profile-left {
     padding: 2rem;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+    margin: auto;
+    margin-top: 0;
+    height: 100%;
 }
 
 .profile-left .profile-img {
-    max-width: 400px;
+    max-width: 200px;
 }
 
 .profile-left .profile-img img {
     border-radius: 50%;
     object-fit: cover;
     object-position: top;
-    height: 400px;
-    width: 400px;
+    height: 200px;
+    width: 200px;
 }
 
-.profile-left .profile-user-identity {
-    margin-left: auto;
-    margin-right: auto;
-    text-align: left;
+.profile-left .profile-username {
+    text-align: center;
+    font-size: larger;
+    font-weight: 600;
 }
 
-.profile-left .profile-user-identity span {
-    display: list-item;
-    list-style: none;
+.profile-right {
+    background-color: var(--c-white);
+    padding: 1rem;
+    border: 1px solid var(--c-silver);
 }
 
 form.user div.form-group:last-child {
     text-align: center;
+}
+
+.profile-preferences {
+    display: flex;
+}
+
+.profile-preferences .form-check {
+    padding-right: 15px;
 }

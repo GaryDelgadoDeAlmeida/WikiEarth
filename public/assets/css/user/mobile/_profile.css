@@ -3,7 +3,7 @@
         grid-template-columns: none;
     }
 
-    .profile-left .profile-img img {
-        height: auto;
+    .profile-preferences {
+        display: inherit;
     }
 }

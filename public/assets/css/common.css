@@ -1,8 +1,7 @@
 html, body {
-    /* font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; */
     font-family: "Gill Sans", sans-serif;
-    /* font-family: "Palatino", sans-serif; */
     font-size: 1rem;
+    scroll-behavior: smooth;
     background-color: var(--c-lightWhite);
     padding: 0;
     margin: 0;
@@ -163,6 +162,18 @@ a, a:hover {
 /* ---------------------------------------- *\
                     Button
 \* ---------------------------------------- */
+.btn-logout {
+    background-color: var(--c-red);
+    padding: 5px 35px;
+    border-radius: 25px;
+    border: 1px solid var(--c-red);
+}
+
+.btn-logout:hover, .btn-logout:hover span {
+    background-color: transparent;
+    color: var(--c-red) !important;
+}
+
 .btn-custom-green {
     text-align: center;
     height: 34px;
@@ -178,6 +189,24 @@ a, a:hover {
 
 .btn-custom-green:hover {
     color: var(--c-green);
+    background-color: var(--c-white);
+}
+
+.btn-custom-danger {
+    text-align: center;
+    height: 34px;
+    width: 185px;
+    color: var(--c-white);
+    background-color: var(--c-red);
+    border: 2px solid var(--c-red);
+    text-decoration: none;
+    border-radius: 7px;
+    font-size: 16px;
+    line-height: 1.25rem;
+}
+
+.btn-custom-danger:hover {
+    color: var(--c-red);
     background-color: var(--c-white);
 }
 
@@ -225,7 +254,7 @@ a, a:hover {
         height: auto;
     }
 
-    .btn-custom-green {
+    .btn-custom-green, .btn-custom-danger {
         width: auto;
         padding: 5px 25px;
     }
@@ -251,6 +280,10 @@ fieldset.form-group {
     margin-bottom: 10px;
 }
 
+.ml-10px {
+    margin-left: 10px;
+}
+
 .m-auto {
     margin: auto;
 }
@@ -258,4 +291,12 @@ fieldset.form-group {
 .m-middle {
     display: block;
     margin: auto;
+}
+
+
+/* ---------------------------------------- *\
+                    Padding
+\* ---------------------------------------- */
+.pt-3_5rem {
+    padding-top: 3.5rem;
 }

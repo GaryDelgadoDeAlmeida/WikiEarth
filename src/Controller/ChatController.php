@@ -71,7 +71,7 @@ class ChatController extends AbstractController
         }
 
         return $this->render('chat/index.html.twig', [
-            "startedDiscussions" => $startedDiscussions
+            "startedDiscussions" => $startedDiscussions,
         ]);
     }
 }
