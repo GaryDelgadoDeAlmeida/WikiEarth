@@ -2,7 +2,7 @@
                     Pagination
 \* ---------------------------------------- */
 .pagination {
-    margin-top: 1rem;
+    margin-top: 1.5rem;
     background-color: var(--c-white);
     box-shadow: 2.5px 5px 5px var(--c-grey);
     justify-content: center;
@@ -11,7 +11,7 @@
 .pagination .pagination-links {
     width: 100%;
     text-align: center;
-    margin: .2rem;
+    margin: .5rem;
 }
 
 .pagination .pagination-links > a {

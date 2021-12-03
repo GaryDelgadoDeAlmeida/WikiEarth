@@ -1,12 +1,8 @@
 /* ---------------------------------------- *\
             Living Thing - Desktop
 \* ---------------------------------------- */
-/* .list-livingThing {
-    background-color: #F7F8FA;
-} */
-
 .list-livingThing-content {
-    padding: 1rem 10%;
+    padding: 1rem 0;
 }
 
 .list-livingThing-content .list-livingThing-header {

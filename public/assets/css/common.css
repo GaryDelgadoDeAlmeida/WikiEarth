@@ -16,6 +16,7 @@ html, body {
 
     /* Color */
     --c-white: #ffffff;
+    --c-lightGrayishBlue: #e9ecef;
     --c-lightWhite: #f7f8fa;
     --c-veryLightGrey: #f0f0f0;
     --c-lightGrey: #f2f2f2;
@@ -28,8 +29,8 @@ html, body {
     --c-green: #188038;
     --c-orange: #ffa500;
     --c-blue: #2962ff;
-    --c-primaryBlue: #0366d6;
     --c-cyanBlue: #00b7eb;
+    --c-primaryBlue: #0366d6;
     --c-sadBlue: #3f569b;
     --c-black: #000000;
     --c-night: #010418;
@@ -145,6 +146,10 @@ a, a:hover {
 \* ---------------------------------------- */
 .bg-white {
     background-color: var(--c-white);
+}
+
+.bg-lightGrayishBlue {
+    background-color: var(--c-lightGrayishBlue);
 }
 
 .bg-lightGrey {

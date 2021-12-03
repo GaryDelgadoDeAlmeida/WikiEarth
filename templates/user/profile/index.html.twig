@@ -1,14 +1,17 @@
 {% extends 'user/baseUser.html.twig' %}
 
 {% block body %}
-    <section class="profile bg-lightGrey">
-        <div class="profile-content">
+    <section class="profile bg-lightGrayishBlue">
+        <div class="profile-content wrapper">
             <div class="profile-left">
-                <div class="profile-img">
-                    <label for="user_imgPath"><img class="img-fluid" src="{{ asset(file_exist(userImg)) }}" alt="{{ user.firstname }} {{ user.lastname }}"></label>
-                </div>
-                <div class="profile-username">
-                    <span>{{ user.firstname }} {{ user.lastname }}</span>
+                <div class="profile-user-block">
+                    <div class="profile-img">
+                        <label for="user_imgPath"><img class="img-fluid" src="{{ asset(file_exist(userImg)) }}" alt="{{ user.firstname }} {{ user.lastname }}"></label>
+                    </div>
+                    <div class="profile-username">
+                        <span class="txt-bold">{{ user.firstname }} {{ user.lastname }}</span><br>
+                        <span>{{ user.email }}</span>
+                    </div>
                 </div>
             </div>
             <div class="profile-right">

@@ -1,68 +1,70 @@
 {% extends 'user/baseUser.html.twig' %}
 
 {% block body %}
-    <section class="container">
-        {% if response != [] %}
+    <section class="bg-lightGrayishBlue">
+        <div class="wrapper">
+            {% if response != [] %}
+                <div>&nbsp;</div>
+                <div class="alert alert-{{ response.class }} txt-center">
+                    <span>{{ response.message }}</span>
+                </div>
+            {% endif %}
+            
             <div>&nbsp;</div>
-            <div class="alert alert-{{ response.class }} txt-center">
-                <span>{{ response.message }}</span>
-            </div>
-        {% endif %}
-        
-        <div>&nbsp;</div>
 
-        <h2>Mineral</h2>
-        
-        {{ form_start(formMineral, {"method": "POST"}) }}
-            <div class="row">
-                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
-                    {{ form_row(formMineral.name) }}
-                </div>
+            <h2>Mineral</h2>
+            
+            {{ form_start(formMineral, {"method": "POST"}) }}
+                <div class="row">
+                    <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                        {{ form_row(formMineral.name) }}
+                    </div>
 
-                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
-                    {{ form_row(formMineral.imgPath) }}
-                </div>
+                    <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                        {{ form_row(formMineral.imgPath) }}
+                    </div>
 
-                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
-                    {{ form_row(formMineral.rruffChemistry) }}
-                </div>
+                    <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                        {{ form_row(formMineral.rruffChemistry) }}
+                    </div>
 
-                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
-                    {{ form_row(formMineral.imaChemistry) }}
-                </div>
+                    <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                        {{ form_row(formMineral.imaChemistry) }}
+                    </div>
 
-                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
-                    {{ form_row(formMineral.chemistryElements) }}
-                </div>
+                    <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                        {{ form_row(formMineral.chemistryElements) }}
+                    </div>
 
-                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
-                    {{ form_row(formMineral.imaNumber) }}
-                </div>
+                    <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                        {{ form_row(formMineral.imaNumber) }}
+                    </div>
 
-                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
-                    {{ form_row(formMineral.imaStatus) }}
-                </div>
+                    <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                        {{ form_row(formMineral.imaStatus) }}
+                    </div>
 
-                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
-                    {{ form_row(formMineral.structuralGroupname) }}
-                </div>
+                    <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                        {{ form_row(formMineral.structuralGroupname) }}
+                    </div>
 
-                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
-                    {{ form_row(formMineral.crystalSystem) }}
-                </div>
+                    <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                        {{ form_row(formMineral.crystalSystem) }}
+                    </div>
 
-                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
-                    {{ form_row(formMineral.valenceElements) }}
-                </div>
+                    <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                        {{ form_row(formMineral.valenceElements) }}
+                    </div>
 
-                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
-                    {{ form_row(formMineral.country) }}
-                </div>
+                    <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                        {{ form_row(formMineral.country) }}
+                    </div>
 
-                <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
-                    <button class="btn btn-custom-blue" type="submit">Submit</button>
+                    <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                        <button class="btn btn-custom-blue" type="submit">Submit</button>
+                    </div>
                 </div>
-            </div>
-        {{ form_end(formMineral, {"method": "POST"}) }}
+            {{ form_end(formMineral, {"method": "POST"}) }}
+        </div>
     </section>
 {% endblock %}

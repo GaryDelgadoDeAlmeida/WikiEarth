@@ -1,17 +1,13 @@
 /* ---------------------------------------- *\
                 Notification
 \* ---------------------------------------- */
-/* .notification {
-    background-color: #f2f2f2;
-} */
-
 .notification-content {
-    padding: 3rem 5%;
+    padding: 3rem 0;
 }
 
 .notification-header {
     text-align: center;
-    margin-bottom: 2rem;
+    margin-bottom: 3rem;
 }
 
 .notification-title {

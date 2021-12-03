@@ -3,6 +3,14 @@
         grid-template-columns: none;
     }
 
+    .profile-left {
+        padding: 0;
+    }
+
+    .profile-user-block {
+        max-width: 100%;
+    }
+
     .profile-preferences {
         display: inherit;
     }

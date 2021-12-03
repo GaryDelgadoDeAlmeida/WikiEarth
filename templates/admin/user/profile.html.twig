@@ -10,18 +10,18 @@
                 <div>&nbsp;</div>
             {% endif %}
 
-            {{ form_start(userForm, {'method': 'POST'}) }}
-                <div class="row">
-                    <div class="col-lg-6 m-middle">
-                        <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated text-center">
-                            <label for="user_imgPath"><img class="img-fluid rounded" width="250" height="400" src="{{ asset(file_exist(userImg)) }}"></label>
-                        </div>
+            {{ form_start(userForm, {'method': 'POST', "attr": {"class": "row"}}) }}
+                <div class="col-lg-6 m-middle">
+                    <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated text-center">
+                        <label for="user_imgPath"><img class="img-fluid rounded" width="250" height="400" src="{{ asset(file_exist(userImg)) }}"></label>
                     </div>
-                    <div class="col-lg-6">
-                        <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                </div>
+                <div class="col-lg-6">
+                    <div class="row">
+                        <div class="form-group col-md-6 col-lg-6 wow fadeInUp animated">
                             {{ form_row(userForm.firstname) }}
                         </div>
-                        <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                        <div class="form-group col-md-6 col-lg-6 wow fadeInUp animated">
                             {{ form_row(userForm.lastname) }}
                         </div>
                         <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
@@ -30,14 +30,18 @@
                         <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
                             {{ form_row(userForm.login, {"attr": {"readonly": "true"}}) }}
                         </div>
-                        <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                        <div class="form-group col-md-6 col-lg-6 wow fadeInUp animated">
                             {{ form_row(userForm.password) }}
                         </div>
-                        <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated">
+                        <div class="form-group col-md-6 col-lg-6 wow fadeInUp animated">
                             {{ form_row(userForm.confirmPassword) }}
                         </div>
                         <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated" hidden>
                             {{ form_row(userForm.imgPath) }}
+                        </div>
+                        <div class="form-group col-12">
+                            {{ form_label(userForm.preferences) }}
+                            {{ form_widget(userForm.preferences, {"attr": {"class": "profile-preferences"}}) }}
                         </div>
                         <div class="form-group col-md-12 col-lg-12 wow fadeInUp animated text-center" >
                             {{ form_row(userForm.submit) }}
