@@ -1,7 +1,7 @@
 {% extends 'user/baseUser.html.twig' %}
 
 {% block body %}
-    <section class="profile bg-lightGrayishBlue">
+    <section class="profile bg-aliceBlue">
         <div class="profile-content wrapper">
             <div class="profile-left">
                 <div class="profile-user-block">
@@ -49,7 +49,7 @@
                     </div>
                     <div class="form-group ml-10px pt-3_5rem">
                         {{ form_widget(formUser.submit) }}
-                        <a class="btn btn-custom-danger r-20px" href="" onclick="confirm('Are you sure you want to delete your account ?')">Delete account</a>
+                        <a class="btn btn-custom-danger r-20px" href="{{ path('userDelete') }}" onclick="confirm('Are you sure you want to delete your account ?')">Delete account</a>
                     </div>
                 {{ form_end(formUser, {"method": "POST"}) }}
             </div>

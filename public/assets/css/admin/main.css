@@ -4,9 +4,14 @@
 @import '../common.css';
 
 /* ---------------------------------------- *\
+                    Nav
+\* ---------------------------------------- */
+@import './desktop/_nav.css';
+@import './mobile/_nav.css';
+
+/* ---------------------------------------- *\
                     Home
 \* ---------------------------------------- */
-@import './site.css';
 @import './desktop/_home.css';
 @import './mobile/_home.css';
 

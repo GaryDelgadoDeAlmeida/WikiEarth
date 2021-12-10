@@ -77,8 +77,6 @@
 
 .list-livingThing-wrapper {
     margin-bottom: 25px;
-    padding: 4%;
-    background-color: #ffffff;
 }
 
 .list-livingThing-wrapper .alert.alert-info {
@@ -88,6 +86,7 @@
 .list-livingThing-box {
     margin: 1rem 0;
     padding: 1rem;
+    background-color: var(--c-white);
     border: 1px solid var(--c-lightGrey);
     display: flex;
     box-shadow: 2.5px 5px 5px var(--c-grey);

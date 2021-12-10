@@ -99,6 +99,21 @@ class UserController extends AbstractController
     }
 
     /**
+     * @Route("/user/profile/delete", name="userDelete")
+     */
+    public function user_delete_profil(Request $request)
+    {
+        foreach($user->getNotifications() as $oneNotification) {
+            $this->manager->remove($oneNotification);
+        }
+
+        $this->manager->remove($this->currentLoggedUser);
+        $this->manager->flush();
+
+        $this->redirectRoute("home");
+    }
+
+    /**
      * @Route("/user/living-thing", name="userLivingThing")
      */
     public function user_living_thing(Request $request)

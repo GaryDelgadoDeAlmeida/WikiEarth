@@ -22,7 +22,9 @@
 
 .profile-user-block {
     background-color: var(--c-white);
-    box-shadow: 1px 2px 5px var(--c-black);
+    /* box-shadow: 1px 2px 5px var(--c-black); */
+    border-radius: 10px;
+    box-shadow: 0 2px 4px 0 rgb(0 0 0 / 5%);
     padding: 1rem 0;
     margin: auto;
     max-width: 300px;
@@ -51,8 +53,9 @@
 .profile-right {
     background-color: var(--c-white);
     padding: 1rem;
-    border: 1px solid var(--c-silver);
-    box-shadow: 1px 2px 5px var(--c-black);
+    border-radius: 10px;
+    /* box-shadow: 1px 2px 5px var(--c-black); */
+    box-shadow: 0 2px 4px 0 rgb(0 0 0 / 5%);
 }
 
 form.user div.form-group:last-child {

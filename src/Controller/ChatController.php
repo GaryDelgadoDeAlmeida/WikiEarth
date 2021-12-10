@@ -71,6 +71,7 @@ class ChatController extends AbstractController
         }
 
         return $this->render('chat/index.html.twig', [
+            "user" => $this->current_logged_user,
             "startedDiscussions" => $startedDiscussions,
         ]);
     }

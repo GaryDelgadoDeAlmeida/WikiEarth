@@ -9,11 +9,43 @@
 
         {# Users #}
         <div class="chat-users">
-            <div class="users-list">
-                <button class="user-add-discussion">Add a new discussion</button>
+            <div class="user-profile">
+                <div class="profile-img">
+                    <img src="{{ asset(file_exist(user.imgPath)) }}" alt="{{ user.firstname }} {{ user.lastname }}" />
+                </div>
+                <div class="profile-username">
+                    <span>{{ user.firstname }} {{ user.lastname }}</span>
+                    <span>{{ user.email }}</span>
+                </div>
+            </div>
 
+            <div class="users-search">
+                <div class="search-form">
+                    <button><i class="fas fa-search"></i></button>
+                    <input type="text" name="searchUser" placeholder="Search a person" />
+                </div>
+            </div>
+
+            <div class="users-list">
                 {% for i, oneDiscussion in startedDiscussions %}
-                    {# User block {{ key }} #}
+                    <a class="user-block {% if oneDiscussion.isCurrent == true %} current-discussion {% endif %}" href="{{ path('adminChat', {"user": oneDiscussion.id}) }}">
+                        <div class="user-img">
+                            <img class="img-rounded" src="{{ asset(oneDiscussion.image) }}" />
+                        </div>
+                        <div class="user-descr">
+                            <span class="user-name">{{ oneDiscussion.firstname }} {{ oneDiscussion.lastname }}</span>
+                            <span class="user-lastmessage">{{ oneDiscussion.lastMessage }}</span>
+                        </div>
+                    </a>
+                    <a class="user-block {% if oneDiscussion.isCurrent == true %} current-discussion {% endif %}" href="{{ path('adminChat', {"user": oneDiscussion.id}) }}">
+                        <div class="user-img">
+                            <img class="img-rounded" src="{{ asset(oneDiscussion.image) }}" />
+                        </div>
+                        <div class="user-descr">
+                            <span class="user-name">{{ oneDiscussion.firstname }} {{ oneDiscussion.lastname }}</span>
+                            <span class="user-lastmessage">{{ oneDiscussion.lastMessage }}</span>
+                        </div>
+                    </a>
                     <a class="user-block {% if oneDiscussion.isCurrent == true %} current-discussion {% endif %}" href="{{ path('adminChat', {"user": oneDiscussion.id}) }}">
                         <div class="user-img">
                             <img class="img-rounded" src="{{ asset(oneDiscussion.image) }}" />
@@ -24,6 +56,10 @@
                         </div>
                     </a>
                 {% endfor %}
+            </div>
+
+            <div class="user-settings">
+                <a href=""><i class="fas fa-user-plus"></i> New discussion</a>
             </div>
         </div>
 
@@ -56,13 +92,14 @@
                         <span>Yeah, i'll send you in a minute</span>
                     </div>
                     <div class="discussion ordered">
-                        <span>Thanks</span>
+                        {# <img src="{{ asset("/content/wikiearth/living-thing/animalia/Canis Lupus.jpeg") }}" /> #}
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/Long-tailed_Duck_RWD2.jpg/2560px-Long-tailed_Duck_RWD2.jpg" />
                     </div>
                     <div class="discussion ordered">
-                        <img src="{{ asset("/content/wikiearth/living-thing/animalia/Canis Lupus.jpeg") }}" />
+                        <span>Thanks for your help</span>
                     </div>
                     <div class="discussion inverted">
-                        <img src="{{ asset("/content/wikiearth/living-thing/animalia/Canis Lupus.jpeg") }}" />
+                        <span>This one is male "Clangula hyemalis", it's a beautiful bird.</span>
                     </div>
                 </div>
             </div>

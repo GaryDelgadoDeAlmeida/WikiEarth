@@ -3,7 +3,7 @@
 \* ------------------------------------------------------ */
 .chat {
     margin: 0;
-    padding: 5px;
+    padding: 0;
     width: 100%;
     height: 100vh;
     display: flex;
@@ -12,32 +12,87 @@
 .chat-users {
     width: var(--chatUsersWidth);
     border: 1px solid var(--c-black);
+    background-color: var(--c-darkShadeCyanBlue);
+    position: relative;
 }
+
+
+/* ------------------------------------------------------ *\
+                    User section profile
+\* ------------------------------------------------------ */
+.user-profile {
+    background-color: var(--c-mediumDarkShadeCyanBlue);
+    display: block ruby;
+    text-align: center;
+    padding: 1rem 0;
+    width: 100%;
+    height: 100px;
+}
+
+.profile-img {
+    max-width: 100px;
+}
+
+.profile-img img {
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: top;
+    height: 70px;
+    width: 70px;
+    border: 3px solid cadetblue;
+}
+
+.profile-username {
+    color: var(--c-white);
+    display: grid;
+    text-align: left;
+    vertical-align: middle;
+}
+
+
+/* ------------------------------------------------------ *\
+                    User section search
+\* ------------------------------------------------------ */
+.users-search {
+    width: 100%;
+    background-color: var(--c-whiteMetal);
+}
+.users-search .search-form {
+    padding: 10px;
+    display: flex;
+}
+
+.users-search .search-form > button {
+    background-color: transparent;
+    border: none;
+    color: var(--c-white);
+    padding: 0 10px;
+    position: absolute;
+    height: 30px;
+}
+
+.users-search .search-form > input {
+    width: 100%;
+    padding: 0 0 0 35px;
+    border: none;
+    height: 30px;
+    background-color: var(--chatUsersWidth);
+    color: var(--c-white);
+    outline: none;
+}
+
 
 /* ------------------------------------------------------ *\
                     User section list
 \* ------------------------------------------------------ */
 .users-list {
+    height: calc(100% - 200px);
     width: 100%;
     padding: 2%;
     margin: 0;
     text-align: center;
-}
-
-.user-add-discussion {
-    width: 200px;
-    border-radius: 25px;
-    background-color: var(--c-green);
-    border: 1px solid var(--c-green);
-    color: var(--c-white);
-    text-transform: none;
-    text-decoration: none;
-}
-
-.user-add-discussion:hover {
-    background-color: var(--c-white);
-    color: var(--c-green);
-    transition: .5s;
+    overflow: auto;
+    scrollbar-width: none;
 }
 
 .user-block {
@@ -45,14 +100,17 @@
     margin: 15px;
     padding: 5px;
     cursor: pointer;
+    color: var(--c-white);
 }
 
 .user-block:hover {
-    background-color: var(--c-lightSilver);
+    background-color: var(--c-smallMediumDarkShadeCyanBlue);
+    color: var(--c-white);
 }
 
 .user-block.current-discussion {
-    background-color: var(--c-cyanBlue);
+    background-color: var(--c-smallMediumDarkShadeCyanBlue);
+    border-right: 5px solid #435f7a;
 }
 
 .user-block .user-img {
@@ -81,13 +139,39 @@
     font-weight: 400;
 }
 
+
+/* ------------------------------------------------------ *\
+                    User section settings
+\* ------------------------------------------------------ */
+.user-settings {
+    margin: 0;
+    padding: 0;
+    bottom: 0;
+    width: 100%;
+    height: 50px;
+    text-align: center;
+    position: absolute;
+    color: var(--c-white);
+    border-top: 1px solid var(--c-whiteMetal);
+}
+
+.user-settings a {
+    color: var(--c-white);
+    position: relative;
+    vertical-align: top;
+    line-height: 50px;
+    padding: 0 10px;
+}
+
+
 /* ------------------------------------------------------ *\
                     Discussion section
 \* ------------------------------------------------------ */
 .chat-discussion {
     width: calc(100% - var(--chatUsersWidth));
-    padding-top: 1%;
+    background-color: var(--c-verySlightCyan);
     border: 1px solid var(--c-black);
+    padding-top: 1%;
     position: relative;
 }
 
@@ -97,11 +181,20 @@
     width: -moz-available;          /* WebKit-based browsers will ignore this. */
     width: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
     padding: 0 15px;
+    height: 100%;
+}
+
+.discussion-block {
+    height: calc(100% - 70px);
+    overflow: auto;
+    scrollbar-width: none;
 }
 
 .discussion-block .discussion.ordered {
-    border: 1px solid var(--c-lightSilver);
-    background-color: var(--c-lightSilver);
+    max-width: fit-content;
+    border: 1px solid var(--c-mediumDarkShadeCyanBlue);
+    background-color: var(--c-mediumDarkShadeCyanBlue);
+    color: var(--c-white);
     border-radius: 0 25px 25px;
     margin: 5px 0;
     padding: 0 10px;
@@ -111,8 +204,10 @@
 }
 
 .discussion-block .discussion.inverted {
+    max-width: fit-content;
     border: 1px solid var(--c-cyanBlue);
     background-color: var(--c-cyanBlue);
+    color: var(--c-white);
     border-radius: 25px 25px 0;
     margin: 5px 0;
     padding: 0 10px;
@@ -131,7 +226,7 @@
 .chat-discussion .discussion-bar {
     position: absolute;
     bottom: 0;
-    padding: 1%;
+    height: 50px;
     width: fit-content;
     width: -moz-available;          /* WebKit-based browsers will ignore this. */
     width: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
@@ -141,19 +236,17 @@
 .chat-discussion .discussion-bar input {
     padding: 0 15px;
     width: 100%;
-    height: 35px;
-    vertical-align: middle;
+    height: 50px;
     border: 1px solid var(--c-lightSilver);
-    border-radius: 25px;
-    margin: 0 5px 0 0;
 }
 
 .chat-discussion .discussion-bar button {
     color: var(--c-white);
-    border-radius: 25px;
-    background-color: var(--c-cyanBlue);
-    border: 1px solid var(--c-cyanBlue);
+    /* background-color: var(--c-cyanBlue); */
+    /* border: 1px solid var(--c-cyanBlue); */
+    background-color: var(--c-darkShadeCyanBlue);
+    border: 1px solid var(--c-darkShadeCyanBlue);
     vertical-align: middle;
-    height: 35px;
-    width: 35px;
+    height: 50px;
+    width: 50px;
 }
