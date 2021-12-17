@@ -339,13 +339,15 @@ class AnonymousController extends AbstractController
         // Authentified user connection statistics
         $this->statisticsManager->updateUserConnectionStatistics();
 
-        if($tokenStorage->getToken()->getUser()->getRoles()[0] == "ROLE_ADMIN") {
-            return $this->redirectToRoute("adminHome");
-        } elseif($tokenStorage->getToken()->getUser()->getRoles()[0] == "ROLE_USER") {
-            return $this->redirectToRoute("userHome");
+        if($tokenStorage->getToken()->getUser() instanceof User) {
+            if($tokenStorage->getToken()->getUser()->hasRole("ROLE_ADMIN")) {
+                return $this->redirectToRoute("adminHome");
+            } elseif($tokenStorage->getToken()->getUser()->hasRole("ROLE_USER")) {
+                return $this->redirectToRoute("userHome");
+            }
         }
 
-        return $this->redirectToRoute("home");
+        return $this->redirectToRoute("login");
     }
 
     /**

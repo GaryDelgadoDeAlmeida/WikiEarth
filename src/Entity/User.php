@@ -102,10 +102,29 @@ class User implements UserInterface
      */
     private $articles;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Message::class, mappedBy="sender")
+     */
+    private $messages;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=ChatRoom::class, mappedBy="user")
+     */
+    private $chatRooms;
+
+    /**
+     * @ORM\OneToMany(targetEntity=ChatRoom::class, mappedBy="participant")
+     */
+    private $participantChatRoom;
+
     public function __construct()
     {
         $this->notifications = new ArrayCollection();
         $this->articles = new ArrayCollection();
+        $this->messages = new ArrayCollection();
+        $this->chatRooms = new ArrayCollection();
+        $this->chat = new ArrayCollection();
+        $this->participantChatRoom = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -197,33 +216,6 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getSalt()
-    {
-        # code...
-    }
-
-    public function getUsername()
-    {
-        # code...
-    }
-
-    public function eraseCredentials()
-    {
-        # code...
-    }
-
     /**
      * @return Collection|Notification[]
      */
@@ -283,5 +275,137 @@ class User implements UserInterface
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection|Message[]
+     */
+    public function getMessages(): Collection
+    {
+        return $this->messages;
+    }
+
+    public function addMessage(Message $message): self
+    {
+        if (!$this->messages->contains($message)) {
+            $this->messages[] = $message;
+            $message->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMessage(Message $message): self
+    {
+        if ($this->messages->removeElement($message)) {
+            // set the owning side to null (unless already changed)
+            if ($message->getUser() === $this) {
+                $message->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ChatRoom[]
+     */
+    public function getChatRooms(): Collection
+    {
+        return $this->chatRooms;
+    }
+
+    public function addChatRoom(ChatRoom $chatRoom): self
+    {
+        if (!$this->chatRooms->contains($chatRoom)) {
+            $this->chatRooms[] = $chatRoom;
+            $chatRoom->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeChatRoom(ChatRoom $chatRoom): self
+    {
+        if ($this->chatRoom->removeElement($chatRoom)) {
+            // set the owning side to null (unless already changed)
+            if ($chatRoom->getUserId() === $this) {
+                $chatRoom->setUserId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ChatRoom[]
+     */
+    public function getParticipantChatRoom(): Collection
+    {
+        return $this->participantChatRoom;
+    }
+
+    public function addParticipantChatRoom(ChatRoom $participantChatRoom): self
+    {
+        if (!$this->participantChatRoom->contains($participantChatRoom)) {
+            $this->participantChatRoom[] = $participantChatRoom;
+            $participantChatRoom->setParticipantId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeParticipantChatRoom(ChatRoom $participantChatRoom): self
+    {
+        if ($this->participantChatRoom->removeElement($participantChatRoom)) {
+            // set the owning side to null (unless already changed)
+            if ($participantChatRoom->getParticipantId() === $this) {
+                $participantChatRoom->setParticipantId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getSalt()
+    {
+        # code...
+    }
+
+    public function getUsername()
+    {
+        # code...
+    }
+
+    public function eraseCredentials()
+    {
+        # code...
+    }
+
+    /**
+     * @param string user role
+     * @return bool
+     */
+    public function hasRole(string $role)
+    {
+        $hasRole = false;
+
+        if(in_array($role, $this->getRoles(), true)) {
+            $hasRole = true;
+        }
+
+        return $hasRole;
     }
 }

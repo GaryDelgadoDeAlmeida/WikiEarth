@@ -23,6 +23,12 @@
     min-width: auto;
     max-width: none;
 }
+
+.wikiearth-admin-users-left .chatUser {
+    height: 500px; 
+    width: 97%;
+}
+
 .wikiearth-admin-users-right {
     width: 30%;
     min-width: auto;

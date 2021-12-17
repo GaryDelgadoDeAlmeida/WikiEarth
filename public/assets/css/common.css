@@ -138,6 +138,11 @@ a, a:hover {
     text-align: center;
 }
 
+.txt-small {
+    font-size: 14px;
+    color: var(--c-lightSilver);
+}
+
 
 /* ---------------------------------------- *\
                 Border Radius

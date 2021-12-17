@@ -19,7 +19,23 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
     }
 
-    public function getUsers($offset, $limit, $current_admin_id)
+    /**
+     * Get a single user
+     * 
+     * @param int user id
+     * @return User|null Returns a object User or an empty array
+     */
+    public function getUser(int $user_id)
+    {
+        return $this->createQueryBuilder("u")
+            ->where("u.id = :user_id")
+            ->setParameter("user_id", $user_id)
+            ->getQuery()
+            ->getOneOrNullResult();
+        ;
+    }
+
+    public function getUsers(int $offset, int $limit, int $current_admin_id)
     {
         return $this->createQueryBuilder('u')
             ->where('u.id != :current_admin_id')
@@ -31,7 +47,7 @@ class UserRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function getUserByLogin($login)
+    public function getUserByLogin(string $login)
     {
         return $this->createQueryBuilder('u')
             ->where('u.login LIKE :login')
@@ -40,7 +56,7 @@ class UserRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
-    public function countUsers($current_admin_id)
+    public function countUsers(int $current_admin_id)
     {
         return $this->createQueryBuilder('u')
             ->select('COUNT(u.id) as nbrUsers')

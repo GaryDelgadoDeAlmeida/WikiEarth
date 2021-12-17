@@ -1,0 +1,112 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    <link href="{{ asset('assets/css/chat/main.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+    <section class="chat">
+
+        {# Users #}
+        <div class="chat-users">
+
+            {# Current user profile #}
+            <div class="user-profile">
+                <div class="profile-img">
+                    <img src="{{ asset(file_exist(user.imgPath)) }}" alt="{{ user.firstname }} {{ user.lastname }}" />
+                </div>
+                <div class="profile-username">
+                    <span>{{ user.firstname }} {{ user.lastname }}</span>
+                    <span>{{ user.email }}</span>
+                </div>
+            </div>
+
+            {# Search form #}
+            <div class="users-search">
+                <div class="search-form">
+                    <button><i class="fas fa-search"></i></button>
+                    <input type="text" name="searchUser" placeholder="Search a person" />
+                </div>
+            </div>
+
+            {# Listing of users #}
+            <div class="users-list">
+                {% for oneDiscussion in startedDiscussions %}
+                    {% set statusClass = "" %}
+                    {% set participant = (oneDiscussion.user.id == user.id ? oneDiscussion.participant : oneDiscussion.user) %}
+                    {% set lastMessage = oneDiscussion.messages|length > 0 ? oneDiscussion.messages|length - 1 : 0 %}
+                    
+                    {% if user.id == oneDiscussion.user.id or user.id == oneDiscussion.participant.id %} 
+                        {% set statusClass = "current-discussion" %}
+                    {% endif %}
+                    
+                    <a class="user-block {{ statusClass }}" href="{{ path('adminChat', {"user": participant.id}) }}">
+                        <div class="profile-img">
+                            <img src="{{ asset(file_exist(participant.imgPath)) }}" />
+                        </div>
+                        <div class="user-descr">
+                            <span class="user-name">{{ participant.firstname }} {{ participant.lastname }}</span>
+                            <span class="txt-small user-lastmessage">{{ lastMessage > 0 ? oneDiscussion.messages[lastMessage].content : "" }}</span>
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+
+            {# Settings #}
+            <div class="user-settings">
+                <a href="{{ path("adminHome") }}"><i class="fas fa-sign-out-alt"></i> My Account</a>
+                <a href="{{ path("adminChatAddDiscussion") }}"><i class="fas fa-user-plus"></i> New discussion</a>
+            </div>
+        </div>
+
+        {# Discussion #}
+        <div class="chat-discussion">
+            {% if currentDiscussion != [] %}
+                {# Conversed used #}
+                <div class="discussion-header">
+                    {% if userCandidate != [] %}
+                    <div class="discussion-user">
+                        <div class="discussion-img">
+                            <img src="{{ asset(file_exist(userCandidate.imgPath)) }}" alt="{{ userCandidate.firstname }} {{ userCandidate.lastname }}" />
+                        </div>
+                        <div class="discussion-username">
+                            <span>{{ userCandidate.firstname }} {{ userCandidate.lastname }}</span>
+                        </div>
+                    </div>
+                    <div class="discussion-action">
+                        <a href="{{ path("adminChatDeleteDiscussion", {"discussion_id": currentDiscussion.id}) }}"><i class="fas fa-trash-alt"></i></a>
+                        <a href="{{ path("adminChatDownloadDiscussion", {"discussion_id": currentDiscussion.id}) }}"><i class="fas fa-download"></i></a>
+                    </div>
+                    {% endif %}
+                </div>
+                
+                {# Messages #}
+                <div class="discussion-panel">
+                        {% if currentDiscussion.messages != [] %}
+                            <div class="discussion-block">
+                                {% for discussion in currentDiscussion.messages %}
+                                    <div class="discussion {% if discussion.sender.id == user.id %} inverted {% else %} ordered {% endif %}">
+                                        {% if "https://" in discussion.content %}
+                                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/Long-tailed_Duck_RWD2.jpg/2560px-Long-tailed_Duck_RWD2.jpg" />
+                                        {% elseif "/content/" in discussion.content %}
+                                            <img src="{{ asset(file_exist(discussion.content)) }}" />
+                                        {% else %}
+                                            <span>{{ discussion.content }}</span>
+                                        {% endif %}
+                                    </div>    
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                </div>
+
+                {# Send message #}
+                <div class="discussion-bar">
+                    <form method="post" action="{{ path("adminChatSendDiscussion", {"discussion_id": currentDiscussion.id}) }}">
+                        <input type="text" name="message" placeholder="Message . . ." />
+                        <button><i class="fas fa-paper-plane"></i></button>
+                    </form>
+                </div>
+            {% endif %}
+        </div>
+    </section>
+{% endblock %}

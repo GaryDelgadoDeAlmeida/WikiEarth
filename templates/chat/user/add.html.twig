@@ -1,0 +1,88 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    <link href="{{ asset('assets/css/chat/main.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+    <section class="chat">
+        
+        {# Users #}
+        <div class="chat-users">
+            <div class="user-profile">
+                <div class="profile-img">
+                    <img src="{{ asset(file_exist(user.imgPath)) }}" alt="{{ user.firstname }} {{ user.lastname }}" />
+                </div>
+                <div class="profile-username">
+                    <span>{{ user.firstname }} {{ user.lastname }}</span>
+                    <span>{{ user.email }}</span>
+                </div>
+            </div>
+
+            <div class="users-search">
+                <div class="search-form">
+                    <button><i class="fas fa-search"></i></button>
+                    <input type="text" name="searchUser" placeholder="Search a person" />
+                </div>
+            </div>
+
+            <div class="users-list">
+                {% for oneDiscussion in startedDiscussions %}
+                    {% set statusClass = "" %}
+                    {% set participant = (oneDiscussion.user.id == user.id ? oneDiscussion.participant : oneDiscussion.user) %}
+                    {% set lastMessage = oneDiscussion.messages|length > 0 ? oneDiscussion.messages|length - 1 : 0 %}
+                    
+                    {% if user.id == oneDiscussion.user.id or user.id == oneDiscussion.participant.id %} 
+                        {% set statusClass = "current-discussion" %}
+                    {% endif %}
+                    
+                    <a class="user-block {{ statusClass }}" href="{{ path('userChat', {"user": participant.id}) }}">
+                        <div class="profile-img">
+                            <img src="{{ asset(file_exist(participant.imgPath)) }}" />
+                        </div>
+                        <div class="user-descr">
+                            <span class="user-name">{{ participant.firstname }} {{ participant.lastname }}</span>
+                            <span class="txt-small user-lastmessage">{{ lastMessage > 0 ? oneDiscussion.messages[lastMessage].content : "" }}</span>
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+
+            <div class="user-settings">
+                <a href="{{ path("userHome") }}"><i class="fas fa-sign-out-alt"></i> My Account</a>
+                <a href="{{ path("userChatAddDiscussion") }}"><i class="fas fa-user-plus"></i> New discussion</a>
+            </div>
+        </div>
+
+        {# New discussion #}
+        <div class="chat-add-user">
+            <a class="chat-return" href="{{ path("adminChat") }}">Retour</a>
+
+            {# New discussion form #}
+            <form class="form-add-user" action="POST">
+
+                {# User firstname #}
+                <div class="">
+                    <input type="text" name="userFirstname" placeholder="Firstname" maxLength="255">
+                </div>
+                
+                {# User lastname #}
+                <div class="">
+                    <input type="text" name="userLastname" placeholder="Lastname" maxLength="255">
+                </div>
+                
+                {# User pseudo #}
+                <div class="">
+                    <input type="text" name="userPseudo" placeholder="Pseudo" maxLength="255">
+                </div>
+                
+                {# User email #}
+                <div class="">
+                    <input type="email" name="userEmail" placeholder="Email" maxLength="255">
+                </div>
+                
+                <button type="submit">Valider</button>
+            </form>
+        </div>
+    </section>
+{% endblock %}

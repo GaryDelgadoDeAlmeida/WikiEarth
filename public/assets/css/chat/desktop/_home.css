@@ -22,9 +22,9 @@
 \* ------------------------------------------------------ */
 .user-profile {
     background-color: var(--c-mediumDarkShadeCyanBlue);
-    display: block ruby;
+    display: flex;
     text-align: center;
-    padding: 1rem 0;
+    padding: 1rem;
     width: 100%;
     height: 100px;
 }
@@ -43,10 +43,10 @@
 }
 
 .profile-username {
-    color: var(--c-white);
+    margin: auto auto auto 10px;
     display: grid;
     text-align: left;
-    vertical-align: middle;
+    color: var(--c-white);
 }
 
 
@@ -88,7 +88,6 @@
 .users-list {
     height: calc(100% - 200px);
     width: 100%;
-    padding: 2%;
     margin: 0;
     text-align: center;
     overflow: auto;
@@ -96,9 +95,9 @@
 }
 
 .user-block {
+    padding: 15px;
+    margin: 0;
     display: flex;
-    margin: 15px;
-    padding: 5px;
     cursor: pointer;
     color: var(--c-white);
 }
@@ -110,7 +109,7 @@
 
 .user-block.current-discussion {
     background-color: var(--c-smallMediumDarkShadeCyanBlue);
-    border-right: 5px solid #435f7a;
+    border-right: 5px solid var(--c-silver);
 }
 
 .user-block .user-img {
@@ -171,23 +170,78 @@
     width: calc(100% - var(--chatUsersWidth));
     background-color: var(--c-verySlightCyan);
     border: 1px solid var(--c-black);
-    padding-top: 1%;
     position: relative;
 }
 
+/* ------------------------------------------------------ *\
+                Discussion - user section
+\* ------------------------------------------------------ */
+.discussion-header {
+    width: 100%;
+    height: 60px;
+    background-color: var(--c-white);
+    display: flex;
+}
+.discussion-user {
+    display: flex;
+    padding: 5px;
+    margin: 0 10px;
+    width: 100%;
+    height: 100%;
+}
+
+.discussion-user .discussion-img {
+    max-width: 70px;
+}
+
+.discussion-user .discussion-img img {
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: top;
+    height: 50px;
+    width: 50px;
+    border: 3px solid cadetblue;
+}
+
+.discussion-user .discussion-username {
+    display: grid;
+    text-align: left;
+    margin: auto auto auto 0;
+    padding: 0 10px;
+}
+
+.discussion-action {
+    display: flex;
+    font-size: 1.5rem;
+    margin: auto;
+}
+
+.discussion-action a {
+    margin: 0 10px;
+}
+
+/* ------------------------------------------------------ *\
+                Discussion - message section
+\* ------------------------------------------------------ */
 .discussion-panel {
     position: absolute;
     width: fill-available;
     width: -moz-available;          /* WebKit-based browsers will ignore this. */
     width: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
-    padding: 0 15px;
+    padding: 10px 15px 0;
     height: 100%;
 }
 
 .discussion-block {
-    height: calc(100% - 70px);
+    height: calc(100% - 120px);
     overflow: auto;
-    scrollbar-width: none;
+    scrollbar-width: none;          /* Hide scrollbar for Firefox */
+    -ms-overflow-style: none;       /* Hide scrollbar for IE and Edge */
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.discussion-block::-webkit-scrollbar {
+    display: none;
 }
 
 .discussion-block .discussion.ordered {
@@ -197,7 +251,7 @@
     color: var(--c-white);
     border-radius: 0 25px 25px;
     margin: 5px 0;
-    padding: 0 10px;
+    padding: 0 15px;
     width: max-content;
     margin-left: 0;
     margin-right: auto;
@@ -210,7 +264,7 @@
     color: var(--c-white);
     border-radius: 25px 25px 0;
     margin: 5px 0;
-    padding: 0 10px;
+    padding: 0 15px;
     width: max-content;
     margin-left: auto;
     margin-right: 0;
@@ -223,6 +277,9 @@
     padding: 5px 0;
 }
 
+/* ------------------------------------------------------ *\
+            Discussion - Send Message section
+\* ------------------------------------------------------ */
 .chat-discussion .discussion-bar {
     position: absolute;
     bottom: 0;
@@ -230,6 +287,10 @@
     width: fit-content;
     width: -moz-available;          /* WebKit-based browsers will ignore this. */
     width: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
+}
+
+.chat-discussion .discussion-bar form {
+    width: 100%;
     display: flex;
 }
 
@@ -238,12 +299,11 @@
     width: 100%;
     height: 50px;
     border: 1px solid var(--c-lightSilver);
+    outline: none;
 }
 
 .chat-discussion .discussion-bar button {
     color: var(--c-white);
-    /* background-color: var(--c-cyanBlue); */
-    /* border: 1px solid var(--c-cyanBlue); */
     background-color: var(--c-darkShadeCyanBlue);
     border: 1px solid var(--c-darkShadeCyanBlue);
     vertical-align: middle;

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Manager\ChatManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,13 +16,15 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
  */
 class ChatController extends AbstractController
 {
-    private $current_logged_user;
     private $manager;
+    private $current_logged_user;
+    private $chatManager;
 
     function __construct(TokenStorageInterface $tokenStorage, EntityManagerInterface $manager)
     {
-        $this->current_logged_user = $tokenStorage->getToken()->getUser();
         $this->manager = $manager;
+        $this->current_logged_user = $tokenStorage->getToken()->getUser();
+        $this->chatManager = new ChatManager($this->manager);
     }
 
     /**
@@ -30,49 +33,55 @@ class ChatController extends AbstractController
      */
     public function index(Request $request): Response
     {
-        $startedDiscussions = [
-            1 => [
-                "id" => 1,
-                "firstname" => "Alban",
-                "lastname" => "DUPONT",
-                "image" => "content/users/avatar.png",
-                "lastMessage" => "Fine ?",
-                "isCurrent" => false,
-            ],
-            2 => [
-                "id" => 2,
-                "firstname" => "Jack",
-                "lastname" => "Parkson",
-                "image" => "content/users/avatar.png",
-                "lastMessage" => "Ok",
-                "isCurrent" => false
-            ],
-            3 => [
-                "id" => 3,
-                "firstname" => "Robert",
-                "lastname" => "Johnson",
-                "image" => "content/users/avatar.png",
-                "lastMessage" => "No, That's wrong !",
-                "isCurrent" => false
-            ],
-            4 => [
-                "id" => 4,
-                "firstname" => "Michael",
-                "lastname" => "Johnson",
-                "image" => "content/users/avatar.png",
-                "lastMessage" => "This is abernathyite, a beautiful mineral !",
-                "isCurrent" => false
-            ]
-        ];
+        return $this->render("{$this->checkUserRole()}index.html.twig", $this->chatManager->prepareSideBar($request, $this->current_logged_user));
+    }
 
-        $user = $request->get("user");
-        if(!empty($user)) {
-            $startedDiscussions[$request->get("user")]["isCurrent"] = true;
+    /**
+     * @Route("/user/chat/discussion/add", name="userChatAddDiscussion")
+     * @Route("/admin/chat/discussion/add", name="adminChatAddDiscussion")
+     */
+    public function add_discussion(Request $request)
+    {
+        return $this->render("{$this->checkUserRole()}add.html.twig", $this->chatManager->prepareSideBar($request, $this->current_logged_user));
+    }
+
+    /**
+     * @Route("/user/chat/discussion/{discussion_id}/send", name="userChatSendDiscussion")
+     * @Route("/admin/chat/discussion/{discussion_id}/send", name="adminChatSendDiscussion")
+     */
+    public function send_message_discussion(Request $request)
+    {
+        return $this->render('{$this->checkUserRole()}index.html.twig', $this->chatManager->prepareSideBar($request, $this->current_logged_user));
+    }
+
+    /**
+     * @Route("/user/chat/discussion/{discussion_id}/delete", name="userChatDeleteDiscussion")
+     * @Route("/admin/chat/discussion/{discussion_id}/delete", name="adminChatDeleteDiscussion")
+     */
+    public function delete_discussion(Request $request)
+    {
+        return $this->render("{$this->checkUserRole()}add.html.twig", $this->chatManager->prepareSideBar($request, $this->current_logged_user));
+    }
+
+    /**
+     * @Route("/user/chat/discussion/{discussion_id}/download", name="userChatDownloadDiscussion")
+     * @Route("/admin/chat/discussion/{discussion_id}/download", name="adminChatDownloadDiscussion")
+     */
+    public function download_discussion(Request $request)
+    {
+        return $this->render("{$this->checkUserRole()}add.html.twig", $this->chatManager->prepareSideBar($request, $this->current_logged_user));
+    }
+
+    private function checkUserRole()
+    {
+        $path = "chat/";
+
+        if($this->getUser()->hasRole('ROLE_ADMIN')) {
+            $path .= "admin/";
+        } else {
+            $path .= "user/";
         }
 
-        return $this->render('chat/index.html.twig', [
-            "user" => $this->current_logged_user,
-            "startedDiscussions" => $startedDiscussions,
-        ]);
+        return $path;
     }
 }
