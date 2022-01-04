@@ -21,6 +21,20 @@ class ChatRoomRepository extends ServiceEntityRepository
     }
 
     /**
+     * @param int chat room id
+     * @return ChatRoom
+     */
+    public function getDiscussion(int $chatRoom)
+    {
+        return $this->createQueryBuilder("c")
+            ->where("c.id = :chatRoom")
+            ->setParameter("chatRoom", $chatRoom)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+
+    /**
      * @param int user id
      * @return ChatRoom[] Returns an array of ChatRoom objects
      */

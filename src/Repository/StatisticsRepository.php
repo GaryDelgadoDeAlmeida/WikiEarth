@@ -57,6 +57,27 @@ class StatisticsRepository extends ServiceEntityRepository
     }
 
     /**
+     * Get statistics of a specific year
+     * 
+     * @param \DateTimeImmutable year
+     * @param \DateTimeImmutable month
+     * @return Statistics
+     */
+    public function getStatisticsByDateInterval(\DateTimeImmutable $currentDate, \DateTimeImmutable $pastDate)
+    {
+        return $this->createQueryBuilder("s")
+            ->where("s.createdAt >= :pastDate")
+            ->andWhere("s.createdAt <= :currentDate")
+            ->setParameters([
+                "pastDate" => $pastDate,
+                "currentDate" => $currentDate, 
+            ])
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
      * Increment anonymous connection
      * 
      * @param string year

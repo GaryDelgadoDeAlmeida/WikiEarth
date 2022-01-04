@@ -152,14 +152,20 @@
     position: absolute;
     color: var(--c-white);
     border-top: 1px solid var(--c-whiteMetal);
+    display: flex;
 }
 
 .user-settings a {
-    color: var(--c-white);
-    position: relative;
-    vertical-align: top;
+    width: 50%;
     line-height: 50px;
     padding: 0 10px;
+    position: relative;
+    vertical-align: top;
+    color: var(--c-white);
+}
+
+.user-settings a:first-child {
+    border-right: 1px solid var(--c-whiteMetal);
 }
 
 
@@ -229,11 +235,11 @@
     width: -moz-available;          /* WebKit-based browsers will ignore this. */
     width: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
     padding: 10px 15px 0;
-    height: 100%;
+    height: calc(100% - 120px);
 }
 
 .discussion-block {
-    height: calc(100% - 120px);
+    height: 100%;
     overflow: auto;
     scrollbar-width: none;          /* Hide scrollbar for Firefox */
     -ms-overflow-style: none;       /* Hide scrollbar for IE and Edge */

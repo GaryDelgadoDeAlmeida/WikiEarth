@@ -36,8 +36,10 @@
                     {% set participant = (oneDiscussion.user.id == user.id ? oneDiscussion.participant : oneDiscussion.user) %}
                     {% set lastMessage = oneDiscussion.messages|length > 0 ? oneDiscussion.messages|length - 1 : 0 %}
                     
-                    {% if user.id == oneDiscussion.user.id or user.id == oneDiscussion.participant.id %} 
-                        {% set statusClass = "current-discussion" %}
+                    {% if userCandidate != [] %}
+                        {% if userCandidate.id == oneDiscussion.user.id or userCandidate.id == oneDiscussion.participant.id %} 
+                            {% set statusClass = "current-discussion" %}
+                        {% endif %}
                     {% endif %}
                     
                     <a class="user-block {{ statusClass }}" href="{{ path('adminChat', {"user": participant.id}) }}">
@@ -46,7 +48,7 @@
                         </div>
                         <div class="user-descr">
                             <span class="user-name">{{ participant.firstname }} {{ participant.lastname }}</span>
-                            <span class="user-lastmessage">{{ lastMessage > 0 ? oneDiscussion.messages[lastMessage].content : "" }}</span>
+                            <span class="txt-small user-lastmessage">{{ lastMessage > 0 ? oneDiscussion.messages[lastMessage].content|slice(0, 75) ~ "..." : "" }}</span>
                         </div>
                     </a>
                 {% endfor %}

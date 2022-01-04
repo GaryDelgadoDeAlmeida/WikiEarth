@@ -52,7 +52,9 @@ class AdminController extends AbstractController
         $articleRepo = $this->em->getRepository(Article::class);
         $nbrArticles = $articleRepo->countArticlesApproved();
         $articles = $articleRepo->getArticles(1, 5);
-        $latestStatistics = $this->em->getRepository(Statistics::class)->getStatisticsByYear((new \DateTime())->format("Y"));
+        $past_month_date = $current_date = new \DateTimeImmutable();
+        $past_month_date = $past_month_date->modify("-6 month");
+        $latestStatistics = $this->em->getRepository(Statistics::class)->getStatisticsByDateInterval($current_date, $past_month_date);
         $latestUsersActivities = [];
 
         // We only get the user connection part

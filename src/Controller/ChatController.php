@@ -2,7 +2,8 @@
 
 namespace App\Controller;
 
-use App\Manager\ChatManager;
+use App\Manager\{ChatManager, ChatMessageManager};
+use App\Entity\{ChatRoom};
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,12 +20,14 @@ class ChatController extends AbstractController
     private $manager;
     private $current_logged_user;
     private $chatManager;
+    private $chatMessageManager;
 
     function __construct(TokenStorageInterface $tokenStorage, EntityManagerInterface $manager)
     {
         $this->manager = $manager;
         $this->current_logged_user = $tokenStorage->getToken()->getUser();
-        $this->chatManager = new ChatManager($this->manager);
+        $this->chatManager = new ChatManager($manager);
+        $this->chatMessageManager = new ChatMessageManager($manager);
     }
 
     /**
@@ -51,7 +54,31 @@ class ChatController extends AbstractController
      */
     public function send_message_discussion(Request $request)
     {
-        return $this->render('{$this->checkUserRole()}index.html.twig', $this->chatManager->prepareSideBar($request, $this->current_logged_user));
+        $message = $request->get("message");
+        $discussion_id = $request->get("discussion_id");
+
+        $chatRoom = $this->manager->getRepository(ChatRoom::class)->getDiscussion($request->get("discussion_id"));
+
+        if(empty($chatRoom)) {
+            die("Discussion not found");
+        }
+
+        if(empty($message)) {
+            die("There is no message.");
+        }
+
+        $messageObject = $this->chatMessageManager->insertMessage($chatRoom, $this->current_logged_user, $message);
+
+        $user = null;
+        if($this->current_logged_user->getId() == $chatRoom->getUser()->getId()) {
+            $user = $chatRoom->getParticipant();
+        } else {
+            $user = $chatRoom->getUser();
+        }
+
+        return $this->redirectToRoute("adminChat", [
+            "user" => $user->getId()
+        ]);
     }
 
     /**

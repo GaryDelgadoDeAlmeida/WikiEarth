@@ -64,7 +64,7 @@ class Message
         return $this->sender;
     }
 
-    public function setSend(?User $sender): self
+    public function setSender(?User $sender): self
     {
         $this->sender = $sender;
 
