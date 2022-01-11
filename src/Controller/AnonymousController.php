@@ -106,7 +106,7 @@ class AnonymousController extends AbstractController
         $totalOffset = ceil($this->articleRepository->countArticleLivingThingsByKingdom($kingdom, $limit));
 
         return $this->render('anonymous/article/living-thing/list.html.twig', [
-            "livingThing" => $livingThing,
+            "articles" => $livingThing,
             "name" => $name,
             "offset" => $offset,
             "nbrOffset" => $totalOffset
@@ -137,10 +137,27 @@ class AnonymousController extends AbstractController
 
         return $this->render('anonymous/article/living-thing/single.html.twig', [
             "article" => $articleLivingThing,
-            "mediaGallery" => $articleLivingThing->getMediaGallery(),
+            "mediaGallery" => $articleLivingThing->getArticleLivingThing()->getMediaGallery(),
             "references" => [],
-            "countries" => $articleLivingThing->getLivingThing()->getCountries(),
+            "countries" => $articleLivingThing->getArticleLivingThing()->getLivingThing()->getCountries(),
             "name" => $name
+        ]);
+    }
+
+    /**
+     * @Route("/living-thing/{name}/{id}/pdf", name="articleLivingThingToPDF")
+     */
+    public function article_living_thing_to_pdf(string $name, int $id)
+    {
+        $article = $this->em->getRepository(Article::class)->getArticleLivingThingsByLivingThingKingdomByID($name, $id);
+
+        if(empty($article)) {
+            return false;
+        }
+
+        return $this->render("anonymous/article/living-thing/pdf.html.twig", [
+            "article" => $article,
+            "references" => $article->getArticleLivingThing()->getReference(),
         ]);
     }
 

@@ -58,7 +58,7 @@
                 {# Center Content #}
                 <div class="articleLivingThing-single-center">
                     <div class="post">
-                        <h1 class="post-title">{{ article.articleLivingThing.title }}</h1>
+                        <h1 class="post-title">{{ article.title }}</h1>
 
                         <div class="post-content">
                             {% if article.articleLivingThing.geography != null %}
@@ -401,7 +401,7 @@
 
                             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                                 {% if is_granted('ROLE_USER') %}
-                                    <a class="btn btn-success" href="{{ path('userEditArticle', {('category': 'living-thing', 'id': article.id}) }}"><i class="far fa-edit"></i></a>
+                                    <a class="btn btn-success" href="{{ path('userEditArticle', {'category': 'living-thing', 'id': article.id}) }}"><i class="far fa-edit"></i></a>
                                 {% else %}
                                     <a class="btn btn-success" href="{{ path('adminEditArticleByCategory', {'category': 'living-thing', 'id': article.id}) }}"><i class="far fa-edit"></i></a>
                                 {% endif %}

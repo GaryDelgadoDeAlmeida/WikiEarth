@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="Language" content="fr">
+        <meta name="Copyright" content="Symfony">
+        <meta name="viewport" content="width=device-width, maximum-scale=1">
+        <link rel="icon" type="image/png" href="{{ asset('content/img/logo/world.png') }}" />
+        <title>WikiEarth &minus; The Encyclopedia of the Earth</title>
+        <link href="{{ asset('assets/css/pdf.css') }}" rel="stylesheet">
+    </head>
+    <body>
+        <article class="singleArticle">
+            <div class="articleLivingThing-single-center">
+                <div class="post">
+                    <h1 class="post-title">{{ article.title }}</h1>
+
+                    {# Content of the article #}
+                    <div class="post-content">
+                        
+                        {# Geography #}
+                        {% if article.articleLivingThing.geography != null %}
+                            <div class="post-content-section" id="geography">
+                                <h3 class="post-content-section-title">Geography</h3>
+
+                                <div class="post-content-section-content">
+                                    {% for oneGeography in article.articleLivingThing.geography %}
+                                        <div class="section-content">
+                                            <div class="title">
+                                                <span>{{ oneGeography.sub_title }}</span>
+                                            </div>
+                                            <div class="content">
+                                                <p>{{ oneGeography.sub_content }}</p>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        {# Ecology #}
+                        {% if article.articleLivingThing.ecology != null %}
+                            <div class="post-content-section" id="ecology">
+                                <h3 class="post-content-section-title">Ecology</h3>
+
+                                <div class="post-content-section-content">
+                                    {% for oneEcology in article.articleLivingThing.ecology %}
+                                        <div class="section-content">
+                                            <div class="title">
+                                                <span>{{ oneEcology.sub_title }}</span>
+                                            </div>
+                                            <div class="content">
+                                                <span>{{ oneEcology.sub_content }}</span>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        {# Behaviour #}
+                        {% if article.articleLivingThing.behaviour != null %}
+                            <div class="post-content-section" id="behaviour">
+                                <h3 class="post-content-section-title">Behaviour</h3>
+
+                                <div class="post-content-section-content">
+                                    {% for oneBehaviour in article.articleLivingThing.behaviour %}
+                                        <div class="section-content">
+                                            <div class="title">
+                                                <span>{{ oneBehaviour.sub_title }}</span>
+                                            </div>
+                                            <div class="content">
+                                                <p>{{ oneBehaviour.sub_content }}</p>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        {# Way of Life #}
+                        {% if article.articleLivingThing.wayOfLife != null %}
+                            <div class="post-content-section" id="wayOfLife">
+                                <h3 class="post-content-section-title">Way of Life</h3>
+
+                                <div class="post-content-section-content">
+                                    {% for oneWayOfLife in article.articleLivingThing.wayOfLife %}
+                                        <div class="section-content">
+                                            <div class="title">
+                                                <span>{{ oneWayOfLife.sub_title }}</span>
+                                            </div>
+                                            <div class="content">
+                                                <p>{{ oneWayOfLife.sub_content }}</p>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        {# Description #}
+                        {% if article.articleLivingThing.description != null %}
+                            <div class="post-content-section" id="description">
+                                <h3 class="post-content-section-title">Description</h3>
+
+                                <div class="post-content-section-content">
+                                    {% for oneDescription in article.articleLivingThing.description %}
+                                        <div class="section-content">
+                                            <div class="title">
+                                                <span>{{ oneDescription.sub_title }}</span>
+                                            </div>
+                                            <div class="content">
+                                                <p>{{ oneDescription.sub_content }}</p>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        {# Other Information #}
+                        {% if article.articleLivingThing.otherData != null %}
+                            <div class="post-content-section" id="otherData">
+                                <h3 class="post-content-section-title">Other Data</h3>
+
+                                <div class="post-content-section-content">
+                                    {% for oneOtherData in article.articleLivingThing.otherData %}
+                                        <div class="section-content">
+                                            <div class="title">
+                                                <span>{{ oneOtherData.sub_title }}</span>
+                                            </div>
+                                            <div class="content">
+                                                <p>{{ oneOtherData.sub_content }}</p>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        {# References / Sources #}
+                        {% if references != [] %}
+                            <div class="post-content-section" id="references">
+                                <div class="post-content-section-title">
+                                    <h3>References</h3>
+                                </div>
+
+                                <div class="post-content-section-content">
+                                    {% for oneReferences in references %}
+                                        <li><a href="{{ oneReferences.link }}">{{ oneReferences.name }}</a></li>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </article>
+    </body>
+</html>

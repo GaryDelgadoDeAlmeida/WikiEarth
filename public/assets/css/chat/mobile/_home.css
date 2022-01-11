@@ -1,0 +1,9 @@
+@media(max-width: 768px) {
+    .chat-users {
+        display: none;
+    }
+
+    .chat-discussion {
+        width: 100%;
+    }
+}

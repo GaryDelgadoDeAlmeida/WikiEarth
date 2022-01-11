@@ -7,15 +7,15 @@
                 <h2 class="wikiearth-article-header-title">Living Things</h2>
             </div>
 
-            {% if livingThing != [] %}
-                {% for oneLivingThing in livingThing %}
+            {% if articles != [] %}
+                {% for oneArticle in articles %}
                     <li class="media h-150px">
                         <div class="media-header">
-                            <img class="img-fuild" src="{{ asset(file_exist(oneLivingThing.idLivingThing.imgPath)) }}" alt="{{ oneLivingThing.title }}">
+                            <img class="img-fuild" src="{{ asset(file_exist(oneArticle.articleLivingThing.livingThing.imgPath)) }}" alt="{{ oneArticle.title }}">
                         </div>
                         <div class="media-body">
-                            <h5 class="media-body-title">{{ oneLivingThing.title }}</h5>
-                            <a class="btn btn-outline-secondary" href="{{ path("articleLivingThingByID", {"name": name, "id": oneLivingThing.idLivingThing.id }) }}">See Article</a>
+                            <h5 class="media-body-title">{{ oneArticle.title }}</h5>
+                            <a class="btn btn-outline-secondary" href="{{ path("articleLivingThingByID", {"name": name, "id": oneArticle.articleLivingThing.livingThing.id }) }}">See Article</a>
                         </div>
                     </li>
                 {% endfor %}

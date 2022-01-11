@@ -59,16 +59,20 @@ class ChatController extends AbstractController
 
         $chatRoom = $this->manager->getRepository(ChatRoom::class)->getDiscussion($request->get("discussion_id"));
 
+        // If exist a discussion linked to a chat room
         if(empty($chatRoom)) {
             die("Discussion not found");
         }
 
+        // If a message has been writed by the user
         if(empty($message)) {
             die("There is no message.");
         }
 
+        // Insert the new message in our database
         $messageObject = $this->chatMessageManager->insertMessage($chatRoom, $this->current_logged_user, $message);
 
+        // Check how isn't the user who sended the message
         $user = null;
         if($this->current_logged_user->getId() == $chatRoom->getUser()->getId()) {
             $user = $chatRoom->getParticipant();
@@ -76,7 +80,7 @@ class ChatController extends AbstractController
             $user = $chatRoom->getUser();
         }
 
-        return $this->redirectToRoute("adminChat", [
+        return $this->redirectToRoute($this->redirectToChatHome(), [
             "user" => $user->getId()
         ]);
     }
@@ -110,5 +114,18 @@ class ChatController extends AbstractController
         }
 
         return $path;
+    }
+
+    private function redirectToChatHome()
+    {
+        $route = "";
+
+        if($this->getUser()->hasRole('ROLE_ADMIN')) {
+            $route .= "adminChat";
+        } else {
+            $route .= "userChat";
+        }
+
+        return $route;
     }
 }

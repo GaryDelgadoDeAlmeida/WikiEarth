@@ -20,6 +20,19 @@ class ArticleRepository extends ServiceEntityRepository
     }
 
     /**
+     * @param int article id
+     */
+    public function getArticleApproved(int $articleId)
+    {
+        return $this->createQueryBuilder('a')
+            ->where("a.id = :article_id")
+            ->setParameter("article_id", $articleId)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+
+    /**
      * Get articles independently if mineral or living thing or something other.
      * 
      * @param int offset
@@ -49,72 +62,6 @@ class ArticleRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('a')
             ->where('a.approved = 1')
             ->orderBy("a.createdAt", "DESC")
-            ->setFirstResult(($offset - 1) * $limit)
-            ->setMaxResults($limit)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-
-    /**
-     * Search articles with a given value.
-     * 
-     * @param string the value to search in the article
-     * @param int offset
-     * @param int limit of elements per page
-     * @return Article[]|[] list of article who match the criteria
-     */
-    public function searchArticles(string $searchedValue, int $offset, int $limit)
-    {
-        $query = $this->createQueryBuilder('a');
-        
-        return $query
-            ->leftJoin("a.articleLivingThing", "aLT")
-            ->leftJoin("a.articleElement", "aE")
-            ->leftJoin("a.articleMineral", "aM")
-            ->where($query->expr()->orx(
-                $query->expr()->like("a.title", ":searchedValue"),
-                
-                // Article Living Thing
-                $query->expr()->andX(
-                    $query->expr()->isNotNull('aLT.id'),
-                    $query->expr()->orx(
-                        $query->expr()->like("aLT.geography", ":searchedValue"),
-                        $query->expr()->like("aLT.ecology", ":searchedValue"),
-                        $query->expr()->like("aLT.behaviour", ":searchedValue"),
-                        $query->expr()->like("aLT.wayOfLife", ":searchedValue"),
-                        $query->expr()->like("aLT.description", ":searchedValue"),
-                        $query->expr()->like("aLT.otherData", ":searchedValue")
-                    )
-                ),
-                
-                // Article Element
-                $query->expr()->andX(
-                    $query->expr()->isNotNull('aE.id'),
-                    $query->expr()->orx(
-                        $query->expr()->like("aE.generality", ":searchedValue"),
-                        $query->expr()->like("aE.description", ":searchedValue"),
-                        $query->expr()->like("aE.characteristics", ":searchedValue"),
-                        $query->expr()->like("aE.property", ":searchedValue"),
-                        $query->expr()->like("aE.utilization", ":searchedValue")
-                    )
-                ),
-                
-                // Article Mineral
-                $query->expr()->andX(
-                    $query->expr()->isNotNull('aM.id'),
-                    $query->expr()->orx(
-                        $query->expr()->like("aM.generality", ":searchedValue"),
-                        $query->expr()->like("aM.etymology", ":searchedValue"),
-                        $query->expr()->like("aM.properties", ":searchedValue"),
-                        $query->expr()->like("aM.geology", ":searchedValue"),
-                        $query->expr()->like("aM.mining", ":searchedValue")
-                    )
-                )
-            ))
-            ->andWhere('a.approved = 1')
-            ->orderBy("a.title", "ASC")
-            ->setParameter("searchedValue", "%{$searchedValue}%")
             ->setFirstResult(($offset - 1) * $limit)
             ->setMaxResults($limit)
             ->getQuery()
@@ -415,6 +362,72 @@ class ArticleRepository extends ServiceEntityRepository
             ->leftJoin("aE.mineral", "m")
             ->where('a.approved = 1')
             ->andWhere("m.id IS NOT NULL")
+            ->setFirstResult(($offset - 1) * $limit)
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
+     * Search articles with a given value.
+     * 
+     * @param string the value to search in the article
+     * @param int offset
+     * @param int limit of elements per page
+     * @return Article[]|[] list of article who match the criteria
+     */
+    public function searchArticles(string $searchedValue, int $offset, int $limit)
+    {
+        $query = $this->createQueryBuilder('a');
+        
+        return $query
+            ->leftJoin("a.articleLivingThing", "aLT")
+            ->leftJoin("a.articleElement", "aE")
+            ->leftJoin("a.articleMineral", "aM")
+            ->where($query->expr()->orx(
+                $query->expr()->like("a.title", ":searchedValue"),
+                
+                // Article Living Thing
+                $query->expr()->andX(
+                    $query->expr()->isNotNull('aLT.id'),
+                    $query->expr()->orx(
+                        $query->expr()->like("aLT.geography", ":searchedValue"),
+                        $query->expr()->like("aLT.ecology", ":searchedValue"),
+                        $query->expr()->like("aLT.behaviour", ":searchedValue"),
+                        $query->expr()->like("aLT.wayOfLife", ":searchedValue"),
+                        $query->expr()->like("aLT.description", ":searchedValue"),
+                        $query->expr()->like("aLT.otherData", ":searchedValue")
+                    )
+                ),
+                
+                // Article Element
+                $query->expr()->andX(
+                    $query->expr()->isNotNull('aE.id'),
+                    $query->expr()->orx(
+                        $query->expr()->like("aE.generality", ":searchedValue"),
+                        $query->expr()->like("aE.description", ":searchedValue"),
+                        $query->expr()->like("aE.characteristics", ":searchedValue"),
+                        $query->expr()->like("aE.property", ":searchedValue"),
+                        $query->expr()->like("aE.utilization", ":searchedValue")
+                    )
+                ),
+                
+                // Article Mineral
+                $query->expr()->andX(
+                    $query->expr()->isNotNull('aM.id'),
+                    $query->expr()->orx(
+                        $query->expr()->like("aM.generality", ":searchedValue"),
+                        $query->expr()->like("aM.etymology", ":searchedValue"),
+                        $query->expr()->like("aM.properties", ":searchedValue"),
+                        $query->expr()->like("aM.geology", ":searchedValue"),
+                        $query->expr()->like("aM.mining", ":searchedValue")
+                    )
+                )
+            ))
+            ->andWhere('a.approved = 1')
+            ->orderBy("a.title", "ASC")
+            ->setParameter("searchedValue", "%{$searchedValue}%")
             ->setFirstResult(($offset - 1) * $limit)
             ->setMaxResults($limit)
             ->getQuery()
