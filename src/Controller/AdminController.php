@@ -9,9 +9,42 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use App\Manager\{UserManager, ContactManager, LivingThingManager, ElementManager, MineralManager, ArticleManager, ArticleLivingThingManager, ArticleElementManager, ArticleMineralManager, MediaGalleryManager};
-use App\Form\{UserType, LivingThingType, MineralType, ElementType, UserRegisterType, ArticleLivingThingType, ArticleElementType, ArticleMineralType};
-use App\Entity\{User, Element, Mineral, Statistics, SourceLink, LivingThing, MediaGallery, Notification, Article, ArticleLivingThing, ArticleElement, ArticleMineral};
+use App\Manager\{
+    UserManager, 
+    ContactManager, 
+    LivingThingManager, 
+    ElementManager, 
+    MineralManager, 
+    ArticleManager, 
+    ArticleLivingThingManager, 
+    ArticleElementManager, 
+    ArticleMineralManager, 
+    MediaGalleryManager
+};
+use App\Form\{
+    UserType, 
+    LivingThingType, 
+    MineralType, 
+    ElementType, 
+    UserRegisterType, 
+    ArticleLivingThingType, 
+    ArticleElementType, 
+    ArticleMineralType
+};
+use App\Entity\{
+    User, 
+    Element, 
+    Mineral, 
+    Statistics, 
+    SourceLink, 
+    LivingThing, 
+    MediaGallery, 
+    Notification, 
+    Article, 
+    ArticleLivingThing, 
+    ArticleElement, 
+    ArticleMineral
+};
 
 class AdminController extends AbstractController
 {

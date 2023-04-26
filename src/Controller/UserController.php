@@ -2,9 +2,41 @@
 
 namespace App\Controller;
 
-use App\Form\{UserType, LivingThingType, ElementType, MineralType, Contact, ArticleLivingThingType, ArticleElementType, ArticleMineralType};
-use App\Entity\{LivingThing, Element, Mineral, Notification, Article, ArticleLivingThing, ArticleElement, ArticleMineral};
-use App\Manager\{UserManager, StatisticsManager, LivingThingManager, ElementManager, MineralManager, ReferenceManager, MediaGalleryManager, ContactManager, NotificationManager, ArticleManager, ArticleLivingThingManager, ArticleElementManager, ArticleMineralManager};
+use App\Form\{
+    UserType, 
+    LivingThingType, 
+    ElementType, 
+    MineralType, 
+    Contact, 
+    ArticleLivingThingType, 
+    ArticleElementType, 
+    ArticleMineralType
+};
+use App\Entity\{
+    LivingThing, 
+    Element, 
+    Mineral, 
+    Notification, 
+    Article, 
+    ArticleLivingThing, 
+    ArticleElement, 
+    ArticleMineral
+};
+use App\Manager\{
+    UserManager, 
+    StatisticsManager, 
+    LivingThingManager, 
+    ElementManager, 
+    MineralManager, 
+    ReferenceManager, 
+    MediaGalleryManager, 
+    ContactManager, 
+    NotificationManager, 
+    ArticleManager, 
+    ArticleLivingThingManager, 
+    ArticleElementManager, 
+    ArticleMineralManager
+};
 use Psr\Container\ContainerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
