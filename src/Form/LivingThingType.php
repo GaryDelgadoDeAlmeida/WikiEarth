@@ -161,6 +161,9 @@ class LivingThingType extends AbstractType
             ])
             ->add("countries", EntityType::class, [
                 'label' => "Countrys",
+                "attr" => [
+                    "class" => "h-250px"
+                ],
                 "class" => Country::class,
                 "choice_label" => "name",
                 'multiple' => true,

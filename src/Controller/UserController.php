@@ -47,26 +47,30 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 
 class UserController extends AbstractController
 {
-    private $currentLoggedUser;
-    private $manager;
+    private User $currentLoggedUser;
+    private EntityManagerInterface $manager;
 
     // Manager
-    private $userManager;
-    private $livingThingManager;
-    private $elementManager;
-    private $mineralManager;
-    private $referenceManager;
-    private $notificationManager;
-    private $contactManager;
-    private $articleManager;
-    private $articleLivingThingManager;
-    private $articleElementManager;
-    private $articleMineralManager;
-    private $mediaGalleryManager;
-    private $statisticsManager;
+    private UserManager $userManager;
+    private ArticleManager $articleManager;
+    private ElementManager $elementManager;
+    private MineralManager $mineralManager;
+    private ContactManager $contactManager;
+    private ReferenceManager $referenceManager;
+    private StatisticsManager $statisticsManager;
+    private LivingThingManager $livingThingManager;
+    private MediaGalleryManager $mediaGalleryManager;
+    private NotificationManager $notificationManager;
+    private ArticleElementManager $articleElementManager;
+    private ArticleMineralManager $articleMineralManager;
+    private ArticleLivingThingManager $articleLivingThingManager;
 
-    public function __construct(TokenStorageInterface $tokenStorage, EntityManagerInterface $manager, ContainerInterface $container)
-    {
+    public function __construct(
+        TokenStorageInterface $tokenStorage, 
+        EntityManagerInterface $manager, 
+        ContainerInterface $container
+    ) {
+        $this->manager = $manager;
         $this->currentLoggedUser = $tokenStorage->getToken()->getUser();
         $this->userManager = new UserManager();
         $this->livingThingManager = new LivingThingManager($container);
@@ -81,7 +85,6 @@ class UserController extends AbstractController
         $this->articleMineralManager = new ArticleMineralManager();
         $this->mediaGalleryManager = new MediaGalleryManager($container);
         $this->statisticsManager = new StatisticsManager($manager);
-        $this->manager = $manager;
     }
 
     /**

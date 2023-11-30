@@ -936,13 +936,13 @@ class AdminController extends AbstractController
             
             $articleLivingThing = $article->getArticleLivingThing();
             $formArticle = $this->createForm(ArticleLivingThingType::class, $articleLivingThing);
-            $formArticle->get('livingThing')->setData($articleLivingThing->getIdLivingThing());
+            $formArticle->get('livingThing')->setData($articleLivingThing->getLivingThing());
             $formArticle->handleRequest($request);
 
             if($formArticle->isSubmitted() && $formArticle->isValid()) {
                 $response = $this->articleLivingThingManager->setArticleLivingThing(
                     $articleLivingThing,
-                    $articleLivingThing->getIdLivingThing(),
+                    $articleLivingThing->getLivingThing(),
                     $this->em
                 );
             }

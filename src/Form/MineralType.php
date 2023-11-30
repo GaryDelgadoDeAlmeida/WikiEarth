@@ -69,6 +69,9 @@ class MineralType extends AbstractType
             ])
             ->add('country', EntityType::class, [
                 'label' => "Countrys",
+                "attr" => [
+                    "class" => "h-250px"
+                ],
                 "class" => Country::class,
                 "choice_label" => "name",
                 'multiple' => true,

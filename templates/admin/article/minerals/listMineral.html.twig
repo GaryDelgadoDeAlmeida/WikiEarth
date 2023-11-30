@@ -28,7 +28,7 @@
                         <div class="media-body">
                             <h5 class="media-body-title">{{ mineral.name }}</h5>
                             <a class="btn btn-success" href="{{ path('adminEditMineral', {'id':mineral.id}) }}"><i class="far fa-edit"></i></a>
-                            <a class="btn btn-danger" href="{{ path('adminDeleteMineral', {'id':mineral.id}) }}"><i class="far fa-trash-alt"></i></a>
+                            <a class="btn btn-danger" href="{{ path('adminDeleteMineral', {'id':mineral.id}) }}" onclick="confirm('Are you sure you want to delete this mineral, {{ mineral.name }} ?')"><i class="far fa-trash-alt"></i></a>
                         </div>
                     </li>
                 {% endfor %}

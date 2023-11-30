@@ -94,6 +94,10 @@ a, a:hover {
     height: 150px !important;
 }
 
+.h-200px {
+    height: 200px;
+}
+
 .h-250px {
     height: 250px !important;
 }

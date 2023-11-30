@@ -17,11 +17,12 @@ class NotificationManager extends AbstractController {
 
     public function livingThingNotFound($user)
     {
-        $notification = new Notification();
-        $notification->setUser($user);
-        $notification->setType("info");
-        $notification->setContent("The living thing you tried to edit don't exist");
-        $notification->setCreatedAt(new \DateTime());
+        $notification = (new Notification())
+            ->setUser($user)
+            ->setType("info")
+            ->setContent("The living thing you tried to edit don't exist")
+            ->setCreatedAt(new \DateTime())
+        ;
         $this->em->merge($notification);
         $this->em->flush();
         $this->em->clear();

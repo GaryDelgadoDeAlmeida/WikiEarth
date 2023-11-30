@@ -386,8 +386,19 @@ class AnonymousController extends AbstractController
                 $manager->persist($userRegister);
                 $manager->flush();
 
-                $this->contactManager->sendEmailToAdmin($userRegister->getEmail(), "A new WikiEarth user", "The user {$userRegister->getFirstname()} {$userRegister->getLastname()} ({$userRegister->getEmail()}) created an account on WikiEarth.");
-                $this->contactManager->sendEmailToUser($userRegister->getEmail(), "Welcome to WikiEarth", "You account {$userRegister->getLogin()} has been created.\n\n");
+                // Mail sended to the admin informing a new user has arrived
+                $this->contactManager->sendEmailToAdmin(
+                    $userRegister->getEmail(), 
+                    "A new WikiEarth user", 
+                    "The user {$userRegister->getFirstname()} {$userRegister->getLastname()} ({$userRegister->getEmail()}) created an account on WikiEarth."
+                );
+
+                // Mail sended to the user welcoming him to the Wikiearth platerform
+                $this->contactManager->sendEmailToUser(
+                    $userRegister->getEmail(), 
+                    "Welcome to WikiEarth", 
+                    "You account {$userRegister->getLogin()} has been created.\n\n"
+                );
 
                 return $this->redirectToRoute('login');
             } else {

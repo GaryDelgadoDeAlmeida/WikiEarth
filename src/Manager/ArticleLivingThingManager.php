@@ -8,8 +8,17 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ArticleLivingThingManager extends AbstractController {
 
-    public function setArticleLivingThing(ArticleLivingThing &$articleLivingThing, LivingThing $livingThing, EntityManagerInterface $manager, $user = null)
-    {
+    /**
+     * @param ArticleLivingThing
+     * @param LivingThing
+     * @param EntityManagerInterface
+     */
+    public function setArticleLivingThing(
+        ArticleLivingThing &$articleLivingThing, 
+        LivingThing $livingThing, 
+        EntityManagerInterface $manager, 
+        $user = null
+    ) {
         // On effectue d'abord l'insertion
         $livingThing->setArticleLivingThing($articleLivingThing);
         $articleLivingThing->setCreatedAt(new \DateTime());

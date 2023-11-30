@@ -11,8 +11,8 @@ class ContactManager {
         if(!empty($email) && !empty($subject) && !empty($content)) {
             $content = str_replace("\n.", "\n..", $content);
             $response = \mail("gary.almeida.work@gmail.com", $subject, $content, [
-                "from" => $email,
-                'Reply-To' => $email,
+                "from" => "no-reply@gem-earth.com",
+                'Reply-To' => "no-reply@gem-earth.com",
                 'X-Mailer' => 'PHP/' . phpversion()
             ]);
         }
