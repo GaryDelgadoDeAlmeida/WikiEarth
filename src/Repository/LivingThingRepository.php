@@ -20,6 +20,29 @@ class LivingThingRepository extends ServiceEntityRepository
         parent::__construct($registry, LivingThing::class);
     }
 
+    /**
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function save(LivingThing $entity, bool $flush = true) : void {
+        $this->_em->persist($entity);
+        if ($flush) {
+            $this->_em->flush();
+        }
+    }
+
+    /**
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function remove(LivingThing $entity, bool $flush = true): void
+    {
+        $this->_em->remove($entity);
+        if ($flush) {
+            $this->_em->flush();
+        }
+    }
+
     public function getLivingThings($offset, $limit)
     {
         return $this->createQueryBuilder('l')

@@ -2,22 +2,25 @@
 
 namespace App\Manager;
 
-use App\Entity\{MediaGallery, ArticleLivingThing, ArticleMineral, ArticleElement};
 use Psr\Container\ContainerInterface;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\MediaGalleryRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Entity\{MediaGallery, ArticleLivingThing, ArticleMineral, ArticleElement};
 
 class MediaGalleryManager extends AbstractController {
 
-    function __construct(ContainerInterface $container)
+    private MediaGalleryRepository $mediaGalleryRepository;
+    
+    function __construct(ContainerInterface $container, MediaGalleryRepository $mediaGalleryRepository)
     {
         $this->setContainer($container);
+        $this->mediaGalleryRepository = $mediaGalleryRepository;
     }
 
     /**
      * Insertion ou mise à jour des medias en base de données pour les articles "living thing".
      */
-    public function setMediaGalleryLivingThing(array $files, ArticleLivingThing &$articleLivingThing, EntityManagerInterface $manager)
+    public function setMediaGalleryLivingThing(array $files, ArticleLivingThing &$articleLivingThing)
     {
         $date = new \DateTime();
 
@@ -52,24 +55,20 @@ class MediaGalleryManager extends AbstractController {
                 dd($e->getMessage());
             }
 
-            if(empty($manager->getRepository(MediaGallery::class)->getMediaGalleryByName($fileName))) {
+            if(empty($this->mediaGalleryRepository->getMediaGalleryByName($fileName))) {
                 $mediaGallery = new MediaGallery();
                 $mediaGallery->setName($fileName);
                 $mediaGallery->setPath("content/wikiearth/living-thing/{$this->convertUppercaseToUcfirst($articleLivingThing->getIdLivingThing()->getKingdom())}/{$newFilename}");
                 $mediaGallery->setMediaType("image");
                 $mediaGallery->setCreatedAt($date);
-                $manager->persist($mediaGallery);
-                $manager->flush();
-                $manager->clear();
-                
                 $mediaGallery->setArticleLivingThing($articleLivingThing);
-                $manager->merge($mediaGallery);
-                $manager->flush();
+                
+                $this->mediaGalleryRepository->save($mediaGallery, true);
             }
         }
     }
 
-    public function setMediaGalleryElements(array $files, ArticleElement &$articleElement, EntityManagerInterface $manager)
+    public function setMediaGalleryElements(array $files, ArticleElement &$articleElement)
     {
         // TODO : effectué la logique métier d'insertion des médias pour les articles de type "elements"
         $date = new \DateTime();
@@ -107,24 +106,19 @@ class MediaGalleryManager extends AbstractController {
                 dd($e->getMessage());
             }
 
-            if(empty($manager->getRepository(MediaGallery::class)->getMediaGalleryByName($fileName))) {
+            if(empty($this->mediaGalleryRepository->getMediaGalleryByName($fileName))) {
                 $mediaGallery = new MediaGallery();
                 $mediaGallery->setName($fileName);
                 $mediaGallery->setPath("content/wikiearth/natural-elements/elements/{$newFilename}");
                 $mediaGallery->setMediaType("image");
                 $mediaGallery->setCreatedAt($date);
-                $manager->persist($mediaGallery);
-                $manager->flush();
-                $manager->clear();
-                
                 $mediaGallery->setArticleElement($articleElement);
-                $manager->merge($mediaGallery);
-                $manager->flush();
+                $this->mediaGalleryRepository->save($mediaGallery, true);
             }
         }
     }
 
-    public function setMediaGalleryMinerals(array $files, ArticleMineral &$articleMineral, EntityManagerInterface $manager)
+    public function setMediaGalleryMinerals(array $files, ArticleMineral &$articleMineral)
     {
         $date = new \DateTime();
 
@@ -167,13 +161,8 @@ class MediaGalleryManager extends AbstractController {
                 $mediaGallery->setPath("content/wikiearth/natural-elements/minerals/{$newFilename}");
                 $mediaGallery->setMediaType("image");
                 $mediaGallery->setCreatedAt($date);
-                $manager->persist($mediaGallery);
-                $manager->flush();
-                $manager->clear();
-                
                 $mediaGallery->setArticleMineral($articleMineral);
-                $manager->merge($mediaGallery);
-                $manager->flush();
+                $this->mediaGalleryRepository->save($mediaGallery, true);
             }
         }
     }

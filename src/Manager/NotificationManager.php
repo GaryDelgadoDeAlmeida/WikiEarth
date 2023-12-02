@@ -4,15 +4,18 @@ namespace App\Manager;
 
 use App\Entity\Notification;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\NotificationRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class NotificationManager extends AbstractController {
 
     private $em;
+    private NotificationRepository $notificationRepository;
 
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $em, NotificationRepository $notificationRepository)
     {
         $this->em = $em;
+        $this->notificationRepository = $notificationRepository;
     }
 
     public function livingThingNotFound($user)
@@ -23,9 +26,8 @@ class NotificationManager extends AbstractController {
             ->setContent("The living thing you tried to edit don't exist")
             ->setCreatedAt(new \DateTime())
         ;
-        $this->em->merge($notification);
-        $this->em->flush();
-        $this->em->clear();
+        
+        $this->notificationRepository->save($notification, true);
     }
 
     public function elementNotFound($user)
@@ -35,9 +37,7 @@ class NotificationManager extends AbstractController {
         $notification->setType("info");
         $notification->setContent("The element you tried to edit don't exist");
         $notification->setCreatedAt(new \DateTime());
-        $this->em->merge($notification);
-        $this->em->flush();
-        $this->em->clear();
+        $this->notificationRepository->save($notification, true);
     }
 
     public function mineralNotFound($user)
@@ -47,9 +47,7 @@ class NotificationManager extends AbstractController {
         $notification->setType("info");
         $notification->setContent("The mineral you tried to edit don't exist");
         $notification->setCreatedAt(new \DateTime());
-        $this->em->merge($notification);
-        $this->em->flush();
-        $this->em->clear();
+        $this->notificationRepository->save($notification, true);
     }
 
     public function livingThingAlreadyExist($user)
@@ -59,9 +57,7 @@ class NotificationManager extends AbstractController {
         $notification->setType("info");
         $notification->setContent("The living thing you tried to add already exist");
         $notification->setCreatedAt(new \DateTime());
-        $this->em->merge($notification);
-        $this->em->flush();
-        $this->em->clear();
+        $this->notificationRepository->save($notification, true);
     }
 
     public function elementAlreadyExist($user)
@@ -71,9 +67,7 @@ class NotificationManager extends AbstractController {
         $notification->setType("info");
         $notification->setContent("The element you tried to add already exist");
         $notification->setCreatedAt(new \DateTime());
-        $this->em->merge($notification);
-        $this->em->flush();
-        $this->em->clear();
+        $this->notificationRepository->save($notification, true);
     }
 
     public function mineralAlreadyExist($user)
@@ -83,9 +77,7 @@ class NotificationManager extends AbstractController {
         $notification->setType("info");
         $notification->setContent("The mineral you tried to add already exist");
         $notification->setCreatedAt(new \DateTime());
-        $this->em->merge($notification);
-        $this->em->flush();
-        $this->em->clear();
+        $this->notificationRepository->save($notification, true);
     }
 
     public function articleAlreadyExist($articleTitle, $user)
@@ -95,9 +87,7 @@ class NotificationManager extends AbstractController {
         $notification->setType("info");
         $notification->setContent("The article {$articleTitle} already have an article");
         $notification->setCreatedAt(new \DateTime());
-        $this->em->merge($notification);
-        $this->em->flush();
-        $this->em->clear();
+        $this->notificationRepository->save($notification, true);
     }
     
     /**
@@ -110,9 +100,7 @@ class NotificationManager extends AbstractController {
         $notification->setType("info");
         $notification->setContent("You created an article. We'll check it");
         $notification->setCreatedAt(new \DateTime());
-        $this->em->merge($notification);
-        $this->em->flush();
-        $this->em->clear();
+        $this->notificationRepository->save($notification, true);
     }
 
     public function userUpdateArticle($user)
@@ -122,9 +110,7 @@ class NotificationManager extends AbstractController {
         $notification->setType("info");
         $notification->setContent("You edited an article. We'll check it");
         $notification->setCreatedAt(new \DateTime());
-        $this->em->merge($notification);
-        $this->em->flush();
-        $this->em->clear();
+        $this->notificationRepository->save($notification, true);
     }
 
     public function articleIsNowPublic($article)
@@ -135,9 +121,7 @@ class NotificationManager extends AbstractController {
         $notfication->setContent("The content of the article {$article->getTitle()} you writed is accurate.");
         $notfication->setCreatedAt(new \DateTime());
         $article->setApproved(true);
-        $this->em->persist($article);
-        $this->em->persist($notfication);
-        $this->em->flush();
+        $this->notificationRepository->save($notification, true);
     }
 
     /**
@@ -150,9 +134,7 @@ class NotificationManager extends AbstractController {
         $notification->setType("success");
         $notification->setContent("Your publication has been accepted by the taff");
         $notification->setCreatedAt(new \DateTime());
-        $this->em->merge($notification);
-        $this->em->flush();
-        $this->em->clear();
+        $this->notificationRepository->save($notification, true);
     }
 
     /**
@@ -165,8 +147,6 @@ class NotificationManager extends AbstractController {
         $notification->setType("error");
         $notification->setContent("Your publication has been refused by the taff");
         $notification->setCreatedAt(new \DateTime());
-        $this->em->merge($notification);
-        $this->em->flush();
-        $this->em->clear();
+        $this->notificationRepository->save($notification, true);
     }
 }

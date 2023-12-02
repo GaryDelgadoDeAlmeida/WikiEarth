@@ -10,12 +10,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class LivingThingManager extends AbstractController {
 
-    function __construct(ContainerInterface $container)
+    private EntityManagerInterface $em;
+
+    function __construct(ContainerInterface $container, EntityManagerInterface $em)
     {
         $this->setContainer($container);
+        $this->em = $em;
     }
 
-    public function setLivingThing(UploadedFile $mediaFile = null, LivingThing &$livingThing, EntityManagerInterface $manager)
+    public function setLivingThing(UploadedFile $mediaFile = null, LivingThing &$livingThing)
     {
         try {
             if($mediaFile) {
@@ -53,9 +56,9 @@ class LivingThingManager extends AbstractController {
                 $livingThing->setImgPath("content/wikiearth/living-thing/" . ucfirst(strtolower($livingThing->getKingdom())) . "/{$newFilename}");
             }
     
-            $manager->persist($livingThing);
-            $manager->flush();
-            $manager->clear();
+            $this->em->persist($livingThing);
+            $this->em->flush();
+            $this->em->clear();
             
             return [
                 "error" => false,

@@ -3,13 +3,20 @@
 namespace App\Manager;
 
 use App\Entity\User;
-use App\Manager\NotificationManager;
 use Symfony\Component\Form\Form;
 use Intervention\Image\ImageManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserManager {
+
+    private EntityManagerInterface $em;
+    private UserPasswordEncoderInterface $encoder;
+
+    public function __construct(EntityManagerInterface $em, UserPasswordEncoderInterface $encoder) {
+        $this->em = $em;
+        $this->encoder = $encoder;
+    }
     
     /**
      * @param Form user form
@@ -19,13 +26,13 @@ class UserManager {
      * @param string user repository
      * @return array Returns the result of the insert process
      */
-    public function insertUser(Form $formUser, User $user, EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder, string $project_users_dir)
+    public function insertUser(Form $formUser, User $user, string $project_users_dir)
     {
         try {
             $this->insertUserImg($project_users_dir, $formUser['imgPath']->getData(), $user);
-            $user->setPassword($encoder->encodePassword($user, $user->getPassword()));
-            $manager->persist($user);
-            $manager->flush();
+            $user->setPassword($this->encoder->encodePassword($user, $user->getPassword()));
+            $this->em->persist($user);
+            $this->em->flush();
 
             return [
                 "class" => "success",
@@ -46,17 +53,17 @@ class UserManager {
      * @param UserPasswordEncoderInterface
      * @param string project_users_dir
      */
-    public function updateUser(Form $formUser, User $user, EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder, string $project_users_dir)
+    public function updateUser(Form $formUser, User $user, string $project_users_dir)
     {
         try {
             $this->insertUserImg($project_users_dir, $formUser['imgPath']->getData(), $user);
 
             if(!empty($formUser->get("password")->getData())) {
-                $user->setPassword($encoder->encodePassword($user, $formUser->get("password")->getData()));
+                $user->setPassword($this->encoder->encodePassword($user, $formUser->get("password")->getData()));
             }
 
-            $manager->persist($user);
-            $manager->flush();
+            // $this->em->persist($user);
+            $this->em->flush();
 
             return [
                 "class" => "success",
@@ -81,6 +88,7 @@ class UserManager {
     {
         if(!empty($mediaFile)) {
             $originalFilename = pathinfo($mediaFile->getClientOriginalName(), PATHINFO_FILENAME);
+            
             // this is needed to safely include the file name as part of the URL
             $newFilename = strtolower($user->getFirstname() .'_'. str_replace(" ", "_", $user->getLastname())) . '.' . $mediaFile->guessExtension();
 
@@ -100,10 +108,10 @@ class UserManager {
                     $newFilename
                 );
 
-                // $manager = new ImageManager(array('driver' => 'imagick'));
-                // $image = $manager->make($project_users_dir . $user->getId() . "/{$newFilename}")->resize(300, 200);
+                // $imageManager = new ImageManager(array('driver' => 'imagick'));
+                // $image = $imageManager->make($project_users_dir . $user->getId() . "/{$newFilename}")->resize(300, 200);
             } catch (FileException $e) {
-                dd($e->getMessage());
+                throw new \Exception($e->getMessage());
             }
 
             $user->setImgPath("content/users/" . $user->getId() . "/" . $newFilename);

@@ -21,6 +21,29 @@ class ArticleLivingThingRepository extends ServiceEntityRepository
     }
 
     /**
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function save(ArticleLivingThing $entity, bool $flush = true) : void {
+        $this->_em->persist($entity);
+        if ($flush) {
+            $this->_em->flush();
+        }
+    }
+
+    /**
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function remove(ArticleLivingThing $entity, bool $flush = true): void
+    {
+        $this->_em->remove($entity);
+        if ($flush) {
+            $this->_em->flush();
+        }
+    }
+
+    /**
      * @param offset Parameter offset is the page
      * @param limit Parameter limit is the number of element per page
      * @return ArticleLivingThings[]

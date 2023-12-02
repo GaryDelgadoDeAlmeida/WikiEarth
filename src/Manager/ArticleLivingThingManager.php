@@ -2,11 +2,18 @@
 
 namespace App\Manager;
 
-use App\Entity\{LivingThing, MediaGallery, ArticleLivingThing};
 use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\ArticleLivingThingRepository;
+use App\Entity\{LivingThing, MediaGallery, ArticleLivingThing};
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ArticleLivingThingManager extends AbstractController {
+
+    private ArticleLivingThingRepository $articleLivingThingRepository;
+
+    public function __construct(ArticleLivingThingRepository $articleLivingThingRepository) {
+        $this->articleLivingThingRepository = $articleLivingThingRepository;
+    }
 
     /**
      * @param ArticleLivingThing
@@ -16,15 +23,13 @@ class ArticleLivingThingManager extends AbstractController {
     public function setArticleLivingThing(
         ArticleLivingThing &$articleLivingThing, 
         LivingThing $livingThing, 
-        EntityManagerInterface $manager, 
         $user = null
     ) {
         // On effectue d'abord l'insertion
         $livingThing->setArticleLivingThing($articleLivingThing);
         $articleLivingThing->setCreatedAt(new \DateTime());
-        $manager->merge($articleLivingThing);
-        $manager->flush();
-        $manager->clear();
+
+        $this->articleLivingThingRepository->save($articleLivingThing, true);
         
         return [
             "error" => false,

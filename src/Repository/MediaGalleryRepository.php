@@ -19,6 +19,29 @@ class MediaGalleryRepository extends ServiceEntityRepository
         parent::__construct($registry, MediaGallery::class);
     }
 
+    /**
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function save(MediaGallery $entity, bool $flush = true) : void {
+        $this->_em->persist($entity);
+        if ($flush) {
+            $this->_em->flush();
+        }
+    }
+
+    /**
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function remove(MediaGallery $entity, bool $flush = true): void
+    {
+        $this->_em->remove($entity);
+        if ($flush) {
+            $this->_em->flush();
+        }
+    }
+
     public function getMediaGallery($offset, $limit)
     {
         return $this->createQueryBuilder('m')

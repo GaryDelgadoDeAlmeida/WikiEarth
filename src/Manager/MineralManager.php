@@ -4,19 +4,23 @@ namespace App\Manager;
 
 use App\Entity\Mineral;
 use Symfony\Component\Form\Form;
+use App\Repository\MineralRepository;
 use Psr\Container\ContainerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class MineralManager extends AbstractController {
+
+    private MineralRepository $mineralRepository;
     
-    function __construct(ContainerInterface $container)
+    function __construct(ContainerInterface $container, MineralRepository $mineralRepository)
     {
         $this->setContainer($container);
+        $this->mineralRepository = $mineralRepository;
     }
 
-    public function setMineral(UploadedFile $mediaFile = null, Mineral &$mineral, Form $formMineral, EntityManagerInterface $manager)
+    public function setMineral(UploadedFile $mediaFile = null, Mineral &$mineral, Form $formMineral)
     {
         if(!empty($mediaFile)) {
             $originalFilename = pathinfo($mediaFile->getClientOriginalName(), PATHINFO_FILENAME);
@@ -50,9 +54,8 @@ class MineralManager extends AbstractController {
 
         $mineral->setImaStatus(explode(",", $formMineral["imaStatus"]->getData()));
         $mineral->setCreatedAt(new \DateTime());
-        $manager->persist($mineral);
-        $manager->flush();
-        $manager->clear();
+        
+        $this->mineralRepository->save($mineral, true);
         
         return [
             "error" => false,

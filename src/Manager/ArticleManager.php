@@ -7,6 +7,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Doctrine\ORM\EntityManagerInterface;
 
 class ArticleManager extends AbstractController {
+
+    private EntityManagerInterface $em;
+
+    public function __construct(EntityManagerInterface $em) {
+        $this->em = $em;
+    }
     
     /**
      * @param object content of the article
@@ -14,7 +20,7 @@ class ArticleManager extends AbstractController {
      * @param User user to link article
      * @return array return of the process
      */
-    public function insertArticle($articleItem, EntityManagerInterface $em, User $user)
+    public function insertArticle($articleItem, User $user)
     {
         try {
             $article = new Article();
@@ -36,9 +42,9 @@ class ArticleManager extends AbstractController {
             $article->setUser($user);
             $article->setUpdatedAt(new \DateTime());
             $article->setCreatedAt(new \DateTime());
-            $em->merge($article);
-            $em->flush();
-            $em->clear();
+            $this->em->merge($article);
+            $this->em->flush();
+            $this->em->clear();
 
             return [
                 "error" => false,
@@ -60,7 +66,7 @@ class ArticleManager extends AbstractController {
      * @param User user to link article
      * @return array return of the process
      */
-    public function setArticle($articleItem, EntityManagerInterface $em, User $user)
+    public function setArticle($articleItem, User $user)
     {
         return [];
     }

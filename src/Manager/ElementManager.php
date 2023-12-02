@@ -4,19 +4,22 @@ namespace App\Manager;
 
 use App\Entity\Element;
 use Symfony\Component\Form\Form;
+use App\Repository\ElementRepository;
 use Psr\Container\ContainerInterface;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ElementManager extends AbstractController {
+
+    private ElementRepository $elementRepository;
     
-    function __construct(ContainerInterface $container)
+    function __construct(ContainerInterface $container, ElementRepository $elementRepository)
     {
         $this->setContainer($container);
+        $this->elementRepository = $elementRepository;
     }
 
-    public function setElement(UploadedFile $mediaFile = null, Element &$element, Form $formElement, EntityManagerInterface $manager)
+    public function setElement(UploadedFile $mediaFile = null, Element &$element, Form $formElement)
     {
         if(!empty($mediaFile)) {
             $originalFilename = pathinfo($mediaFile->getClientOriginalName(), PATHINFO_FILENAME);
@@ -50,9 +53,7 @@ class ElementManager extends AbstractController {
 
         $element->setCreatedAt(new \DateTime());
         $element->setVolumicMass(explode(" || ", $formElement["volumicMass"]->getData()));
-        $manager->persist($element);
-        $manager->flush();
-        $manager->clear();
+        $this->elementRepository->save($element, true);
 
         return [
             "error" => false,

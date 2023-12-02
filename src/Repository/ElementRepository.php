@@ -18,6 +18,29 @@ class ElementRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Element::class);
     }
+    
+    /**
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function save(Element $entity, bool $flush = true) : void {
+        $this->_em->persist($entity);
+        if ($flush) {
+            $this->_em->flush();
+        }
+    }
+
+    /**
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function remove(Element $entity, bool $flush = true): void
+    {
+        $this->_em->remove($entity);
+        if ($flush) {
+            $this->_em->flush();
+        }
+    }
 
     public function getElements($offset, $limit)
     {

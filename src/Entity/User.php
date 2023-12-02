@@ -386,7 +386,7 @@ class User implements UserInterface
 
     public function getUsername()
     {
-        # code...
+        return $this->email;
     }
 
     public function eraseCredentials()

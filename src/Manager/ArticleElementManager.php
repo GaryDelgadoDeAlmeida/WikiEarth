@@ -7,22 +7,28 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ArticleElementManager extends AbstractController {
+
+    private EntityManagerInterface $em;
+
+    function __construct(EntityManagerInterface $em) {
+        $this->em = $em;
+    }
     
-    public function setArticleElement(ArticleElement &$articleElement, Element $element, EntityManagerInterface $manager)
+    public function setArticleElement(ArticleElement &$articleElement, Element $element)
     {
         // On effectue d'abord l'insertion
         $articleElement->setCreatedAt(new \DateTime());
         if($articleElement->getId() != null) {
-            $manager->merge($articleElement);
+            $this->em->merge($articleElement);
         } else {
-            $manager->persist($articleElement);
+            $this->em->persist($articleElement);
         }
-        $manager->flush();
-        $manager->clear();
+        $this->em->flush();
+        $this->em->clear();
 
         $element->setArticleElement($articleElement);
-        $manager->merge($articleElement);
-        $manager->flush();
+        $this->em->merge($articleElement);
+        $this->em->flush();
 
         return [
             "error" => false,

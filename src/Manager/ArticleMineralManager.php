@@ -7,6 +7,12 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ArticleMineralManager extends AbstractController {
+
+    private EntityManagerInterface $em;
+    
+    function __construct(EntityManagerInterface $em) {
+        $this->em = $em;
+    }
     
     /**
      * Insert the content of the article and mineral into the databse
@@ -16,21 +22,21 @@ class ArticleMineralManager extends AbstractController {
      * @param EntityManagerInterface the manager object used to communicate with the bdd
      * @return array return the status of the process
      */
-    public function setArticleMineral(ArticleMineral &$articleMineral, Mineral $mineral, EntityManagerInterface $manager)
+    public function setArticleMineral(ArticleMineral &$articleMineral, Mineral $mineral)
     {
         // On effectue d'abord l'insertion
         $articleMineral->setCreatedAt(new \DateTime());
         if($articleMineral->getId() != null) {
-            $manager->merge($articleMineral);
+            $this->em->merge($articleMineral);
         } else {
-            $manager->persist($articleMineral);
+            $this->em->persist($articleMineral);
         }
-        $manager->flush();
-        $manager->clear();
+        $this->em->flush();
+        $this->em->clear();
 
         $mineral->setArticleMineral($articleMineral);
-        $manager->merge($articleMineral);
-        $manager->flush();
+        $this->em->merge($articleMineral);
+        $this->em->flush();
 
         return [
             "error" => false,
