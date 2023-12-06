@@ -12,6 +12,7 @@
         "doctrine/doctrine-migrations-bundle": "^3.1",
         "doctrine/orm": "^2.9",
         "dompdf/dompdf": "^2.0",
+        "eckinox/tinymce-bundle": "^0.1.5",
         "intervention/image": "^2.5",
         "phpdocumentor/reflection-docblock": "^5.2",
         "scienta/doctrine-json-functions": "^4.3",
